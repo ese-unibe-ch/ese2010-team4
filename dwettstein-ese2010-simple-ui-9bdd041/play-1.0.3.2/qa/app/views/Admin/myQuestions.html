@@ -1,0 +1,24 @@
+#{extends 'admin.html' /}
+#{set title:'User administration' /}
+
+
+<div class="questions"> 
+	#{list items:questions, as:'question'}
+            <div class="question">
+                <div class="question-metadata">
+                    <span class="question-date">
+                         ${question.timestamp}
+                    </span>
+                    <div class="question-answer">
+               			 #{ifnot question.answers.isEmpty()}
+                			 , last answered by ${question.answers.get(question.answers.size()-1).author.name}
+                		 #{/ifnot}
+                    </div>
+                    <div class="question-content">
+        				<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
+        			</div>
+                 </div>
+            </div>
+            <br>
+	#{/list}
+</div>

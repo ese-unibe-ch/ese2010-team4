@@ -1,0 +1,56 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+
+#{if lastQuestion}
+    <div class="question">
+    	Newest question:
+        <div class="question-metadata">
+            <span class="question-author">by ${lastQuestion.author.name}</span>
+            <span class="question-date">${lastQuestion.timestamp}</span>
+            <span class="question-voting"> Voting: ${lastQuestion.voting}</span>
+            <span class="question-answer">
+                #{ifnot lastQuestion.answers.isEmpty()}
+                   , last answered by ${lastQuestion.answers.get(question.answers.size()-1).author.name}
+                #{/ifnot}
+            </span>
+        </div>
+        <div class="question-content">
+        	<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.content.nl2br()}</a>
+        </div>
+    </div>
+    
+	#{if questions.size() > 1}
+   		<div class="questions">    
+        	<h3>All questions <span class="from">from this KnowledgeBase</span></h3>
+        
+         	#{list items:questions, as:'question'}
+            	<div class="question">
+                	<div class="question-metadata">
+                    	<span class="question-author">by ${question.author.name}</span>
+                     	<span class="question-date">${question.timestamp}</span>
+                     	<span class="question-voting"> Voting: ${question.voting}</span>
+                     	<div class="question-answer">
+               			 	#{ifnot question.answers.isEmpty()}
+                			   , last answered by ${question.answers.get(question.answers.size()-1).author.name}
+                			#{/ifnot}
+                    	</div>
+                    	<div class="question-content">
+        					<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
+        				</div>
+                 	</div>
+            	</div>
+            	<br>
+         	#{/list}
+    	</div>    
+	#{/if}
+    
+#{/if}
+ 
+#{else}
+    <div class="empty">
+        There is currently nothing to answer here.
+    </div>
+#{/else}
+
+

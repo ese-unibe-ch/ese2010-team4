@@ -1,0 +1,10 @@
+20:46:50,257 INFO  ~ Starting /Volumes/Data/Desktop/play/1.0/samples-and-tests/jobboard
+20:46:50,261 INFO  ~ Module crud is available (/Volumes/Data/Desktop/play/1.0/modules/crud)
+20:46:51,289 INFO  ~ 
+20:46:51,289 INFO  ~ Go to http://localhost:9000/@tests to run the tests
+20:46:51,290 INFO  ~ 
+20:46:51,290 WARN  ~ You're running Play! in DEV mode
+20:46:51,416 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+20:46:56,290 WARN  ~ The path for a staticDir route must end with / (GET /public -> staticDir:public)
+20:46:56,715 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
+20:46:57,488 INFO  ~ Application 'Job Board' is now started !

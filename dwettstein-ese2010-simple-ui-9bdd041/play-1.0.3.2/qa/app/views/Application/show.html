@@ -1,0 +1,106 @@
+#{extends 'main.html' /}
+#{set title:'Show question' /}
+
+<div id="title">
+    <a href="@{Application.index()}">Back</a>
+</div>
+
+<ul id="pagination">
+    #{if question.previous()}
+        <li id="previous">
+            <a href="@{Application.show(question.previous().id)}">
+                Previous question.
+            </a>
+        </li>
+    #{/if}
+    #{if question.next()}
+        <li id="next">
+            <a href="@{Application.show(question.next().id)}">
+                Next question.
+            </a>
+        </li>
+    #{/if}
+</ul>
+
+
+<div class="question">
+	Question:
+    <div class="question-metadata">
+        <span class="question-author">by ${question.author.name}</span>
+        <span class="question-date">${question.timestamp}</span>
+        <span class="question-voting"> Voting: ${question.voting}</span>
+			#{secure.check 'user'}
+        	#{form @Admin.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
+        		<select name="vote">
+        			<option>Vote up</option>
+        			<option>Vote down</option>
+        		</select>
+				<input type="submit" name="vote" value="Vote">
+        	#{/form}
+			#{/secure.check}
+    </div>
+    <div class="question-content">
+    	<br>
+    	${question.content.nl2br()}
+    </div>
+</div>
+<br>
+<div>
+	Answers to this question:
+</div>
+
+<br>
+#{if question.answers.size() < 1}
+<div>
+	There is no answer.
+</div>
+#{/if}
+
+#{else}
+	#{list items:question.answers, as:'answer'}
+	<div class="answers">
+		<p>
+   		<div class="answer-metadata">
+        	<span class="answer-author">by ${answer.author.name},</span>
+        	<span class="answer-date">${answer.timestamp}</span>
+        	<span class="answer-voting"> Voting: ${answer.voting}</span>
+    	</div>
+   		<div class="answer-content">
+         	${answer.content.escape().nl2br()}
+    	</div>
+    	</p>
+	</div>
+	#{/list}
+#{/else}
+
+
+<p><br></p>
+#{secure.check 'user'}
+	#{form @Admin.answerQuestion(question.id)}
+		#{ifErrors}
+    	   	<p class="error">
+       	    	All fields are required!
+      	  	</p>
+ 	    #{/ifErrors}
+    		<p>
+        		<label for="author">Your name: </label>
+        		<input type="text" name="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().name}" readonly/>
+    		</p>
+    		<p>
+        		<label for="content">Your answer: </label>
+        		<br>
+        		<textarea name="content" id="content"></textarea>
+    		</p>
+    		<p>
+        		<input type="submit" value="Submit your answer" />
+    		</p>
+	#{/form}
+#{/ secure.check}
+
+ 
+#{if flash.success}
+	<br>
+    <p class="success">${flash.success}</p>
+#{/if}
+
+

@@ -1,0 +1,19 @@
+#{extends 'admin.html' /}
+#{set title:'User administration' /}
+
+
+<div class="answers"> 
+	#{list items:answers, as:'answer'}
+            <div class="answer">
+                <div class="answer-metadata">
+                    <span class="answer-date">
+                         ${answer.timestamp}
+                    </span>
+                    <div class="answer-content">
+        				<a href="@{Application.show(answer.question.id)}">${answer.content.nl2br()}</a>
+        			</div>
+                 </div>
+            </div>
+            <br>
+	#{/list}
+</div>

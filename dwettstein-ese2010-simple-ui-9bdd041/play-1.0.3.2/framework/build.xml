@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="play! framework" default="jar" basedir=".">
+
+    <path id="project.classpath">
+        <pathelement path="play.jar"/>
+        <fileset dir="lib">
+            <include name="*.jar"/>                        
+        </fileset> 
+    </path>
+        
+    <target name="clean" description="clean resources">
+        <delete dir="classes" /> 
+        <delete dir="dist" />
+        <delete dir="tests-results" />
+        <delete dir="tests-tmp" />
+        <delete file="play.jar" /> 
+        <delete file="src/play/version" /> 
+        <delete includeemptydirs="true">
+            <fileset dir="../samples-and-tests">
+                <include name="**/test-result/**"/> 
+                <include name="**/tmp/**"/> 
+                <include name="**/db/**"/> 
+                <include name="**/attachments/**"/> 
+                <include name="**/nbproject/**"/>
+            </fileset> 
+        </delete>
+    </target>
+    
+    <target name="version" unless="version">
+        <exec executable="bzr" outputproperty="bzrversion" errorproperty="bzrerror" failonerror="false" failifexecutionfails="false">
+            <arg value="revno" />
+        </exec>
+        <condition property="version" value="1.0-r${bzrversion}" else="1.0-localbuild">
+            <equals arg1="" arg2="${bzrerror}" trim="true" />
+        </condition> 
+        <echo message="Version ${version}"></echo>
+    </target>
+    
+    <target name="compile" description="compile without cleaning">
+        <mkdir dir="classes"/>
+        <javac encoding="utf-8" srcdir="src" destdir="classes" debug="true" target="1.5"> 
+            <classpath refid="project.classpath" />
+        </javac>
+        <copy todir="classes">
+            <fileset dir="src">
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+                <include name="**/play.plugins"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="javadoc" description="Generate the Javadoc" depends="version">
+        <delete dir="../documentation/api" />
+        <javadoc packagenames="play.*"
+               sourcepath="src"           
+               defaultexcludes="yes"
+               destdir="../documentation/api"
+               author="false"
+               version="true"
+               use="true"
+               windowtitle="Play! API">
+            <classpath refid="project.classpath"/>
+            <doctitle><![CDATA[<h1>Play! ${version}</h1>]]></doctitle>
+            <bottom><![CDATA[<a href="http://guillaume.bort.fr">Guillaume Bort</a> & <a href="http://www.zenexity.fr">zenexity</a> - Distributed under <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2 licence</a>, without any warrantly]]></bottom>
+            <tag name="todo" scope="all" description="To do:"/>
+            <group title="Libs" packages="play.libs.*"/>
+            <link offline="false" href="http://java.sun.com/j2se/1.5.0/docs/api/" />
+            <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+        </javadoc>
+    </target>
+    
+    <target name="jar" depends="compile,version,modules" description="create play.jar">        
+        <echo message="${version}" file="src/play/version" />
+        <echo message="${version}" file="classes/play/version" />
+        <jar destfile="play.jar" basedir="classes">
+            <manifest>
+                <attribute name="Premain-Class" value="play.classloading.HotswapAgent"/>
+                <attribute name="Can-Redefine-Classes" value="true" />
+                <section name="Play">
+                    <attribute name="Specification-Title" value="Play! framework"/>
+                    <attribute name="Specification-Version" value="${version}"/>
+                    <attribute name="Specification-Vendor" value="zenexity"/>
+                </section>
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="support">
+        <zip destfile="../support/textmate.zip" comment="Textmate bundle for Play! - ${version}" update="false">
+            <zipfileset dir="../support/textmate" includes="**/**" />
+        </zip>
+    </target>
+    
+    <target name="modules">
+        <ant antfile="build.xml" target="build" dir="../modules/testrunner" />
+    </target>
+    
+    <!-- Netbeans support -->
+    
+    <target name="nb-profile-application">
+        <property name="application.path" value="/Users/guillaume/Desktop/webmail" />
+        <loadfile property="play.id" srcFile="../id" failonerror="false" quiet="true" />  
+        <loadproperties srcfile="${application.path}/conf/application.conf" />
+        <property name="jpda.port" value="8000" />
+        <nbprofiledirect>
+            <classpath>
+                <pathelement path="${application.path}/conf"/>
+                <path refid="project.classpath"/>                
+            </classpath>
+        </nbprofiledirect>
+        <java classname="play.server.Server" dir="${basedir}" fork="true" jvm="${profiler.info.jvm}">
+            <classpath>
+                <pathelement path="${application.path}/conf"/>
+                <path refid="project.classpath"/>                
+            </classpath>
+            <sysproperty key="application.path" value="${application.path}" />
+            <sysproperty key="play.id" value="${play.id}" />
+            <sysproperty key="java.endorsed.dirs" value="${basedir}/endorsed" />
+            <sysproperty key="play.debug" value="true" />
+            <jvmarg value="-javaagent:${basedir}/play.jar" />
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.port},server=y,suspend=n"/>
+            <jvmarg value="${profiler.info.jvmargs.agent}"/>
+        </java>	
+    </target>
+        
+    <target name="nb-run-application">
+        <loadfile property="play.id" srcFile="../id" failonerror="false" quiet="true" />  
+        <loadproperties srcfile="${application.path}/conf/application.conf" />
+        <property name="jpda.port" value="8000" />
+        <java classname="play.server.Server" dir="${basedir}" fork="true">
+            <classpath>
+                <pathelement path="${application.path}/conf"/>
+                <fileset dir="${application.path}/lib">
+                    <include name="*.jar"/>                        
+                </fileset> 
+                <path refid="project.classpath"/>                
+            </classpath>
+            <sysproperty key="application.path" value="${application.path}" />
+            <sysproperty key="play.id" value="${play.id}" />
+            <sysproperty key="java.endorsed.dirs" value="${basedir}/endorsed" />
+            <sysproperty key="play.debug" value="true" />
+            <jvmarg value="-javaagent:${basedir}/play.jar" />
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.port},server=y,suspend=n"/>            
+        </java>	
+    </target>    
+    <target name="nb-debug">
+        <loadproperties srcfile="${application.path}/conf/application.conf" />
+        <property name="jpda.port" value="8000" />
+        <nbjpdaconnect name="${application.name}" address="${jpda.port}" transport="dt_socket" />       
+    </target>
+    
+    <target name="test-application">
+        <loadproperties srcfile="${application.path}/conf/application.conf" />
+        <property name="jpda.port" value="8000" />
+        <java classname="play.test.TestRunner" dir="${basedir}" fork="true">
+            <classpath>
+                <pathelement path="${application.path}/conf"/>
+                <path refid="project.classpath"/>                
+            </classpath>
+            <sysproperty key="application.path" value="${application.path}" />
+            <sysproperty key="play.id" value="test" />
+            <sysproperty key="java.endorsed.dirs" value="${basedir}/endorsed" />
+            <jvmarg value="-javaagent:${basedir}/play.jar" />    
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.port},server=y,suspend=n"/>
+        </java>  
+    </target>
+    
+    <target name="test-in-nb" depends="test">
+         <nbbrowse file="tests-results/html/index.html"/>
+    </target>
+    
+    <!-- Tests -->
+    
+    <target name="compile-tests" depends="compile">
+        <javac encoding="utf-8" nowarn="${compile.nowarn}" debug="true" destdir="classes" classpathref="project.classpath" srcdir="tests/src" >
+            <include name="**/*.java"/>
+        </javac> 
+    </target>
+    
+    <!-- Launch all *Test.java -->
+    
+    <target name="test" depends="clean,jar" description="run tests suite">
+        <condition property="playExtension" value=".bat">
+            <and><os family="windows"/></and>
+        </condition>
+        <condition property="playExtension" value="">
+            <and><os family="unix"/></and>
+        </condition>
+        
+        <echo message="Testing development lifecycle (wait ...)" />
+
+        <exec executable="${basedir}/../samples-and-tests/i-am-a-developer/tests.py" failonerror="true">
+        </exec>
+        
+        <echo message="Using ${basedir}/../play${playExtension}" />
+
+        <antcall target="play-test">
+            <param name="testAppPath" value="${basedir}/../samples-and-tests/just-test-cases"/>
+        </antcall>
+        
+        <antcall target="play-test">
+            <param name="testAppPath" value="${basedir}/../samples-and-tests/forum"/>
+        </antcall>
+        
+        <antcall target="play-test">
+            <param name="testAppPath" value="${basedir}/../samples-and-tests/jobboard"/>
+        </antcall>
+        
+        <antcall target="play-test">
+            <param name="testAppPath" value="${basedir}/../samples-and-tests/chat"/>
+        </antcall>
+        
+        <antcall target="play-test">
+            <param name="testAppPath" value="${basedir}/../samples-and-tests/yabe"/>
+        </antcall>
+        
+        <antcall target="test-success" />
+        
+    </target>
+    
+    <target name="test-success">
+        <echo message="*****************" />
+        <echo message="All test passed !" />
+        <echo message="*****************" />
+    </target>
+    
+    <target name="play-test">
+        <echo message="play auto-test ${testAppPath} (wait)" />
+        <exec executable="${basedir}/../play${playExtension}" failonerror="true">
+            <arg value="clean"/>
+            <arg value="${testAppPath}"/>
+        </exec>
+        <exec executable="${basedir}/../play${playExtension}" failonerror="true">
+            <arg value="auto-test"/>
+            <arg value="${testAppPath}"/>
+        </exec>
+        <available file="${testAppPath}/test-result/result.passed" property="${testAppPath}testPassed" />
+        <fail message="Last test has failed ! (Check results in file://${testAppPath}/test-result)">
+            <condition>
+                <not>
+                    <isset property="${testAppPath}testPassed"/>
+                </not>
+            </condition>
+        </fail>
+    </target>
+    
+    <target name="debug-test-single" depends="compile-tests" description="debug a single test">
+        <nbjpdastart addressproperty="jpda.address" name="Play! framework" transport="dt_socket">
+            <classpath refid="project.classpath"/>
+        </nbjpdastart>
+        <mkdir dir="tests-results" />
+        <mkdir dir="${basedir}/tests-tmp" />
+        <junit errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true" tempdir="${basedir}/tests-tmp">
+            <test name="${testclass}" todir="tests-results" />
+            <classpath>
+                <pathelement path="classes"/>
+                <path refid="project.classpath"/>                
+            </classpath>                   
+            <formatter type="brief" usefile="false"/> 
+            <formatter type="xml"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>  
+            <jvmarg value="-javaagent:${basedir}/play.jar" />
+            <sysproperty key="tests-tmp" value="${basedir}/tests-tmp" />
+        </junit>
+        <delete dir="${basedir}/tests-tmp" />
+    </target>
+    
+    <target name="test-single" depends="compile-tests" description="run a single test">
+        <mkdir dir="tests-results" />
+        <mkdir dir="${basedir}/tests-tmp" />
+        <junit errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true" tempdir="${basedir}/tests-tmp" >
+            <test name="${testclass}" todir="tests-results" />            
+            <classpath>
+                <pathelement path="classes"/>
+                <path refid="project.classpath"/>                
+            </classpath>                   
+            <formatter type="brief" usefile="false"/> 
+            <formatter type="xml"/>
+            <jvmarg value="-javaagent:${basedir}/play.jar" />
+            <sysproperty key="tests-tmp" value="${basedir}/tests-tmp" />
+        </junit>
+        <delete dir="${basedir}/tests-tmp" />
+    </target>
+    
+    <target name="package" depends="clean,version,jar,javadoc">
+        <mkdir dir="dist" /> 
+        <zip destfile="dist/play-${version}.zip" comment="Play! ${version}" update="false">
+            <zipfileset prefix="play-${version}" dir=".." includes="**/*" excludes=".*,.*/*,framework/dist/**,id,play,nbproject/**,**/.bzr/**,*.bzrignore,support/textmate/**,framework/classes/**,framework/tests-results/**,samples-and-tests/**/test-result,samples-and-tests/**/tmp,samples-and-tests/**/db,samples-and-tests/**/attachments" />   
+            <zipfileset prefix="play-${version}" dir=".." includes="play" filemode="777" />
+        </zip>
+    </target>
+    
+</project>

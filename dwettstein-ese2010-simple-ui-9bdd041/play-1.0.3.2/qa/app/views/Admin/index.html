@@ -1,0 +1,30 @@
+#{extends 'admin.html' /}
+#{set title:'User administration' /}
+
+
+#{secure.check 'user'}
+	#{form @Admin.createQuestion()}
+		#{ifErrors}
+    	   	<p class="error">
+       	   		All fields are required!
+      	  	</p>
+ 	   	#{/ifErrors}
+    	<p>
+        	<label for="author">Your name: </label>
+        	<input type="text" name="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().name}" readonly/>
+    	</p>
+    	<p>
+        	<label for="content">Your question: </label>
+        	<br>
+        	<textarea name="content" id="content"></textarea>
+    	</p>
+    	<p>
+        	<input type="submit" value="Submit your question" />
+    	</p>
+	#{/form}
+#{/ secure.check}
+
+#{if flash.success}
+	<br>
+    <p class="success">${flash.success}</p>
+#{/if}

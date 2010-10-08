@@ -1,0 +1,37 @@
+#{selenium 'Test validation'}
+
+	open('@{Validation.index()}')
+	assertTextPresent('[Required, Required, Validation failed]')
+	
+	open('@{Validation.index()}?bottle.name1=Coucou')
+	assertTextPresent('[Required, Validation failed]')
+	
+	open('@{Validation.index()}?bottle.name2=Ho')
+	assertTextPresent('[Required, Minimum size is 3, Validation failed]')
+	
+	open('@{Validation.index()}?bottle.name2=Hop')
+	assertTextPresent('[Required, Validation failed]')
+	
+	open('@{Validation.index()}?bottle.name1=Ye&bottle.name2=Hop')
+	assertTextPresent('[wrong.bottle, Validation failed]')
+	
+	open('@{Validation.index()}?bottle.name1=Hop&bottle.name2=Hop')
+	assertTextPresent('[]')
+
+
+    open('@{Validation.user()}')
+    assertTextPresent('[Required, Validation failed]')
+
+    open('@{Validation.user()}?user.name=Nicolas')
+    assertTextPresent('[Required, Validation failed]')
+
+    open('@{Validation.user()}?user.birth=12/12/1992&user.email=nico')
+    assertTextPresent('[Invalid email address, Validation failed]')
+
+    open('@{Validation.user()}?user.birth=12/12/1992&user.email=nico%2Bplay@lunatech.com')
+	assertTextPresent('[]')
+
+    open('@{Validation.user()}?user.birth=12/12/1992&user.email=NICO%2Bplay@LUNATECH.COM')
+	assertTextPresent('[]')
+
+#{/selenium}

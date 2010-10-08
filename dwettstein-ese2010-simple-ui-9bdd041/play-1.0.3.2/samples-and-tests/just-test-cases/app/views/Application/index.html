@@ -1,0 +1,27 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<h1>It works !</h1>
+
+#{form action:@hello(), id:'form'}
+	<input id="name" type="text" name="name" />
+	<input id="sayHello" value="Say hello" type="submit" />
+#{/form}
+
+#{form action:@yop()}
+	<input id="yop" value="Yop" type="submit" />
+	#{if params.yop}
+		${9/0}
+	#{/if}
+#{/form}
+
+${'Coucou'.up()}
+
+#{form action:@aGetForm()} 
+	<input type="text" name="name" id="getName" />
+	<input id="yopGet" value="GET Yop" type="submit" />
+#{/form}
+
+<p>
+    <a id="wp1" href="@{sample.Photo.index()}">with package</a>, <a id="wp2" href="@{admin.Test.index()}">with package 2</a>, #{a @@admin.Test.index(), id:'wp3'}with package 3#{/a}
+</p>

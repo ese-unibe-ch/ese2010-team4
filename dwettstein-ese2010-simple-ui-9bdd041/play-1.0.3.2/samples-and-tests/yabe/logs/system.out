@@ -1,0 +1,10 @@
+20:47:55,938 INFO  ~ Starting /Volumes/Data/Desktop/play/1.0/samples-and-tests/yabe
+20:47:55,941 INFO  ~ Module secure is available (/Volumes/Data/Desktop/play/1.0/modules/secure)
+20:47:55,941 INFO  ~ Module crud is available (/Volumes/Data/Desktop/play/1.0/modules/crud)
+20:47:57,018 INFO  ~ 
+20:47:57,018 INFO  ~ Go to http://localhost:9000/@tests to run the tests
+20:47:57,018 INFO  ~ 
+20:47:57,018 WARN  ~ You're running Play! in DEV mode
+20:47:57,136 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+20:48:02,175 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
+20:48:02,966 INFO  ~ Application 'Yet Another Blog Engine' is now started !
