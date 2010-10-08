@@ -20,7 +20,7 @@ public class Admin extends Controller {
     static void setConnectedUser() {
         if(Security.isConnected()) {
             User user = User.find("byEmail", Security.connected()).first();
-            renderArgs.put("user", user.name);
+            renderArgs.put("user", user.fullname);
         }
     }
  
@@ -71,7 +71,7 @@ public class Admin extends Controller {
     	else if(vote.equals("Vote down"))
     		question.voting--;
     	question.save();
-        flash.success("Thanks for vote %s!", user.name);
+        flash.success("Thanks for vote %s!", user.fullname);
         Application.show(questionId);
     }
     
@@ -81,7 +81,12 @@ public class Admin extends Controller {
     	else if(vote.equals("Vote down"))
     		answer.voting--;
     	answer.save();
-        flash.success("Thanks for vote %s!", user.name);
+        flash.success("Thanks for vote %s!", user.fullname);
         Application.show(questionId);
+    }
+    
+    public static void myProfile(){
+    	//TODO
+    	render("User/profile.html");
     }
 }

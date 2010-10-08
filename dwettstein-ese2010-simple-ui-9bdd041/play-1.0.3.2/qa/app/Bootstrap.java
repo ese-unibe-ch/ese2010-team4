@@ -28,5 +28,11 @@ public class Bootstrap extends Job {
 		thirdQuestion = new Question(hans, "Why is programming so  frustrating?").save();
 		fourthQuestion = new Question(admin, "Is this a question?").save();
     }
- 
+   /* public void doJob() {
+        // Check if the database is empty
+        if(User.count() == 0) {
+            Fixtures.load("initial-data.yml");
+        }
+    }*/
+
 }

@@ -1,5 +1,5 @@
 #{extends 'admin.html' /}
-#{set title:'User administration' /}
+#{set title:'User Profile' /}
 
 
 #{secure.check 'user'}
@@ -14,12 +14,12 @@
         	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     	</p>
     	<p>
-        	<label for="content">Your question: </label>
-        	<br>
-        	<textarea fullname="content" id="content"></textarea>
+        	<label for="author">Your email: </label>
+        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
     	</p>
     	<p>
-        	<input type="submit" value="Submit your question" />
+        	<label for="author">Your website: </label>
+        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
     	</p>
 	#{/form}
 #{/ secure.check}

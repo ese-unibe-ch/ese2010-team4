@@ -26,16 +26,16 @@
 <div class="question">
 	Question:
     <div class="question-metadata">
-        <span class="question-author">by ${question.author.name}</span>
+        <span class="question-author">by ${question.author.fullname}</span>
         <span class="question-date">${question.timestamp}</span>
         <span class="question-voting"> Voting: ${question.voting}</span>
 			#{secure.check 'user'}
         	#{form @Admin.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
-        		<select name="vote">
+        		<select fullname="vote">
         			<option>Vote up</option>
         			<option>Vote down</option>
         		</select>
-				<input type="submit" name="vote" value="Vote">
+				<input type="submit" fullname="vote" value="Vote">
         	#{/form}
 			#{/secure.check}
     </div>
@@ -61,7 +61,7 @@
 	<div class="answers">
 		<p>
    		<div class="answer-metadata">
-        	<span class="answer-author">by ${answer.author.name},</span>
+        	<span class="answer-author">by ${answer.author.fullname},</span>
         	<span class="answer-date">${answer.timestamp}</span>
         	<span class="answer-voting"> Voting: ${answer.voting}</span>
     	</div>
@@ -83,13 +83,13 @@
       	  	</p>
  	    #{/ifErrors}
     		<p>
-        		<label for="author">Your name: </label>
-        		<input type="text" name="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().name}" readonly/>
+        		<label for="author">Your fullname: </label>
+        		<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     		</p>
     		<p>
         		<label for="content">Your answer: </label>
         		<br>
-        		<textarea name="content" id="content"></textarea>
+        		<textarea fullname="content" id="content"></textarea>
     		</p>
     		<p>
         		<input type="submit" value="Submit your answer" />

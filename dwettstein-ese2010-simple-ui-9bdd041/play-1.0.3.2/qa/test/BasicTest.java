@@ -31,7 +31,7 @@ public class BasicTest extends UnitTest {
 	@Test
 	public void shouldCreateAndRetrieveUser() {
 	    assertNotNull(hans);
-	    assertEquals("Muster Hans", hans.name);
+	    assertEquals("Muster Hans", hans.fullname);
 	}
 
 	@Test

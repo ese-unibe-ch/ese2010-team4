@@ -6,12 +6,12 @@
     <div class="question">
     	Newest question:
         <div class="question-metadata">
-            <span class="question-author">by ${lastQuestion.author.name}</span>
+            <span class="question-author">by ${lastQuestion.author.fullname}</span>
             <span class="question-date">${lastQuestion.timestamp}</span>
             <span class="question-voting"> Voting: ${lastQuestion.voting}</span>
             <span class="question-answer">
                 #{ifnot lastQuestion.answers.isEmpty()}
-                   , last answered by ${lastQuestion.answers.get(question.answers.size()-1).author.name}
+                   , last answered by ${lastQuestion.answers.get(question.answers.size()-1).author.fullname}
                 #{/ifnot}
             </span>
         </div>
@@ -27,12 +27,12 @@
          	#{list items:questions, as:'question'}
             	<div class="question">
                 	<div class="question-metadata">
-                    	<span class="question-author">by ${question.author.name}</span>
+                    	<span class="question-author">by ${question.author.fullname}</span>
                      	<span class="question-date">${question.timestamp}</span>
                      	<span class="question-voting"> Voting: ${question.voting}</span>
                      	<div class="question-answer">
                			 	#{ifnot question.answers.isEmpty()}
-                			   , last answered by ${question.answers.get(question.answers.size()-1).author.name}
+                			   , last answered by ${question.answers.get(question.answers.size()-1).author.fullname}
                 			#{/ifnot}
                     	</div>
                     	<div class="question-content">
