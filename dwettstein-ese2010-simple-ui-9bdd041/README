@@ -1,7 +1,0 @@
-The web application must support the following requirements. You can have a look at stackoverflow.com for inspiration about the user interface.
-
-    * User authentication. As with most applications, the user must first log in. To do so, enable the secure module and follow the approach presented in Adding authentication. A user must be able to login and logout of the application.
-    * List the questions. The default page lists the questions ordered by votes.
-    * Add a question. The logged in user can add a question.
-    * View and answer a question. The logged in user can view and answer a question. He can answer the same question multiple times.
-    * Vote up and down. The logged in user can vote up or down questions and answers. The user has only one vote (up/down) per question or answer. He can not vote for his own question and answer.
