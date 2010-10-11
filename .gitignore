@@ -22,6 +22,8 @@ bin/
 
 
 # all the eclipse stuff
+.classpath
+.project
 .metadata
 .settings
 eclipse
