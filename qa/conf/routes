@@ -21,5 +21,5 @@ POST    /posts/{postId}/comments                Application.postComment
 *      /admin            						module:crud
 
 # Administration
-GET     /admin/?                                Admin.index
-*       /admin                                  module:crud
+GET     /user/?                                Users.index
+*       /user                                  module:crud

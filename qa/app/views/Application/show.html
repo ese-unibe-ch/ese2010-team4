@@ -30,7 +30,7 @@
         <span class="question-date">${question.timestamp}</span>
         <span class="question-voting"> Voting: ${question.voting}</span>
 			#{secure.check 'user'}
-        	#{form @Admin.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
+        	#{form @Users.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
         		<select fullname="vote">
         			<option>Vote up</option>
         			<option>Vote down</option>
@@ -76,7 +76,7 @@
 
 <p><br></p>
 #{secure.check 'user'}
-	#{form @Admin.answerQuestion(question.id)}
+	#{form @Users.answerQuestion(question.id)}
 		#{ifErrors}
     	   	<p class="error">
        	    	All fields are required!
