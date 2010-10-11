@@ -24,6 +24,7 @@ bin/
 # all the eclipse stuff
 .metadata
 .settings
+eclipse
 
 # and netbeans
 nbproject
