@@ -11,12 +11,12 @@
  	   	#{/ifErrors}
     	<p>
         	<label for="author">Your fullname: </label>
-        	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
+        	<input type="text" name="author" id="author" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     	</p>
     	<p>
         	<label for="content">Your question: </label>
         	<br>
-        	<textarea fullname="content" id="content"></textarea>
+        	<textarea name="content" id="content"></textarea>
     	</p>
     	<p>
         	<input type="submit" value="Submit your question" />

@@ -45,10 +45,13 @@ public class Users extends Controller {
 
 	public static void createQuestion(@Required String author,
 			@Required String content) {
+		
 		if (validation.hasErrors()) {
 			render("Users/index.html");
 		}
-		User user = User.find("byName", author).first();
+
+		User user = User.find("byFullname", author).first();
+		
 		Question question = new Question(user, content).save();
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
@@ -57,10 +60,12 @@ public class Users extends Controller {
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content) {
 		Question question = Question.findById(questionId);
+		
 		if (validation.hasErrors()) {
 			render("Application/show.html", question);
 		}
-		User user = User.find("byName", author).first();
+		
+		User user = User.find("byFullname", author).first();
 		question.addAnswer(user, content);
 		flash.success("Thanks for write the answer %s!", author);
 		Application.show(questionId);
