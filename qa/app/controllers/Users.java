@@ -68,25 +68,47 @@ public class Users extends Controller {
 
 	public static void voteForQuestion(Long questionId, @Required User user,
 			String vote) {
+
 		Question question = Question.findById(questionId);
-		if (vote.equals("Vote up"))
-			question.voting++;
-		else if (vote.equals("Vote down"))
-			question.voting--;
-		question.save();
-		flash.success("Thanks for vote %s!", user.fullname);
+
+		if (!question.hasVoted(user)) {
+
+			if (vote.equals("Vote up")) {
+				question.voteUp(user);
+				question.save();
+			}
+
+			else {
+				question.voteDown(user);
+				question.save();
+			}
+
+			flash.success("Thanks for vote %s!", user.fullname);
+		}
+
 		Application.show(questionId);
+
 	}
 
 	public static void voteForAnswer(Long questionId, Answer answer,
 			@Required User user, String vote) {
-		if (vote.equals("Vote up"))
-			answer.voting++;
-		else if (vote.equals("Vote down"))
-			answer.voting--;
-		answer.save();
+
+		if (!answer.hasVoted(user)) {
+			System.out.println(user.fullname);
+			if (vote.equals("Vote up")) {
+				answer.voteUp(user);
+				answer.save();
+			}
+
+			else {
+				answer.voteDown(user);
+				answer.save();
+			}
+		}
+
 		flash.success("Thanks for vote %s!", user.fullname);
 		Application.show(questionId);
+
 	}
 
 	public static void myProfile() {

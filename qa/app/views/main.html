@@ -13,8 +13,9 @@
     <body>
 
 <div id="menu" style="position:absolute;top:30px;left:100px">
-	<div class="link"><a href="@{Application.index()}">Home</a></div>
+	<div class="link"><a href="@{Application.index()}">Home</a></div>	
 	#{ifnot controllers.Security.connected()}
+	<div class="link"><a href="@{Application.createUser()}">create User</a></div>
 	<div class="link"><a href="@{Secure.login()}">Log in</a></div>
 	#{/ifnot}
 	#{secure.check 'user'}
