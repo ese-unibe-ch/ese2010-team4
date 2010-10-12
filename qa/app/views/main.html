@@ -16,6 +16,7 @@
 	<div class="link"><a href="@{Application.index()}">Home</a></div>
 	#{ifnot controllers.Security.connected()}
 	<div class="link"><a href="@{Secure.login()}">Log in</a></div>
+	<div class="link"><a href="@{Application.createUser()}">Create user</a></div>
 	#{/ifnot}
 	#{secure.check 'user'}
 		<div class="link"><a href="@{Users.index()}">New question</a></div>
