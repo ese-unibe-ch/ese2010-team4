@@ -15,12 +15,9 @@
 <div id="menu" style="position:absolute;top:30px;left:100px">
 	<div class="link"><a href="@{Application.index()}">Home</a></div>
 	#{ifnot controllers.Security.connected()}
-	<div class="link"><a href="@{Application.createUser()}">create User</a></div>
+	<div class="link"><a href="@{Application.createUser()}">Create user</a></div>
 	<div class="link"><a href="@{Secure.login()}">Log in</a></div>
 	#{/ifnot}
-	#{if controllers.Security.connected()}
-		<div class="link"><a href="@{Secure.logout()}">Log out</a></div>
-	#{/if}
 	#{secure.check 'user'}
 		<div class="link"><a href="@{Users.index()}">New question</a></div>
 		<div class="link"><a href="@{Users.myQuestions()}">My questions</a></div>
@@ -37,10 +34,10 @@
 </div>
 #{/secure.check}
 
-        
-     <div id="main" style="position:absolute;top:200px;left:100px">
-         #{doLayout /} 
-     </div>
+   
+<div id="main" style="position:absolute;top:200px;left:100px">
+    #{doLayout /} 
+</div>
         
     </body>
 </html>
