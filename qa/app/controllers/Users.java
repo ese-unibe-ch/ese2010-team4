@@ -76,7 +76,7 @@ public class Users extends Controller {
 
 		Question question = Question.findById(questionId);
 
-		if (!question.hasVoted(user)) {
+		if (!question.hasVoted(user) && !question.author.email.equals(user.email)) {
 
 			if (vote.equals("Vote up")) {
 				question.voteUp(user);
@@ -98,7 +98,7 @@ public class Users extends Controller {
 	public static void voteForAnswer(Long questionId, Answer answer,
 			@Required User user, String vote) {
 
-		if (!answer.hasVoted(user)) {
+		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
 			System.out.println(user.fullname);
 			if (vote.equals("Vote up")) {
 				answer.voteUp(user);

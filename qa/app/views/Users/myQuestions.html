@@ -11,7 +11,7 @@
                     </span>
                     <div class="question-answer">
                			 #{ifnot question.answers.isEmpty()}
-                			 , last answered by ${question.answers.get(question.answers.size()-1).author.name}
+                			 , last answered by ${question.answers.get(question.answers.size()-1).author.fullname}
                 		 #{/ifnot}
                     </div>
                     <div class="question-content">
