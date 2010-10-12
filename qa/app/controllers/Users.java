@@ -126,4 +126,16 @@ public class Users extends Controller {
 		// TODO
 		render("User/profile.html");
 	}
+	
+	public static void showEdit(Long questionId) {
+		Question question = Question.findById(questionId);
+		render(question);
+	}
+		
+	public static void editPost(Long id, @Required String content) {
+		Question question = Question.findById(id);
+		question.content = content;
+		question.save();
+		Users.myQuestions();
+	}
 }

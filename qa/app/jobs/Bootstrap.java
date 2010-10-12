@@ -5,6 +5,7 @@ import models.Question;
 import models.User;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
+import play.test.Fixtures;
 
 @OnApplicationStart
 public class Bootstrap extends Job {
@@ -18,6 +19,7 @@ public class Bootstrap extends Job {
 	Answer firstAnswer;
 
 	public void doJob() {
+		Fixtures.deleteAll();
 		hans = new User("Muster Hans", "hans@gmail.com", "keyword").save();
 		admin = new User("admin", "admin@gmail.com", "admin").save();
 		admin.isAdmin = true;

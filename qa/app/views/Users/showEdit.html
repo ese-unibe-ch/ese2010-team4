@@ -1,0 +1,23 @@
+#{extends 'main.html' /}
+#{set title:'User administration' /}
+
+ To edit: <p>
+        
+
+#{form @Users.editPost(question.id)}
+	#{ifErrors}
+    	<p class="error">
+    		@{Users.myQuestions()}
+    	</p>
+ 	#{/ifErrors}
+
+	<div>
+		#{field 'content'}
+		<label for="content"></label>
+			<textarea name="${field.name}" cols="50" rows="10">${question?.content}</textarea>
+		#{/field}
+	</div>
+
+	<p><input type="submit" value="Edit"/></p>
+    	
+#{/form}
