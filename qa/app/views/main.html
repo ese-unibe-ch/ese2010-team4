@@ -10,19 +10,33 @@
         <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
     </head>
-    <body>       
-        <div id="header">
-            <div id="logo">
-                KnowledgeBase by dwettstein
-            </div>
-            <p>
-            	<a href="@{Users.index()}">User administration</a>
-            </p>
-        </div>
+    <body>
+
+<div id="menu" style="position:absolute;top:30px;left:100px">
+	<div class="link"><a href="@{Application.index()}">Home</a></div>
+	#{ifnot controllers.Security.connected()}
+	<div class="link"><a href="@{Secure.login()}">Log in</a></div>
+	#{/ifnot}
+	#{secure.check 'user'}
+		<div class="link"><a href="@{Users.index()}">New question</a></div>
+		<div class="link"><a href="@{Users.myQuestions()}">My questions</a></div>
+		<div class="link"><a href="@{Users.myAnswers()}">My answers</a></div>
+		<div class="link"><a href="@{Users.myProfile()}">Profile</a></div>
+		<div class="link"><a href="@{Secure.logout()}">Log out</a></div>
+	#{/secure.check}
+</div>
+
+#{secure.check 'user'}
+<div id="user" style="position:absolute;top:30px;left:300px">
+	<div class="userInfo">User: ${models.User.find("byEmail", controllers.Security.connected()).first().fullname}</div>
+	<div class="userInfo">Mail: ${models.User.find("byEmail", controllers.Security.connected()).first().email}</div>
+</div>
+#{/secure.check}
+
         
-        <div id="main">
-            #{doLayout /} 
-        </div>
+     <div id="main" style="position:absolute;top:200px;left:100px">
+         #{doLayout /} 
+     </div>
         
     </body>
 </html>
