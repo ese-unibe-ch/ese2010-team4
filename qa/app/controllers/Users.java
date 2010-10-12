@@ -66,7 +66,7 @@ public class Users extends Controller {
 		}
 		
 		User user = User.find("byFullname", author).first();
-		question.addAnswer(user, content);
+		question.addAnswer(user, content).save();
 		flash.success("Thanks for write the answer %s!", author);
 		Application.show(questionId);
 	}
@@ -95,11 +95,17 @@ public class Users extends Controller {
 
 	}
 
-	public static void voteForAnswer(Long questionId, Answer answer,
+	public static void voteForAnswer(Long questionId, Long answerId,
 			@Required User user, String vote) {
+		
+		Answer answer = Answer.find("byId", answerId).first();
+		
+		System.out.println(user.fullname);
+		System.out.println(answer.author.fullname);
+		System.out.println(answer.voting);
 
 		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
-			System.out.println(user.fullname);
+			System.out.println("geht durch");
 			if (vote.equals("Vote up")) {
 				answer.voteUp(user);
 				answer.save();

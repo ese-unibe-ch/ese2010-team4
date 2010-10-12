@@ -31,7 +31,7 @@
         <span class="question-voting"> Voting: ${question.voting}</span>
 			#{secure.check 'user'}       	
         		      
-         				#{if !question.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first())}
+         				#{if !question.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !question.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
          				         	#{form @Users.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
          				         			<select name="vote">
          				         				<option>Vote up</option>
@@ -67,6 +67,21 @@
         	<span class="answer-author">by ${answer.author.fullname},</span>
         	<span class="answer-date">${answer.timestamp}</span>
         	<span class="answer-voting"> Voting: ${answer.voting}</span>
+        	
+        	#{secure.check 'user'}       	
+        		      
+         				#{if !answer.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !answer.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
+         				         	#{form @Users.voteForAnswer(question.id, answer.id, models.User.find("byEmail", controllers.Security.connected()).first())}
+         				         			<select name="vote">
+         				         				<option>Vote up</option>
+         										<option>Vote down</option>
+        			 						</select>
+        			 					<input type="submit" name="vote" value="vote">
+        			 				#{/form}
+        			 	#{/if}
+			#{/secure.check}
+        	
+        	
     	</div>
    		<div class="answer-content">
          	${answer.content.escape().nl2br()}

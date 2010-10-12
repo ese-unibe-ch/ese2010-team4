@@ -31,8 +31,9 @@ public class Question extends Model {
 	@Required
 	@ManyToOne
 	public User author;
-
-	public ArrayList<Answer> answers;
+	
+	
+	public ArrayList<Answer> answers;	
 	public ArrayList<User> userVoted;
 
 	public Question(User author, String content) {
