@@ -3,6 +3,7 @@
 
 
 #{secure.check 'user'}
+<div class="form">
 	#{form @Users.createQuestion()}
 		#{ifErrors}
     	   	<p class="error">
@@ -30,6 +31,7 @@
         	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}" readonly/>
     	</p>	
 	#{/form}
+</div>
 #{/ secure.check}
 
 #{if flash.success}
