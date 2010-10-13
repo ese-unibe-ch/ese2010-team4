@@ -2,37 +2,16 @@
 #{set title:'Create user' /}
  
 
-<head>
-<title>Knowledge Base</title>
-</head>
-
-<body style="background-color:#ffffff;">
-
-<div id="container" style="float:left;width:1000px;">
-
-<div id="title" style ="float:left;widht:1000px; background: rgb(100,100,300);">
-<h1 style="font-size:300%">knowledge base<h1>
-<h5>studies your questions<h5>
-</div>
-
-<div id="bodycontainer" style="float:left;width:1000px;">
-<div id="question list" style="float:left;width:500px;">
-
 <h2 style="font-size:100%">fill the formular and get knowledge</h2>
 
 <h3>${message}</h3>
 
+<div class="form">
 #{form @Application.addUser()}
-<p>Name:<br><input type="text" name="fullname", id="fullname"></p>
-<p>E-Mail:<br><input type="text" name="email", id="email"></p>
-<p>Password:<br><input type="password" name="password", id="password"></p>
-<p>Confirm password:<br><input type="password" name="password2", id="password2"></p>
-<p><input type="submit" value="Submit your comment"/></p>
+<div>Name:<br><input type="text" name="fullname", id="fullname"></div>
+<div>E-Mail:<br><input type="text" name="email", id="email"></div>
+<div>Password:<br><input type="password" name="password", id="password"></div>
+<div>Confirm password:<br><input type="password" name="password2", id="password2"></div>
+<div><input type="submit" value="Submit your comment"/></div>
 #{/form}
 </div>
-
-
-</div>
-</div>
-
-</body>
