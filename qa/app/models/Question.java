@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Question extends Post {
 
+	public long validity;
 	
 	@OneToMany(mappedBy="question", cascade = CascadeType.ALL)
 	public List<Answer> answers;
@@ -42,6 +43,24 @@ public class Question extends Post {
 	public Question next() {
 		return Question.find("timestamp > ? order by timestamp asc", timestamp)
 				.first();
+	}
+
+	public boolean hasChoose() {
+		
+		for(Answer answer: answers){
+			if(answer.best){
+				return true;
+			}
+		}
+		 
+		return false;
+	}
+
+	public void setAllAnswersFalse() {
+		for(Answer answer: answers){
+			answer.best = false;
+		}
+		
 	}
 
 }

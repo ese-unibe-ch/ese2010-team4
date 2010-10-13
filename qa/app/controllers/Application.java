@@ -1,5 +1,7 @@
 package controllers;
 
+
+import java.util.Date;
 import java.util.List;
 
 import models.Question;
@@ -30,7 +32,28 @@ public class Application extends Controller {
 
 	public static void show(Long id) {
 		Question question = Question.findById(id);
-		render(question);
+		long validaty = question.validity;
+		Date actualdate = new Date();		
+		long milidate = actualdate.getTime();
+		boolean validdate;
+		boolean abletochoose = false;
+		
+		if(Security.isConnected() && question.author.email.equals(Security.connected())){
+			abletochoose = true;
+		}
+		
+		
+		if(validaty!=0 && milidate>validaty){
+			validdate = false;
+			render(question, validdate, abletochoose);
+		}
+		else{
+			validdate = true;
+			render(question, validdate, abletochoose);
+			
+		}
+		
+		
 	}
 
 	public static void createUser(String message) {

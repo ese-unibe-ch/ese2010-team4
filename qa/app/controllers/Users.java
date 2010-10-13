@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import models.Answer;
@@ -25,6 +26,8 @@ public class Users extends Controller {
 		if (Security.isConnected()) {
 			User user = User.find("byEmail", Security.connected()).first();
 			renderArgs.put("user", user.fullname);
+			
+			
 		}
 	}
 
@@ -141,5 +144,19 @@ public class Users extends Controller {
 			Users.myQuestions();
 		}
 		else Users.myAnswers();
+	}
+	
+	public static void chooseBestAnswer(Long answerid){
+		// TODO
+		
+		Answer answer = Answer.find("byId", answerid).first();
+		answer.question.setAllAnswersFalse();
+		answer.question.save();
+		answer.best = true;
+		Date date = new Date();
+		answer.question.validity = date.getTime()+10000;
+		answer.question.save();
+		answer.save();
+		Application.show(answer.question.id);
 	}
 }

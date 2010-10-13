@@ -71,6 +71,17 @@
         			 					<input type="submit" name="vote" value="vote">
         			 				#{/form}
         			 	#{/if}
+        			 	
+        			 	#{if validdate && abletochoose}
+        			 	#{form @Users.chooseBestAnswer(answer.id)}
+        			 		<input type="submit" name="best answer" value="best answer">
+        			 	#{/form}
+        			 	#{/if}
+        			 	
+        			 	#{if answer.best && !validdate}
+        			 		This is the best Answser
+        			 	#{/if}
+        			 	
 			#{/secure.check}
         	
         	
