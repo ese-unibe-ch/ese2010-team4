@@ -138,7 +138,7 @@ public class Users extends Controller {
 		Post post = Post.findById(id);
 		post.content = content;
 		post.save();
-		if (post.getClass().getName().equals("Question"))
+		if (post.getClass().getName().equals("models.Question"))
 		{
 			Users.myQuestions();
 		}
