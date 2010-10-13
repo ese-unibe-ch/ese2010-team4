@@ -1,23 +1,18 @@
-#{extends 'main.html' /}
-#{set title:'Show question' /}
+#{extends 'main.html' /} 
+#{set title:'Show question' /} 
 
 
-<ul id="pagination">
-    #{if question.previous()}
-        <li id="previous">
-            <a href="@{Application.show(question.previous().id)}">
-                Previous question.
-            </a>
-        </li>
-    #{/if}
-    #{if question.next()}
-        <li id="next">
-            <a href="@{Application.show(question.next().id)}">
-                Next question.
-            </a>
-        </li>
-    #{/if}
-</ul>
+#{if question.previous()}
+<div class="link" id="previous">
+	<a href="@{Application.show(question.previous().id)}"> Previous question.</a>
+</div>
+#{/if} 
+#{if question.next()}
+<div class="link" id="next">
+	<a href="@{Application.show(question.next().id)}"> Next question.</a>
+</div>
+#{/if}
+<br>
 
 
 <div class="question">
@@ -91,6 +86,7 @@
 
 <p><br></p>
 #{secure.check 'user'}
+<div class="form" id="answerForm">
 	#{form @Users.answerQuestion(question.id)}
 		#{ifErrors}
     	   	<p class="error">
@@ -110,6 +106,7 @@
         		<input type="submit" value="Submit your answer" />
     		</p>
 	#{/form}
+</div>
 #{/ secure.check}
 
  

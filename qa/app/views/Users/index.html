@@ -3,6 +3,7 @@
 
 
 #{secure.check 'user'}
+<div class="form" id="questionForm">
 	#{form @Users.createQuestion()}
 		#{ifErrors}
     	   	<p class="error">
@@ -22,6 +23,7 @@
         	<input type="submit" value="Submit your question" />
     	</p>
 	#{/form}
+</div>
 #{/ secure.check}
 
 #{if flash.success}
