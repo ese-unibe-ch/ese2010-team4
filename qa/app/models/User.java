@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.Entity;
+import javax.swing.ImageIcon;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
@@ -15,6 +16,12 @@ import play.db.jpa.Model;
 @Entity
 public class User extends Model {
 
+	public String website = "";
+	public String work = ""; 
+	public String aboutMe = ""; 
+	//public ImageIcon avatar = new ImageIcon("empty-avatar_l.jpg"); 
+	/*public String favoriteLanguages;*/
+	
 	@Email
 	@Required
 	public String email;
@@ -26,13 +33,7 @@ public class User extends Model {
 	public String fullname;
 
 	@Required
-	public boolean isAdmin;
-
-	/*
-	 * public String website = ""; public String work = ""; public String
-	 * aboutMe = ""; public ImageIcon avatar = new
-	 * ImageIcon("empty-avatar_l.jpg"); public String favoriteLanguages;
-	 */
+	public boolean isAdmin;	 
 
 	public User(String fullname, String email, String password) {
 		this.fullname = fullname;
