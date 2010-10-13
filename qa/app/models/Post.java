@@ -28,7 +28,7 @@ public abstract class Post extends Model {
 	public User author;
 
 	public ArrayList<User> userVoted;
-	public ArrayList<Answer> answers;
+	
 
 	public Post(User author, String content) {
 
@@ -36,7 +36,6 @@ public abstract class Post extends Model {
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.voting = 0;
-		this.answers = new ArrayList<Answer>();
 		this.userVoted = new ArrayList<User>();
 	}
 

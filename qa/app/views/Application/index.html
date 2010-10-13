@@ -11,7 +11,7 @@
             <span class="question-voting"> Voting: ${lastQuestion.voting}</span>
             <span class="question-answer">
                 #{ifnot lastQuestion.answers.isEmpty()}
-                   , last answered by ${lastQuestion.answers.get(question.answers.size()-1).author.fullname}
+                   , last answered by ${lastAnswer}
                 #{/ifnot}
             </span>
         </div>

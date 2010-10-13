@@ -19,7 +19,13 @@ public class Application extends Controller {
 				.first();
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
-		render(lastQuestion, questions);
+		String lastAnswer = "";
+		
+		if(lastQuestion.answers.size()!= 0){
+			lastAnswer = lastQuestion.answers.get(lastQuestion.answers.size()-1).author.fullname;
+		}
+		
+		render(lastQuestion, questions, lastAnswer);
 	}
 
 	public static void show(Long id) {
