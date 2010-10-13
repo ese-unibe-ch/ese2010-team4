@@ -138,6 +138,10 @@ public class Users extends Controller {
 		Post post = Post.findById(id);
 		post.content = content;
 		post.save();
-		Users.myQuestions();
+		if (post.getClass().getName().equals("Question"))
+		{
+			Users.myQuestions();
+		}
+		else Users.myAnswers();
 	}
 }
