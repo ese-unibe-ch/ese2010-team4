@@ -21,7 +21,7 @@ public class Application extends Controller {
 				.fetch();
 		String lastAnswer = "";
 		
-		if(lastQuestion.answers.size()!= 0){
+		if(lastQuestion != null && lastQuestion.answers.size()!= 0){
 			lastAnswer = lastQuestion.answers.get(lastQuestion.answers.size()-1).author.fullname;
 		}
 		

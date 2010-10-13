@@ -1,7 +1,7 @@
 package models;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import play.data.validation.Required;
 
@@ -15,7 +15,7 @@ import play.data.validation.Required;
 public class Answer extends Post {
 
 	@Required
-	@OneToOne
+	@ManyToOne
 	public Question question;
 
 	public Answer(Question question, User author, String content) {

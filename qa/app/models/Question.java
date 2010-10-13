@@ -1,8 +1,11 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 /**
  * A question with content, timestamp, owner and voting.
@@ -13,7 +16,9 @@ import javax.persistence.Entity;
 @Entity
 public class Question extends Post {
 
-	public ArrayList<Answer> answers;
+	
+	@OneToMany(mappedBy="question", cascade = CascadeType.ALL)
+	public List<Answer> answers;
 	
 	public Question(User author, String content) {
 		super(author, content);
@@ -22,7 +27,6 @@ public class Question extends Post {
 	}
 
 	public Question addAnswer(User author, String content) {
-		assert (this.answers.isEmpty());
 		Answer newAnswer = new Answer(this, author, content).save();
 		this.answers.add(newAnswer);
 		this.save();

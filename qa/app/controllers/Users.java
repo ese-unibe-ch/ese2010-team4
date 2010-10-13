@@ -101,16 +101,14 @@ public class Users extends Controller {
 			@Required User user, String vote) {
 
 		Answer answer = Answer.find("byId", answerId).first();
-
-		System.out.println(user.fullname);
-		System.out.println(answer.author.fullname);
-		System.out.println(answer.voting);
+		Question question = Question.find("byId", questionId).first();
 
 		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
 			System.out.println("geht durch");
 			if (vote.equals("Vote up")) {
 				answer.voteUp(user);
 				answer.save();
+				
 			}
 
 			else {
