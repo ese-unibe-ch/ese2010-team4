@@ -125,7 +125,7 @@ public class Users extends Controller {
 
 	public static void myProfile() {
 		// TODO
-		render("User/profile.html");
+		render("Users/profile.html");
 	}
 
 	public static void showEdit(Long questionId) {
