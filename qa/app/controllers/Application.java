@@ -14,7 +14,6 @@ import play.mvc.Controller;
  */
 public class Application extends Controller {
 
-	// comment to push
 	public static void index() {
 		Question lastQuestion = Question.find("order by timestamp desc")
 				.first();
