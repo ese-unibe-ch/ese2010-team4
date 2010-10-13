@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.Answer;
+import models.Post;
 import models.Question;
 import models.User;
 import play.data.validation.Required;
@@ -129,14 +130,14 @@ public class Users extends Controller {
 	}
 
 	public static void showEdit(Long questionId) {
-		Question question = Question.findById(questionId);
-		render(question);
+		Post post = Post.findById(questionId);
+		render(post);
 	}
 
 	public static void editPost(Long id, @Required String content) {
-		Question question = Question.findById(id);
-		question.content = content;
-		question.save();
+		Post post = Post.findById(id);
+		post.content = content;
+		post.save();
 		Users.myQuestions();
 	}
 }

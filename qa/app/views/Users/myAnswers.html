@@ -12,6 +12,7 @@
                     <div class="answer-content">
         				<a href="@{Application.show(answer.question.id)}">${answer.content.nl2br()}</a>
         			</div>
+        			<a href="@{Users.showEdit(answer.id)}">[edit]</a>
                  </div>
             </div>
             <br>
