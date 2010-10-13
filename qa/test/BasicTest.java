@@ -50,7 +50,7 @@ public class BasicTest extends UnitTest {
 	    List<Question> hansQuestions = Question.find("byAuthor", hans).fetch();
 
 	    assertEquals(1, hansQuestions.size());
-	    Question firstQuestion = hansQuestions.get(0);
+	    Post firstQuestion = hansQuestions.get(0);
 	    assertNotNull(firstQuestion);
 	    assertEquals(hans, firstQuestion.author);
 	    assertEquals("What is hot and shines brightly?", firstQuestion.content);

@@ -1,7 +1,10 @@
 package models;
 
-import play.db.jpa.Model;
+public class Comments extends Post {
 
-public class Comments extends Model {
+	public Comments(User author, String content) {
+		super(author, content);
+		// TODO Auto-generated constructor stub
+	}
 
 }
