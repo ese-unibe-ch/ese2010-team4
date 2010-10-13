@@ -3,7 +3,6 @@ package controllers;
 import java.util.List;
 
 import models.Answer;
-import models.Post;
 import models.Question;
 import models.User;
 import play.data.validation.Required;
@@ -46,14 +45,14 @@ public class Users extends Controller {
 
 	public static void createQuestion(@Required String author,
 			@Required String content) {
-		
+
 		if (validation.hasErrors()) {
 			render("Users/index.html");
 		}
 
 		User user = User.find("byFullname", author).first();
-		
-		Post question = new Question(user, content).save();
+
+		Question question = new Question(user, content).save();
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
 	}
@@ -61,11 +60,11 @@ public class Users extends Controller {
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content) {
 		Question question = Question.findById(questionId);
-		
+
 		if (validation.hasErrors()) {
 			render("Application/show.html", question);
 		}
-		
+
 		User user = User.find("byFullname", author).first();
 		question.addAnswer(user, content).save();
 		flash.success("Thanks for write the answer %s!", author);
@@ -75,9 +74,10 @@ public class Users extends Controller {
 	public static void voteForQuestion(Long questionId, @Required User user,
 			String vote) {
 
-		Post question = Question.findById(questionId);
+		Question question = Question.findById(questionId);
 
-		if (!question.hasVoted(user) && !question.author.email.equals(user.email)) {
+		if (!question.hasVoted(user)
+				&& !question.author.email.equals(user.email)) {
 
 			if (vote.equals("Vote up")) {
 				question.voteUp(user);
@@ -98,9 +98,9 @@ public class Users extends Controller {
 
 	public static void voteForAnswer(Long questionId, Long answerId,
 			@Required User user, String vote) {
-		
+
 		Answer answer = Answer.find("byId", answerId).first();
-		
+
 		System.out.println(user.fullname);
 		System.out.println(answer.author.fullname);
 		System.out.println(answer.voting);
@@ -127,14 +127,14 @@ public class Users extends Controller {
 		// TODO
 		render("User/profile.html");
 	}
-	
+
 	public static void showEdit(Long questionId) {
-		Post question = Question.findById(questionId);
+		Question question = Question.findById(questionId);
 		render(question);
 	}
-		
+
 	public static void editPost(Long id, @Required String content) {
-		Post question = Question.findById(id);
+		Question question = Question.findById(id);
 		question.content = content;
 		question.save();
 		Users.myQuestions();

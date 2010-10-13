@@ -1,7 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-
 import javax.persistence.Entity;
 
 /**
@@ -12,8 +10,6 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Question extends Post {
-
-	public ArrayList<Answer> answers;
 
 	public Question(User author, String content) {
 		super(author, content);

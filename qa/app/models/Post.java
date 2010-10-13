@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
@@ -10,6 +11,7 @@ import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
+@Entity
 public abstract class Post extends Model {
 
 	public Date timestamp;
@@ -20,9 +22,11 @@ public abstract class Post extends Model {
 	@Required
 	@MaxSize(10000)
 	public String content;
+
 	@Required
 	@ManyToOne
 	public User author;
+
 	public ArrayList<User> userVoted;
 	public ArrayList<Answer> answers;
 
