@@ -1,6 +1,7 @@
 package jobs;
 
 import models.Answer;
+import models.Post;
 import models.Question;
 import models.User;
 import play.jobs.Job;
@@ -14,8 +15,8 @@ public class Bootstrap extends Job {
 	User admin;
 	Question firstQuestion;
 	Question secondQuestion;
-	Question thirdQuestion;
-	Question fourthQuestion;
+	Post thirdQuestion;
+	Post fourthQuestion;
 	Answer firstAnswer;
 
 	public void doJob() {

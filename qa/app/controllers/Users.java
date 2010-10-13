@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.Answer;
+import models.Post;
 import models.Question;
 import models.User;
 import play.data.validation.Required;
@@ -52,7 +53,7 @@ public class Users extends Controller {
 
 		User user = User.find("byFullname", author).first();
 		
-		Question question = new Question(user, content).save();
+		Post question = new Question(user, content).save();
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
 	}
@@ -74,7 +75,7 @@ public class Users extends Controller {
 	public static void voteForQuestion(Long questionId, @Required User user,
 			String vote) {
 
-		Question question = Question.findById(questionId);
+		Post question = Question.findById(questionId);
 
 		if (!question.hasVoted(user) && !question.author.email.equals(user.email)) {
 
@@ -128,12 +129,12 @@ public class Users extends Controller {
 	}
 	
 	public static void showEdit(Long questionId) {
-		Question question = Question.findById(questionId);
+		Post question = Question.findById(questionId);
 		render(question);
 	}
 		
 	public static void editPost(Long id, @Required String content) {
-		Question question = Question.findById(id);
+		Post question = Question.findById(id);
 		question.content = content;
 		question.save();
 		Users.myQuestions();

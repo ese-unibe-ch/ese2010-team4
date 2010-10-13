@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.Post;
 import models.Question;
 import models.User;
 import play.mvc.Controller;
@@ -15,7 +16,7 @@ import play.mvc.Controller;
 public class Application extends Controller {
 
 	 public static void index() {
-		 Question lastQuestion = Question.find("order by timestamp desc")
+		 Post lastQuestion = Question.find("order by timestamp desc")
 		 .first();
 		 List<Question> questions = Question.find("order by voting desc")
 		 .fetch();
@@ -23,7 +24,7 @@ public class Application extends Controller {
 		 }
 
 		 public static void show(Long id) {
-		 Question question = Question.findById(id);
+		 Post question = Question.findById(id);
 		 render(question);
 		 }
 
