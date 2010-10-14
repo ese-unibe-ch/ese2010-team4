@@ -1,12 +1,15 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.List;
 
-import org.junit.*;
+import models.Answer;
+import models.Post;
+import models.Question;
+import models.User;
 
-import java.util.*;
-import play.test.*;
-import models.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import play.test.Fixtures;
+import play.test.UnitTest;
 
 public class BasicTest extends UnitTest {
 
@@ -50,7 +53,7 @@ public class BasicTest extends UnitTest {
 	    List<Question> hansQuestions = Question.find("byAuthor", hans).fetch();
 
 	    assertEquals(1, hansQuestions.size());
-	    Question firstQuestion = hansQuestions.get(0);
+	    Post firstQuestion = hansQuestions.get(0);
 	    assertNotNull(firstQuestion);
 	    assertEquals(hans, firstQuestion.author);
 	    assertEquals("What is hot and shines brightly?", firstQuestion.content);
@@ -77,7 +80,7 @@ public class BasicTest extends UnitTest {
 	    
 	    firstQuestion.addAnswer(hans, "It is the moon.");
 
-	    assertEquals("It is the moon.", firstQuestion.answers.get(0).content);
+	    assertEquals("It is the moon.", firstQuestion.answers.get(1).content);
 	   
 	}
 

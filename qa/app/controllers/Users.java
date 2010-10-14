@@ -1,8 +1,10 @@
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import models.Answer;
+import models.Post;
 import models.Question;
 import models.User;
 import play.data.validation.Required;
@@ -45,13 +47,13 @@ public class Users extends Controller {
 
 	public static void createQuestion(@Required String author,
 			@Required String content) {
-		
+
 		if (validation.hasErrors()) {
 			render("Users/index.html");
 		}
 
 		User user = User.find("byFullname", author).first();
-		
+
 		Question question = new Question(user, content).save();
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
@@ -60,11 +62,11 @@ public class Users extends Controller {
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content) {
 		Question question = Question.findById(questionId);
-		
+
 		if (validation.hasErrors()) {
 			render("Application/show.html", question);
 		}
-		
+
 		User user = User.find("byFullname", author).first();
 		question.addAnswer(user, content).save();
 		flash.success("Thanks for write the answer %s!", author);
@@ -76,7 +78,8 @@ public class Users extends Controller {
 
 		Question question = Question.findById(questionId);
 
-		if (!question.hasVoted(user) && !question.author.email.equals(user.email)) {
+		if (!question.hasVoted(user)
+				&& !question.author.email.equals(user.email)) {
 
 			if (vote.equals("Vote up")) {
 				question.voteUp(user);
@@ -97,18 +100,16 @@ public class Users extends Controller {
 
 	public static void voteForAnswer(Long questionId, Long answerId,
 			@Required User user, String vote) {
-		
+
 		Answer answer = Answer.find("byId", answerId).first();
-		
-		System.out.println(user.fullname);
-		System.out.println(answer.author.fullname);
-		System.out.println(answer.voting);
+		Question question = Question.find("byId", questionId).first();
 
 		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
 			System.out.println("geht durch");
 			if (vote.equals("Vote up")) {
 				answer.voteUp(user);
 				answer.save();
+
 			}
 
 			else {
@@ -126,16 +127,61 @@ public class Users extends Controller {
 		// TODO
 		render("Users/profile.html");
 	}
-	
+
 	public static void showEdit(Long questionId) {
-		Question question = Question.findById(questionId);
-		render(question);
+		Post post = Post.findById(questionId);
+		render(post);
 	}
-		
+
 	public static void editPost(Long id, @Required String content) {
-		Question question = Question.findById(id);
-		question.content = content;
-		question.save();
-		Users.myQuestions();
+		Post post = Post.findById(id);
+		post.content = content;
+		post.save();
+		if (post.getClass().getName().equals("models.Question")) {
+			Users.myQuestions();
+		} else
+			Users.myAnswers();
+	}
+
+	public static void chooseBestAnswer(Long answerid) {
+		// TODO
+
+		Answer answer = Answer.find("byId", answerid).first();
+		answer.question.setAllAnswersFalse();
+		answer.question.save();
+		answer.best = true;
+		Date date = new Date();
+		answer.question.validity = date.getTime() + 10000;
+		answer.question.save();
+		answer.save();
+		Application.show(answer.question.id);
+	}
+
+	public static void setWebsite(String website) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.website = website;
+		user.save();
+		Users.myProfile();
+	}
+
+	public static void setWork(String work) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.work = work;
+		user.save();
+		Users.myProfile();
+	}
+
+	public static void setPLanguages(String languages) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.favoriteLanguages = languages;
+		user.save();
+		Users.myProfile();
+	}
+
+	public static void setAboutMe(String aboutMe) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.aboutMe = aboutMe;
+		user.save();
+		Users.myProfile();
 	}
 }

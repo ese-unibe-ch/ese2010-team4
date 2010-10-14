@@ -1,15 +1,11 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-
-import play.data.validation.MaxSize;
-import play.data.validation.Required;
-import play.db.jpa.Model;
+import javax.persistence.OneToMany;
 
 /**
  * A question with content, timestamp, owner and voting.
@@ -18,35 +14,20 @@ import play.db.jpa.Model;
  * 
  */
 @Entity
-public class Question extends Model {
+public class Question extends Post {
 
-	public Date timestamp;
-	public int voting;
-
-	@Lob
-	@Required
-	@MaxSize(10000)
-	public String content;
-
-	@Required
-	@ManyToOne
-	public User author;
+	public long validity;
 	
+	@OneToMany(mappedBy="question", cascade = CascadeType.ALL)
+	public List<Answer> answers;
 	
-	public ArrayList<Answer> answers;	
-	public ArrayList<User> userVoted;
-
 	public Question(User author, String content) {
-		this.author = author;
-		this.content = content;
-		this.timestamp = new Date(System.currentTimeMillis());
-		this.voting = 0;
+		super(author, content);
 		this.answers = new ArrayList<Answer>();
-		this.userVoted = new ArrayList<User>();
+
 	}
 
 	public Question addAnswer(User author, String content) {
-		assert (this.answers.isEmpty());
 		Answer newAnswer = new Answer(this, author, content).save();
 		this.answers.add(newAnswer);
 		this.save();
@@ -64,31 +45,22 @@ public class Question extends Model {
 				.first();
 	}
 
-	public String toString() {
-		return content;
-	}
-
-	public void voteUp(User user) {
-		voting++;
-		this.userVoted.add(user);
-		this.save();
-	}
-
-	public void voteDown(User user) {
-		voting--;
-		this.userVoted.add(user);
-		this.save();
-	}
-
-	public boolean hasVoted(User user) {
-
-		for (User comuser : userVoted) {
-			if (user.email.equals(comuser.email)) {
+	public boolean hasChoose() {
+		
+		for(Answer answer: answers){
+			if(answer.best){
 				return true;
 			}
 		}
-
+		 
 		return false;
+	}
+
+	public void setAllAnswersFalse() {
+		for(Answer answer: answers){
+			answer.best = false;
+		}
+		
 	}
 
 }
