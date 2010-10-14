@@ -15,9 +15,11 @@ import play.db.jpa.Model;
 @Entity
 public class User extends Model {
 
-	public String website = ""; 
-	public String work = ""; 
-	public String aboutMe = ""; 
+	public String website = "";
+	public String work = "";
+	public String aboutMe = "";
+	public String favoriteLanguages;
+	public String avatarURL = "http://imgur.com/nmFX3.jpg";
 	@Email
 	@Required
 	public String email;
@@ -30,11 +32,6 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-
-	/*
-	 * public ImageIcon avatar = new
-	 * ImageIcon("empty-avatar_l.jpg"); public String favoriteLanguages;
-	 */
 
 	public User(String fullname, String email, String password) {
 		this.fullname = fullname;

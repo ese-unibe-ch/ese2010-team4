@@ -56,10 +56,12 @@ public abstract class Post extends Model {
 	}
 
 	public boolean hasVoted(User user) {
-
-		for (User comuser : userVoted) {
-			if (user.email.equals(comuser.email)) {
-				return true;
+		
+		if (userVoted != null) {
+			for (User comuser : userVoted) {
+				if (user.email.equals(comuser.email)) {
+					return true;
+				}
 			}
 		}
 
