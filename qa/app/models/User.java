@@ -18,6 +18,7 @@ public class User extends Model {
 	public String website = ""; 
 	public String work = ""; 
 	public String aboutMe = ""; 
+	public String favoriteLanguages;
 	@Email
 	@Required
 	public String email;
@@ -33,7 +34,7 @@ public class User extends Model {
 
 	/*
 	 * public ImageIcon avatar = new
-	 * ImageIcon("empty-avatar_l.jpg"); public String favoriteLanguages;
+	 * ImageIcon("empty-avatar_l.jpg"); 
 	 */
 
 	public User(String fullname, String email, String password) {

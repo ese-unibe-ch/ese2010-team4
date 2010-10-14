@@ -159,4 +159,9 @@ public class Users extends Controller {
 		answer.save();
 		Application.show(answer.question.id);
 	}
+	
+	public static void setEmail(String email){
+		User user = User.find("byEmail", Security.connected()).first();
+		user.email = email;
+	}
 }
