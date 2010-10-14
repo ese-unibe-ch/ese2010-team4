@@ -1,26 +1,8 @@
 /** Main layout **/
 
 html, body {
-    background: #8FC3FF !important;
+    background: #DDDDDD !important;
     font-family: Helvetica, Arial, Sans !important;
-}
-
-body {
-    width: 700px;
-    padding: 0 30px;
-    margin: auto;
-}
-
-#menu {
-    background: #8FC3FF;
-    width: 100%;
-    padding: 20px 20px 20px 20px;
-    margin: 20px 0;
-    color: #3C4313;
-    position: relative;
-    -webkit-border-radius: 16px;
-    -webkit-box-shadow: 0 2px 0 #93A045;
-    -moz-border-radius: 16px;
 }
 
 /** Links **/
@@ -42,15 +24,7 @@ body {
 /** Questions, Answers **/
 
 .questions {
-	background: #506D8F;
-    width: 100%;
-    padding: 20px 20px 20px 20px;
-    margin: 20px 0;
-    color: #3C4313;
-    position: relative;
-    -webkit-border-radius: 16px;
-    -webkit-box-shadow: 0 2px 0 #93A045;
-    -moz-border-radius: 16px;
+	
 }
 
 .question {
