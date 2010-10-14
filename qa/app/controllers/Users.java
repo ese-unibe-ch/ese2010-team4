@@ -26,8 +26,6 @@ public class Users extends Controller {
 		if (Security.isConnected()) {
 			User user = User.find("byEmail", Security.connected()).first();
 			renderArgs.put("user", user.fullname);
-			
-			
 		}
 	}
 
@@ -111,7 +109,7 @@ public class Users extends Controller {
 			if (vote.equals("Vote up")) {
 				answer.voteUp(user);
 				answer.save();
-				
+
 			}
 
 			else {
@@ -139,52 +137,51 @@ public class Users extends Controller {
 		Post post = Post.findById(id);
 		post.content = content;
 		post.save();
-		if (post.getClass().getName().equals("models.Question"))
-		{
+		if (post.getClass().getName().equals("models.Question")) {
 			Users.myQuestions();
-		}
-		else Users.myAnswers();
+		} else
+			Users.myAnswers();
 	}
-	
-	public static void chooseBestAnswer(Long answerid){
+
+	public static void chooseBestAnswer(Long answerid) {
 		// TODO
-		
+
 		Answer answer = Answer.find("byId", answerid).first();
 		answer.question.setAllAnswersFalse();
 		answer.question.save();
 		answer.best = true;
 		Date date = new Date();
-		answer.question.validity = date.getTime()+10000;
+		answer.question.validity = date.getTime() + 10000;
 		answer.question.save();
 		answer.save();
 		Application.show(answer.question.id);
 	}
-	
-	public static void setWebsite(String website){
+
+	public static void setWebsite(String website) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.website = website;
 		user.save();
-		render("Users/profile.html");	
+		Users.myProfile();
 	}
-	
-	public static void setWork(String work){
+
+	public static void setWork(String work) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.work = work;
 		user.save();
-		render("Users/profile.html");	
+		Users.myProfile();
 	}
-	
-	public static void setPLanguages(String languages){
+
+	public static void setPLanguages(String languages) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.favoriteLanguages = languages;
 		user.save();
-		render("Users/profile.html");	
+		Users.myProfile();
 	}
-	
-	public static void setAboutMe(String aboutMe){
+
+	public static void setAboutMe(String aboutMe) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.aboutMe = aboutMe;
 		user.save();
-		render("Users/profile.html");	
+		Users.myProfile();
 	}
 }
