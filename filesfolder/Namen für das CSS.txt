@@ -1,0 +1,29 @@
+CSS Syntax:
+.link um auf class zugreifen zu können
+#menu um auf id zugreifen zu können
+
+
+Beschreibung:		Name im Code:
+
+Linkmenu		id="menu"
+
+Links			class="link"
+
+User-info		id="user"
+			class="userInfo"
+
+Main			id="main"
+
+Questions		class="questions"		
+			class="question"
+			class="question-metadata"
+			
+Answers			class="answers"
+			class="ânswer-metadata"
+
+Formulars		class="form"
+			id="answerForm"
+			id="questionForm"
+			
+
+			
