@@ -160,8 +160,31 @@ public class Users extends Controller {
 		Application.show(answer.question.id);
 	}
 	
-	public static void setEmail(String email){
+	public static void setWebsite(String website){
 		User user = User.find("byEmail", Security.connected()).first();
-		user.email = email;
+		user.website = website;
+		user.save();
+		render("Users/profile.html");	
+	}
+	
+	public static void setWork(String work){
+		User user = User.find("byEmail", Security.connected()).first();
+		user.work = work;
+		user.save();
+		render("Users/profile.html");	
+	}
+	
+	public static void setPLanguages(String languages){
+		User user = User.find("byEmail", Security.connected()).first();
+		user.favoriteLanguages = languages;
+		user.save();
+		render("Users/profile.html");	
+	}
+	
+	public static void setAboutMe(String aboutMe){
+		User user = User.find("byEmail", Security.connected()).first();
+		user.aboutMe = aboutMe;
+		user.save();
+		render("Users/profile.html");	
 	}
 }

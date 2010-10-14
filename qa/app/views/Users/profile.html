@@ -5,28 +5,66 @@
         	<label for="author">Your fullname: </label>
         	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     	</p>
-    	<p>
-        	<label for="author">Your email: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" />
-    	</p>
-   	 	<p>
-        	<label for="author">Your website: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
-    	</p>
-       	 <p>
-        	<label for="author">Your work: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
-    	</p>	
-    	 <p>
-        	<label for="author">Programming Languages: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
-    	</p>	
+    	
 		<p>
-        	<label for="author">About me: </label>
-        	<br>
-        	<textarea name="aboutMe" id="aboutMe" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}></textarea>
-    	</p>	
+        	<label for="author">Your Email: </label>
+        	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
+    	</p>
 
+#{secure.check 'user'}
+<div class="form" id="userForm">
+#{form @Users.setWebsite()}
+    <p>
+    	#{field 'website'}
+        	<label for="author">Your website: </label>
+        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
+        	<label for="content"></label>
+		#{/field}
+        	<input type="submit" value="Change website" />
+	</p>
+#{/form}
+</div>
+#{/ secure.check}
+
+#{secure.check 'user'}
+<div class="form" id="userForm">
+#{form @Users.setWork()}
+    <p>
+    	#{field 'work'}
+        	<label for="author">Your work: </label>
+        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
+        	<label for="content"></label>
+		#{/field}
+        	<input type="submit" value="Change work" />
+	</p>
+#{/form}
+</div>
+#{/ secure.check}
+
+#{secure.check 'user'}
+<div class="form" id="userForm">
+#{form @Users.setPLanguages()}
+    <p>
+    	#{field 'languages'}
+        	<label for="author">Programming Languages: </label>
+        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
+        	<label for="content"></label>
+		#{/field}
+        	<input type="submit" value="Change programming languages" />
+	</p>
+#{/form}
+</div>
+#{/ secure.check}
+
+<p>
+	<label for="author">About Me: </label>
+		<br>
+			<textarea cols="50" rows="10" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}" readonly </textarea>
+    	</br>
+    	<br>
+    		<input type="submit" value="Change About Me" />
+    	</br>
+</p>
 
 
 
