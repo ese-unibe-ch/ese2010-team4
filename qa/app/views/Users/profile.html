@@ -1,6 +1,9 @@
 #{extends 'main.html' /}
 #{set title:'User Profile' /}
 
+<p>
+	<img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}">
+</p>
     	<p>
         	<label for="author">Your fullname: </label>
         	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
@@ -20,7 +23,9 @@
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
         	<label for="content"></label>
 		#{/field}
-        	<input type="submit" value="Change website" />
+		<br>
+        	<input type="submit" value="Update" />
+        </br>
 	</p>
 #{/form}
 </div>
@@ -35,7 +40,9 @@
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
         	<label for="content"></label>
 		#{/field}
-        	<input type="submit" value="Change work" />
+    	<br>
+        	<input type="submit" value="Update" />
+        </br>
 	</p>
 #{/form}
 </div>
@@ -50,7 +57,9 @@
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
         	<label for="content"></label>
 		#{/field}
-        	<input type="submit" value="Change programming languages" />
+       	<br>
+        	<input type="submit" value="Update" />
+        </br>
 	</p>
 #{/form}
 </div>
@@ -61,15 +70,16 @@
 <div class="form" id="userForm">
 #{form @Users.setAboutMe()}
 <p>
-	#{field 'aboutMe'}
-		<label for="author">About Me: </label>
+	<div>
+		#{field 'aboutMe'}
+		<label for="aboutMe">About Me: </label>
 		<br>
-			<textarea name="${field.name}" email="author" id="user" cols="50" rows="10" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}"</textarea>
-    	</br>
-    #{/field}
-    	<br>
-    		<input type="submit" value="Change About Me" />
-    	</br>
+			<textarea name="${field.name}" cols="50" rows="10">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
+		</br>
+		#{/field}
+	</div>
+
+	<p><input type="submit" value="Update"/></p>
 </p>
 #{/form}
 </div>
