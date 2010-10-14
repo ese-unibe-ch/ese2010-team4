@@ -56,15 +56,24 @@
 </div>
 #{/ secure.check}
 
+
+#{secure.check 'user'}
+<div class="form" id="userForm">
+#{form @Users.setAboutMe()}
 <p>
-	<label for="author">About Me: </label>
+	#{field 'aboutMe'}
+		<label for="author">About Me: </label>
 		<br>
-			<textarea cols="50" rows="10" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}" readonly </textarea>
+			<textarea name="${field.name}" email="author" id="user" cols="50" rows="10" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}"</textarea>
     	</br>
+    #{/field}
     	<br>
     		<input type="submit" value="Change About Me" />
     	</br>
 </p>
+#{/form}
+</div>
+#{/ secure.check}
 
 
 
