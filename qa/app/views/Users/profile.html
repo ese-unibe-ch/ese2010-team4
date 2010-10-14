@@ -1,38 +1,34 @@
 #{extends 'main.html' /}
 #{set title:'User Profile' /}
 
-
-#{secure.check 'user'}
-<div class="form">
-	#{form @Users.createQuestion()}
-		#{ifErrors}
-    	   	<p class="error">
-       	   		All fields are required!
-      	  	</p>
- 	   	#{/ifErrors}
     	<p>
         	<label for="author">Your fullname: </label>
         	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     	</p>
     	<p>
         	<label for="author">Your email: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
+        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" />
     	</p>
    	 	<p>
         	<label for="author">Your website: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" readonly/>
+        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
     	</p>
        	 <p>
         	<label for="author">Your work: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" readonly/>
+        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
     	</p>	
     	 <p>
-        	<label for="author">About me: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}" readonly/>
+        	<label for="author">Programming Languages: </label>
+        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
     	</p>	
-	#{/form}
-</div>
-#{/ secure.check}
+		<p>
+        	<label for="author">About me: </label>
+        	<br>
+        	<textarea name="aboutMe" id="aboutMe" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}></textarea>
+    	</p>	
+
+
+
 
 #{if flash.success}
 	<br>
