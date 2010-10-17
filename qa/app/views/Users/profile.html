@@ -1,9 +1,6 @@
 #{extends 'main.html' /}
 #{set title:'User Profile' /}
 
-<p>
-	<img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}">
-</p>
     	<p>
         	<label for="author">Your fullname: </label>
         	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
