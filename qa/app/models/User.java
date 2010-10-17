@@ -19,7 +19,7 @@ public class User extends Model {
 	public String work = "";
 	public String aboutMe = "";
 	public String favoriteLanguages;
-	public String avatarURL = "http://imgur.com/nmFX3.jpg";
+	public String avatarURL = "http://imgur.com/j2Qvy.jpg";
 	@Email
 	@Required
 	public String email;
