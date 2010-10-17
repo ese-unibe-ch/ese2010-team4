@@ -31,6 +31,9 @@
 <div id="user">
 	<div class="userInfo">User: ${models.User.find("byEmail", controllers.Security.connected()).first().fullname}</div>
 	<div class="userInfo">Mail: ${models.User.find("byEmail", controllers.Security.connected()).first().email}</div>
+	<p>
+	<img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}">
+</p>
 </div>
 #{/secure.check}
 
