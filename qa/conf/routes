@@ -23,6 +23,3 @@ POST    /posts/{postId}/comments                Application.postComment
 # Administration
 GET     /user/?                                Users.index
 *       /user                                  module:crud
-
-# Editing
-POST    /users/showEdit/{id}					Users.editPost

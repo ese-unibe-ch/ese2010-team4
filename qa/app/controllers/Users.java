@@ -173,7 +173,6 @@ public class Users extends Controller {
 	}
 
 	public static void nextEdition(Long id, int index) {
-		Post post = Post.findById(id);
 		if (index > 0) {
 			index--;
 		}
