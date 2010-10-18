@@ -60,6 +60,24 @@ public class Users extends Controller {
 		Users.myQuestions();
 	}
 
+	// DW: layout für write comment
+	public static void writeComment(Long questionid) {
+		render(questionid);
+	}
+
+	public static void createComment(Post post, @Required String contet,
+			Long questionid) {
+		// JW: create comments
+
+		if (validation.hasErrors()) {
+			render("Users/index.html");
+		}
+
+		User user = User.find("byEmail", Security.connected()).first();
+		new Comment(user, post, contet).save();
+		Application.show(questionid, false);
+	}
+
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content) {
 		Question question = Question.findById(questionId);
@@ -71,7 +89,7 @@ public class Users extends Controller {
 		User user = User.find("byFullname", author).first();
 		question.addAnswer(user, content).save();
 		flash.success("Thanks for write the answer %s!", author);
-		Application.show(questionId);
+		Application.show(questionId, false);
 	}
 
 	public static void voteForQuestion(Long questionId, @Required User user,
@@ -95,7 +113,7 @@ public class Users extends Controller {
 			flash.success("Thanks for vote %s!", user.fullname);
 		}
 
-		Application.show(questionId);
+		Application.show(questionId, false);
 
 	}
 
@@ -120,7 +138,7 @@ public class Users extends Controller {
 		}
 
 		flash.success("Thanks for vote %s!", user.fullname);
-		Application.show(questionId);
+		Application.show(questionId, false);
 
 	}
 
@@ -181,7 +199,7 @@ public class Users extends Controller {
 		answer.question.validity = date.getTime() + 10000;
 		answer.question.save();
 		answer.save();
-		Application.show(answer.question.id);
+		Application.show(answer.question.id, false);
 	}
 
 	public static void setWebsite(String website) {
@@ -211,16 +229,4 @@ public class Users extends Controller {
 		user.save();
 		Users.myProfile();
 	}
-
-	public static void createComment(Post post, @Required String contet) {
-		// JW: create comments
-
-		if (validation.hasErrors()) {
-			render("Users/index.html");
-		}
-
-		User user = User.find("byEmail", Security.connected()).first();
-		new Comment(user, post, contet).save();
-	}
-
 }
