@@ -1,6 +1,5 @@
 package controllers;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -22,38 +21,45 @@ public class Application extends Controller {
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
-		
-		if(lastQuestion != null && lastQuestion.answers.size()!= 0){
-			lastAnswer = lastQuestion.answers.get(lastQuestion.answers.size()-1).author.fullname;
+
+		if (lastQuestion != null && lastQuestion.answers.size() != 0) {
+			lastAnswer = lastQuestion.answers
+					.get(lastQuestion.answers.size() - 1).author.fullname;
 		}
-		
+
 		render(lastQuestion, questions, lastAnswer);
 	}
 
 	public static void show(Long id) {
 		Question question = Question.findById(id);
 		long validaty = question.validity;
-		Date actualdate = new Date();		
+		Date actualdate = new Date();
 		long milidate = actualdate.getTime();
 		boolean validdate;
 		boolean abletochoose = false;
-		
-		if(Security.isConnected() && question.author.email.equals(Security.connected())){
+		boolean abletovote = false;
+
+		if (Security.isConnected()
+				&& question.author.email.equals(Security.connected())) {
 			abletochoose = true;
 		}
-		
-		
-		if(validaty!=0 && milidate>validaty){
+
+		User user = User.find("byEmail", Security.connected()).first();
+
+		if (Security.isConnected() && !question.hasVoted(user)
+				&& !question.author.fullname.equals(user.fullname)) {
+			abletovote = true;
+		}
+
+		if (validaty != 0 && milidate > validaty) {
 			validdate = false;
-			render(question, validdate, abletochoose);
-		}
-		else{
+			render(question, validdate, abletochoose, abletovote);
+		} else {
 			validdate = true;
-			render(question, validdate, abletochoose);
-			
+			render(question, validdate, abletochoose, abletovote);
+
 		}
-		
-		
+
 	}
 
 	public static void createUser(String message) {

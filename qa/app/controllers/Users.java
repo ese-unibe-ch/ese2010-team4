@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import models.Answer;
+import models.Comment;
 import models.Post;
 import models.Question;
 import models.User;
@@ -173,7 +174,7 @@ public class Users extends Controller {
 	}
 
 	public static void chooseBestAnswer(Long answerid) {
-		// TODO
+		// JW
 
 		Answer answer = Answer.find("byId", answerid).first();
 		answer.question.setAllAnswersFalse();
@@ -213,4 +214,16 @@ public class Users extends Controller {
 		user.save();
 		Users.myProfile();
 	}
+
+	public static void createComment(Post post, @Required String contet) {
+		// JW: create comments
+
+		if (validation.hasErrors()) {
+			render("Users/index.html");
+		}
+
+		User user = User.find("byEmail", Security.connected()).first();
+		new Comment(user, post, contet).save();
+	}
+
 }

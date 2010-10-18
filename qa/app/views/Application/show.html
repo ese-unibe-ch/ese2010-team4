@@ -22,8 +22,9 @@
         <span class="question-date">${question.timestamp}</span>
         <span class="question-voting"> Voting: ${question.voting}</span>
 			#{secure.check 'user'}       	
-        		      
-         				#{if !question.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !question.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
+        		       
+        		   
+         				#{if abletovote}
          				         	#{form @Users.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
          				         			<select name="vote">
          				         				<option>Vote up</option>
