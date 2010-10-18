@@ -15,22 +15,34 @@ Question(firstQuestion):
     content:        this is a question!
     timestamp:      2009-03-25
     voting:         0
+    title:          hallo
+    answers:
+        
 
 Question(secondQuestion):
     author:         jeff
     content:        another intresting question
     timestamp:      2009-03-25
     voting:         0
+    title:          velo
     
 Question(thirdQuestion):
     author:         jeff
     content:        So we have one more question
     timestamp:      2009-03-25
-    voting:         0
+    voting:         0      
+    title:          velo 2 
     
-Answer(c1):
+Answer(a1):
     author:         jeff
     content:        answer to question.
+    timestamp:      2010-03-25
+    voting:         0
+    question:       firstQuestion
+    
+Answer(a2):
+    author:         bob
+    content:        answer to question number 2.
     timestamp:      2010-03-25
     voting:         0
     question:       firstQuestion

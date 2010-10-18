@@ -15,6 +15,11 @@
         	<input type="text" name="author" id="author" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     	</p>
     	<p>
+    		<label for="title">Title: </label>
+    		<br>
+    		<input type="text" name="title" id="title"/>
+    	</p>
+    	<p>
         	<label for="content">Your question: </label>
         	<br>
         	<textarea name="content" id="content"></textarea>

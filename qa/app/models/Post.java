@@ -34,13 +34,14 @@ public abstract class Post extends Model {
 
 	public Post(User author, String content) {
 
+		this.userVoted = new ArrayList<User>();
+		this.history = new LinkedList<String>();
+		this.history.addFirst(this.content);
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.voting = 0;
-		this.userVoted = new ArrayList<User>();
-		this.history = new LinkedList<String>();
-		this.history.addFirst(this.content);
+
 	}
 
 	public String toString() {

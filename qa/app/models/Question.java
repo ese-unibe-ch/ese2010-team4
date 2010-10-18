@@ -17,13 +17,16 @@ import javax.persistence.OneToMany;
 public class Question extends Post {
 
 	public long validity;
-	
-	@OneToMany(mappedBy="question", cascade = CascadeType.ALL)
+	public String title;
+
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	public List<Answer> answers;
-	
-	public Question(User author, String content) {
+
+	public Question(User author, String title, String content) {
+
 		super(author, content);
 		this.answers = new ArrayList<Answer>();
+		this.title = title;
 
 	}
 
@@ -46,21 +49,21 @@ public class Question extends Post {
 	}
 
 	public boolean hasChoose() {
-		
-		for(Answer answer: answers){
-			if(answer.best){
+
+		for (Answer answer : answers) {
+			if (answer.best) {
 				return true;
 			}
 		}
-		 
+
 		return false;
 	}
 
 	public void setAllAnswersFalse() {
-		for(Answer answer: answers){
+		for (Answer answer : answers) {
 			answer.best = false;
 		}
-		
+
 	}
 
 }

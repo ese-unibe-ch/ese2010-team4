@@ -46,7 +46,7 @@ public class Users extends Controller {
 	}
 
 	public static void createQuestion(@Required String author,
-			@Required String content) {
+			@Required String title, String content) {
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
@@ -54,7 +54,7 @@ public class Users extends Controller {
 
 		User user = User.find("byFullname", author).first();
 
-		Question question = new Question(user, content).save();
+		new Question(user, title, content).save();
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
 	}

@@ -24,7 +24,7 @@ public class BasicTest extends UnitTest {
     	Fixtures.deleteAll();
 	    new User("Muster Hans", "hans@gmail.com", "keyword").save();
 	    hans = User.find("byEmail", "hans@gmail.com").first();
-	    firstQuestion = new Question(hans, "What is hot and shines brightly?").save();
+	    firstQuestion = new Question(hans, "brightliy?", "What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
     }
     
