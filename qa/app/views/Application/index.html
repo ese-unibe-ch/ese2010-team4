@@ -3,8 +3,9 @@
 
 
 #{if lastQuestion}
-    <div class="question">
-    	Newest question:
+<div class="questions">
+		<h4>Newest question:</h4>
+    	<div class="question">
         <div class="question-metadata">
             <span class="question-author">by ${lastQuestion.author.fullname}</span>
             <span class="question-date">${lastQuestion.timestamp}</span>
@@ -19,10 +20,12 @@
         	<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.content.nl2br()}</a>
         </div>
     </div>
+</div>
+    
     
 	#{if questions.size() > 1}
    		<div class="questions">    
-        	<h3>All questions <span class="from">from this KnowledgeBase</span></h3>
+        	<h3>All questions from this KnowledgeBase</h3>
         
          	#{list items:questions, as:'question'}
             	<div class="question">

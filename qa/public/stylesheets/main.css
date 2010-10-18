@@ -12,8 +12,8 @@ body {
 }
 
 #menu {
-    background: #8FC3FF;
-    width: 100%;
+    background: #60A0FF;
+    width: 30%;
     padding: 20px 20px 20px 20px;
     margin: 20px 0;
     color: #3C4313;
@@ -36,13 +36,38 @@ body {
 }
 
 .link:hover {
-	background: #CCCCCC;
+	background: #BBBBFF;
 }
+
+
+
+/** User info **/
+
+div#user {
+	position: absolute;
+	top: 40px;
+	left: 800px;
+	background: #60A0FF;
+	padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+	-webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+	
+}
+
+div#userImg {
+	position: absolute;
+	top: 0px;
+	left: -150px;
+	
+}
+
 
 /** Questions, Answers **/
 
 .questions {
-	background: #506D8F;
+	background: #60A0FF;
     width: 100%;
     padding: 20px 20px 20px 20px;
     margin: 20px 0;
@@ -51,15 +76,21 @@ body {
     -webkit-border-radius: 16px;
     -webkit-box-shadow: 0 2px 0 #93A045;
     -moz-border-radius: 16px;
+    
 }
 
 .question {
 	font-family: Calibri;
+	background: #4080AA;
+	padding: 20px 20px 20px 20px;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
 		
 }
 
 .question:hover {
-	background: #CCCCCC;
+	background: #BBBBFF;
 }
 
 .answers {
@@ -70,6 +101,7 @@ body {
 /** Formulars **/
 
 .form {
+	background: #60A0FF;
 	border: 1px;
 	border-color: black;
 	border-style: solid;
@@ -77,3 +109,5 @@ body {
 	padding: 10px;
 	text-align:justify;
 }
+
+
