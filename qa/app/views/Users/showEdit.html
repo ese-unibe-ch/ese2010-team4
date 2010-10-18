@@ -1,23 +1,48 @@
 #{extends 'main.html' /}
 #{set title:'User administration' /}
 
- To edit: <p>
-        
-
+<div class="editing">
 #{form @Users.editPost(post.id)}
+
 	#{ifErrors}
     	<p class="error">
     		@{Users.myQuestions()}
     	</p>
  	#{/ifErrors}
 
-	<div>
+	<p>
+	<div class="textarea">
 		#{field 'content'}
 		<label for="content"></label>
-			<textarea name="${field.name}" cols="50" rows="10">${post?.content}</textarea>
+			<textarea name="${field.name}" cols="50" rows="10">${post.history.get(editionIndex)}</textarea>
 		#{/field}
 	</div>
+	
+	<p>
+	<table>
+	<tr>
+		<td><input type="submit" value="Edit"/></td>
+	
+		<td>
+		#{form @Users.deletePost(post.id)}
+			<input type="submit" value="Delete"/>
+		#{/form}
+		</td>
 
-	<p><input type="submit" value="Edit"/></p>
-    	
+		<td>
+		#{form @Users.previousEdition(post.id, editionIndex)}
+			<input type="submit" value="<<"/>
+		#{/form}
+		</td>
+		
+		<td>
+		#{form @Users.nextEdition(post.id, editionIndex)}
+			<input type="submit" value=">>"/>
+		#{/form}
+		</td>
+		
+	</table>
+	
 #{/form}
+</div>
+		

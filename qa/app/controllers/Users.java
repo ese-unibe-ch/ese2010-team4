@@ -128,19 +128,48 @@ public class Users extends Controller {
 		render("Users/profile.html");
 	}
 
-	public static void showEdit(Long questionId) {
+	public static void showEdit(Long questionId, int editionIndex) {
 		Post post = Post.findById(questionId);
-		render(post);
+		render(post, editionIndex);
 	}
 
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
 		post.content = content;
+		post.history.addFirst(content);
 		post.save();
 		if (post.getClass().getName().equals("models.Question")) {
 			Users.myQuestions();
 		} else
 			Users.myAnswers();
+	}
+
+	public static void deletePost(Long id) {
+		Post post = Post.findById(id);
+		post.delete();
+
+		if (post.getClass().getName().equals("models.Question")) {
+			Users.myQuestions();
+		} else
+			Users.myAnswers();
+	}
+
+	public static void nextEdition(Long id, int index) {
+		Post post = Post.findById(id);
+
+		if (index > 0) {
+			index--;
+		}
+		Users.showEdit(id, index);
+	}
+
+	public static void previousEdition(Long id, int index) {
+		Post post = Post.findById(id);
+
+		if (index < post.history.size() - 1) {
+			index++;
+		}
+		Users.showEdit(id, index);
 	}
 
 	public static void chooseBestAnswer(Long answerid) {

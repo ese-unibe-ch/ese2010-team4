@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -28,7 +29,8 @@ public abstract class Post extends Model {
 	public User author;
 
 	public ArrayList<User> userVoted;
-	
+
+	public LinkedList<String> history;
 
 	public Post(User author, String content) {
 
@@ -37,6 +39,8 @@ public abstract class Post extends Model {
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.voting = 0;
 		this.userVoted = new ArrayList<User>();
+		this.history = new LinkedList<String>();
+		this.history.addFirst(this.content);
 	}
 
 	public String toString() {
@@ -56,7 +60,7 @@ public abstract class Post extends Model {
 	}
 
 	public boolean hasVoted(User user) {
-		
+
 		if (userVoted != null) {
 			for (User comuser : userVoted) {
 				if (user.email.equals(comuser.email)) {
