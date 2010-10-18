@@ -3,10 +3,13 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
@@ -27,6 +30,9 @@ public abstract class Post extends Model {
 	@Required
 	@ManyToOne
 	public User author;
+
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	public List<Comment> comments;
 
 	public ArrayList<User> userVoted;
 
