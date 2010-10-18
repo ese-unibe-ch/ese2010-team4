@@ -147,7 +147,6 @@ public class Users extends Controller {
 	public static void deletePost(Long id) {
 		Post post = Post.findById(id);
 		post.delete();
-
 		if (post.getClass().getName().equals("models.Question")) {
 			Users.myQuestions();
 		} else
@@ -156,7 +155,6 @@ public class Users extends Controller {
 
 	public static void nextEdition(Long id, int index) {
 		Post post = Post.findById(id);
-
 		if (index > 0) {
 			index--;
 		}
@@ -165,7 +163,6 @@ public class Users extends Controller {
 
 	public static void previousEdition(Long id, int index) {
 		Post post = Post.findById(id);
-
 		if (index < post.history.size() - 1) {
 			index++;
 		}

@@ -42,7 +42,7 @@ public abstract class Post extends Model {
 
 		this.userVoted = new ArrayList<User>();
 		this.history = new LinkedList<String>();
-		this.history.addFirst(this.content);
+		this.history.addFirst(content);
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
