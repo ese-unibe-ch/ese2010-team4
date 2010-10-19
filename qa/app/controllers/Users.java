@@ -97,15 +97,15 @@ public class Users extends Controller {
 		Application.show(questionId);
 	}
 
-	public static void voteForQuestion(Long questionId, @Required User user,
-			String vote) {
+	public static void voteForQuestion(Long questionId, boolean vote) {
 
+		User user = User.find("byEmail", Security.connected()).first();
 		Question question = Question.findById(questionId);
 
 		if (!question.hasVoted(user)
 				&& !question.author.email.equals(user.email)) {
 
-			if (vote.equals("Vote up")) {
+			if (vote) {
 				question.voteUp(user);
 				question.save();
 			}

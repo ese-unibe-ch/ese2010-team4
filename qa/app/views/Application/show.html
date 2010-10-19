@@ -23,14 +23,11 @@
         <span class="question-voting"> Voting: ${question.voting}</span>
 			#{secure.check 'user'}    
 				#{if abletovote}
-         				         	#{form @Users.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
-         				         			<select name="vote">
-         				         				<option>Vote up</option>
-         										<option>Vote down</option>
-        			 						</select>
-        			 					<input type="submit" name="vote" value="vote">
-        			 				#{/form}
-        			 	#{/if}
+				
+				<br>
+				Vote: <a href="@{Users.voteForQuestion(question.id, true)}">+</a> / <a href="@{Users.voteForQuestion(question.id, false)}">-</a>
+				<br>	
+        		#{/if}
 			#{/secure.check}
 		<a href="@{Users.writeComment(question.id, question.id)}">write comment</a>
     </div>
