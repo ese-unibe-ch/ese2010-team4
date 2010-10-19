@@ -13,9 +13,9 @@ import play.data.validation.Required;
  */
 @Entity
 public class Answer extends Post {
-	
+
 	public boolean best = false;
-	
+
 	@Required
 	@ManyToOne
 	public Question question;

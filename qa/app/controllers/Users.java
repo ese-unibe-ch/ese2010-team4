@@ -60,15 +60,15 @@ public class Users extends Controller {
 		Users.myQuestions();
 	}
 
-
 	public static void writeComment(Long id, Long questionid) {
-		
+
 		Post post = Post.find("byId", id).first();
-		
+
 		render(post, questionid);
 	}
 
-	public static void createComment(Long postid, Long questionid, @Required String author, @Required String content) {
+	public static void createComment(Long postid, Long questionid,
+			@Required String author, @Required String content) {
 		// JW: create comments
 
 		if (validation.hasErrors()) {
@@ -77,10 +77,9 @@ public class Users extends Controller {
 
 		User user = User.find("byEmail", Security.connected()).first();
 		Post post = Post.find("byId", postid).first();
-		
+
 		new Comment(user, post, content).save();
-		
-		
+
 		Application.show(questionid);
 	}
 
@@ -205,6 +204,18 @@ public class Users extends Controller {
 		answer.question.save();
 		answer.save();
 		Application.show(answer.question.id);
+	}
+
+	public static void changeProfile(String website, String work,
+			String languages, String aboutMe) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.website = website;
+		user.work = work;
+		user.favoriteLanguages = languages;
+		user.aboutMe = aboutMe;
+		// user.avatarURL = avatarURL;
+		user.save();
+		Users.myProfile();
 	}
 
 	public static void setWebsite(String website) {

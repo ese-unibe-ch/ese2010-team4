@@ -13,77 +13,49 @@
 
 #{secure.check 'user'}
 <div class="form" id="userForm">
-#{form @Users.setWebsite()}
+#{form @Users.changeProfile()}
     <p>
     	#{field 'website'}
         	<label for="author">Your website: </label>
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
         	<label for="content"></label>
 		#{/field}
-		<br>
-        	<input type="submit" value="Update" />
-        </br>
 	</p>
-#{/form}
-</div>
-#{/ secure.check}
-
-#{secure.check 'user'}
-<div class="form" id="userForm">
-#{form @Users.setWork()}
     <p>
     	#{field 'work'}
         	<label for="author">Your work: </label>
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
         	<label for="content"></label>
 		#{/field}
-    	<br>
-        	<input type="submit" value="Update" />
-        </br>
 	</p>
-#{/form}
-</div>
-#{/ secure.check}
-
-#{secure.check 'user'}
-<div class="form" id="userForm">
-#{form @Users.setPLanguages()}
-    <p>
+	<p>
     	#{field 'languages'}
         	<label for="author">Programming Languages: </label>
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
         	<label for="content"></label>
 		#{/field}
-       	<br>
-        	<input type="submit" value="Update" />
-        </br>
 	</p>
-#{/form}
-</div>
-#{/ secure.check}
-
-
-#{secure.check 'user'}
-<div class="form" id="userForm">
-#{form @Users.setAboutMe()}
-<p>
-	<div>
+	<p>
 		#{field 'aboutMe'}
 		<label for="aboutMe">About Me: </label>
 		<br>
 			<textarea name="${field.name}" cols="50" rows="10">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
 		</br>
 		#{/field}
-	</div>
-
+	</p>
+    <p>
+    	#{field 'avatarURL'}
+        	<label for="author">Your work: </label>
+        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" />
+        	<label for="content"></label>
+		#{/field}
+	</p>		
+			
 	<p><input type="submit" value="Update"/></p>
-</p>
+
 #{/form}
 </div>
 #{/ secure.check}
-
-
-
 #{if flash.success}
 	<br>
     <p class="success">${flash.success}</p>
