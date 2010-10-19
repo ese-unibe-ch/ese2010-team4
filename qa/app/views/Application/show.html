@@ -80,13 +80,10 @@
         	#{secure.check 'user'}       	
         		      
          				#{if !answer.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !answer.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
-         				         	#{form @Users.voteForAnswer(question.id, answer.id, models.User.find("byEmail", controllers.Security.connected()).first())}
-         				         			<select name="vote">
-         				         				<option>Vote up</option>
-         										<option>Vote down</option>
-        			 						</select>
-        			 					<input type="submit" name="vote" value="vote">
-        			 				#{/form}
+         				         	
+         						<br>
+								Vote: <a href="@{Users.voteForAnswer(question.id, answer.id, true)}">+</a> / <a href="@{Users.voteForAnswer(question.id, answer.id, false)}">-</a>
+								<br>	
         			 	#{/if}
         			 	
         			 	<a href="@{Users.writeComment(answer.id, question.id)}">write comment</a>

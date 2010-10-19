@@ -123,14 +123,15 @@ public class Users extends Controller {
 	}
 
 	public static void voteForAnswer(Long questionId, Long answerId,
-			@Required User user, String vote) {
+			boolean vote) {
 
+		User user = User.find("byEmail", Security.connected()).first();
 		Answer answer = Answer.find("byId", answerId).first();
 		Question question = Question.find("byId", questionId).first();
 
 		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
 			System.out.println("geht durch");
-			if (vote.equals("Vote up")) {
+			if (vote) {
 				answer.voteUp(user);
 				answer.save();
 
