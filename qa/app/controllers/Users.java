@@ -206,6 +206,7 @@ public class Users extends Controller {
 		Application.show(answer.question.id);
 	}
 
+	// DR
 	public static void changeProfile(String website, String work,
 			String languages, String aboutMe, String avatarURL) {
 		User user = User.find("byEmail", Security.connected()).first();

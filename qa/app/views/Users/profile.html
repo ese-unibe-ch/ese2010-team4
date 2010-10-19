@@ -2,12 +2,12 @@
 #{set title:'User Profile' /}
 
     	<p>
-        	<label for="author">Your fullname: </label>
+        	<label for="author">Fullname: </label>
         	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     	</p>
     	
 		<p>
-        	<label for="author">Your Email: </label>
+        	<label for="author">Email: </label>
         	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
     	</p>
 
@@ -16,14 +16,14 @@
 #{form @Users.changeProfile()}
     <p>
     	#{field 'website'}
-        	<label for="author">Your website: </label>
+        	<label for="author">Website: </label>
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
         	<label for="content"></label>
 		#{/field}
 	</p>
     <p>
     	#{field 'work'}
-        	<label for="author">Your work: </label>
+        	<label for="author">Work: </label>
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
         	<label for="content"></label>
 		#{/field}
