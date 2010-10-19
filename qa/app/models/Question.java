@@ -23,11 +23,9 @@ public class Question extends Post {
 	public List<Answer> answers;
 
 	public Question(User author, String title, String content) {
-
 		super(author, content);
 		this.answers = new ArrayList<Answer>();
 		this.title = title;
-
 	}
 
 	public Question addAnswer(User author, String content) {
@@ -48,14 +46,12 @@ public class Question extends Post {
 				.first();
 	}
 
-	public boolean hasChoose() {
-
+	public boolean hasChosen() {
 		for (Answer answer : answers) {
 			if (answer.best) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 

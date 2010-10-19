@@ -68,7 +68,6 @@ public abstract class Post extends Model {
 	}
 
 	public boolean hasVoted(User user) {
-
 		if (userVoted != null) {
 			for (User comuser : userVoted) {
 				if (user.email.equals(comuser.email)) {
@@ -76,7 +75,6 @@ public abstract class Post extends Model {
 				}
 			}
 		}
-
 		return false;
 	}
 

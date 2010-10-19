@@ -76,11 +76,11 @@ public class Application extends Controller {
 
 		if (!password.equals(password2)) {
 			message = "the password's aren't the same";
-
 		}
+		// message = checkPasswords(password, password2);
 
-		else if (fullname.isEmpty() || email.isEmpty() || password.isEmpty()) {
-			message = "you fogot one or more gap's";
+		if (fullname.isEmpty() || email.isEmpty() || password.isEmpty()) {
+			message = "you forgot one or more gap's";
 
 		}
 
@@ -97,4 +97,10 @@ public class Application extends Controller {
 		createUser(message);
 	}
 
+	/*
+	 * private static String checkPasswords(String password, String password2) {
+	 * if (!password.equals(password2)) { return
+	 * "the password's aren't the same"; } if (password.length() >= 6) { return
+	 * "Password should be longer than 6 signs."; } return ""; }
+	 */
 }
