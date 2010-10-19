@@ -1,0 +1,117 @@
+/** Main layout **/
+
+html, body {
+    background: #8FC3FF !important;
+    font-family: Helvetica, Arial, Sans !important;
+}
+
+body {
+    width: 700px;
+    padding: 0 30px;
+    margin: auto;
+}
+
+#menu {
+    background: #60A0FF;
+    display: block;
+    width: 68%;
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: #3C4313;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+}
+
+/** Links **/
+
+.link {
+	display: inline;
+	font-size: 15px;
+	border: 1px;
+	border-color: black;
+	border-style: solid;
+	margin: 3px;
+	padding: 2px;
+	text-align:justify;
+}
+
+.link:hover {
+	background: #BBBBFF;
+}
+
+
+
+/** User info **/
+
+div#user {
+	position: absolute;
+	top: 0px;
+	left: 860px;
+	background: #60A0FF;
+	padding: 10px 10px 10px 10px;
+    margin: 20px 0;
+	-webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+	
+}
+
+div#userImg {
+	position: absolute;
+	top: 0px;
+	left: 50px;
+	
+}
+
+
+/** Questions, Answers **/
+
+.questions {
+	background: #60A0FF;
+    width: 100%;
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: #3C4313;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+    
+}
+
+.question {
+	font-family: Calibri;
+	background: #4080AA;
+	padding: 20px 20px 20px 20px;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+		
+}
+
+.question:hover {
+	background: #BBBBFF;
+}
+
+.answers {
+	font-family: Calibri;
+}
+
+
+/** Formulars **/
+
+.form {
+	background: #60A0FF;
+	text-align:justify;
+	padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: black;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+}
+
+
