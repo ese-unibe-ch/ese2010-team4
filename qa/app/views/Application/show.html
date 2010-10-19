@@ -32,11 +32,32 @@
         			 				#{/form}
         			 	#{/if}
 			#{/secure.check}
+		<a href="@{Users.writeComment(question.id, question.id)}">write comment</a>
     </div>
     <div class="question-content">
     	<br>
     	${question.content.nl2br()}
     </div>
+    
+        #{if question.comments.size()>0}
+    	<br>
+    	Comments to this question:
+    	
+    	#{list items: question.comments, as:'comment'}
+    	<div class="comments">
+    				<p>
+   			<div class="answer-metadata">
+        		<span class="comment-author">by ${question.author.fullname},</span>
+        		<span class="comment-date">${question.timestamp}</span>
+        	</div>
+        </div>
+        <div class="answer-content">
+         	${comment.content.escape().nl2br()}
+    	</div>
+    	#{/list}
+    	#{/if}
+    
+    
 </div>
 <br>
 <div>
@@ -71,11 +92,8 @@
         			 				#{/form}
         			 	#{/if}
         			 	
-        			 	#{if !writecomment}
-        			 	#{form @Users.writeComment(answer.id, question.id)}
-        			 		<input type="submit" name="wirte comment" value="wirte comment">
-        			 	#{/form}
-        			 	#{/if}
+        			 	<a href="@{Users.writeComment(answer.id, question.id)}">write comment</a>
+
         			 	
         			 	#{if validdate && abletochoose}
         			 	<a href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
