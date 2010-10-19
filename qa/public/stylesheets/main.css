@@ -1,26 +1,26 @@
 /** Main layout **/
 
 html, body {
-    	background: #8FC3FF !important;
-    	font-family: Helvetica, Arial, Sans !important;
+    background: #8FC3FF !important;
+    font-family: Helvetica, Arial, Sans !important;
 }
 
 body {
-    	width: 700px;
-    	padding: 0 30px;
-    	margin: auto;
+    width: 700px;
+    padding: 0 30px;
+    margin: auto;
 }
 
 #menu {
-    	background: #60A0FF;
-    	width: 30%;
-    	padding: 20px 20px 20px 20px;
-    	margin: 20px 0;
-    	color: #3C4313;
-    	position: relative;
-    	-webkit-border-radius: 16px;
-    	-webkit-box-shadow: 0 2px 0 #93A045;
-    	-moz-border-radius: 16px;
+    background: #60A0FF;
+    width: 30%;
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: #3C4313;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
 }
 
 /** Links **/
@@ -44,14 +44,22 @@ body {
 /** User info **/
 
 div#user {
-	position: relative;
-	float: right;
 	background: #60A0FF;
+	position: absolute;
+	top: 40px;
+	left: 800px;
 	padding: 20px 20px 20px 20px;
-   	margin: 20px 0;
+    margin: 20px 0;
 	-webkit-border-radius: 16px;
-    	-webkit-box-shadow: 0 2px 0 #93A045;
-    	-moz-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+	
+}
+
+div#userImg {
+	position: absolute;
+	top: 0px;
+	left: -150px;
 	
 }
 
@@ -60,24 +68,24 @@ div#user {
 
 .questions {
 	background: #60A0FF;
-    	width: 100%;
-    	padding: 20px 20px 20px 20px;
-    	margin: 20px 0;
-    	color: #3C4313;
-    	position: relative;
-    	-webkit-border-radius: 16px;
-    	-webkit-box-shadow: 0 2px 0 #93A045;
-    	-moz-border-radius: 16px;
+    width: 100%;
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: #3C4313;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
     
 }
 
 .question {
-	font-family: Calibri;
 	background: #4080AA;
+	font-family: Calibri;
 	padding: 20px 20px 20px 20px;
-    	-webkit-border-radius: 16px;
-    	-webkit-box-shadow: 0 2px 0 #93A045;
-    	-moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
 		
 }
 
