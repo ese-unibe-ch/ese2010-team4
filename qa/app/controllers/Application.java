@@ -30,7 +30,7 @@ public class Application extends Controller {
 		render(lastQuestion, questions, lastAnswer);
 	}
 
-	public static void show(Long id, boolean writecomment) {
+	public static void show(Long id) {
 		Question question = Question.findById(id);
 		long validaty = question.validity;
 		Date actualdate = new Date();
@@ -53,10 +53,10 @@ public class Application extends Controller {
 
 		if (validaty != 0 && milidate > validaty) {
 			validdate = false;
-			render(question, validdate, abletochoose, abletovote, writecomment);
+			render(question, validdate, abletochoose, abletovote);
 		} else {
 			validdate = true;
-			render(question, validdate, abletochoose, abletovote, writecomment);
+			render(question, validdate, abletochoose, abletovote);
 
 		}
 

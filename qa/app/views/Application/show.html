@@ -72,7 +72,7 @@
         			 	#{/if}
         			 	
         			 	#{if !writecomment}
-        			 	#{form @Application.show(question.id, true)}
+        			 	#{form @Users.writeComment(answer.id, question.id)}
         			 		<input type="submit" name="wirte comment" value="wirte comment">
         			 	#{/form}
         			 	#{/if}
@@ -94,6 +94,23 @@
    		<div class="answer-content">
          	${answer.content.escape().nl2br()}
     	</div>
+    	
+    	#{if answer.comments.size()>0}
+    	<br>
+    	Comments to this answer:
+    	#{/if}
+    	#{list items: answer.comments, as:'comment'}
+    	<div class="comments">
+    				<p>
+   			<div class="answer-metadata">
+        		<span class="comment-author">by ${answer.author.fullname},</span>
+        		<span class="comment-date">${answer.timestamp}</span>
+        	</div>
+        </div>
+        <div class="answer-content">
+         	${comment.content.escape().nl2br()}
+    	</div>
+    	#{/list}
     	</p>
 	</div>
 	#{/list}

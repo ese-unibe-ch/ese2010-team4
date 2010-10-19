@@ -42,6 +42,7 @@ public abstract class Post extends Model {
 
 		this.userVoted = new ArrayList<User>();
 		this.history = new LinkedList<String>();
+		this.comments = new ArrayList<Comment>();
 		this.history.addFirst(content);
 		this.author = author;
 		this.content = content;

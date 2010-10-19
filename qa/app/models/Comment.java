@@ -12,5 +12,6 @@ public class Comment extends Post {
 	public Comment(User author, Post post, String content) {
 		super(author, content);
 		this.post = post;
+		post.comments.add(this);
 	}
 }
