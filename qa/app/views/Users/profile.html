@@ -45,7 +45,7 @@
 	</p>
     <p>
     	#{field 'avatarURL'}
-        	<label for="author">Your work: </label>
+        	<label for="author">Avatar URL: </label>
         	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" />
         	<label for="content"></label>
 		#{/field}

@@ -207,41 +207,13 @@ public class Users extends Controller {
 	}
 
 	public static void changeProfile(String website, String work,
-			String languages, String aboutMe) {
+			String languages, String aboutMe, String avatarURL) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.website = website;
 		user.work = work;
 		user.favoriteLanguages = languages;
 		user.aboutMe = aboutMe;
-		// user.avatarURL = avatarURL;
-		user.save();
-		Users.myProfile();
-	}
-
-	public static void setWebsite(String website) {
-		User user = User.find("byEmail", Security.connected()).first();
-		user.website = website;
-		user.save();
-		Users.myProfile();
-	}
-
-	public static void setWork(String work) {
-		User user = User.find("byEmail", Security.connected()).first();
-		user.work = work;
-		user.save();
-		Users.myProfile();
-	}
-
-	public static void setPLanguages(String languages) {
-		User user = User.find("byEmail", Security.connected()).first();
-		user.favoriteLanguages = languages;
-		user.save();
-		Users.myProfile();
-	}
-
-	public static void setAboutMe(String aboutMe) {
-		User user = User.find("byEmail", Security.connected()).first();
-		user.aboutMe = aboutMe;
+		user.avatarURL = avatarURL;
 		user.save();
 		Users.myProfile();
 	}
