@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import models.Question;
@@ -31,20 +30,46 @@ public class Application extends Controller {
 	}
 
 	public static void show(Long id) {
-		Question question = Question.findById(id);
-		long validaty = question.validity;
-		Date actualdate = new Date();
-		long milidate = actualdate.getTime();
-		boolean validdate;
+	
+		
+		
+		
+		
+		Question question = Question.find("byId", id).first();
+		
 		boolean abletochoose = false;
 		boolean abletovote = false;
-
-		if (Security.isConnected()
+		boolean isvalid = false;
+		
+		if(!Security.isConnected()){
+			
+			render(question, isvalid, abletochoose, abletovote);
+			
+		}
+		
+		else{
+			
+			
+			User user = User.find("byEmail", Security.connected()).first();
+			
+			abletochoose = user.isAbleToChoose(id);
+			abletovote = user.isAbleToVote(id);
+			isvalid	= user.hasTimeToChange(id);
+			
+			System.out.println();
+			System.out.println(abletochoose);
+			System.out.println(abletovote);
+			System.out.println(isvalid);
+			
+			render(question, isvalid, abletochoose, abletovote);
+		}
+		
+		/**if (Security.isConnected()
 				&& question.author.email.equals(Security.connected())) {
 			abletochoose = true;
 		}
 
-		User user = User.find("byEmail", Security.connected()).first();
+		
 
 		if (Security.isConnected() && !question.hasVoted(user)
 				&& !question.author.fullname.equals(user.fullname)) {
@@ -58,7 +83,7 @@ public class Application extends Controller {
 			validdate = true;
 			render(question, validdate, abletochoose, abletovote);
 
-		}
+		}**/
 
 	}
 

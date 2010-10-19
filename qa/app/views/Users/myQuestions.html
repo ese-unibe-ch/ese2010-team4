@@ -16,8 +16,14 @@
                     </div>
                     <div class="question-content">
         				<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
-        			</div>
-        			<a href="@{Users.showEdit(question.id, 0)}">[edit]</a>
+        			</div>       			
+        			#{if question.author.hasTimeToChange(question.id)}
+        					<a href="@{Users.showEdit(question.id, 0)}">[edit]</a>
+        			#{/if}
+        			#{if !question.author.hasTimeToChange(question.id)}
+        				The question is closed! No more changes possibel.
+        			#{/if}
+        
                  </div>
             </div>
             <br>

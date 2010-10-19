@@ -37,12 +37,50 @@ public class Users extends Controller {
 	public static void myQuestions() {
 		User user = User.find("byEmail", Security.connected()).first();
 		List<Question> questions = Question.find("byAuthor", user).fetch();
+		// needed for checking close question
 		render(questions);
+	}
+	
+	
+	public static void showEdit(Long questionId, int editionIndex) {
+
+		Post post = Post.findById(questionId);
+		User user = post.author;
+		
+		
+		if(post instanceof Question){
+			if(user.hasTimeToChange(questionId)){
+				render(post, editionIndex);
+			}
+			
+			else{
+				
+				myQuestions();
+			}			
+		}
+		
+		else if(post instanceof Answer){
+			
+			Long id = ((Answer) post).question.id;
+			
+			if(user.hasTimeToChange(id)){
+				render(post, editionIndex);				
+			}
+			
+			else{
+				myAnswers();
+			}	
+		}
+		
+	
+		
+	
 	}
 
 	public static void myAnswers() {
 		User user = User.find("byEmail", Security.connected()).first();
-		List<Answer> answers = Answer.find("byAuthor", user).fetch();
+		List<Answer> answers = Answer.find("byAuthor", user).fetch();		
+
 		render(answers);
 	}
 
@@ -69,7 +107,6 @@ public class Users extends Controller {
 
 	public static void createComment(Long postid, Long questionid,
 			@Required String author, @Required String content) {
-		// JW: create comments
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
@@ -127,7 +164,7 @@ public class Users extends Controller {
 
 		User user = User.find("byEmail", Security.connected()).first();
 		Answer answer = Answer.find("byId", answerId).first();
-		Question question = Question.find("byId", questionId).first();
+		
 
 		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
 			System.out.println("geht durch");
@@ -152,10 +189,7 @@ public class Users extends Controller {
 		render("Users/profile.html");
 	}
 
-	public static void showEdit(Long questionId, int editionIndex) {
-		Post post = Post.findById(questionId);
-		render(post, editionIndex);
-	}
+
 
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
@@ -193,7 +227,6 @@ public class Users extends Controller {
 	}
 
 	public static void chooseBestAnswer(Long answerid) {
-		// JW
 
 		Answer answer = Answer.find("byId", answerid).first();
 		answer.question.setAllAnswersFalse();
