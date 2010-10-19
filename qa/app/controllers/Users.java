@@ -148,7 +148,6 @@ public class Users extends Controller {
 	}
 
 	public static void myProfile() {
-		// TODO
 		render("Users/profile.html");
 	}
 
@@ -218,4 +217,11 @@ public class Users extends Controller {
 		user.save();
 		Users.myProfile();
 	}
+
+	public static List recentPosts() {
+		User user = User.find("byEmail", Security.connected()).first();
+		List<Post> posts = Post.find("byAuthor", user).fetch();
+		return posts;
+	}
+
 }
