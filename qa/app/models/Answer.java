@@ -8,8 +8,6 @@ import play.data.validation.Required;
 /**
  * A answer with content, timestamp, owner and voting.
  * 
- * @author dwettstein
- * 
  */
 @Entity
 public class Answer extends Post {

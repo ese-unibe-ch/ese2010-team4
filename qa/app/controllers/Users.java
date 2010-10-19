@@ -16,8 +16,6 @@ import play.mvc.With;
 /**
  * A controller for the administration.
  * 
- * @author dwettstein
- * 
  */
 @With(Secure.class)
 public class Users extends Controller {
@@ -30,10 +28,16 @@ public class Users extends Controller {
 		}
 	}
 
+	/**
+	 * Index.
+	 */
 	public static void index() {
 		render();
 	}
 
+	/**
+	 * My questions.
+	 */
 	public static void myQuestions() {
 		User user = User.find("byEmail", Security.connected()).first();
 		List<Question> questions = Question.find("byAuthor", user).fetch();
@@ -42,6 +46,12 @@ public class Users extends Controller {
 	}
 	
 	
+	/**
+	 * Show edit.
+	 *
+	 * @param questionId the question id
+	 * @param editionIndex the edition index
+	 */
 	public static void showEdit(Long questionId, int editionIndex) {
 
 		Post post = Post.findById(questionId);
@@ -71,12 +81,11 @@ public class Users extends Controller {
 				myAnswers();
 			}	
 		}
-		
-	
-		
-	
 	}
 
+	/**
+	 * My answers.
+	 */
 	public static void myAnswers() {
 		User user = User.find("byEmail", Security.connected()).first();
 		List<Answer> answers = Answer.find("byAuthor", user).fetch();		
@@ -84,6 +93,13 @@ public class Users extends Controller {
 		render(answers);
 	}
 
+	/**
+	 * Creates the question.
+	 *
+	 * @param author the author
+	 * @param title the title
+	 * @param content the content
+	 */
 	public static void createQuestion(@Required String author,
 			@Required String title, String content) {
 
@@ -98,6 +114,12 @@ public class Users extends Controller {
 		Users.myQuestions();
 	}
 
+	/**
+	 * Write comment.
+	 *
+	 * @param id the id
+	 * @param questionid the questionid
+	 */
 	public static void writeComment(Long id, Long questionid) {
 
 		Post post = Post.find("byId", id).first();
@@ -105,6 +127,14 @@ public class Users extends Controller {
 		render(post, questionid);
 	}
 
+	/**
+	 * Creates the comment.
+	 *
+	 * @param postid the postid
+	 * @param questionid the questionid
+	 * @param author the author
+	 * @param content the content
+	 */
 	public static void createComment(Long postid, Long questionid,
 			@Required String author, @Required String content) {
 
@@ -120,6 +150,13 @@ public class Users extends Controller {
 		Application.show(questionid);
 	}
 
+	/**
+	 * Answer question.
+	 *
+	 * @param questionId the question id
+	 * @param author the author
+	 * @param content the content
+	 */
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content) {
 		Question question = Question.findById(questionId);
@@ -134,6 +171,12 @@ public class Users extends Controller {
 		Application.show(questionId);
 	}
 
+	/**
+	 * Vote for question.
+	 *
+	 * @param questionId the question id
+	 * @param vote the vote
+	 */
 	public static void voteForQuestion(Long questionId, boolean vote) {
 
 		User user = User.find("byEmail", Security.connected()).first();
@@ -159,6 +202,13 @@ public class Users extends Controller {
 
 	}
 
+	/**
+	 * Vote for answer.
+	 *
+	 * @param questionId the question id
+	 * @param answerId the answer id
+	 * @param vote the vote
+	 */
 	public static void voteForAnswer(Long questionId, Long answerId,
 			boolean vote) {
 
@@ -185,12 +235,21 @@ public class Users extends Controller {
 
 	}
 
+	/**
+	 * My profile.
+	 */
 	public static void myProfile() {
 		render("Users/profile.html");
 	}
 
 
 
+	/**
+	 * Edits the post.
+	 *
+	 * @param id the id
+	 * @param content the content
+	 */
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
 		post.content = content;
@@ -202,6 +261,11 @@ public class Users extends Controller {
 			Users.myAnswers();
 	}
 
+	/**
+	 * Delete post.
+	 *
+	 * @param id the id
+	 */
 	public static void deletePost(Long id) {
 		Post post = Post.findById(id);
 		post.delete();
@@ -211,6 +275,12 @@ public class Users extends Controller {
 			Users.myAnswers();
 	}
 
+	/**
+	 * Next edition.
+	 *
+	 * @param id the id
+	 * @param index the index
+	 */
 	public static void nextEdition(Long id, int index) {
 		if (index > 0) {
 			index--;
@@ -226,6 +296,11 @@ public class Users extends Controller {
 		Users.showEdit(id, index);
 	}
 
+	/**
+	 * Choose best answer.
+	 *
+	 * @param answerid the answerid
+	 */
 	public static void chooseBestAnswer(Long answerid) {
 
 		Answer answer = Answer.find("byId", answerid).first();
@@ -240,6 +315,15 @@ public class Users extends Controller {
 	}
 
 	// DR
+	/**
+	 * Change profile.
+	 *
+	 * @param website the website
+	 * @param work the work
+	 * @param languages the languages
+	 * @param aboutMe the about me
+	 * @param avatarURL the avatar url
+	 */
 	public static void changeProfile(String website, String work,
 			String languages, String aboutMe, String avatarURL) {
 		User user = User.find("byEmail", Security.connected()).first();
@@ -252,6 +336,11 @@ public class Users extends Controller {
 		Users.myProfile();
 	}
 
+	/**
+	 * Recent posts.
+	 *
+	 * @return the list
+	 */
 	public static List recentPosts() {
 		User user = User.find("byEmail", Security.connected()).first();
 		List<Post> posts = Post.find("byAuthor", user).fetch();

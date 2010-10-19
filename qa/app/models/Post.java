@@ -15,6 +15,9 @@ import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
+/**
+ * The Class Post.
+ */
 @Entity
 public abstract class Post extends Model {
 

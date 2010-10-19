@@ -10,8 +10,6 @@ import javax.persistence.OneToMany;
 /**
  * A question with content, timestamp, owner and voting.
  * 
- * @author dwettstein
- * 
  */
 @Entity
 public class Question extends Post {

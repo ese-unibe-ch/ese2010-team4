@@ -9,11 +9,12 @@ import play.mvc.Controller;
 /**
  * A controller for the index.
  * 
- * @author dwettstein
- * 
  */
 public class Application extends Controller {
 
+	/**
+	 * Index.
+	 */
 	public static void index() {
 		Question lastQuestion = Question.find("order by timestamp desc")
 				.first();
@@ -29,11 +30,12 @@ public class Application extends Controller {
 		render(lastQuestion, questions, lastAnswer);
 	}
 
+	/**
+	 * Show.
+	 *
+	 * @param id the id
+	 */
 	public static void show(Long id) {
-	
-		
-		
-		
 		
 		Question question = Question.find("byId", id).first();
 		
@@ -44,12 +46,9 @@ public class Application extends Controller {
 		if(!Security.isConnected()){
 			
 			render(question, isvalid, abletochoose, abletovote);
-			
 		}
 		
 		else{
-			
-			
 			User user = User.find("byEmail", Security.connected()).first();
 			
 			abletochoose = user.isAbleToChoose(id);
@@ -63,36 +62,27 @@ public class Application extends Controller {
 			
 			render(question, isvalid, abletochoose, abletovote);
 		}
-		
-		/**if (Security.isConnected()
-				&& question.author.email.equals(Security.connected())) {
-			abletochoose = true;
-		}
-
-		
-
-		if (Security.isConnected() && !question.hasVoted(user)
-				&& !question.author.fullname.equals(user.fullname)) {
-			abletovote = true;
-		}
-
-		if (validaty != 0 && milidate > validaty) {
-			validdate = false;
-			render(question, validdate, abletochoose, abletovote);
-		} else {
-			validdate = true;
-			render(question, validdate, abletochoose, abletovote);
-
-		}**/
-
 	}
 
+	/**
+	 * Creates the user.
+	 *
+	 * @param message the message
+	 */
 	public static void createUser(String message) {
 
 		render(message);
 
 	}
 
+	/**
+	 * Adds the user.
+	 *
+	 * @param fullname the fullname
+	 * @param email the email
+	 * @param password the password
+	 * @param password2 the password2
+	 */
 	public static void addUser(String fullname, String email, String password,
 			String password2) {
 
@@ -102,7 +92,6 @@ public class Application extends Controller {
 		if (!password.equals(password2)) {
 			message = "the password's aren't the same";
 		}
-		// message = checkPasswords(password, password2);
 
 		if (fullname.isEmpty() || email.isEmpty() || password.isEmpty()) {
 			message = "you forgot one or more gap's";
@@ -121,11 +110,4 @@ public class Application extends Controller {
 
 		createUser(message);
 	}
-
-	/*
-	 * private static String checkPasswords(String password, String password2) {
-	 * if (!password.equals(password2)) { return
-	 * "the password's aren't the same"; } if (password.length() >= 6) { return
-	 * "Password should be longer than 6 signs."; } return ""; }
-	 */
 }

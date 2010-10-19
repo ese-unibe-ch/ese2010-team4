@@ -11,8 +11,6 @@ import play.db.jpa.Model;
 /**
  * A user with name and first-name.
  * 
- * @author dwettstein
- * 
  */
 @Entity
 public class User extends Model {
