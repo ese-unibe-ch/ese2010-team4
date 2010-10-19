@@ -78,9 +78,7 @@
         			 	#{/if}
         			 	
         			 	#{if validdate && abletochoose}
-        			 	#{form @Users.chooseBestAnswer(answer.id)}
-        			 		<input type="submit" name="best answer" value="best answer">
-        			 	#{/form}
+        			 	<a href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
         			 	#{/if}
         			 	
         			 	#{if answer.best && !validdate}
