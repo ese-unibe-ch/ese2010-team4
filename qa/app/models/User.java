@@ -18,14 +18,14 @@ import play.db.jpa.Model;
 @Entity
 public class User extends Model {
 
-	public Date birthday;
+	protected Date birthday;
 	public String website = "";
 	public String work = "";
 	public String aboutMe = "";
 	public String favoriteLanguages;
 	public String avatarURL = "http://imgur.com/j2Qvy.jpg";
 
-	public static final String DATE_FORMAT = "dd-MM-yy";
+	public static final String DATE_FORMAT = "dd-MM-yyyy";
 
 	@Email
 	@Required
@@ -146,7 +146,7 @@ public class User extends Model {
 			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT);
 			return fmt.format(d);
 		} else
-			return ("dd-mm-yy");
+			return ("dd-mm-yyyy");
 	}
 
 	/**
@@ -161,5 +161,17 @@ public class User extends Model {
 			return fmt.parse(s);
 		} else
 			return (null);
+	}
+
+	public String getBirthday() {
+		return dateToString(birthday);
+	}
+
+	public void setBirthday(String birthday) throws ParseException {
+		this.birthday = stringToDate(birthday);
+	}
+
+	public int calculateAge() {
+		return this.age();
 	}
 }

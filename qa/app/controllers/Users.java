@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -348,10 +349,13 @@ public class Users extends Controller {
 	 *            the about me
 	 * @param avatarURL
 	 *            the avatar url
+	 * @throws ParseException
 	 */
-	public static void changeProfile(String website, String work,
-			String languages, String aboutMe, String avatarURL) {
+	public static void changeProfile(String birthday, String website,
+			String work, String languages, String aboutMe, String avatarURL)
+			throws ParseException {
 		User user = User.find("byEmail", Security.connected()).first();
+		user.setBirthday(birthday);
 		user.website = website;
 		user.work = work;
 		user.favoriteLanguages = languages;

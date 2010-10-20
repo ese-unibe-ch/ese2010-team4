@@ -1,19 +1,32 @@
 #{extends 'main.html' /}
 #{set title:'User Profile' /}
 
-    	<p>
-        	<label for="author">Fullname: </label>
-        	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
-    	</p>
-    	
-		<p>
-        	<label for="author">Email: </label>
-        	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
-    	</p>
-
 #{secure.check 'user'}
 <div class="form" id="userForm">
 #{form @Users.changeProfile()}
+	<p>
+        <label for="author">Fullname: </label>
+        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
+    </p>
+    	
+	<p>
+        <label for="author">Email: </label>
+        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
+    </p>
+   
+   	<p>
+    	#{field 'birthday'}
+        	<label for="author">Birthday: </label>
+        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().getBirthday()}" />
+        	<label for="content"></label>
+		#{/field}
+	</p>	
+	
+	<p>
+        <label for="author">Age: </label>
+        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().calculateAge()}" readonly/>
+    </p>
+
     <p>
     	#{field 'website'}
         	<label for="author">Website: </label>
@@ -60,7 +73,6 @@
 <p>
 	<label Recent Posts: </label>
 </p>
-</div>
 
 #{if flash.success}
 	<br>
