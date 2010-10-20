@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,4 +81,37 @@ public abstract class Post extends Model {
 		return false;
 	}
 
+	public String lastChanges(Long questionId, Long userId) {
+		Question question = Question.findById(questionId);
+		User user = User.findById(userId);
+		int newAnswers = 0;
+		int newComments = 0;
+
+		try {
+			Iterator<Answer> iterA = question.answers.iterator();
+			while (iterA.hasNext()) {
+				if (iterA.next().timestamp.after(user.lastLogOff)) {
+					newAnswers++;
+				}
+			}
+		}
+
+		catch (Exception e) {
+		}
+
+		try {
+			Iterator<Comment> iterC = question.comments.iterator();
+			while (iterC.hasNext()) {
+				if (iterC.next().timestamp.after(user.lastLogOff)) {
+					newComments++;
+				}
+			}
+		}
+
+		catch (Exception e) {
+		}
+
+		return "this question has " + newAnswers + " new answers and "
+				+ newComments + " new comments";
+	}
 }

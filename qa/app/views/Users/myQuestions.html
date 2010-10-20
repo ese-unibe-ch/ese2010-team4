@@ -19,6 +19,7 @@
         			</div>       			
         			#{if question.author.hasTimeToChange(question.id)}
         					<a href="@{Users.showEdit(question.id, 0)}">[edit]</a>
+        					<a href="@{Users.followQuestion(question.id)}">[follow]</a>
         			#{/if}
         			#{if !question.author.hasTimeToChange(question.id)}
         				The question is closed! No more changes possibel.

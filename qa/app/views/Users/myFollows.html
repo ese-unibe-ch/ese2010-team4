@@ -1,0 +1,21 @@
+#{extends 'main.html' /}
+#{set title:'User administration' /}
+
+<p>following this questions:
+
+<div class="follows"> 
+	#{list items:follows, as:'question'}
+            <div class="follows">
+                <div class="follows-metadata">
+                    <div class="follows-content">
+        				<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
+        				<a href="@{Users.deleteFollow(question.id)}">[delete]</a>
+        				<p> ${question.lastChanges(question.id, userId)}
+        			</div>
+                 </div>
+            </div>
+            <br>
+	#{/list}
+</div>
+
+<p>following this users:

@@ -256,20 +256,19 @@ public class Users extends Controller {
 	public static void myProfile() {
 		render("Users/profile.html");
 	}
-	
-	public static void showProfile(Long authorid){
-		
+
+	public static void showProfile(Long authorid) {
+
 		User user = User.findById(authorid);
-		
-		if(user.email.equals(Security.connected())){
+
+		if (user.email.equals(Security.connected())) {
 			myProfile();
 		}
-		
-		else{
+
+		else {
 			render(user);
 		}
-		
-		
+
 	}
 
 	/**
@@ -323,9 +322,11 @@ public class Users extends Controller {
 
 	/**
 	 * Previous edition.
-	 *
-	 * @param id the id
-	 * @param index the index
+	 * 
+	 * @param id
+	 *            the id
+	 * @param index
+	 *            the index
 	 */
 	public static void previousEdition(Long id, int index) {
 		Post post = Post.findById(id);
@@ -343,20 +344,20 @@ public class Users extends Controller {
 	 */
 	public static void chooseBestAnswer(Long answerid) {
 
-		//delay in milisec
+		// delay in milisec
 		long delay = 10000;
 		Answer answer = Answer.findById(answerid);
 		Question question = answer.question;
-		
-		//necessary if user changed his mind
+
+		// necessary if user changed his mind
 		question.setAllAnswersFalse();
 		question.save();
 		answer.best = true;
-		
+
 		question.setValidity(delay);
 		question.save();
 		answer.save();
-		
+
 		Application.show(answer.question.id);
 	}
 
@@ -400,23 +401,47 @@ public class Users extends Controller {
 		Post post = Post.find("byAutor", user).first();
 		render(post);
 	}
-	
-	// JW: trivial user search 
-	public static void searchResults(String toSearch){
-		
-		boolean found = false;		
+
+	// JW: trivial user search
+	public static void searchResults(String toSearch) {
+
+		boolean found = false;
 		User user = User.find("byFullname", toSearch).first();
 
-
-		if(user == null){
+		if (user == null) {
 			String message = "no user found";
 			render(user, message, found);
 		}
-		
-		else{
+
+		else {
 			found = true;
 			render(user, found);
-		}	
+		}
+	}
+
+	public static void myFollows() {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.follows = user.removeNull();
+		user.save();
+		List<Question> follows = user.follows;
+		Long userId = user.id;
+		render(follows, userId);
+	}
+
+	public static void followQuestion(Long id) {
+		User user = User.find("byEmail", Security.connected()).first();
+		Question question = Post.findById(id);
+		if (!user.follows.contains(question)) {
+			user.follows.add(question);
+			user.save();
+		}
+		Users.myFollows();
+	}
+
+	public static void deleteFollow(Long id) {
+		Question question = Question.findById(id);
+		User user = User.find("byEmail", Security.connected()).first();
+		user.deleteFollow(question);
+		Users.myFollows();
 	}
 }
-

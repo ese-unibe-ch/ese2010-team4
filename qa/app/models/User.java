@@ -2,6 +2,7 @@ package models;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -26,6 +27,8 @@ public class User extends Model {
 	public String avatarURL = "http://imgur.com/j2Qvy.jpg";
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
+	public Date lastLogOff;
+	public ArrayList<Question> follows;
 
 	@Email
 	@Required
@@ -46,6 +49,8 @@ public class User extends Model {
 		this.email = email;
 		this.password = password;
 		this.isAdmin = false;
+		lastLogOff = new Date(System.currentTimeMillis());
+		follows = new ArrayList<Question>();
 	}
 
 	public static User login(String email, String password) {
@@ -174,24 +179,27 @@ public class User extends Model {
 	public int calculateAge() {
 		return this.age();
 	}
-	
-	//JW: refactor
+
+	// JW: refactor
 	/**
 	 * Creates a new user if all requirements are met
-	 *
-	 * @param fullname the fullname
-	 * @param email the email
-	 * @param password the password
-	 * @param password2 the validation password
+	 * 
+	 * @param fullname
+	 *            the fullname
+	 * @param email
+	 *            the email
+	 * @param password
+	 *            the password
+	 * @param password2
+	 *            the validation password
 	 * @return the message
 	 */
 	public static String createUser(String fullname, String email,
 			String password, String password2) {
-		
+
 		String message = "";
 		User user = User.find("byEmail", email).first();
-		
-			
+
 		if (fullname.isEmpty() || email.isEmpty() || password.isEmpty()) {
 			message = "you forgot one or more gap's";
 		}
@@ -213,7 +221,32 @@ public class User extends Model {
 			new User(fullname, email, password).save();
 			message = "Hello, " + fullname + ", please log in";
 		}
-		
+
 		return message;
+	}
+
+	public ArrayList<Question> removeNull() {
+		int index = 0;
+		while (index < this.follows.size()) {
+			try {
+				Long id = this.follows.get(index).getId();
+				Question q = Question.findById(id);
+				q.toString();
+				index++;
+			}
+
+			catch (Exception e) {
+				this.follows.remove(index);
+			}
+
+		}
+		this.save();
+		return this.follows;
+	}
+
+	public void deleteFollow(Question question) {
+		int index = this.follows.indexOf(question);
+		this.follows.remove(index);
+		this.save();
 	}
 }
