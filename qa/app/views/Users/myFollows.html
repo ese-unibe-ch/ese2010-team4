@@ -4,7 +4,7 @@
 <p>following this questions:
 
 <div class="follows"> 
-	#{list items:follows, as:'question'}
+	#{list items:followQ, as:'question'}
             <div class="follows">
                 <div class="follows-metadata">
                     <div class="follows-content">
@@ -19,3 +19,17 @@
 </div>
 
 <p>following this users:
+
+<div class="follows"> 
+	#{list items:followU, as:'user'}
+            <div class="follows">
+                <div class="follows-metadata">
+                    <div class="follows-content">
+        				<a href="@{Users.showProfile(user.id)}">${user.fullname}</a>
+        				<a href="@{Users.deleteFollow(user.id)}">[delete]</a>
+        			</div>
+                 </div>
+            </div>
+            <br>
+	#{/list}
+</div>

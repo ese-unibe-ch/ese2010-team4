@@ -29,6 +29,7 @@ public class User extends Model {
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
 	public ArrayList<Question> follows;
+	public ArrayList<User> followingUser;
 
 	@Email
 	@Required
@@ -51,6 +52,7 @@ public class User extends Model {
 		this.isAdmin = false;
 		lastLogOff = new Date(System.currentTimeMillis());
 		follows = new ArrayList<Question>();
+		followingUser = new ArrayList<User>();
 	}
 
 	public static User login(String email, String password) {

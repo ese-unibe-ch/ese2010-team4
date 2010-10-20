@@ -423,9 +423,12 @@ public class Users extends Controller {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.follows = user.removeNull();
 		user.save();
-		List<Question> follows = user.follows;
+		List<Question> followQ = user.follows;
 		Long userId = user.id;
-		render(follows, userId);
+
+		List<User> followU = user.followingUser;
+
+		render(followQ, followU, userId);
 	}
 
 	public static void followQuestion(Long id) {
@@ -434,6 +437,16 @@ public class Users extends Controller {
 		if (!user.follows.contains(question)) {
 			user.follows.add(question);
 			user.save();
+		}
+		Users.myFollows();
+	}
+
+	public static void followUser(Long id) {
+		User userClient = User.find("byEmail", Security.connected()).first();
+		User userServer = User.findById(id);
+		if (!userClient.followingUser.contains(userServer)) {
+			userClient.followingUser.add(userServer);
+			userClient.save();
 		}
 		Users.myFollows();
 	}

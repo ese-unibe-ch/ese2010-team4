@@ -4,7 +4,7 @@
 #{secure.check 'user'}
 <div class="form" id="userForm">
 	
-	<h2>You are on ${user.fullname}'s profile, <a href="#">follow him</a></h2>
+	<h2>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h2>
 	<p>
         <label for="author">Fullname: </label>
         ${user.fullname}
