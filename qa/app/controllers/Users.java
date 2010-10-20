@@ -348,6 +348,7 @@ public class Users extends Controller {
 		Answer answer = Answer.findById(answerid);
 		Question question = answer.question;
 		
+		//necessary if user changed his mind
 		question.setAllAnswersFalse();
 		question.save();
 		answer.best = true;

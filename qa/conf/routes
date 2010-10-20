@@ -18,7 +18,10 @@ POST    /posts/{postId}/comments                Application.postComment
 
 # Administration
 GET     /user/?                                Users.index
+GET		/user/searchresults/{toSearch}		   Users.searchResults
+GET		/user/showprofile/{authorid}		   Users.showProfile
 *       /user                                  module:crud
+
 
 # Secure
 GET			/login			Secure.login

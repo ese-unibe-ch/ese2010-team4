@@ -87,31 +87,7 @@ public class Application extends Controller {
 	public static void addUser(String fullname, String email, String password,
 			String password2) {
 
-		String message;
-		User user = User.find("byEmail", email).first();
-
-		if (fullname.isEmpty() || email.isEmpty() || password.isEmpty()) {
-			message = "you forgot one or more gap's";
-		}
-
-		else if (!password.equals(password2)) {
-			message = "the password's aren't the same";
-		}
-
-		else if (password.length() < 6) {
-			message = "your password must be 6 singns or longer";
-		}
-
-		else if (user != null && user.email.equals(email)) {
-
-			message = "user allready exists";
-		}
-
-		else {
-			new User(fullname, email, password).save();
-			message = "Hello, " + fullname + ", please log in";
-		}
-
+		String message = User.createUser(fullname, email, password, password2);
 		createUser(message);
 	}
 }

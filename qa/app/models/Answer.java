@@ -21,5 +21,6 @@ public class Answer extends Post {
 	public Answer(Question question, User author, String content) {
 		super(author, content);
 		this.question = question;
+		question.answers.add(this);
 	}
 }
