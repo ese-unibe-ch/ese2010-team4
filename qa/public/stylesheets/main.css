@@ -45,24 +45,14 @@ body {
 
 div#user {
 	background: #60A0FF;
-	position: absolute;
-	top: 40px;
-	left: 800px;
+	position: relative;
+	float: right;
 	padding: 20px 20px 20px 20px;
-    margin: 20px 0;
 	-webkit-border-radius: 16px;
     -webkit-box-shadow: 0 2px 0 #93A045;
     -moz-border-radius: 16px;
 	
 }
-
-div#userImg {
-	position: absolute;
-	top: 0px;
-	left: -150px;
-	
-}
-
 
 /** Questions, Answers **/
 
