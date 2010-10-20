@@ -400,6 +400,22 @@ public class Users extends Controller {
 		render(post);
 	}
 	
-	
+	// JW: trivial user search 
+	public static void searchResults(String toSearch){
+		
+		boolean found = false;		
+		User user = User.find("byFullname", toSearch).first();
+
+
+		if(user == null){
+			String message = "no user found";
+			render(user, message, found);
+		}
+		
+		else{
+			found = true;
+			render(user, found);
+		}	
+	}
 }
 

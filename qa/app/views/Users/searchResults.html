@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+#{set title:'show profile' /}
+
+#{secure.check 'user'}
+<div class="form" id="userForm">
+	
+	
+	<p>
+        #{if found}
+        	<a href = "@{Users.showProfile(user.id)}">${user.fullname}</a>
+        #{/if}
+        
+        #{if !found}
+        	${message}
+        #{/if}
+    </p>
+</div>
+#{/ secure.check}

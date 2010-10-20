@@ -35,7 +35,15 @@
 	#{/secure.check}
 </div>
 
-	
+#{secure.check 'user'}
+<div id="search">
+	#{form @Users.searchResults()}
+		<label for="toSearch">find user: </label>
+		<input type="text" name="toSearch" id="toSearch"/>
+		<input type="submit" value="search" />
+	#{/form}
+</div>
+#{/secure.check}
 
    
 <div id="main">
