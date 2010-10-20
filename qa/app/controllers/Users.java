@@ -44,42 +44,42 @@ public class Users extends Controller {
 		// needed for checking close question
 		render(questions);
 	}
-	
-	
+
 	/**
 	 * Show edit.
-	 *
-	 * @param questionId the question id
-	 * @param editionIndex the edition index
+	 * 
+	 * @param questionId
+	 *            the question id
+	 * @param editionIndex
+	 *            the edition index
 	 */
 	public static void showEdit(Long questionId, int editionIndex) {
 
 		Post post = Post.findById(questionId);
 		User user = post.author;
-		
-		
-		if(post instanceof Question){
-			if(user.hasTimeToChange(questionId)){
+
+		if (post instanceof Question) {
+			if (user.hasTimeToChange(questionId)) {
 				render(post, editionIndex);
 			}
-			
-			else{
-				
+
+			else {
+
 				myQuestions();
-			}			
-		}
-		
-		else if(post instanceof Answer){
-			
-			Long id = ((Answer) post).question.id;
-			
-			if(user.hasTimeToChange(id)){
-				render(post, editionIndex);				
 			}
-			
-			else{
+		}
+
+		else if (post instanceof Answer) {
+
+			Long id = ((Answer) post).question.id;
+
+			if (user.hasTimeToChange(id)) {
+				render(post, editionIndex);
+			}
+
+			else {
 				myAnswers();
-			}	
+			}
 		}
 	}
 
@@ -88,17 +88,20 @@ public class Users extends Controller {
 	 */
 	public static void myAnswers() {
 		User user = User.find("byEmail", Security.connected()).first();
-		List<Answer> answers = Answer.find("byAuthor", user).fetch();		
+		List<Answer> answers = Answer.find("byAuthor", user).fetch();
 
 		render(answers);
 	}
 
 	/**
 	 * Creates the question.
-	 *
-	 * @param author the author
-	 * @param title the title
-	 * @param content the content
+	 * 
+	 * @param author
+	 *            the author
+	 * @param title
+	 *            the title
+	 * @param content
+	 *            the content
 	 */
 	public static void createQuestion(@Required String author,
 			@Required String title, String content) {
@@ -116,9 +119,11 @@ public class Users extends Controller {
 
 	/**
 	 * Write comment.
-	 *
-	 * @param id the id
-	 * @param questionid the questionid
+	 * 
+	 * @param id
+	 *            the id
+	 * @param questionid
+	 *            the questionid
 	 */
 	public static void writeComment(Long id, Long questionid) {
 
@@ -129,11 +134,15 @@ public class Users extends Controller {
 
 	/**
 	 * Creates the comment.
-	 *
-	 * @param postid the postid
-	 * @param questionid the questionid
-	 * @param author the author
-	 * @param content the content
+	 * 
+	 * @param postid
+	 *            the postid
+	 * @param questionid
+	 *            the questionid
+	 * @param author
+	 *            the author
+	 * @param content
+	 *            the content
 	 */
 	public static void createComment(Long postid, Long questionid,
 			@Required String author, @Required String content) {
@@ -152,10 +161,13 @@ public class Users extends Controller {
 
 	/**
 	 * Answer question.
-	 *
-	 * @param questionId the question id
-	 * @param author the author
-	 * @param content the content
+	 * 
+	 * @param questionId
+	 *            the question id
+	 * @param author
+	 *            the author
+	 * @param content
+	 *            the content
 	 */
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content) {
@@ -173,9 +185,11 @@ public class Users extends Controller {
 
 	/**
 	 * Vote for question.
-	 *
-	 * @param questionId the question id
-	 * @param vote the vote
+	 * 
+	 * @param questionId
+	 *            the question id
+	 * @param vote
+	 *            the vote
 	 */
 	public static void voteForQuestion(Long questionId, boolean vote) {
 
@@ -204,17 +218,19 @@ public class Users extends Controller {
 
 	/**
 	 * Vote for answer.
-	 *
-	 * @param questionId the question id
-	 * @param answerId the answer id
-	 * @param vote the vote
+	 * 
+	 * @param questionId
+	 *            the question id
+	 * @param answerId
+	 *            the answer id
+	 * @param vote
+	 *            the vote
 	 */
 	public static void voteForAnswer(Long questionId, Long answerId,
 			boolean vote) {
 
 		User user = User.find("byEmail", Security.connected()).first();
 		Answer answer = Answer.find("byId", answerId).first();
-		
 
 		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
 			System.out.println("geht durch");
@@ -242,13 +258,13 @@ public class Users extends Controller {
 		render("Users/profile.html");
 	}
 
-
-
 	/**
 	 * Edits the post.
-	 *
-	 * @param id the id
-	 * @param content the content
+	 * 
+	 * @param id
+	 *            the id
+	 * @param content
+	 *            the content
 	 */
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
@@ -263,8 +279,9 @@ public class Users extends Controller {
 
 	/**
 	 * Delete post.
-	 *
-	 * @param id the id
+	 * 
+	 * @param id
+	 *            the id
 	 */
 	public static void deletePost(Long id) {
 		Post post = Post.findById(id);
@@ -277,9 +294,11 @@ public class Users extends Controller {
 
 	/**
 	 * Next edition.
-	 *
-	 * @param id the id
-	 * @param index the index
+	 * 
+	 * @param id
+	 *            the id
+	 * @param index
+	 *            the index
 	 */
 	public static void nextEdition(Long id, int index) {
 		if (index > 0) {
@@ -298,8 +317,9 @@ public class Users extends Controller {
 
 	/**
 	 * Choose best answer.
-	 *
-	 * @param answerid the answerid
+	 * 
+	 * @param answerid
+	 *            the answerid
 	 */
 	public static void chooseBestAnswer(Long answerid) {
 
@@ -317,12 +337,17 @@ public class Users extends Controller {
 	// DR
 	/**
 	 * Change profile.
-	 *
-	 * @param website the website
-	 * @param work the work
-	 * @param languages the languages
-	 * @param aboutMe the about me
-	 * @param avatarURL the avatar url
+	 * 
+	 * @param website
+	 *            the website
+	 * @param work
+	 *            the work
+	 * @param languages
+	 *            the languages
+	 * @param aboutMe
+	 *            the about me
+	 * @param avatarURL
+	 *            the avatar url
 	 */
 	public static void changeProfile(String website, String work,
 			String languages, String aboutMe, String avatarURL) {
@@ -338,13 +363,13 @@ public class Users extends Controller {
 
 	/**
 	 * Recent posts.
-	 *
+	 * 
 	 * @return the list
 	 */
-	public static List recentPosts() {
+	public static void recentPosts() {
 		User user = User.find("byEmail", Security.connected()).first();
-		List<Post> posts = Post.find("byAuthor", user).fetch();
-		return posts;
+		Post post = Post.find("byAutor", user).first();
+		render(post);
 	}
 
 }
