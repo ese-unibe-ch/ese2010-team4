@@ -1,7 +1,6 @@
 package controllers;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import models.Answer;
@@ -42,7 +41,6 @@ public class Users extends Controller {
 	public static void myQuestions() {
 		User user = User.find("byEmail", Security.connected()).first();
 		List<Question> questions = Question.find("byAuthor", user).fetch();
-		// needed for checking close question
 		render(questions);
 	}
 
@@ -258,6 +256,21 @@ public class Users extends Controller {
 	public static void myProfile() {
 		render("Users/profile.html");
 	}
+	
+	public static void showProfile(Long authorid){
+		
+		User user = User.findById(authorid);
+		
+		if(user.email.equals(Security.connected())){
+			myProfile();
+		}
+		
+		else{
+			render(user);
+		}
+		
+		
+	}
 
 	/**
 	 * Edits the post.
@@ -308,6 +321,12 @@ public class Users extends Controller {
 		Users.showEdit(id, index);
 	}
 
+	/**
+	 * Previous edition.
+	 *
+	 * @param id the id
+	 * @param index the index
+	 */
 	public static void previousEdition(Long id, int index) {
 		Post post = Post.findById(id);
 		if (index < post.history.size() - 1) {
@@ -324,14 +343,19 @@ public class Users extends Controller {
 	 */
 	public static void chooseBestAnswer(Long answerid) {
 
-		Answer answer = Answer.find("byId", answerid).first();
-		answer.question.setAllAnswersFalse();
-		answer.question.save();
+		//delay in milisec
+		long delay = 10000;
+		Answer answer = Answer.findById(answerid);
+		Question question = answer.question;
+		
+		question.setAllAnswersFalse();
+		question.save();
 		answer.best = true;
-		Date date = new Date();
-		answer.question.validity = date.getTime() + 10000;
-		answer.question.save();
+		
+		question.setValidity(delay);
+		question.save();
 		answer.save();
+		
 		Application.show(answer.question.id);
 	}
 
@@ -375,5 +399,7 @@ public class Users extends Controller {
 		Post post = Post.find("byAutor", user).first();
 		render(post);
 	}
-
+	
+	
 }
+

@@ -1,0 +1,63 @@
+#{extends 'main.html' /}
+#{set title:'show profile' /}
+
+#{secure.check 'user'}
+<div class="form" id="userForm">
+	
+	<h2>You are on ${user.fullname}'s profile, <a href="#">follow him</a></h2>
+	<p>
+        <label for="author">Fullname: </label>
+        ${user.fullname}
+    </p>
+    	
+	<p>
+        <label for="author">Email: </label>
+       ${user.email}
+    </p>
+   
+   	<p>
+
+        <label for="author">Birthday: </label>
+        	${user.getBirthday()}
+	</p>	
+	
+	<p>
+        <label for="author">Age: </label>
+        ${user.calculateAge()}
+    </p>
+
+    <p>
+			<label for="author">Website: </label>
+        	${user.website}
+	</p>
+    <p>
+    	
+        	<label for="author">Work: </label>
+        	${user.work}	
+        	</p>
+	<p>
+ 
+        	<label for="author">Programming Languages: </label>
+        	${user.favoriteLanguages}
+
+	</p>
+	<p>
+
+		<label for="aboutMe">About Me: </label>
+		<br>
+			${user.aboutMe}
+		</br>
+
+	</p>
+    <p>
+
+        	<label for="author">Avatar URL: </label>
+        	${user.avatarURL}
+
+	</p>	
+</div>
+#{/ secure.check}
+
+<p>
+	<label Recent Posts: </label>
+</p>

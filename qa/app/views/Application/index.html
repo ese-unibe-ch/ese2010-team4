@@ -7,7 +7,7 @@
 		<h4>Newest question:</h4>
     	<div class="question">
         <div class="question-metadata">
-            <span class="question-author">by ${lastQuestion.author.fullname}</span>
+            <span class="question-author">by <a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a></span>
             <span class="question-date">${lastQuestion.timestamp}</span>
             <span class="question-voting"> Voting: ${lastQuestion.voting}</span>
             <span class="question-answer">
@@ -30,7 +30,7 @@
          	#{list items:questions, as:'question'}
             	<div class="question">
                 	<div class="question-metadata">
-                    	<span class="question-author">by ${question.author.fullname}</span>
+                    	<span class="question-author">by by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>, </span>
                      	<span class="question-date">${question.timestamp}</span>
                      	<span class="question-voting"> Voting: ${question.voting}</span>
                      	<div class="question-answer">

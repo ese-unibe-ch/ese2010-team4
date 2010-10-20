@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -58,6 +59,14 @@ public class Question extends Post {
 			answer.best = false;
 		}
 
+	}
+
+	public void setValidity(long delay) {
+		
+		Date date = new Date();
+		this.validity = date.getTime() + delay;
+		this.save();
+		
 	}
 
 }

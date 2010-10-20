@@ -18,7 +18,7 @@
 <div class="question">
 	Question:
     <div class="question-metadata">
-        <span class="question-author">by ${question.author.fullname}</span>
+        <span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}, </a></span>
         <span class="question-date">${question.timestamp}</span>
         <span class="question-voting"> Voting: ${question.voting}</span>
 			#{secure.check 'user'}    
@@ -46,8 +46,8 @@
     	<div class="comments">
     				<p>
    			<div class="answer-metadata">
-        		<span class="comment-author">by ${question.author.fullname},</span>
-        		<span class="comment-date">${question.timestamp}</span>
+        		<span class="comment-author">by ${comment.author.fullname},</span>
+        		<span class="comment-date">${comment.timestamp}</span>
         	</div>
         </div>
         <div class="answer-content">
@@ -75,7 +75,7 @@
 	<div class="answers">
 		<p>
    		<div class="answer-metadata">
-        	<span class="answer-author">by ${answer.author.fullname},</span>
+        	<span class="answer-author">by <a href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>,</span>
         	<span class="answer-date">${answer.timestamp}</span>
         	<span class="answer-voting"> Voting: ${answer.voting}</span>
         	
@@ -115,8 +115,8 @@
     	<div class="comments">
     				<p>
    			<div class="answer-metadata">
-        		<span class="comment-author">by ${answer.author.fullname},</span>
-        		<span class="comment-date">${answer.timestamp}</span>
+        		<span class="comment-author">by ${comment.author.fullname},</span>
+        		<span class="comment-date">${comment.timestamp}</span>
         	</div>
         </div>
         <div class="answer-content">
