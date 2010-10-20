@@ -421,12 +421,12 @@ public class Users extends Controller {
 
 	public static void myFollows() {
 		User user = User.find("byEmail", Security.connected()).first();
-		user.follows = user.removeNull();
+		user.followQ = user.removeNull();
 		user.save();
-		List<Question> followQ = user.follows;
+		List<Question> followQ = user.followQ;
 		Long userId = user.id;
 
-		List<User> followU = user.followingUser;
+		List<User> followU = user.followU;
 
 		render(followQ, followU, userId);
 	}
@@ -434,8 +434,8 @@ public class Users extends Controller {
 	public static void followQuestion(Long id) {
 		User user = User.find("byEmail", Security.connected()).first();
 		Question question = Post.findById(id);
-		if (!user.follows.contains(question)) {
-			user.follows.add(question);
+		if (!user.followQ.contains(question)) {
+			user.followQ.add(question);
 			user.save();
 		}
 		Users.myFollows();
@@ -444,17 +444,24 @@ public class Users extends Controller {
 	public static void followUser(Long id) {
 		User userClient = User.find("byEmail", Security.connected()).first();
 		User userServer = User.findById(id);
-		if (!userClient.followingUser.contains(userServer)) {
-			userClient.followingUser.add(userServer);
+		if (!userClient.followU.contains(userServer)) {
+			userClient.followU.add(userServer);
 			userClient.save();
 		}
 		Users.myFollows();
 	}
 
-	public static void deleteFollow(Long id) {
+	public static void deleteFollowQuestion(Long id) {
 		Question question = Question.findById(id);
 		User user = User.find("byEmail", Security.connected()).first();
-		user.deleteFollow(question);
+		user.deleteFollowQ(question);
+		Users.myFollows();
+	}
+
+	public static void deleteFollowUser(Long id) {
+		User userMaster = User.find("byEmail", Security.connected()).first();
+		User userSlave = User.findById(id);
+		userMaster.deleteFollowU(userSlave);
 		Users.myFollows();
 	}
 }

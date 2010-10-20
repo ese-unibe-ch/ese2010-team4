@@ -10,7 +10,6 @@
             <span class="question-author">by <a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a></span>
             <span class="question-date">${lastQuestion.timestamp}</span>
             <span class="question-voting"> Voting: ${lastQuestion.voting}</span>
-            <a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
             <span class="question-answer">
                 #{ifnot lastQuestion.answers.isEmpty()}
                    , last answered by ${lastAnswer}
@@ -19,6 +18,7 @@
         </div>
         <div class="question-content">
         	<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.content.nl2br()}</a>
+        	<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
         </div>
     </div>
 </div>
@@ -34,7 +34,6 @@
                     	<span class="question-author">by by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>, </span>
                      	<span class="question-date">${question.timestamp}</span>
                      	<span class="question-voting"> Voting: ${question.voting}</span>
-                     	<a href="@{Users.followQuestion(question.id)}">[follow]</a>
                      	<div class="question-answer">
                			 	#{ifnot question.answers.isEmpty()}
                 			   , last answered by ${question.answers.get(question.answers.size()-1).author.fullname}
@@ -42,6 +41,7 @@
                     	</div>
                     	<div class="question-content">
         					<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
+        					<a href="@{Users.followQuestion(question.id)}">[follow]</a>
         				</div>
                  	</div>
             	</div>

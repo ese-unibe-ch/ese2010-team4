@@ -28,8 +28,8 @@ public class User extends Model {
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
-	public ArrayList<Question> follows;
-	public ArrayList<User> followingUser;
+	public ArrayList<Question> followQ;
+	public ArrayList<User> followU;
 
 	@Email
 	@Required
@@ -51,8 +51,8 @@ public class User extends Model {
 		this.password = password;
 		this.isAdmin = false;
 		lastLogOff = new Date(System.currentTimeMillis());
-		follows = new ArrayList<Question>();
-		followingUser = new ArrayList<User>();
+		followQ = new ArrayList<Question>();
+		followU = new ArrayList<User>();
 	}
 
 	public static User login(String email, String password) {
@@ -229,26 +229,32 @@ public class User extends Model {
 
 	public ArrayList<Question> removeNull() {
 		int index = 0;
-		while (index < this.follows.size()) {
+		while (index < this.followQ.size()) {
 			try {
-				Long id = this.follows.get(index).getId();
+				Long id = this.followQ.get(index).getId();
 				Question q = Question.findById(id);
 				q.toString();
 				index++;
 			}
 
 			catch (Exception e) {
-				this.follows.remove(index);
+				this.followQ.remove(index);
 			}
 
 		}
 		this.save();
-		return this.follows;
+		return this.followQ;
 	}
 
-	public void deleteFollow(Question question) {
-		int index = this.follows.indexOf(question);
-		this.follows.remove(index);
+	public void deleteFollowQ(Question question) {
+		int index = this.followQ.indexOf(question);
+		this.followQ.remove(index);
+		this.save();
+	}
+
+	public void deleteFollowU(User user) {
+		int index = this.followU.indexOf(user);
+		this.followU.remove(index);
 		this.save();
 	}
 }
