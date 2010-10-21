@@ -4,7 +4,7 @@
     <head>
         <title>#{get 'title' /}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/mainDW.css'}">
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
@@ -14,25 +14,25 @@
 
 #{secure.check 'user'}
 <div id="user">
-	<div class="userInfo"><img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" /></div>
+	<div id="userImg"><img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" /></div>
 	<div class="userInfo">User: ${models.User.find("byEmail", controllers.Security.connected()).first().fullname}</div>
 	<div class="userInfo">Mail: ${models.User.find("byEmail", controllers.Security.connected()).first().email}</div>
 </div>
 #{/secure.check}
 
 <div id="menu">
-	<div class="link"><a href="@{Application.index()}">Home</a></div>
+	<div class="link"><a class="button" href="@{Application.index()}">Home</a></div>
 	#{ifnot controllers.Security.connected()}
-	<div class="link"><a href="@{Application.createUser()}">Create user</a></div>
-	<div class="link"><a href="@{Secure.login()}">Log in</a></div>
+	<div class="link"><a class="button" href="@{Application.createUser()}">Create user</a></div>
+	<div class="link"><a class="button" href="@{Secure.login()}">Log in</a></div>
 	#{/ifnot}
 	#{secure.check 'user'}
-		<div class="link"><a href="@{Users.index()}">New question</a></div>
-		<div class="link"><a href="@{Users.myQuestions()}">My questions</a></div>
-		<div class="link"><a href="@{Users.myAnswers()}">My answers</a></div>
-		<div class="link"><a href="@{Users.myFollows()}">My follows</a></div>
-		<div class="link"><a href="@{Users.myProfile()}">Profile</a></div>
-		<div class="link"><a href="@{Secure.logout()}">Log out</a></div>
+		<div class="link"><a class="button" href="@{Users.index()}">New question</a></div>
+		<div class="link"><a class="button" href="@{Users.myQuestions()}">My questions</a></div>
+		<div class="link"><a class="button" href="@{Users.myAnswers()}">My answers</a></div>
+		<div class="link"><a class="button" href="@{Users.myFollows()}">My follows</a></div>
+		<div class="link"><a class="button" href="@{Users.myProfile()}">Profile</a></div>
+		<div class="link"><a class="button" href="@{Secure.logout()}">Log out</a></div>
 	#{/secure.check}
 </div>
 
