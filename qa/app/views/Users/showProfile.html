@@ -6,8 +6,11 @@
 	
 	<h2>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h2>
 	<p>
-        <label for="author">Fullname: </label>
-        ${user.fullname}
+       	<img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" />
+        <br>
+        	<label for="author">Fullname: </label>
+        	${user.fullname}
+        </br>
     </p>
     	
 	<p>
@@ -47,14 +50,7 @@
 		<br>
 			${user.aboutMe}
 		</br>
-
 	</p>
-    <p>
-
-        	<label for="author">Avatar URL: </label>
-        	${user.avatarURL}
-
-	</p>	
 </div>
 #{/ secure.check}
 
