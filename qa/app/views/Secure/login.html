@@ -35,3 +35,19 @@
 		</p>
 	#{/form}
 </div>
+
+<div id="register" class="form">
+	
+	<h2>&{'register.title'}</h2>
+	<h3>&{'register.subtitle'}</h3>
+	
+	<h3>${message}</h3>
+	
+	#{form @Application.addUser()}
+		<div>&{'register.name'}:<br><input type="text" name="fullname", id="fullname"></div>
+		<div>&{'register.email'}:<br><input type="text" name="email", id="email"></div>
+		<div>&{'register.password1'}:<br><input type="password" name="password", id="password"></div>
+		<div>&{'register.password2'}:<br><input type="password" name="password2", id="password2"></div>
+		<div><input type="submit" value="Create User"/></div>
+	#{/form}
+</div>
