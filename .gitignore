@@ -8,6 +8,9 @@ bin/
 # ignoring test results
 test-result/
 
+# ignoring logs
+logs/
+
 # ignoring tmp
 tmp/
 
