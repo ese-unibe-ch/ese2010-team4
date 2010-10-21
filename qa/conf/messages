@@ -11,6 +11,11 @@ email=Email
 password=Password
 isAdmin=User is admin
 
+# Secure messages
+secure.title=Log in
 secure.username=Your email:
 secure.password=Your password:
 secure.signin=Log in now
+secure.remember=Remember me
+secure.error=Oops, unknown username or password.
+secure.logout=You have been logged out.

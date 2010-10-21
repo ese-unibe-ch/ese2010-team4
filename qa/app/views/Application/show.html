@@ -18,26 +18,45 @@
 <div class="question">
 	Question:
     <div class="question-metadata">
-        <span class="question-author">by ${question.author.fullname}</span>
+        <span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}, </a></span>
         <span class="question-date">${question.timestamp}</span>
         <span class="question-voting"> Voting: ${question.voting}</span>
-			#{secure.check 'user'}       	
-        		      
-         				#{if !question.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !question.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
-         				         	#{form @Users.voteForQuestion(question.id, models.User.find("byEmail", controllers.Security.connected()).first())}
-         				         			<select name="vote">
-         				         				<option>Vote up</option>
-         										<option>Vote down</option>
-        			 						</select>
-        			 					<input type="submit" name="vote" value="vote">
-        			 				#{/form}
-        			 	#{/if}
+			#{secure.check 'user'}    
+				#{if abletovote && isvalid}
+				
+				<br>
+				Vote: <a href="@{Users.voteForQuestion(question.id, true)}">+</a> / <a href="@{Users.voteForQuestion(question.id, false)}">-</a>
+				<br>	
+        		#{/if}
 			#{/secure.check}
+			#{if isvalid}	
+				<a href="@{Users.writeComment(question.id, question.id)}">write comment</a>
+			#{/if}
     </div>
     <div class="question-content">
     	<br>
     	${question.content.nl2br()}
     </div>
+    
+        #{if question.comments.size()>0}
+    	<br>
+    	Comments to this question:
+    	
+    	#{list items: question.comments, as:'comment'}
+    	<div class="comments">
+    				<p>
+   			<div class="answer-metadata">
+        		<span class="comment-author">by ${comment.author.fullname},</span>
+        		<span class="comment-date">${comment.timestamp}</span>
+        	</div>
+        </div>
+        <div class="answer-content">
+         	${comment.content.escape().nl2br()}
+    	</div>
+    	#{/list}
+    	#{/if}
+    
+    
 </div>
 <br>
 <div>
@@ -56,30 +75,28 @@
 	<div class="answers">
 		<p>
    		<div class="answer-metadata">
-        	<span class="answer-author">by ${answer.author.fullname},</span>
+        	<span class="answer-author">by <a href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>,</span>
         	<span class="answer-date">${answer.timestamp}</span>
         	<span class="answer-voting"> Voting: ${answer.voting}</span>
         	
         	#{secure.check 'user'}       	
         		      
-         				#{if !answer.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !answer.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
-         				         	#{form @Users.voteForAnswer(question.id, answer.id, models.User.find("byEmail", controllers.Security.connected()).first())}
-         				         			<select name="vote">
-         				         				<option>Vote up</option>
-         										<option>Vote down</option>
-        			 						</select>
-        			 					<input type="submit" name="vote" value="vote">
-        			 				#{/form}
+         				#{if isvalid && !answer.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !answer.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
+         				         	
+         						<br>
+								Vote: <a href="@{Users.voteForAnswer(question.id, answer.id, true)}">+</a> / <a href="@{Users.voteForAnswer(question.id, answer.id, false)}">-</a>
+								<br>	
+        			 	#{/if}
+        			 	#{if isvalid}
+        			 	<a href="@{Users.writeComment(answer.id, question.id)}">write comment</a>
+						#{/if}
+        			 	
+        			 	#{if isvalid && abletochoose}
+        			 		<a href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
         			 	#{/if}
         			 	
-        			 	#{if validdate && abletochoose}
-        			 	#{form @Users.chooseBestAnswer(answer.id)}
-        			 		<input type="submit" name="best answer" value="best answer">
-        			 	#{/form}
-        			 	#{/if}
-        			 	
-        			 	#{if answer.best && !validdate}
-        			 		This is the best Answser
+        			 	#{if answer.best && isvalid}
+        			 		This is the best answser!
         			 	#{/if}
         			 	
 			#{/secure.check}
@@ -89,6 +106,23 @@
    		<div class="answer-content">
          	${answer.content.escape().nl2br()}
     	</div>
+    	
+    	#{if answer.comments.size()>0}
+    	<br>
+    	Comments to this answer:
+    	#{/if}
+    	#{list items: answer.comments, as:'comment'}
+    	<div class="comments">
+    				<p>
+   			<div class="answer-metadata">
+        		<span class="comment-author">by ${comment.author.fullname},</span>
+        		<span class="comment-date">${comment.timestamp}</span>
+        	</div>
+        </div>
+        <div class="answer-content">
+         	${comment.content.escape().nl2br()}
+    	</div>
+    	#{/list}
     	</p>
 	</div>
 	#{/list}
@@ -96,28 +130,34 @@
 
 
 <p><br></p>
+
+
 #{secure.check 'user'}
-<div class="form" id="answerForm">
-	#{form @Users.answerQuestion(question.id)}
-		#{ifErrors}
-    	   	<p class="error">
-       	    	All fields are required!
-      	  	</p>
- 	    #{/ifErrors}
-    		<p>
-        		<label for="author">Your fullname: </label>
-        		<input type="text" name="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
-    		</p>
-    		<p>
-        		<label for="content">Your answer: </label>
-        		<br>
-        		<textarea name="content" id="content"></textarea>
-    		</p>
-    		<p>
-        		<input type="submit" value="Submit your answer" />
-    		</p>
-	#{/form}
-</div>
+#{if isvalid}
+	<div class="form" id="answerForm">
+	
+			#{form @Users.answerQuestion(question.id)}
+				#{ifErrors}
+ 		   	   		<p class="error">
+       	    			All fields are required!
+      		  		</p>
+ 		   	 #{/ifErrors}
+	 	    		<p>
+        				<label for="author">Your fullname: </label>
+    		    		<input type="text" name="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
+	    			</p>
+    				<p>
+     		   			<label for="content">Your answer: </label>
+      	  				<br>
+        				<textarea name="content" id="content"></textarea>
+    				</p>
+    				<p>
+       	 				<input type="submit" value="Submit your answer" />
+    				</p>
+			#{/form}
+	
+	</div>
+#{/if}
 #{/ secure.check}
 
  

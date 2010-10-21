@@ -12,6 +12,14 @@
     </head>
     <body>
 
+#{secure.check 'user'}
+<div id="user">
+	<div class="userInfo"><img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" /></div>
+	<div class="userInfo">User: ${models.User.find("byEmail", controllers.Security.connected()).first().fullname}</div>
+	<div class="userInfo">Mail: ${models.User.find("byEmail", controllers.Security.connected()).first().email}</div>
+</div>
+#{/secure.check}
+
 <div id="menu">
 	<div class="link"><a href="@{Application.index()}">Home</a></div>
 	#{ifnot controllers.Security.connected()}
@@ -22,15 +30,19 @@
 		<div class="link"><a href="@{Users.index()}">New question</a></div>
 		<div class="link"><a href="@{Users.myQuestions()}">My questions</a></div>
 		<div class="link"><a href="@{Users.myAnswers()}">My answers</a></div>
+		<div class="link"><a href="@{Users.myFollows()}">My follows</a></div>
 		<div class="link"><a href="@{Users.myProfile()}">Profile</a></div>
 		<div class="link"><a href="@{Secure.logout()}">Log out</a></div>
 	#{/secure.check}
 </div>
 
 #{secure.check 'user'}
-<div id="user">
-	<div class="userInfo">User: ${models.User.find("byEmail", controllers.Security.connected()).first().fullname}</div>
-	<div class="userInfo">Mail: ${models.User.find("byEmail", controllers.Security.connected()).first().email}</div>
+<div id="search">
+	#{form @Users.searchResults()}
+		<label for="toSearch">find user: </label>
+		<input type="text" name="toSearch" id="toSearch"/>
+		<input type="submit" value="search" />
+	#{/form}
 </div>
 #{/secure.check}
 

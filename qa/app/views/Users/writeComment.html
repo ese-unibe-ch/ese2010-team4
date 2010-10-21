@@ -1,0 +1,53 @@
+#{extends 'main.html' /} 
+#{set title:'Show question' /} 
+
+
+
+
+<div class="post">
+	Post:
+    <div class="post-metadata">
+        <span class="post-author">by ${post.author.fullname}</span>
+        <span class="post-date">${post.timestamp}</span>
+        <span class="post-voting"> Voting: ${post.voting}</span>
+    </div>
+    <div class="post-content">
+    	<br>
+    	${post.content.nl2br()}
+    </div>
+</div>
+
+
+
+<p><br></p>
+#{secure.check 'user'}
+<div class="form" id="commentForm">
+	#{form @Users.createComment(post.id, questionid)}
+		#{ifErrors}
+    	   	<p class="error">
+       	    	All fields are required!
+      	  	</p>
+ 	    #{/ifErrors}
+    		<p>
+        		<label for="author">Your fullname: </label>
+        		<input type="text" name="author" id="author" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
+    		</p>
+    		<p>
+        		<label for="content">Your comment: </label>
+        		<br>
+        		<textarea name="content" id="content"></textarea>
+    		</p>
+    		<p>
+        		<input type="submit" value="Submit your comment" />
+    		</p>
+	#{/form}
+</div>
+#{/ secure.check}
+
+ 
+#{if flash.success}
+	<br>
+    <p class="success">${flash.success}</p>
+#{/if}
+
+

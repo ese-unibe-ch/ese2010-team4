@@ -1,126 +1,80 @@
 #{extends 'main.html' /}
 #{set title:'User Profile' /}
 
-<<<<<<< HEAD
-
 #{secure.check 'user'}
-	#{form @Users.createQuestion()}
-		#{ifErrors}
-    	   	<p class="error">
-       	   		All fields are required!
-      	  	</p>
- 	   	#{/ifErrors}
-=======
+<div class="form" id="userForm">
+#{form @Users.changeProfile()}
 <p>
-	<img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}">
-</p>
->>>>>>> development
-    	<p>
-        	<label for="author">Your fullname: </label>
-        	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
-    	</p>
-<<<<<<< HEAD
-    	<p>
-        	<label for="author">Your email: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
-    	</p>
-   	 	<p>
-        	<label for="author">Your website: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" readonly/>
-    	</p>
-       	 <p>
-        	<label for="author">Your work: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" readonly/>
-    	</p>	
-    	 <p>
-        	<label for="author">About me: </label>
-        	<input type="text" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}" readonly/>
-    	</p>	
-	#{/form}
-#{/ secure.check}
-
-=======
-    	
-		<p>
-        	<label for="author">Your Email: </label>
-        	<input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
-    	</p>
-
-#{secure.check 'user'}
-<div class="form" id="userForm">
-#{form @Users.setWebsite()}
-    <p>
-    	#{field 'website'}
-        	<label for="author">Your website: </label>
-        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
-        	<label for="content"></label>
-		#{/field}
-		<br>
-        	<input type="submit" value="Update" />
-        </br>
-	</p>
-#{/form}
-</div>
-#{/ secure.check}
-
-#{secure.check 'user'}
-<div class="form" id="userForm">
-#{form @Users.setWork()}
-    <p>
-    	#{field 'work'}
-        	<label for="author">Your work: </label>
-        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
-        	<label for="content"></label>
-		#{/field}
-    	<br>
-        	<input type="submit" value="Update" />
-        </br>
-	</p>
-#{/form}
-</div>
-#{/ secure.check}
-
-#{secure.check 'user'}
-<div class="form" id="userForm">
-#{form @Users.setPLanguages()}
-    <p>
-    	#{field 'languages'}
-        	<label for="author">Programming Languages: </label>
-        	<input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
-        	<label for="content"></label>
-		#{/field}
-       	<br>
-        	<input type="submit" value="Update" />
-        </br>
-	</p>
-#{/form}
-</div>
-#{/ secure.check}
-
-
-#{secure.check 'user'}
-<div class="form" id="userForm">
-#{form @Users.setAboutMe()}
+        <label for="author">Fullname: </label>
+        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
+    </p>
+    
 <p>
-	<div>
-		#{field 'aboutMe'}
-		<label for="aboutMe">About Me: </label>
-		<br>
-			<textarea name="${field.name}" cols="50" rows="10">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
-		</br>
-		#{/field}
-	</div>
-
-	<p><input type="submit" value="Update"/></p>
+        <label for="author">Email: </label>
+        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
+    </p>
+   
+    <p>
+     #{field 'birthday'}
+         <label for="author">Birthday: </label>
+         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().getBirthday()}" />
+         <label for="content"></label>
+#{/field}
 </p>
+
+<p>
+        <label for="author">Age: </label>
+        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().calculateAge()}" readonly/>
+    </p>
+
+    <p>
+     #{field 'website'}
+         <label for="author">Website: </label>
+         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
+         <label for="content"></label>
+#{/field}
+</p>
+    <p>
+     #{field 'work'}
+         <label for="author">Work: </label>
+         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
+         <label for="content"></label>
+#{/field}
+</p>
+<p>
+     #{field 'languages'}
+         <label for="author">Programming Languages: </label>
+         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
+         <label for="content"></label>
+#{/field}
+</p>
+<p>
+#{field 'aboutMe'}
+<label for="aboutMe">About Me: </label>
+<br>
+<textarea name="${field.name}" cols="50" rows="10">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
+</br>
+#{/field}
+</p>
+    <p>
+     #{field 'avatarURL'}
+         <label for="author">Avatar URL: </label>
+         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" />
+         <label for="content"></label>
+#{/field}
+</p>
+
+<p><input type="submit" value="Update"/></p>
+
 #{/form}
 </div>
 #{/ secure.check}
 
+<p>
+<label Recent Posts: </label>
+</p>
 
-
->>>>>>> development
 #{if flash.success}
-	<br>
+<br>
     <p class="success">${flash.success}</p>
 #{/if}

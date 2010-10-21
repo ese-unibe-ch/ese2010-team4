@@ -13,7 +13,8 @@ body {
 
 #menu {
     background: #60A0FF;
-    width: 30%;
+    display: block;
+    width: 68%;
     padding: 20px 20px 20px 20px;
     margin: 20px 0;
     color: #3C4313;
@@ -26,6 +27,7 @@ body {
 /** Links **/
 
 .link {
+	display: inline;
 	font-size: 15px;
 	border: 1px;
 	border-color: black;
@@ -44,15 +46,17 @@ body {
 /** User info **/
 
 div#user {
-	background: #60A0FF;
 	position: relative;
-	float: right;
-	padding: 20px 20px 20px 20px;
+	float:right;
+	background: #60A0FF;
+	padding: 10px 10px 10px 10px;
 	-webkit-border-radius: 16px;
     -webkit-box-shadow: 0 2px 0 #93A045;
     -moz-border-radius: 16px;
 	
 }
+
+
 
 /** Questions, Answers **/
 
@@ -70,8 +74,8 @@ div#user {
 }
 
 .question {
-	background: #4080AA;
 	font-family: Calibri;
+	background: #4080AA;
 	padding: 20px 20px 20px 20px;
     -webkit-border-radius: 16px;
     -webkit-box-shadow: 0 2px 0 #93A045;
@@ -84,7 +88,17 @@ div#user {
 }
 
 .answers {
-	font-family: Calibri;
+	background: #60A0FF;
+    width: 100%;
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: #3C4313;
+    font-family: Calibri;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+    
 }
 
 
@@ -92,12 +106,14 @@ div#user {
 
 .form {
 	background: #60A0FF;
-	border: 1px;
-	border-color: black;
-	border-style: solid;
-	margin: 3px;
-	padding: 10px;
 	text-align:justify;
+	padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: black;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
 }
 
 

@@ -3,10 +3,11 @@
 
 
 #{if lastQuestion}
-    <div class="question">
-    	Newest question:
+<div class="questions">
+		<h4>Newest question:</h4>
+    	<div class="question">
         <div class="question-metadata">
-            <span class="question-author">by ${lastQuestion.author.fullname}</span>
+            <span class="question-author">by <a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a></span>
             <span class="question-date">${lastQuestion.timestamp}</span>
             <span class="question-voting"> Voting: ${lastQuestion.voting}</span>
             <span class="question-answer">
@@ -17,17 +18,20 @@
         </div>
         <div class="question-content">
         	<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.content.nl2br()}</a>
+        	<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
         </div>
     </div>
+</div>
+    
     
 	#{if questions.size() > 1}
    		<div class="questions">    
-        	<h3>All questions <span class="from">from this KnowledgeBase</span></h3>
+        	<h3>All questions from this KnowledgeBase</h3>
         
          	#{list items:questions, as:'question'}
             	<div class="question">
                 	<div class="question-metadata">
-                    	<span class="question-author">by ${question.author.fullname}</span>
+                    	<span class="question-author">by by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>, </span>
                      	<span class="question-date">${question.timestamp}</span>
                      	<span class="question-voting"> Voting: ${question.voting}</span>
                      	<div class="question-answer">
@@ -37,6 +41,7 @@
                     	</div>
                     	<div class="question-content">
         					<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
+        					<a href="@{Users.followQuestion(question.id)}">[follow]</a>
         				</div>
                  	</div>
             	</div>

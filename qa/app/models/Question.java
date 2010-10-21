@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,21 +11,20 @@ import javax.persistence.OneToMany;
 /**
  * A question with content, timestamp, owner and voting.
  * 
- * @author dwettstein
- * 
  */
 @Entity
 public class Question extends Post {
 
 	public long validity;
-	
-	@OneToMany(mappedBy="question", cascade = CascadeType.ALL)
+	public String title;
+
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	public List<Answer> answers;
-	
-	public Question(User author, String content) {
+
+	public Question(User author, String title, String content) {
 		super(author, content);
 		this.answers = new ArrayList<Answer>();
-
+		this.title = title;
 	}
 
 	public Question addAnswer(User author, String content) {
@@ -45,21 +45,27 @@ public class Question extends Post {
 				.first();
 	}
 
-	public boolean hasChoose() {
-		
-		for(Answer answer: answers){
-			if(answer.best){
+	public boolean hasChosen() {
+		for (Answer answer : answers) {
+			if (answer.best) {
 				return true;
 			}
 		}
-		 
 		return false;
 	}
 
 	public void setAllAnswersFalse() {
-		for(Answer answer: answers){
+		for (Answer answer : answers) {
 			answer.best = false;
 		}
+
+	}
+
+	public void setValidity(long delay) {
+		
+		Date date = new Date();
+		this.validity = date.getTime() + delay;
+		this.save();
 		
 	}
 

@@ -12,7 +12,13 @@
                     <div class="answer-content">
         				<a href="@{Application.show(answer.question.id)}">${answer.content.nl2br()}</a>
         			</div>
-        			<a href="@{Users.showEdit(answer.id)}">[edit]</a>
+        			#{if answer.question.author.hasTimeToChange(answer.question.id)}
+        					<a href="@{Users.showEdit(answer.id, 0)}">[edit]</a>
+        			#{/if}
+        			#{if !answer.question.author.hasTimeToChange(answer.question.id)}
+        				The question for this answer is already closed!
+        			#{/if}
+                 
                  </div>
             </div>
             <br>
