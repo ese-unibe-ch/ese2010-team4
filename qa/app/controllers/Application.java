@@ -61,18 +61,6 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Creates the user.
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	public static void createUser(String message) {
-
-		render(message);
-
-	}
-
-	/**
 	 * Adds the user.
 	 * 
 	 * @param fullname
@@ -88,6 +76,10 @@ public class Application extends Controller {
 			String password2) {
 
 		String message = User.createUser(fullname, email, password, password2);
-		createUser(message);
+		try {
+			Secure.login(message);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 }
