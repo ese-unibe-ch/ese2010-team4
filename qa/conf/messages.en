@@ -1,0 +1,28 @@
+# Messages (english)
+
+# General
+author=Author
+content=Content
+timestamp=Posted at
+question=Related question
+name=Common name
+email=Email
+password=Password
+isAdmin=User is admin
+
+# Secure messages
+secure.title=Log in
+secure.username=Your email:
+secure.password=Your password:
+secure.signin=Log in now
+secure.remember=Remember me
+secure.error=Oops, unknown username or password.
+secure.logout=You have been logged out.
+
+# Register messages
+register.title=Register
+register.subtitle=fill the formular and get knowledge
+register.name=Name
+register.email=Email
+register.password1=Password
+register.password2=Confirm password

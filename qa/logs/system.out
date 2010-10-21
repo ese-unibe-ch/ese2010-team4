@@ -1,0 +1,11 @@
+12:42:09,516 INFO  ~ Starting /Users/Marius/Desktop/ese/ese2010-team4/qa
+12:42:09,521 ERROR ~ Module cobertura will not be loaded because /Applications/weitere Programme/Play/modules/cobertura does not exist
+12:42:09,522 INFO  ~ Module crud is available (/Applications/weitere Programme/Play/modules/crud)
+12:42:10,619 WARN  ~ You're running Play! in DEV mode
+~
+~ Go to http://localhost:9000/@tests to run the tests
+~
+12:42:10,751 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+12:42:15,991 ERROR ~ Cannot include routes for module secure (not found)
+12:42:19,667 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
+12:42:21,691 INFO  ~ Application 'ese2010-simpleUI' is now started !
