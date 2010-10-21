@@ -14,7 +14,7 @@ body {
 #menu {
     background: #60A0FF;
     display: block;
-    width: 40%;
+    width: 30%;
     text-align:justify;
     padding: 20px 20px 20px 20px;
     margin: 20px 0;
@@ -35,13 +35,18 @@ body {
 	border-style: solid;
 	margin: 3px;
 	padding: 2px;
-	text-align:justify;
+	text-align: center;
 }
 
 .link:hover {
 	background: #BBBBFF;
 }
 
+a.button {
+	
+	
+		
+}
 
 
 /** User info **/
@@ -57,6 +62,12 @@ div#user {
 	
 }
 
+div#userImg {
+	border: 1px;
+	border-color: black;
+	border-style: solid;
+		
+}
 
 
 /** Questions, Answers **/
@@ -100,6 +111,22 @@ div#user {
     -webkit-box-shadow: 0 2px 0 #93A045;
     -moz-border-radius: 16px;
     
+}
+
+
+/** Follows **/
+
+.follows {
+	background: #60A0FF;
+    width: 100%;
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0;
+    color: #3C4313;
+    position: relative;
+    -webkit-border-radius: 16px;
+    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+	
 }
 
 
