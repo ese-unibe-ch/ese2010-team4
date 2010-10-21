@@ -14,7 +14,8 @@ body {
 #menu {
     background: #60A0FF;
     display: block;
-    width: 68%;
+    width: 40%;
+    text-align:justify;
     padding: 20px 20px 20px 20px;
     margin: 20px 0;
     color: #3C4313;
@@ -27,7 +28,7 @@ body {
 /** Links **/
 
 .link {
-	display: inline;
+	display: block;
 	font-size: 15px;
 	border: 1px;
 	border-color: black;

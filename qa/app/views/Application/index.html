@@ -18,7 +18,9 @@
         </div>
         <div class="question-content">
         	<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.content.nl2br()}</a>
+        	#{secure.check 'user'}
         	<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
+        	#{/secure.check}
         </div>
     </div>
 </div>
@@ -41,7 +43,9 @@
                     	</div>
                     	<div class="question-content">
         					<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
+        					#{secure.check 'user'}
         					<a href="@{Users.followQuestion(question.id)}">[follow]</a>
+        					#{/secure.check}
         				</div>
                  	</div>
             	</div>
