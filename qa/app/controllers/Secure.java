@@ -109,7 +109,6 @@ public class Secure extends Controller {
 	}
 
 	// ~~~ Utils
-
 	static void redirectToOriginalURL() throws Throwable {
 		Security.invoke("onAuthenticated");
 		String url = flash.get("url");

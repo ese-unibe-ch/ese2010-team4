@@ -22,6 +22,9 @@
         	<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
         	#{/secure.check}
         </div>
+        #{ifnot models.User.find("byEmail", lastQuestion.author.fullname).first()==null}
+           	<div class="avatar"><img src="${models.User.find("byEmail", lastQuestion.author.fullname).first().avatarURL}" /></div>
+		#{/ifnot}
     </div>
 </div>
     
@@ -33,7 +36,7 @@
          	#{list items:questions, as:'question'}
             	<div class="question">
                 	<div class="question-metadata">
-                    	<span class="question-author">by by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>, </span>
+                    	<span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>, </span>
                      	<span class="question-date">${question.timestamp}</span>
                      	<span class="question-voting"> Voting: ${question.voting}</span>
                      	<div class="question-answer">
@@ -47,7 +50,10 @@
         					<a href="@{Users.followQuestion(question.id)}">[follow]</a>
         					#{/secure.check}
         				</div>
-                 	</div>
+        				#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
+                			<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarURL}" /></div>
+		         		#{/ifnot}
+                   </div>
             	</div>
             	<br>
          	#{/list}
