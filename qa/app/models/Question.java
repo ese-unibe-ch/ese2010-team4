@@ -62,11 +62,11 @@ public class Question extends Post {
 	}
 
 	public void setValidity(long delay) {
-		
+
 		Date date = new Date();
 		this.validity = date.getTime() + delay;
 		this.save();
-		
+
 	}
 
 }
