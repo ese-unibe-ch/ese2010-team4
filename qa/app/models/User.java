@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 
 import javax.persistence.Entity;
 
@@ -32,6 +31,7 @@ public class User extends Model {
 	public Date lastLogOff;
 	public ArrayList<Question> followQ;
 	public ArrayList<User> followU;
+	public ArrayList<Post> recentPosts;
 
 	@Email
 	@Required
@@ -45,7 +45,6 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-	private LinkedList<Post> recentPosts = new LinkedList<Post>();
 
 	public User(String fullname, String email, String password) {
 		this.fullname = fullname;
@@ -55,6 +54,7 @@ public class User extends Model {
 		lastLogOff = new Date(System.currentTimeMillis());
 		followQ = new ArrayList<Question>();
 		followU = new ArrayList<User>();
+		recentPosts = new ArrayList<Post>();
 	}
 
 	public static User login(String email, String password) {
