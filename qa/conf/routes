@@ -10,9 +10,6 @@ GET     /public/                                staticDir:public
 GET     /questions/{id}                         Application.show
 POST    /posts/{postId}/comments                Application.postComment
 
-# Import Secure routes
-*      /                						module:secure
-
 # Import CRUD routes
 *      /admin            						module:crud
 
