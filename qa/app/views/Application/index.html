@@ -3,63 +3,88 @@
 
 
 #{if lastQuestion}
-<div class="questions">
+	<div class="questions">
 		<h4>Newest question:</h4>
     	<div class="question">
-        <div class="question-metadata">
-            <span class="question-author">by <a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a></span>
-            <span class="question-date">${lastQuestion.timestamp}</span>
-            <span class="question-voting"> Voting: ${lastQuestion.voting}</span>
-            <span class="question-answer">
-                #{ifnot lastQuestion.answers.isEmpty()}
-                   , last answered by ${lastAnswer}
-                #{/ifnot}
-            </span>
-        </div>
-        <div class="question-content">
-        	<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.content.nl2br()}</a>
-        	#{secure.check 'user'}
-        	<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
-        	#{/secure.check}
-        </div>
-        #{ifnot models.User.find("byEmail", lastQuestion.author.fullname).first()==null}
-           	<div class="avatar"><img src="${models.User.find("byEmail", lastQuestion.author.fullname).first().avatarURL}" /></div>
-		#{/ifnot}
-    </div>
-</div>
-    
+    		<div class="voting">
+	    		<div class="vote-curr">
+	    			${lastQuestion.voting}
+	    		</div>
+	    		#{secure.check 'user'}
+	        	<div class="vote-up-down">
+	    			<div class="vote-up"><a class="button" href="@{Users.voteForQuestion(lastQuestion.id, true)}">+</a></div>
+				    <div class="vote-down"><a class="button" href="@{Users.voteForQuestion(lastQuestion.id, false)}">-</a></div>
+			    </div>
+	        	#{/secure.check}
+	        </div>
+	        <div class="question-metadata">
+	            <span class="question-author">by <a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a></span>
+	            <span class="question-date">${lastQuestion.timestamp}</span>
+	            <span class="question-answer">
+	                #{ifnot lastQuestion.answers.isEmpty()}
+	                   , last answered by ${lastAnswer}
+	                #{/ifnot}
+	            </span>
+	        </div>
+	        <div class="question-content">
+	        	<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.content.nl2br()}</a>
+	        	#{secure.check 'user'}
+	        	<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
+	        	#{/secure.check}
+	        </div>
+	        #{ifnot models.User.find("byEmail", lastQuestion.author.fullname).first()==null}
+	           	<div class="avatar"><img src="${models.User.find("byEmail", lastQuestion.author.fullname).first().avatarURL}" /></div>
+			#{/ifnot}
+	    </div>
+	</div>
     
 	#{if questions.size() > 1}
-   		<div class="questions">    
-        	<h3>All questions from this KnowledgeBase</h3>
-        
-         	#{list items:questions, as:'question'}
-            	<div class="question">
-                	<div class="question-metadata">
-                    	<span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>, </span>
-                     	<span class="question-date">${question.timestamp}</span>
-                     	<span class="question-voting"> Voting: ${question.voting}</span>
-                     	<div class="question-answer">
-               			 	#{ifnot question.answers.isEmpty()}
-                			   , last answered by ${question.answers.get(question.answers.size()-1).author.fullname}
-                			#{/ifnot}
-                    	</div>
-                    	<div class="question-content">
-        					<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
-        					#{secure.check 'user'}
-        					<a href="@{Users.followQuestion(question.id)}">[follow]</a>
-        					#{/secure.check}
-        				</div>
-        				#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-                			<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarURL}" /></div>
-		         		#{/ifnot}
-                   </div>
-            	</div>
+		<div class="questions"> 
+			<h3>All questions from this KnowledgeBase</h3>
+			
+			#{list items:questions, as:'question'}
+				<div class="question">
+					<div class="voting">
+						<div class="vote-curr">
+							${lastQuestion.voting}
+						</div>
+						#{secure.check 'user'}
+						<div class="vote-up-down">
+							<div class="vote-up"><a class="button" href="@{Users.voteForQuestion(question.id, true)}">+</a></div>
+							<div class="vote-down"><a class="button" href="@{Users.voteForQuestion(question.id, false)}">-</a></div>
+						</div>
+						#{/secure.check}
+					</div>
+					<div class="question-author">
+						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
+							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarURL}" /></div>
+						#{/ifnot}
+						<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
+						<div class="question-date">
+							${question.timestamp}
+						</div>
+					</div>
+					<div class="question-main">
+						<div class="question-title">
+							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
+							#{secure.check 'user'}
+								<a href="@{Users.followQuestion(question.id)}">[follow]</a>
+							#{/secure.check}
+						</div>
+						<div class="question-content">
+							${question.content.nl2br()}
+						</div>
+						<div class="question-answer">
+							#{ifnot question.answers.isEmpty()}
+								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})
+							#{/ifnot}
+						</div>
+					</div>
+                </div>
             	<br>
          	#{/list}
     	</div>    
 	#{/if}
-    
 #{/if}
  
 #{else}

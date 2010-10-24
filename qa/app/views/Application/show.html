@@ -26,7 +26,7 @@
 				#{if abletovote && isvalid}
 				
 				<br>
-				Vote: <a href="@{Users.voteForQuestion(question.id, true)}">+</a> / <a href="@{Users.voteForQuestion(question.id, false)}">-</a>
+				Vote: <a class="button" href="@{Users.voteForQuestion(question.id, true)}">+</a> / <a href="@{Users.voteForQuestion(question.id, false)}">-</a>
 				<br>	
         		#{/if}
 			#{/secure.check}

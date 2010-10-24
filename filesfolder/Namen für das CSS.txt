@@ -1,9 +1,11 @@
 CSS Syntax:
-.link um auf class zugreifen zu können
-#menu um auf id zugreifen zu können
+.link um auf class zugreifen zu kšnnen
+#menu um auf id zugreifen zu kšnnen
 
 
 Beschreibung:		Name im Code:
+
+Main			id="main"
 
 Linkmenu		id="menu"
 
@@ -12,7 +14,7 @@ Links			class="link"
 User-info		id="user"
 			class="userInfo"
 
-Main			id="main"
+Content                 id="content"
 
 Questions		class="questions"		
 			class="question"

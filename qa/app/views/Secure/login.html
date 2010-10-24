@@ -1,53 +1,55 @@
 #{extends 'main.html' /} 
 #{set title:'LogIn' /} 
 
-<div id="login" class="form">
-	
-	<h2>&{'secure.title'}</h2>
+<div id="loginCont">
+	<div id="login" class="form">
 		
-	#{form @authenticate()}
+		<h2>&{'secure.title'}</h2>
+			
+		#{form @authenticate()}
+			
+			#{if flash.error}
+				<p class="error">
+					&{flash.error}
+				</p>
+			#{/if}
+			#{if flash.success}
+				<p class="success">
+					&{flash.success}
+				</p>
+			#{/if}
 		
-		#{if flash.error}
-			<p class="error">
-				&{flash.error}
+			<p id="username-field">
+				<label for="username">&{'secure.username'}</label><br>
+				<input type="text" name="username" id="username" value="${flash.username}" />
 			</p>
-		#{/if}
-		#{if flash.success}
-			<p class="success">
-				&{flash.success}
+			<p id="password-field">
+				<label for="password">&{'secure.password'}</label><br>
+				<input type="password" name="password" id="password" value="" />
 			</p>
-		#{/if}
+			<p id="remember-field">
+				<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
+				<label for="remember">&{'secure.remember'}</label><br>
+			</p>
+			<p id="signin-field">
+				<input type="submit" id="signin" value="&{'secure.signin'}" />
+			</p>
+		#{/form}
+	</div>
 	
-		<p id="username-field">
-			<label for="username">&{'secure.username'}</label><br>
-			<input type="text" name="username" id="username" value="${flash.username}" />
-		</p>
-		<p id="password-field">
-			<label for="password">&{'secure.password'}</label><br>
-			<input type="password" name="password" id="password" value="" />
-		</p>
-		<p id="remember-field">
-			<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
-			<label for="remember">&{'secure.remember'}</label><br>
-		</p>
-		<p id="signin-field">
-			<input type="submit" id="signin" value="&{'secure.signin'}" />
-		</p>
-	#{/form}
-</div>
-
-<div id="register" class="form">
-	
-	<h2>&{'register.title'}</h2>
-	<h3>&{'register.subtitle'}</h3>
-	
-	<h3>${message}</h3>
-	
-	#{form @Application.addUser()}
-		<div>&{'register.name'}:<br><input type="text" name="fullname", id="fullname"></div>
-		<div>&{'register.email'}:<br><input type="text" name="email", id="email"></div>
-		<div>&{'register.password1'}:<br><input type="password" name="password", id="password"></div>
-		<div>&{'register.password2'}:<br><input type="password" name="password2", id="password2"></div>
-		<div><input type="submit" value="Create User"/></div>
-	#{/form}
+	<div id="register" class="form">
+		
+		<h2>&{'register.title'}</h2>
+		<h3>&{'register.subtitle'}</h3>
+		
+		<h3>${message}</h3>
+		
+		#{form @Application.addUser()}
+			<div>&{'register.name'}:<br><input type="text" name="fullname", id="fullname"></div>
+			<div>&{'register.email'}:<br><input type="text" name="email", id="email"></div>
+			<div>&{'register.password1'}:<br><input type="password" name="password", id="password"></div>
+			<div>&{'register.password2'}:<br><input type="password" name="password2", id="password2"></div>
+			<div><input type="submit" value="Create User"/></div>
+		#{/form}
+	</div>
 </div>
