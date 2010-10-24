@@ -259,4 +259,20 @@ public class User extends Model {
 		this.followU.remove(index);
 		this.save();
 	}
+
+	public boolean isFollowing(Object o) {
+		boolean follows = false;
+		if (o.getClass().getName().equals("models.User")) {
+			if (this.followU.contains((User) o)) {
+				follows = true;
+			}
+		}
+
+		if (o.getClass().getName().equals("models.Question")) {
+			if (this.followQ.contains((Question) o)) {
+				follows = true;
+			}
+		}
+		return follows;
+	}
 }
