@@ -66,6 +66,14 @@
 
 <p><input type="submit" value="Update"/></p>
 
+<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" />
+    <input type="file" id="photo" name="photo" />
+    <input type="submit" value="Send it..." />
+</form>
+
+
+
 #{/form}
 </div>
 #{/ secure.check}

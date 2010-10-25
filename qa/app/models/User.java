@@ -1,5 +1,6 @@
 package models;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
+	public File avatar;
+	public String avatarTitel = "standard avatar";
 
 	public User(String fullname, String email, String password) {
 		this.fullname = fullname;

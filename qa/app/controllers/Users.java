@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.List;
 
@@ -474,4 +475,11 @@ public class Users extends Controller {
 		userMaster.deleteFollowU(userSlave);
 		Users.myFollows();
 	}
+
+	public static void uploadAvatar(String title, File avatar) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.avatar = avatar;
+		user.avatarTitel = title;
+	}
+
 }
