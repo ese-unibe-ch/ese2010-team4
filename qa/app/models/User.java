@@ -184,7 +184,6 @@ public class User extends Model {
 		return this.age();
 	}
 
-	// JW: refactor
 	/**
 	 * Creates a new user if all requirements are met
 	 * 

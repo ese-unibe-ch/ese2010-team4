@@ -54,12 +54,20 @@ public class Users extends Controller {
 	 */
 	public static void showEdit(Long questionId, int editionIndex) {
 
+		Boolean sizeIsZero = false;
 		Post post = Post.findById(questionId);
 		User user = post.author;
 
+		System.out.println("HistorySize: " + post.history.size());
+		if (post.history.size() == 0) {
+			System.out.println("geht hier durch");
+			sizeIsZero = true;
+		}
+
 		if (post instanceof Question) {
 			if (user.hasTimeToChange(questionId)) {
-				render(post, editionIndex);
+				System.out.println("geht auch hier durch");
+				render(post, editionIndex, sizeIsZero);
 			}
 
 			else {
@@ -73,7 +81,7 @@ public class Users extends Controller {
 			Long id = ((Answer) post).question.id;
 
 			if (user.hasTimeToChange(id)) {
-				render(post, editionIndex);
+				render(post, editionIndex, sizeIsZero);
 			}
 
 			else {
@@ -282,7 +290,7 @@ public class Users extends Controller {
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
 		post.content = content;
-		post.history.addFirst(content);
+		post.addToHistory("", content);
 		post.save();
 		if (post.getClass().getName().equals("models.Question")) {
 			Users.myQuestions();
@@ -314,9 +322,11 @@ public class Users extends Controller {
 	 *            the index
 	 */
 	public static void nextEdition(Long id, int index) {
+
 		if (index > 0) {
 			index--;
 		}
+
 		Users.showEdit(id, index);
 	}
 
