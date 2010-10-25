@@ -38,20 +38,24 @@ public abstract class Post extends Model {
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	public List<Comment> comments;
 
-	public ArrayList<User> userVoted;
+	@OneToMany
+	public List<User> userVoted;
 
-	public LinkedList<String> history;
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	public List<History> history;
 
 	public Post(User author, String content) {
 
 		this.userVoted = new ArrayList<User>();
-		this.history = new LinkedList<String>();
+		this.history = new LinkedList<History>();
 		this.comments = new ArrayList<Comment>();
-		this.history.addFirst(content);
+		History hist = new History(this, "", content).save();
+		this.history.add(0, hist);
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.voting = 0;
+
 	}
 
 	public String toString() {
@@ -114,4 +118,20 @@ public abstract class Post extends Model {
 		return "this question has " + newAnswers + " new answers and "
 				+ newComments + " new comments";
 	}
+
+	/**
+	 * Add a new History to the post
+	 * 
+	 * @param title
+	 *            necessary if is an question
+	 * @param content
+	 *            of the post
+	 */
+	public void addToHistory(String title, String content) {
+		History hist = new History(this, title, content).save();
+		history.add(0, hist);
+		this.save();
+
+	}
+
 }
