@@ -86,38 +86,26 @@ public abstract class Post extends Model {
 		return false;
 	}
 
-	public String lastChanges(Long questionId, Long userId) {
+	public List<Post> lastChanges(Long questionId, Long userId) {
 		Question question = Question.findById(questionId);
 		User user = User.findById(userId);
-		int newAnswers = 0;
-		int newComments = 0;
+		List<Post> news = new ArrayList<Post>();
 
-		try {
-			Iterator<Answer> iterA = question.answers.iterator();
-			while (iterA.hasNext()) {
-				if (iterA.next().timestamp.after(user.lastLogOff)) {
-					newAnswers++;
-				}
+		Iterator<Answer> iterA = question.answers.iterator();
+		while (iterA.hasNext()) {
+			if (iterA.next().timestamp.after(user.lastLogOff)) {
+				news.add(iterA.next());
 			}
 		}
 
-		catch (Exception e) {
-		}
-
-		try {
-			Iterator<Comment> iterC = question.comments.iterator();
-			while (iterC.hasNext()) {
-				if (iterC.next().timestamp.after(user.lastLogOff)) {
-					newComments++;
-				}
+		Iterator<Comment> iterC = question.comments.iterator();
+		while (iterC.hasNext()) {
+			if (iterC.next().timestamp.after(user.lastLogOff)) {
+				news.add(iterC.next());
 			}
 		}
 
-		catch (Exception e) {
-		}
-
-		return "this question has " + newAnswers + " new answers and "
-				+ newComments + " new comments";
+		return news;
 	}
 
 	/**
