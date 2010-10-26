@@ -1,6 +1,10 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -9,6 +13,9 @@ import models.Comment;
 import models.Post;
 import models.Question;
 import models.User;
+
+import org.apache.commons.io.IOUtils;
+
 import play.data.validation.Required;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -477,14 +484,18 @@ public class Users extends Controller {
 		Users.myFollows();
 	}
 
-	public static void uploadAvatar(File avatar) {
+	public static void uploadAvatar(File avatar) throws FileNotFoundException,
+			IOException {
 		User user = User.find("byEmail", Security.connected()).first();
-		if (avatar != null) {
-			avatar.renameTo(new File("public/avatars/" + avatar.getName()));
-			user.avatar = new File("/public/avatars/" + avatar.getName());
-			user.save();
-		} else {
-			System.out.println("No file aparantly!");
-		}
+		FileInputStream iStream = new FileInputStream(avatar);
+		File outputFile = new File("/uploads/pic" + user + ".jpg");
+		IOUtils.copy(iStream, new FileOutputStream(outputFile));
+
+		/*
+		 * if (avatar != null) { avatar.renameTo(new File("/public/avatars/" +
+		 * avatar.getName())); System.out.println(avatar); user.avatar = avatar;
+		 * user.save(); } else { System.out.println("No file!"); }
+		 */
+		Users.myProfile();
 	}
 }

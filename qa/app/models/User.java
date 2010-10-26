@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
@@ -47,7 +48,9 @@ public class User extends Model {
 	@Required
 	public boolean isAdmin;
 	public String avatarTitel = "standard avatar";
-	public File avatar = new File(avatarURL);
+
+	@Transient
+	public File avatar;
 
 	public User(String fullname, String email, String password) {
 		this.fullname = fullname;
@@ -58,6 +61,7 @@ public class User extends Model {
 		followQ = new ArrayList<Question>();
 		followU = new ArrayList<User>();
 		recentPosts = new ArrayList<Post>();
+		this.avatar = new File("UserAvatar");
 	}
 
 	public static User login(String email, String password) {
