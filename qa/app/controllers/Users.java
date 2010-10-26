@@ -397,7 +397,8 @@ public class Users extends Controller {
 		user.work = work;
 		user.favoriteLanguages = languages;
 		user.aboutMe = aboutMe;
-		user.avatarURL = avatarURL;
+		if (avatarURL != "")
+			user.avatarURL = avatarURL;
 		user.save();
 		Users.myProfile();
 	}
@@ -476,10 +477,14 @@ public class Users extends Controller {
 		Users.myFollows();
 	}
 
-	public static void uploadAvatar(String title, File avatar) {
+	public static void uploadAvatar(File avatar) {
 		User user = User.find("byEmail", Security.connected()).first();
-		user.avatar = avatar;
-		user.avatarTitel = title;
+		if (avatar != null) {
+			avatar.renameTo(new File("public/avatars/" + avatar.getName()));
+			user.avatar = new File("/public/avatars/" + avatar.getName());
+			user.save();
+		} else {
+			System.out.println("No file aparantly!");
+		}
 	}
-
 }

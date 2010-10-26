@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.util.List;
 
 import models.Question;
@@ -81,5 +82,9 @@ public class Application extends Controller {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void uploadAttachment(File attachment) {
+
 	}
 }

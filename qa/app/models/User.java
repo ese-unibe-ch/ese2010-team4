@@ -46,8 +46,8 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-	public File avatar;
 	public String avatarTitel = "standard avatar";
+	public File avatar = new File(avatarURL);
 
 	public User(String fullname, String email, String password) {
 		this.fullname = fullname;

@@ -1,5 +1,6 @@
 package models;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Question extends Post {
 
 	public long validity;
 	public String title;
+	public File attachment;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	public List<Answer> answers;
@@ -62,7 +64,6 @@ public class Question extends Post {
 	}
 
 	public void setValidity(long delay) {
-
 		Date date = new Date();
 		this.validity = date.getTime() + delay;
 		this.save();
