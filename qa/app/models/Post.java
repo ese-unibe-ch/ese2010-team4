@@ -76,11 +76,12 @@ public abstract class Post extends Model {
 		return content;
 	}
 
-	public boolean hasVoted(User user) {
+	public boolean hasVoted(User comuser) {
 		
-		Vote vote = Vote.find("byUser", user).first();
-		if (vote != null) {
-			return true;
+		for(Vote vote: votes){
+			if(vote.user.equals(comuser)){
+				return true;
+			}
 		}
 
 		return false;
@@ -136,7 +137,6 @@ public abstract class Post extends Model {
 			}
 		}
 		
-		voting = status;
 		System.out.println("Status: " + status);
 		return status;
 

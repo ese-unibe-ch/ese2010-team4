@@ -18,8 +18,10 @@ public class ReputationTest extends UnitTest {
 	@Before
 	public void setup() throws Exception {
 		Fixtures.deleteAll();
-		hans = new User("Muster Hans", "hans@gmail.com", "keyword").save();
-		sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
+		User.createUser("Muster Hans", "hans@gmail.com", "keyword", "keyword");
+		hans = User.find("byFullname", "Muster Hans").first();
+		User.createUser("Sepp", "sepp@sepp.ch", "halloo", "halloo");
+		sepp = User.find("byFullname", "Sepp").first();
 		firstQuestion = new Question(hans, "brightliy?",
 				"What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();

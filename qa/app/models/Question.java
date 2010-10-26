@@ -90,7 +90,7 @@ public class Question extends Post {
 	}
 
 	public Post vote(User user, boolean result) {
-		Vote vote = new Vote(user, this, result);
+		Vote vote = new Vote(user, this, result).save();
 		this.votes.add(vote);
 		return this;
 		

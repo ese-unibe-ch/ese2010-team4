@@ -8,7 +8,7 @@
     	<div class="question">
     		<div class="voting">
 	    		<div class="vote-curr">
-	    			${lastQuestion.voting}
+	    			${lastQuestion.voting()}
 	    		</div>
 	    		#{secure.check 'user'}
 	        	<div class="vote-up-down">
@@ -46,7 +46,7 @@
 				<div class="question">
 					<div class="voting">
 						<div class="vote-curr">
-							${question.voting}
+							${question.voting()}
 						</div>
 						#{secure.check 'user'}
 						<div class="vote-up-down">

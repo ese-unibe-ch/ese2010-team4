@@ -494,7 +494,7 @@ public class Users extends Controller {
 	// DR working on a better way to render avatar
 	public static void avatar() {
 		User user = User.find("byEmail", Security.connected()).first();
-		System.out.println(user.avatar);
-		renderBinary(user.avatar);
+		//System.out.println(user.avatar);
+		//renderBinary(user.avatar);
 	}
 }

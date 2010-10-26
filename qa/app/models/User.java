@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import play.data.validation.Email;
@@ -33,7 +34,9 @@ public class User extends Model {
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
-
+	
+	@OneToOne
+	public Reputation rating;
 
 	@Email
 	@Required
@@ -49,13 +52,10 @@ public class User extends Model {
 	public boolean isAdmin;
 	public String avatarTitel = "standard avatar";
 
-
-	public Reputation rating;
-
-	//@OneToMany
-	public ArrayList<Question> followQ;
-	//@OneToMany
-	public ArrayList<User> followU;
+	@OneToMany
+	public List<Question> followQ;
+	@OneToMany
+	public List<User> followU;
 	//@OneToMany
 	public ArrayList<Post> recentPosts;
 
@@ -85,7 +85,6 @@ public class User extends Model {
 		this.followU = new ArrayList<User>();
 		recentPosts = new ArrayList<Post>();
 		this.avatar = new File("avatarURL");
-
 	}
 
 	public static User login(String email, String password) {
@@ -105,7 +104,7 @@ public class User extends Model {
 
 	public boolean isAbleToChoose(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 
 		if (question.author.email.equals(this.email)) {
 			return true;
@@ -122,7 +121,7 @@ public class User extends Model {
 	 */
 	public boolean isAbleToVote(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 
 		if (!question.hasVoted(this)
 				&& !question.author.email.equals(this.email)) {
@@ -142,7 +141,7 @@ public class User extends Model {
 
 	public boolean hasTimeToChange(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 		// changes actual date to date in milisec
 		Date actualdate = new Date();
 		long milidate = actualdate.getTime();
@@ -153,17 +152,7 @@ public class User extends Model {
 		return false;
 	}
 
-	/**
-	 * Helper method
-	 * 
-	 * @param id
-	 * @return searched question
-	 */
-	private Question findQuestion(Long id) {
-		
-		Question question = Question.findById(id);
-		return question;
-	}
+
 
 	/**
 	 * Calculates the age of the <code>User</code> in years
@@ -254,7 +243,9 @@ public class User extends Model {
 		}
 
 		else {
-			new User(fullname, email, password).save();
+			User newUser = new User(fullname, email, password).save();
+			//add the reputation
+			newUser.rating = new Reputation(newUser).save();
 			message = "Hello, " + fullname + ", please log in";
 		}
 
