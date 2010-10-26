@@ -13,7 +13,10 @@
         				#{form @Users.unfollowQuestion(question.id)}
 							<input type="submit" value="Unfollow"/>
 						#{/form}
-        				<p> ${question.lastChanges(question.id, userId)}
+        				<p> 
+        				#{list items: question.lastChanges(question.id, userId), as:'newpost'}
+        					<a href="@{Application.show(newpost.id)}">${newpost.content.nl2br()}</a>
+        				#{/list}
         			</div>
                  </div>
             </div>
