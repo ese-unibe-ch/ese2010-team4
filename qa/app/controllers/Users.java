@@ -490,6 +490,14 @@ public class Users extends Controller {
 		FileInputStream iStream = new FileInputStream(avatar);
 		File outputFile = new File("qa/public/uploads/pic" + user + ".jpg");
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
+		user.save();
 		Users.myProfile();
+	}
+
+	// DR working on a better way to render avatar
+	public static void avatar() {
+		User user = User.find("byEmail", Security.connected()).first();
+		System.out.println(user.avatar);
+		renderBinary(user.avatar);
 	}
 }

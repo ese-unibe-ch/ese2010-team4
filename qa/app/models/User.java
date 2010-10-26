@@ -65,7 +65,7 @@ public class User extends Model {
 		this.followQ = new ArrayList<Question>();
 		this.followU = new ArrayList<User>();
 		recentPosts = new ArrayList<Post>();
-		this.avatar = new File("UserAvatar");
+		this.avatar = new File("avatarURL");
 	}
 
 	public static User login(String email, String password) {
