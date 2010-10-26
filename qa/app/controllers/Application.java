@@ -64,7 +64,6 @@ public class Application extends Controller {
 			abletochoose = user.isAbleToChoose(id);
 			abletovote = user.isAbleToVote(id);
 			isvalid = user.hasTimeToChange(id);
-			System.out.println("Abeltovote: " + abletovote + " abletochoose: " + abletochoose + " isvalid: " + isvalid);
 
 			render(question, isvalid, abletochoose, abletovote);
 		}

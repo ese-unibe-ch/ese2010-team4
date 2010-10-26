@@ -66,7 +66,6 @@ public class Users extends Controller {
 		Post post = Post.findById(questionId);
 		User user = post.author;
 
-		System.out.println("HistorySize: " + post.historys.size());
 		if (post.historys.size() == 0) {
 			sizeIsZero = true;
 		}
@@ -432,7 +431,7 @@ public class Users extends Controller {
 
 	public static void myFollows() {
 		
-		//JW changes
+		
 		User user = User.find("byEmail", Security.connected()).first();
 
 		user.removeNull();
@@ -494,7 +493,7 @@ public class Users extends Controller {
 	// DR working on a better way to render avatar
 	public static void avatar() {
 		User user = User.find("byEmail", Security.connected()).first();
-		//System.out.println(user.avatar);
-		//renderBinary(user.avatar);
+		System.out.println(user.avatar);
+		renderBinary(user.avatar);
 	}
 }

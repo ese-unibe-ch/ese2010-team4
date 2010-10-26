@@ -107,24 +107,23 @@ a {
 
 .vote-up-down {
 	float: right;
+	margin-left: 2px;
 }
 		
 .vote-up {
-	background: green;
+	background: url("/public/images/voteUp.png");
 	width: 19px;
-	line-height: 19px;
-	margin: 0px 0px 2px 2px;
-	-webkit-border-radius: 0px 5px 0px 0px;
-    -moz-border-radius: 0px 5px 0px 0px;
+	height: 19px;
+	display: block;
+	margin-bottom: 2px;
 }
 
 .vote-down {
-	background: red;
+	background: url("/public/images/voteDown.png");
 	width: 19px;
-	line-height: 19px;
-	margin: 0px 2px 0px 2px;
-	-webkit-border-radius: 0px 0px 5px 0px;
-    -moz-border-radius: 0px 0px 5px 0px;
+	height: 19px;
+	display: block;
+	margin-top: 2px;
 }
 
 /** Answers **/
