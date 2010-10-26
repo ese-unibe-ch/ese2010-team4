@@ -21,7 +21,7 @@
     <div class="question-metadata">
         <span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}, </a></span>
         <span class="question-date">${question.timestamp}</span>
-        <span class="question-voting"> Voting: ${question.voteStatus()}</span>
+        <span class="question-voting"> Voting: ${question.voting()}</span>
 			#{secure.check 'user'}    
 				#{if abletovote && isvalid}
 				
@@ -78,11 +78,11 @@
    		<div class="answer-metadata">
         	<span class="answer-author">by <a href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>,</span>
         	<span class="answer-date">${answer.timestamp}</span>
-        	<span class="answer-voting"> Voting: ${answer.voteStatus()}</span>
+        	<span class="answer-voting"> Voting: ${answer.voting()}</span>
         	
         	#{secure.check 'user'}       	
         		      
-         				#{if isvalid && !answer.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !answer.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
+         				#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Security.connected()).first())}
          				         	
          						<br>
 								Vote: <a href="@{Users.voteForAnswer(question.id, answer.id, true)}">+</a> / <a href="@{Users.voteForAnswer(question.id, answer.id, false)}">-</a>

@@ -50,15 +50,20 @@ public class User extends Model {
 
 	public Reputation rating;
 
-	@OneToMany
-	public List<Question> followQ;
-	@OneToMany
-	public List<User> followU;
-	@OneToMany
-	public List<Post> recentPosts;
+	//@OneToMany
+	public ArrayList<Question> followQ;
+	//@OneToMany
+	public ArrayList<User> followU;
+	//@OneToMany
+	public ArrayList<Post> recentPosts;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Vote> votes;
+	
+	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<Post> posts;
 
 	public User(String fullname, String email, String password) {
 
@@ -67,6 +72,7 @@ public class User extends Model {
 		followQ = new ArrayList<Question>();
 		followU = new ArrayList<User>();
 		recentPosts = new ArrayList<Post>();
+		posts = new ArrayList<Post>();
 		this.fullname = fullname;
 		this.email = email;
 		this.password = password;
@@ -147,7 +153,9 @@ public class User extends Model {
 	 * @return searched question
 	 */
 	private Question findQuestion(Long id) {
-		return Question.find("byId", id).first();
+		
+		Question question = Question.findById(id);
+		return question;
 	}
 
 	/**
@@ -292,5 +300,34 @@ public class User extends Model {
 		}
 		return follows;
 	}
+
+	public User addVote(Vote vote) {
+		this.votes.add(vote);
+		this.save();
+		return this;
+		
+	}
+	
+	public User addAnswer(Answer answer){
+		this.posts.add(answer);
+		this.save();
+		return this;
+	}
+	
+	public Question addQuestion(String title, String content){
+		Question newQuestion = new Question(this, title, content).save();
+		this.posts.add(newQuestion);
+		this.save();
+		return newQuestion;
+	}
+
+	public User addComment(Comment comment) {
+		this.posts.add(comment);
+		this.save();
+		return this;
+		
+	}
+
+
 
 }

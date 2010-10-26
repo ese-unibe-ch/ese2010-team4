@@ -3,7 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,6 +23,7 @@ public abstract class Post extends Model {
 
 	public Date timestamp;
 	public String fullname;
+	public int voting;
 
 	@Lob
 	@Required
@@ -34,42 +34,52 @@ public abstract class Post extends Model {
 	@ManyToOne
 	public User author;
 
-	@OneToMany
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Comment> comments;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Vote> votes;
+	
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<History> historys;
+	
+	public abstract Post addHistory(Post post, String title, String content);	
 
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-	public List<History> history;
+	/**
+	 * Add an vote
+	 * 
+	 * @param user
+	 * @param result
+	 * @return the votet post
+	 */
+	public abstract Post vote(User user, boolean result);
 
 	public Post(User author, String content) {
 
-		votes = new ArrayList<Vote>();
-		this.history = new LinkedList<History>();
+		this.votes = new ArrayList<Vote>();
+		this.historys = new ArrayList<History>();
 		this.comments = new ArrayList<Comment>();
-		History hist = new History(this, "", content);
-		this.history.add(0, hist);
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
-		author.recentPosts.add(this);
-		this.save();
-		hist.save();
-
+		this.voting = 0;
+		
+		//JW author.recentPosts.add(this);
 	}
+	
 
-	public abstract void voteUp(User user);
-
-	public abstract void voteDown(User user);
 
 	public String toString() {
 		return content;
 	}
 
 	public boolean hasVoted(User user) {
-
-		if (Vote.find("byEmail", user.email).first() != null) {
+		
+		Vote vote = Vote.find("byUser", user).first();
+		if (vote != null) {
 			return true;
 		}
 
@@ -118,19 +128,14 @@ public abstract class Post extends Model {
 	 * @param content
 	 *            of the post
 	 */
-	public void addToHistory(String title, String content) {
-		History hist = new History(this, title, content).save();
-		history.add(0, hist);
-		this.save();
 
-	}
 
 	/**
 	 * Count the positive and negative votes
 	 * 
 	 * @return votestatus
 	 */
-	public int voteStatus() {
+	public int voting() {
 
 		int status = 0;
 
@@ -142,9 +147,18 @@ public abstract class Post extends Model {
 				status--;
 			}
 		}
-
+		
+		voting = status;
+		System.out.println("Status: " + status);
 		return status;
 
+	}
+
+	public Post addComment(Comment comment) {
+		this.comments.add(comment);
+		this.save();
+		return this;
+		
 	}
 
 }

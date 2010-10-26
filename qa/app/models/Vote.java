@@ -11,12 +11,15 @@ public class Vote extends Model {
 	boolean result;
 
 	@ManyToOne
-	User user;
+	public User user;
+	@ManyToOne
+	public Post post;
 
-	public Vote(User user, boolean result) {
+	public Vote(User user, Post post, boolean result) {
 		this.result = result;
 		this.user = user;
-		user.votes.add(this);
+		this.post = post;
+		user.addVote(this);
 	}
 
 }

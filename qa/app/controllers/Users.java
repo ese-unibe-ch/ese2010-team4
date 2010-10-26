@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Answer;
@@ -59,15 +60,13 @@ public class Users extends Controller {
 		Post post = Post.findById(questionId);
 		User user = post.author;
 
-		System.out.println("HistorySize: " + post.history.size());
-		if (post.history.size() == 0) {
-			System.out.println("geht hier durch");
+		System.out.println("HistorySize: " + post.historys.size());
+		if (post.historys.size() == 0) {
 			sizeIsZero = true;
 		}
 
 		if (post instanceof Question) {
 			if (user.hasTimeToChange(questionId)) {
-				System.out.println("geht auch hier durch");
 				render(post, editionIndex, sizeIsZero);
 			}
 
@@ -120,7 +119,7 @@ public class Users extends Controller {
 
 		User user = User.find("byFullname", author).first();
 
-		new Question(user, title, content).save();
+		user.addQuestion(title, content).save();
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
 	}
@@ -203,23 +202,12 @@ public class Users extends Controller {
 
 		User user = User.find("byEmail", Security.connected()).first();
 		Question question = Question.findById(questionId);
+		
+		question.vote(user, vote);
+		question.save();
+		flash.success("Thanks for vote %s!", user.fullname);
 
-		if (!question.hasVoted(user)
-				&& !question.author.email.equals(user.email)) {
-
-			if (vote) {
-				question.voteUp(user);
-				question.save();
-			}
-
-			else {
-				question.voteDown(user);
-				question.save();
-			}
-
-			flash.success("Thanks for vote %s!", user.fullname);
-		}
-
+		
 		Application.show(questionId);
 
 	}
@@ -240,18 +228,8 @@ public class Users extends Controller {
 		User user = User.find("byEmail", Security.connected()).first();
 		Answer answer = Answer.find("byId", answerId).first();
 
-		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
-			if (vote) {
-				answer.voteUp(user);
-				answer.save();
-
-			}
-
-			else {
-				answer.voteDown(user);
-				answer.save();
-			}
-		}
+		answer.vote(user, vote);
+		answer.save();
 
 		flash.success("Thanks for vote %s!", user.fullname);
 		Application.show(questionId);
@@ -289,13 +267,29 @@ public class Users extends Controller {
 	 */
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
+		
+		if(post instanceof Question){
+			
+			post.addHistory(post, ((Question) post).title, post.content);
+			post.save();
+			
+		}
+		
+		else{
+			post.addHistory(post, "", post.content);
+			post.save();
+		}
+		
 		post.content = content;
-		post.addToHistory("", content);
 		post.save();
-		if (post.getClass().getName().equals("models.Question")) {
+		
+		if (post instanceof Question) {
 			Users.myQuestions();
-		} else
+		} 
+		
+		else{
 			Users.myAnswers();
+		}
 	}
 
 	/**
@@ -340,7 +334,7 @@ public class Users extends Controller {
 	 */
 	public static void previousEdition(Long id, int index) {
 		Post post = Post.findById(id);
-		if (index < post.history.size() - 1) {
+		if (index < post.historys.size() - 1) {
 			index++;
 		}
 		Users.showEdit(id, index);
@@ -430,8 +424,10 @@ public class Users extends Controller {
 	}
 
 	public static void myFollows() {
+		
+		//JW changes
 		User user = User.find("byEmail", Security.connected()).first();
-		user.followQ = user.removeNull();
+		user.followQ = (ArrayList<Question>) user.removeNull();
 		user.save();
 		List<Question> followQ = user.followQ;
 		Long userId = user.id;

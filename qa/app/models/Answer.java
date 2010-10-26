@@ -14,6 +14,7 @@ public class Answer extends Post {
 
 	public boolean best = false;
 
+
 	@Required
 	@ManyToOne
 	public Question question;
@@ -21,32 +22,35 @@ public class Answer extends Post {
 	public Answer(Question question, User author, String content) {
 		super(author, content);
 		this.question = question;
-		question.answers.add(this);
+		question.addNewAnswer(this);
+		author.addAnswer(this);
 	}
 
-	/**
-	 * Votes a question up and gives the reputation for the user
-	 * 
-	 * @param user
-	 */
-	@Override
-	public void voteUp(User user) {
-		Vote vote = new Vote(user, true).save();
-		this.votes.add(vote);
-		/**
-		 * this.author.rating.voteUPAnswer(); this.author.rating.save();
-		 * this.author.save();
-		 **/
-	}
+
 
 	@Override
-	public void voteDown(User user) {
-		Vote vote = new Vote(user, false).save();
+	public Post addHistory(Post post, String title, String content) {
+		History history = new History(this, "", this.content).save();
+		historys.add(history);
+		this.save();
+		return this;
+	}
+	
+	public boolean isAbleToVoteAnswer(User user) {
+		
+		
+		if(this.hasVoted(user) || this.author.email.equals(user.email)){
+			return false;
+		}
+		
+		else
+			return true;
+	}
+
+	public Post vote(User user, boolean result) {
+		Vote vote = new Vote(user, this, result).save();
 		this.votes.add(vote);
-		/**
-		 * this.author.rating.voteDown(); this.author.rating.save();
-		 * this.author.save(); user.rating.penalty(); user.rating.save();
-		 * user.save();
-		 **/
+		return this;
+		
 	}
 }
