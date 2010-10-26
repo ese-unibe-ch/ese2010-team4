@@ -5,8 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import play.data.validation.Email;
@@ -31,8 +33,10 @@ public class User extends Model {
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
-	public ArrayList<Question> followQ;
-	public ArrayList<User> followU;
+	@OneToMany
+	public List<Question> followQ;
+	@OneToMany
+	public List<User> followU;
 	public ArrayList<Post> recentPosts;
 
 	@Email
@@ -58,8 +62,8 @@ public class User extends Model {
 		this.password = password;
 		this.isAdmin = false;
 		lastLogOff = new Date(System.currentTimeMillis());
-		followQ = new ArrayList<Question>();
-		followU = new ArrayList<User>();
+		this.followQ = new ArrayList<Question>();
+		this.followU = new ArrayList<User>();
 		recentPosts = new ArrayList<Post>();
 		this.avatar = new File("UserAvatar");
 	}
@@ -235,7 +239,7 @@ public class User extends Model {
 		return message;
 	}
 
-	public ArrayList<Question> removeNull() {
+	public void removeNull() {
 		int index = 0;
 		while (index < this.followQ.size()) {
 			try {
@@ -251,7 +255,6 @@ public class User extends Model {
 
 		}
 		this.save();
-		return this.followQ;
 	}
 
 	public void deleteFollowQ(Question question) {
@@ -268,13 +271,13 @@ public class User extends Model {
 
 	public boolean isFollowing(Object o) {
 		boolean follows = false;
-		if (o.getClass().getName().equals("models.User")) {
+		if (o instanceof User) {
 			if (this.followU.contains((User) o)) {
 				follows = true;
 			}
 		}
 
-		if (o.getClass().getName().equals("models.Question")) {
+		if (o instanceof Question) {
 			if (this.followQ.contains((Question) o)) {
 				follows = true;
 			}

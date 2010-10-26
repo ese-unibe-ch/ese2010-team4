@@ -440,11 +440,10 @@ public class Users extends Controller {
 
 	public static void myFollows() {
 		User user = User.find("byEmail", Security.connected()).first();
-		user.followQ = user.removeNull();
-		user.save();
+		user.removeNull();
+
 		List<Question> followQ = user.followQ;
 		Long userId = user.id;
-
 		List<User> followU = user.followU;
 
 		render(followQ, followU, userId);
@@ -470,14 +469,14 @@ public class Users extends Controller {
 		Users.myFollows();
 	}
 
-	public static void deleteFollowQuestion(Long id) {
+	public static void unfollowQuestion(Long id) {
 		Question question = Question.findById(id);
 		User user = User.find("byEmail", Security.connected()).first();
 		user.deleteFollowQ(question);
 		Users.myFollows();
 	}
 
-	public static void deleteFollowUser(Long id) {
+	public static void unfollowUser(Long id) {
 		User userMaster = User.find("byEmail", Security.connected()).first();
 		User userSlave = User.findById(id);
 		userMaster.deleteFollowU(userSlave);
