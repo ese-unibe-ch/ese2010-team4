@@ -23,7 +23,6 @@ import play.db.jpa.Model;
 public abstract class Post extends Model {
 
 	public Date timestamp;
-	public int voting;
 	public String fullname;
 
 	@Lob
@@ -35,54 +34,45 @@ public abstract class Post extends Model {
 	@ManyToOne
 	public User author;
 
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	@OneToMany
 	public List<Comment> comments;
 
-	@OneToMany
-	public List<User> userVoted;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	public List<Vote> votes;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	public List<History> history;
 
 	public Post(User author, String content) {
 
-		this.userVoted = new ArrayList<User>();
+		votes = new ArrayList<Vote>();
 		this.history = new LinkedList<History>();
 		this.comments = new ArrayList<Comment>();
-		History hist = new History(this, "", content).save();
+		History hist = new History(this, "", content);
 		this.history.add(0, hist);
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
-		this.voting = 0;
 		author.recentPosts.add(this);
+		this.save();
+		hist.save();
 
 	}
+
+	public abstract void voteUp(User user);
+
+	public abstract void voteDown(User user);
 
 	public String toString() {
 		return content;
 	}
 
-	public void voteUp(User user) {
-		voting++;
-		this.userVoted.add(user);
-		this.save();
-	}
-
-	public void voteDown(User user) {
-		voting--;
-		this.userVoted.add(user);
-		this.save();
-	}
-
 	public boolean hasVoted(User user) {
-		if (userVoted != null) {
-			for (User comuser : userVoted) {
-				if (user.email.equals(comuser.email)) {
-					return true;
-				}
-			}
+
+		if (Vote.find("byEmail", user.email).first() != null) {
+			return true;
 		}
+
 		return false;
 	}
 
@@ -132,6 +122,28 @@ public abstract class Post extends Model {
 		History hist = new History(this, title, content).save();
 		history.add(0, hist);
 		this.save();
+
+	}
+
+	/**
+	 * Count the positive and negative votes
+	 * 
+	 * @return votestatus
+	 */
+	public int voteStatus() {
+
+		int status = 0;
+
+		for (Vote vote : this.votes) {
+
+			if (vote.result) {
+				status++;
+			} else {
+				status--;
+			}
+		}
+
+		return status;
 
 	}
 

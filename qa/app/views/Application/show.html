@@ -21,7 +21,7 @@
     <div class="question-metadata">
         <span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}, </a></span>
         <span class="question-date">${question.timestamp}</span>
-        <span class="question-voting"> Voting: ${question.voting}</span>
+        <span class="question-voting"> Voting: ${question.voteStatus()}</span>
 			#{secure.check 'user'}    
 				#{if abletovote && isvalid}
 				
@@ -78,7 +78,7 @@
    		<div class="answer-metadata">
         	<span class="answer-author">by <a href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>,</span>
         	<span class="answer-date">${answer.timestamp}</span>
-        	<span class="answer-voting"> Voting: ${answer.voting}</span>
+        	<span class="answer-voting"> Voting: ${answer.voteStatus()}</span>
         	
         	#{secure.check 'user'}       	
         		      

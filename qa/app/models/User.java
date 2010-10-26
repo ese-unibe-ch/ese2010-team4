@@ -5,16 +5,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
 /**
- * A user with name and first-name.
- * 
+ * A user with name and first-name. Question
  */
 @Entity
 public class User extends Model {
@@ -30,9 +32,6 @@ public class User extends Model {
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
-	public ArrayList<Question> followQ;
-	public ArrayList<User> followU;
-	public ArrayList<Post> recentPosts;
 
 	@Email
 	@Required
@@ -49,15 +48,31 @@ public class User extends Model {
 	public File avatar;
 	public String avatarTitel = "standard avatar";
 
+	public Reputation rating;
+
+	@OneToMany
+	public List<Question> followQ;
+	@OneToMany
+	public List<User> followU;
+	@OneToMany
+	public List<Post> recentPosts;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	public List<Vote> votes;
+
 	public User(String fullname, String email, String password) {
+
+		// JW rating = new Reputation().save();
+		votes = new ArrayList<Vote>();
+		followQ = new ArrayList<Question>();
+		followU = new ArrayList<User>();
+		recentPosts = new ArrayList<Post>();
 		this.fullname = fullname;
 		this.email = email;
 		this.password = password;
 		this.isAdmin = false;
 		lastLogOff = new Date(System.currentTimeMillis());
-		followQ = new ArrayList<Question>();
-		followU = new ArrayList<User>();
-		recentPosts = new ArrayList<Post>();
+
 	}
 
 	public static User login(String email, String password) {
@@ -231,7 +246,7 @@ public class User extends Model {
 		return message;
 	}
 
-	public ArrayList<Question> removeNull() {
+	public List<Question> removeNull() {
 		int index = 0;
 		while (index < this.followQ.size()) {
 			try {
@@ -277,4 +292,5 @@ public class User extends Model {
 		}
 		return follows;
 	}
+
 }

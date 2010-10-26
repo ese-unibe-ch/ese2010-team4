@@ -241,7 +241,6 @@ public class Users extends Controller {
 		Answer answer = Answer.find("byId", answerId).first();
 
 		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
-			System.out.println("geht durch");
 			if (vote) {
 				answer.voteUp(user);
 				answer.save();

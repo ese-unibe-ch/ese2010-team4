@@ -34,6 +34,31 @@ public class Question extends Post {
 		return this;
 	}
 
+	/**
+	 * Votes a question up and gives the reputation for the user
+	 * 
+	 * @param user
+	 */
+	public void voteUp(User user) {
+
+		Vote vote = new Vote(user, true).save();
+		this.votes.add(vote);
+		/**
+		 * this.author.rating.votedUPQuestion(); this.author.rating.save();
+		 **/
+
+	}
+
+	public void voteDown(User user) {
+		Vote vote = new Vote(user, false).save();
+		this.votes.add(vote);
+		/**
+		 * this.author.rating.voteDown(); this.author.rating.save();
+		 * user.rating.penalty(); user.rating.save();
+		 **/
+
+	}
+
 	public Question previous() {
 		return Question
 				.find("timestamp < ? order by timestamp desc", timestamp)

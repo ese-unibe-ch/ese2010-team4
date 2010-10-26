@@ -14,4 +14,14 @@ public class Comment extends Post {
 		this.post = post;
 		post.comments.add(this);
 	}
+
+	@Override
+	public void voteDown(User user) {
+
+	}
+
+	@Override
+	public void voteUp(User user) {
+
+	}
 }
