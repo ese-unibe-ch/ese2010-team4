@@ -69,16 +69,12 @@
 #{/form}
 </div>
 
-<form action="@{Users.uploadAvatar()}" method="POST" 	
-	form-data">
+<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
 	<table style="padding-left: 60px">
 	<input type="file" id="avatar" name="avatar" />
 	<input type="submit" value="Upload" />
 	</table>
 </form> 
-
-<input type="text" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().avatar.toString()}" />
-
 
 #{/ secure.check}
 

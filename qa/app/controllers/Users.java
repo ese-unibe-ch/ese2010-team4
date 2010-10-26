@@ -486,16 +486,11 @@ public class Users extends Controller {
 
 	public static void uploadAvatar(File avatar) throws FileNotFoundException,
 			IOException {
+		assert avatar != null;
 		User user = User.find("byEmail", Security.connected()).first();
 		FileInputStream iStream = new FileInputStream(avatar);
-		File outputFile = new File("/uploads/pic" + user + ".jpg");
+		File outputFile = new File("qa/public/uploads/pic" + user + ".jpg");
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
-
-		/*
-		 * if (avatar != null) { avatar.renameTo(new File("/public/avatars/" +
-		 * avatar.getName())); System.out.println(avatar); user.avatar = avatar;
-		 * user.save(); } else { System.out.println("No file!"); }
-		 */
 		Users.myProfile();
 	}
 }
