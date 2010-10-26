@@ -1,8 +1,11 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import models.Answer;
@@ -10,6 +13,9 @@ import models.Comment;
 import models.Post;
 import models.Question;
 import models.User;
+
+import org.apache.commons.io.IOUtils;
+
 import play.data.validation.Required;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -390,7 +396,8 @@ public class Users extends Controller {
 		user.work = work;
 		user.favoriteLanguages = languages;
 		user.aboutMe = aboutMe;
-		user.avatarURL = avatarURL;
+		if (avatarURL != "")
+			user.avatarURL = avatarURL;
 		user.save();
 		Users.myProfile();
 	}
@@ -427,11 +434,13 @@ public class Users extends Controller {
 		
 		//JW changes
 		User user = User.find("byEmail", Security.connected()).first();
-		user.followQ = (ArrayList<Question>) user.removeNull();
+
+		user.removeNull();
 		user.save();
+
+
 		List<Question> followQ = user.followQ;
 		Long userId = user.id;
-
 		List<User> followU = user.followU;
 
 		render(followQ, followU, userId);
@@ -457,24 +466,35 @@ public class Users extends Controller {
 		Users.myFollows();
 	}
 
-	public static void deleteFollowQuestion(Long id) {
+	public static void unfollowQuestion(Long id) {
 		Question question = Question.findById(id);
 		User user = User.find("byEmail", Security.connected()).first();
 		user.deleteFollowQ(question);
 		Users.myFollows();
 	}
 
-	public static void deleteFollowUser(Long id) {
+	public static void unfollowUser(Long id) {
 		User userMaster = User.find("byEmail", Security.connected()).first();
 		User userSlave = User.findById(id);
 		userMaster.deleteFollowU(userSlave);
 		Users.myFollows();
 	}
 
-	public static void uploadAvatar(String title, File avatar) {
+	public static void uploadAvatar(File avatar) throws FileNotFoundException,
+			IOException {
+		assert avatar != null;
 		User user = User.find("byEmail", Security.connected()).first();
-		user.avatar = avatar;
-		user.avatarTitel = title;
+		FileInputStream iStream = new FileInputStream(avatar);
+		File outputFile = new File("qa/public/uploads/pic" + user + ".jpg");
+		IOUtils.copy(iStream, new FileOutputStream(outputFile));
+		user.save();
+		Users.myProfile();
 	}
 
+	// DR working on a better way to render avatar
+	public static void avatar() {
+		User user = User.find("byEmail", Security.connected()).first();
+		System.out.println(user.avatar);
+		renderBinary(user.avatar);
+	}
 }

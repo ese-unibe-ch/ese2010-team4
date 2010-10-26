@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
@@ -33,6 +34,7 @@ public class User extends Model {
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
 
+
 	@Email
 	@Required
 	public String email;
@@ -45,8 +47,8 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-	public File avatar;
 	public String avatarTitel = "standard avatar";
+
 
 	public Reputation rating;
 
@@ -65,19 +67,24 @@ public class User extends Model {
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
 
+	@Transient
+	public File avatar;
+
+
 	public User(String fullname, String email, String password) {
 
 		// JW rating = new Reputation().save();
 		votes = new ArrayList<Vote>();
-		followQ = new ArrayList<Question>();
-		followU = new ArrayList<User>();
-		recentPosts = new ArrayList<Post>();
 		posts = new ArrayList<Post>();
 		this.fullname = fullname;
 		this.email = email;
 		this.password = password;
 		this.isAdmin = false;
 		lastLogOff = new Date(System.currentTimeMillis());
+		this.followQ = new ArrayList<Question>();
+		this.followU = new ArrayList<User>();
+		recentPosts = new ArrayList<Post>();
+		this.avatar = new File("avatarURL");
 
 	}
 
@@ -254,7 +261,9 @@ public class User extends Model {
 		return message;
 	}
 
-	public List<Question> removeNull() {
+
+	public void removeNull() {
+
 		int index = 0;
 		while (index < this.followQ.size()) {
 			try {
@@ -270,7 +279,6 @@ public class User extends Model {
 
 		}
 		this.save();
-		return this.followQ;
 	}
 
 	public void deleteFollowQ(Question question) {
@@ -287,13 +295,13 @@ public class User extends Model {
 
 	public boolean isFollowing(Object o) {
 		boolean follows = false;
-		if (o.getClass().getName().equals("models.User")) {
+		if (o instanceof User) {
 			if (this.followU.contains((User) o)) {
 				follows = true;
 			}
 		}
 
-		if (o.getClass().getName().equals("models.Question")) {
+		if (o instanceof Question) {
 			if (this.followQ.contains((Question) o)) {
 				follows = true;
 			}

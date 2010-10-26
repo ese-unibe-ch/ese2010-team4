@@ -10,6 +10,8 @@ GET     /public/                                staticDir:public
 GET     /questions/{id}                         Application.show
 POST    /posts/{postId}/comments                Application.postComment
 
+POST	/user/uploadAvatar						Users.uploadAvatar
+
 # Import CRUD routes
 *      /admin            						module:crud
 
@@ -27,3 +29,4 @@ GET         /logout         Secure.logout
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
+

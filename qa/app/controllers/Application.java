@@ -1,9 +1,18 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
+import models.Post;
 import models.Question;
 import models.User;
+
+import org.apache.commons.io.IOUtils;
+
 import play.mvc.Controller;
 
 /**
@@ -82,5 +91,14 @@ public class Application extends Controller {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void uploadAttachment(File attachment)
+			throws FileNotFoundException, IOException {
+		Post post = Post.find("byID", Security.connected()).first();
+		FileInputStream iStream = new FileInputStream(attachment);
+		File outputFile = new File("qa/public/uploads/attachment" + post
+				+ ".txt");
+		IOUtils.copy(iStream, new FileOutputStream(outputFile));
 	}
 }

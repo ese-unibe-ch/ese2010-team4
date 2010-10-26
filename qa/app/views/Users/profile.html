@@ -5,84 +5,81 @@
 <div class="form" id="userForm">
 #{form @Users.changeProfile()}
 <p>
-        <label for="author">Fullname: </label>
-        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
-    </p>
+    <label for="author">Fullname: </label>
+	<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
     
 <p>
-        <label for="author">Email: </label>
-        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
-    </p>
+	<label for="author">Email: </label>
+	<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
+
    
-    <p>
-     #{field 'birthday'}
-         <label for="author">Birthday: </label>
-         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().getBirthday()}" />
-         <label for="content"></label>
-#{/field}
-</p>
+<p>
+	#{field 'birthday'}
+		<label for="author">Birthday: </label>
+		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().getBirthday()}" />
+		<label for="content"></label>
+	#{/field}
 
 <p>
-        <label for="author">Age: </label>
-        <input type="text" fullname="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().calculateAge()}" readonly/>
-    </p>
+	<label for="author">Age: </label>
+	<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().calculateAge()}" readonly/>
 
-    <p>
-     #{field 'website'}
-         <label for="author">Website: </label>
-         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
-         <label for="content"></label>
-#{/field}
-</p>
-    <p>
-     #{field 'work'}
-         <label for="author">Work: </label>
-         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
-         <label for="content"></label>
-#{/field}
-</p>
 <p>
-     #{field 'languages'}
-         <label for="author">Programming Languages: </label>
-         <input type="text" name="${field.name}" email="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
-         <label for="content"></label>
-#{/field}
-</p>
+	#{field 'website'}
+		<label for="author">Website: </label>
+		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
+		<label for="content"></label>
+	#{/field}
+
 <p>
-#{field 'aboutMe'}
-<label for="aboutMe">About Me: </label>
-<br>
-<textarea name="${field.name}" cols="50" rows="10">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
-</br>
-#{/field}
-</p>
-    <p>
-     #{field 'avatarURL'}
-         <label for="author">Avatar URL: </label>
-         <input type="text" name="${field.name}" email="author" id="user" />
-         <label for="content"></label>
-#{/field}
-</p>
+	#{field 'work'}
+		<label for="author">Work: </label>
+		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
+		<label for="content"></label>
+	#{/field}
 
-<p><input type="submit" value="Update"/></p>
+<p>
+	#{field 'languages'}
+		<label for="author">Programming Languages: </label>
+		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
+		<label for="content"></label>
+	#{/field}
 
-<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
-    <input type="text" name="title" />
-    <input type="file" id="photo" name="photo" />
-    <input type="submit" value="Send it..." />
-</form>
+<p>
+	#{field 'aboutMe'}
+		<label for="aboutMe">About Me: </label>
+	<br>
+		<textarea name="${field.name}" cols="50" rows="10">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
+	#{/field}
+	
+<p>
+	<input type="submit" value="Update"/>
 
-
+<!--Should not be used with file upload-->
+<!--<p>-->
+	<!--#{field 'avatarURL'}-->
+		<!--<label for="author">Avatar URL: </label>-->
+		<!--<input type="text" name="${field.name}" email="author" id="user-inp" />-->
+	<!--<label for="content"></label>-->
+	<!--#{/field}-->
 
 #{/form}
+
+<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
+	<table style="padding-left: 60px">
+	<input type="file" id="avatar" name="avatar" />
+	<input type="submit" value="Upload" />
+	</table>
+</form> 
 </div>
+
 #{/ secure.check}
 
 <p>
- <label>Recent posts: </label>
-</p>
+	<label>Recent posts: </label>
+
 
 #{if flash.success}
 <br>
-    <p class="success">${flash.success}</p>
+	<p class="success">${flash.success}</p>
 #{/if}

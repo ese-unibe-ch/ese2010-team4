@@ -9,8 +9,14 @@
                 <div class="follows-metadata">
                     <div class="follows-content">
         				<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
-        				<a href="@{Users.deleteFollowQuestion(question.id)}">[unfollow]</a>
-        				<p> ${question.lastChanges(question.id, userId)}
+        				<p>
+        				#{form @Users.unfollowQuestion(question.id)}
+							<input type="submit" value="Unfollow"/>
+						#{/form}
+        				<p> 
+        				#{list items: question.lastChanges(question.id, userId), as:'newpost'}
+        					<a href="@{Application.show(newpost.id)}">${newpost.content.nl2br()}</a>
+        				#{/list}
         			</div>
                  </div>
             </div>
@@ -26,7 +32,10 @@
                 <div class="follows-metadata">
                     <div class="follows-content">
         				<a href="@{Users.showProfile(user.id)}">${user.fullname}</a>
-        				<a href="@{Users.deleteFollowUser(user.id)}">[unfollow]</a>
+        				<p>
+        				#{form @Users.unfollowUser(user.id)}
+							<input type="submit" value="Unfollow"/>
+						#{/form}
         			</div>
                  </div>
             </div>
