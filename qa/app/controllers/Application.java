@@ -1,18 +1,9 @@
 package controllers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
-import models.Post;
 import models.Question;
 import models.User;
-
-import org.apache.commons.io.IOUtils;
-
 import play.mvc.Before;
 import play.mvc.Controller;
 
@@ -34,14 +25,18 @@ public class Application extends Controller {
 	 * Index.
 	 */
 	public static void index() {
-		Post lastActivity = Post.find("order by timestamp desc")
+		Question lastQuestion = Question.find("order by timestamp desc")
 				.first();
-		
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
 
-		render(lastActivity, questions, lastAnswer);
+		if (lastQuestion != null && lastQuestion.answers.size() != 0) {
+			lastAnswer = lastQuestion.answers
+					.get(lastQuestion.answers.size() - 1).author.fullname;
+		}
+
+		render(lastQuestion, questions, lastAnswer);
 	}
 
 	/**
@@ -99,12 +94,4 @@ public class Application extends Controller {
 		}
 	}
 
-	public static void uploadAttachment(File attachment)
-			throws FileNotFoundException, IOException {
-		Post post = Post.find("byID", Security.connected()).first();
-		FileInputStream iStream = new FileInputStream(attachment);
-		File outputFile = new File("qa/public/uploads/attachment" + post
-				+ ".txt");
-		IOUtils.copy(iStream, new FileOutputStream(outputFile));
-	}
 }

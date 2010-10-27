@@ -1,5 +1,10 @@
 package models;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +15,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.apache.commons.io.IOUtils;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
@@ -213,7 +220,8 @@ public class User extends Model {
 		try {
 			this.birthday = stringToDate(birthday);
 		} catch (ParseException e) {
-			System.out.println("Sry wrong Date_Format");
+			System.out
+					.println("Sorry wrong Date_Format it's " + DATE_FORMAT_de);
 		}
 	}
 
@@ -332,6 +340,25 @@ public class User extends Model {
 		Question newQuestion = new Question(this, title, content).save();
 		this.posts.add(newQuestion);
 		this.save();
+		return newQuestion;
+	}
+
+	public Question addQuestion(String title, String content, File attachment)
+			throws FileNotFoundException, IOException {
+		Question newQuestion = new Question(this, title, content);
+		newQuestion.save();
+		if (attachment != null) {
+			FileInputStream iStream = new FileInputStream(attachment);
+			File outputFile = new File("qa/public/uploads/attachment"
+					+ newQuestion.id + ".doc");
+			IOUtils.copy(iStream, new FileOutputStream(outputFile));
+			newQuestion.attachmentPath = "/public/uploads/attachment"
+					+ newQuestion.id + ".doc";
+		}
+		newQuestion.save();
+		this.posts.add(newQuestion);
+		this.save();
+		System.out.println(newQuestion.attachmentPath);
 		return newQuestion;
 	}
 

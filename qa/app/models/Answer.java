@@ -14,7 +14,6 @@ public class Answer extends Post {
 
 	public boolean best = false;
 
-
 	@Required
 	@ManyToOne
 	public Question question;
@@ -26,8 +25,6 @@ public class Answer extends Post {
 		author.addAnswer(this);
 	}
 
-
-
 	@Override
 	public Post addHistory(Post post, String title, String content) {
 		History history = new History(this, "", this.content).save();
@@ -35,31 +32,29 @@ public class Answer extends Post {
 		this.save();
 		return this;
 	}
-	
+
 	public boolean isAbleToVoteAnswer(User user) {
-		
-		
-		if(this.hasVoted(user) || this.author.email.equals(user.email)){
+
+		if (this.hasVoted(user) || this.author.email.equals(user.email)) {
 			return false;
 		}
-		
+
 		else
 			return true;
 	}
-	
-	
+
 	public Post vote(User user, boolean result) {
 		Vote vote = new Vote(user, this, result).save();
 		this.votes.add(vote);
-		
-		if(result){
+
+		if (result) {
 			this.author.rating.voteUPAnswer();
 			this.author.rating.save();
 			this.author.save();
 		}
-		
-		else{
-			
+
+		else {
+
 			this.author.rating.voteDown();
 			this.author.rating.save();
 			this.author.save();
@@ -67,10 +62,10 @@ public class Answer extends Post {
 			user.rating.save();
 			user.save();
 		}
-		
+
 		this.voting();
 		this.save();
 		return this;
-		
+
 	}
 }

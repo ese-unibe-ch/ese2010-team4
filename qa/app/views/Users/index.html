@@ -4,7 +4,9 @@
 
 #{secure.check 'user'}
 <div class="form" id="questionForm">
-	#{form @Users.createQuestion()}
+	<form action="@{Users.createQuestion()}" method="POST" enctype="multipart/form-data">
+		<table style="padding-left: 60px">
+		
 		#{ifErrors}
     	   	<p class="error">
        	   		All fields are required!
@@ -12,28 +14,23 @@
  	   	#{/ifErrors}
     	<p>
         	<label for="author">Your fullname: </label>
-        	<input type="text" name="author" id="author" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
-    	</p>
+        <br>
+        	<input type="text" name="author" id="author" value="${user.fullname}" readonly/>
     	<p>
     		<label for="title">Title: </label>
     		<br>
     		<input type="text" name="title" id="title"/>
-    	</p>
     	<p>
         	<label for="content">Your question: </label>
         	<br>
         	<textarea name="content" id="content"></textarea>
-    	</p>
+		
+		<p>
+		<input type="file" id="attachment" name="attachment" />
 
     	<p>
         	<input type="submit" value="Submit your question" />
     	</p>
-	#{/form}
-	
-	<form action="@{Application.uploadAttachment()}" method="POST" enctype="multipart/form-data">
-		<table style="padding-left: 60px">
-		<input type="file" id="attachment" name="attachment" />
-		<input type="submit" value="Add attachment" />
 	</table>
 	</form> 
 </div>

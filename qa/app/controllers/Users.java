@@ -114,17 +114,23 @@ public class Users extends Controller {
 	 *            the title
 	 * @param content
 	 *            the content
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
 	public static void createQuestion(@Required String author,
-			@Required String title, String content) {
+			@Required String title, String content, File attachment)
+			throws FileNotFoundException, IOException {
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
 		}
 
 		User user = User.find("byFullname", author).first();
-
-		user.addQuestion(title, content).save();
+		if (attachment != null)
+			user.addQuestion(title, content, attachment).save();
+		else {
+			user.addQuestion(title, content).save();
+		}
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
 	}
@@ -383,8 +389,7 @@ public class Users extends Controller {
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
-			String work, String languages, String aboutMe)
-			throws ParseException {
+			String work, String languages, String aboutMe) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.setBirthday(birthday);
 		user.website = website;

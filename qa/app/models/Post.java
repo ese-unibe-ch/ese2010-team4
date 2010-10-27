@@ -27,6 +27,7 @@ public abstract class Post extends Model {
 	public Date timestamp;
 	public String fullname;
 	public int voting;
+	public String attachmentPath;
 
 	@Lob
 	@Required
@@ -139,7 +140,6 @@ public abstract class Post extends Model {
 			}
 		}
 
-		
 		voting = status;
 
 		return status;
@@ -164,8 +164,8 @@ public abstract class Post extends Model {
 						"select distinct p from Post p join p.tags as t where t.name = ?",
 						tag).fetch();
 	}
-	
-	public boolean checkInstance(){
+
+	public boolean checkInstance() {
 		return this instanceof Question;
 	}
 
