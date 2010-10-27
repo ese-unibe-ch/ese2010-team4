@@ -117,7 +117,7 @@ public class Question extends Post {
 	public Question bestAnswer(Answer answer) {
 		
 		long delay = 10000;
-		// necessary if user changed his mind
+		// necessary if user change his mind
 		this.setAllAnswersFalse();
 		answer.best = true;
 		answer.save();
