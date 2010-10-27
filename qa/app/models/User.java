@@ -30,7 +30,7 @@ public class User extends Model {
 
 	public String avatarPath = "/public/uploads/standardAvatar.png";
 
-	public static final String DATE_FORMAT = "dd-MM-yyyy";
+	public static final String DATE_FORMAT_de = "dd-MM-yyyy";
 	public Date lastLogOff;
 
 	@OneToOne
@@ -53,7 +53,6 @@ public class User extends Model {
 	public List<Question> followQ;
 	@OneToMany
 	public List<User> followU;
-
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
@@ -182,11 +181,11 @@ public class User extends Model {
 
 	/**
 	 * Turns the Date object d into a String using the format given in the
-	 * constant DATE_FORMAT.
+	 * constant DATE_FORMAT_de.
 	 */
 	private String dateToString(Date d) {
 		if (d != null) {
-			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT);
+			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
 			return fmt.format(d);
 		} else
 			return ("dd-mm-yyyy");
@@ -194,13 +193,13 @@ public class User extends Model {
 
 	/**
 	 * Turns the String object s into a Date assuming the format given in the
-	 * constant DATE_FORMAT
+	 * constant DATE_FORMAT_de
 	 * 
 	 * @throws ParseException
 	 */
 	private Date stringToDate(String s) throws ParseException {
 		if (s != null) {
-			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT);
+			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
 			return fmt.parse(s);
 		} else
 			return (null);
@@ -210,8 +209,12 @@ public class User extends Model {
 		return dateToString(birthday);
 	}
 
-	public void setBirthday(String birthday) throws ParseException {
-		this.birthday = stringToDate(birthday);
+	public void setBirthday(String birthday) {
+		try {
+			this.birthday = stringToDate(birthday);
+		} catch (ParseException e) {
+			System.out.println("Sry wrong Date_Format");
+		}
 	}
 
 	public int calculateAge() {
@@ -338,18 +341,18 @@ public class User extends Model {
 		return this;
 
 	}
-	
-	public int countQuestions(){
+
+	public int countQuestions() {
 		return Question.find("byAuthor", this).fetch().size();
 	}
-	
-	public int countAnswers(){
+
+	public int countAnswers() {
 		return Answer.find("byAuthor", this).fetch().size();
 	}
-	
-	public List<Post> activities(){
 
-		return Post.find("author like ? order by timestamp desc", this).fetch();		
+	public List<Post> activities() {
+
+		return Post.find("author like ? order by timestamp desc", this).fetch();
 	}
-	
+
 }
