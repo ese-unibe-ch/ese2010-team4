@@ -29,6 +29,13 @@
         	<input type="submit" value="Submit your question" />
     	</p>
 	#{/form}
+	
+	<form action="@{Application.uploadAttachment()}" method="POST" enctype="multipart/form-data">
+		<table style="padding-left: 60px">
+		<input type="file" id="attachment" name="attachment" />
+		<input type="submit" value="Add attachment" />
+	</table>
+	</form> 
 </div>
 #{/ secure.check}
 

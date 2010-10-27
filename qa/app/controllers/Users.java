@@ -32,7 +32,7 @@ public class Users extends Controller {
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
 			User user = User.find("byEmail", Security.connected()).first();
-			renderArgs.put("user", user.fullname);
+			renderArgs.put("user", user);
 		}
 	}
 
