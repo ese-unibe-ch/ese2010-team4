@@ -415,16 +415,18 @@ public class Users extends Controller {
 	public static void searchResults(String toSearch) {
 
 		boolean found = false;
-		User user = User.find("byFullname", toSearch).first();
+		List<User> users = User.find("byFullnameLike", "%"+toSearch+"%").fetch();
+		List<Post> postscont = Post.find("byContentLike", "%"+toSearch+"%").fetch();
+		List<Post> poststitl = Post.find("byTitleLike", "%"+toSearch+"%").fetch();
 
-		if (user == null) {
+		if (users.size()==0 && postscont.size() == 0 && poststitl.size() == 0) {
 			String message = "no user found";
-			render(user, message, found);
+			render(users, message, found);
 		}
 
 		else {
 			found = true;
-			render(user, found);
+			render(users, postscont, poststitl, found);
 		}
 	}
 
