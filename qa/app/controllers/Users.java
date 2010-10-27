@@ -477,7 +477,13 @@ public class Users extends Controller {
 		Users.myProfile();
 	}
 
-	// DR working on a better way to render avatar
+	public static void updateAvatarPath(String URL) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.avatarPath = URL;
+		user.save();
+		Users.myProfile();
+	}
+
 	public static void avatarPath() {
 		User user = User.find("byEmail", Security.connected()).first();
 		System.out.println(user.avatarPath);
