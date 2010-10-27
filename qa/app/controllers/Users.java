@@ -431,10 +431,11 @@ public class Users extends Controller {
 		user.save();
 
 		List<Question> followQ = user.followQ;
+		List<Post> activities = user.followAcitvities();
 		Long userId = user.id;
 		List<User> followU = user.followU;
 
-		render(followQ, followU, userId);
+		render(followQ, followU, userId, activities);
 	}
 
 	public static void followQuestion(Long id) {
