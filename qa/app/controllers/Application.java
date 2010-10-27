@@ -4,6 +4,7 @@ import java.util.List;
 
 import models.Post;
 import models.Question;
+import models.Tag;
 import models.User;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -26,8 +27,7 @@ public class Application extends Controller {
 	 * Index.
 	 */
 	public static void index() {
-		Post lastActivity = Post.find("order by timestamp desc")
-				.first();
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
@@ -88,6 +88,10 @@ public class Application extends Controller {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void tagged(Tag tag) {
+		render();
 	}
 
 }
