@@ -97,25 +97,37 @@ public class ReputationTest extends UnitTest {
 		firstAnswer.best = true;
 		firstAnswer.save();
 		firstQuestion.setValidity(0);
-		firstQuestion.save();
-		
-		
-		
-		bob.hasTimeToChange(firstQuestion.id);
-		
+		firstQuestion.save();		
+		bob.hasTimeToChange(firstQuestion.id);		
 		assertEquals(50, jeff.rating.bestAnswerRep);
 		assertEquals(50, jeff.rating.totalRep);
 		
 	}
 	
 	@Test
-	public void shouldNotBeBestAnser(){
+	public void shouldNotBeBestAnswer(){
 		
 		firstQuestion.setValidity(0);
 		firstQuestion.save();		
 		bob.hasTimeToChange(firstQuestion.id);		
 		assertEquals(0, jeff.rating.bestAnswerRep);
 		assertEquals(0, jeff.rating.totalRep);
+	}
+	
+	@Test
+	public void shouldIcreaseReputation(){
+		
+		Answer secondAnswer = Answer.find("byContent", "answer to question number 2.").first();
+		firstQuestion.vote(jeff, true);
+		secondAnswer.vote(jeff, true);
+		secondAnswer.best = true;
+		secondAnswer.save();
+		firstQuestion.setValidity(0);
+		bob.hasTimeToChange(firstQuestion.id);
+		
+		assertEquals(65, bob.rating.totalRep);
+		
+		
 	}
 
 }

@@ -63,4 +63,8 @@ public class Reputation extends Model {
 		this.penalty += repVal.penalty;
 		totalRep();
 	}
+	
+	public String toString(){
+		return Integer.toString(totalRep);
+	}
 }
