@@ -10,6 +10,7 @@ public class History extends Model {
 
 	@ManyToOne
 	public Post post;
+
 	public String title;
 	public String content;
 
@@ -18,7 +19,6 @@ public class History extends Model {
 		this.post = post;
 		this.title = title;
 		this.content = content;
-
 	}
 
 }

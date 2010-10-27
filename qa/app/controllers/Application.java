@@ -52,10 +52,11 @@ public class Application extends Controller {
 		boolean abletochoose = false;
 		boolean abletovote = false;
 		boolean isvalid = false;
+		boolean isfollowing = false;
 
 		if (!Security.isConnected()) {
 
-			render(question, isvalid, abletochoose, abletovote);
+			render(question, isvalid, abletochoose, abletovote, isfollowing);
 		}
 
 		else {
@@ -64,8 +65,9 @@ public class Application extends Controller {
 			abletochoose = user.isAbleToChoose(id);
 			abletovote = user.isAbleToVote(id);
 			isvalid = user.hasTimeToChange(id);
+			isfollowing = user.isFollowing(question);
 
-			render(question, isvalid, abletochoose, abletovote);
+			render(question, isvalid, abletochoose, abletovote, isfollowing);
 		}
 	}
 

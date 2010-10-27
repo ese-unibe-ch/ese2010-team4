@@ -16,13 +16,13 @@
 		
 		#{field 'content'}
 		<label for="content"></label>
-		#{if !sizeIsZero}		
-			<textarea name="${field.name}" cols="50" rows="10">${post.history.get(editionIndex).content}</textarea>
+		#{if editionIndex == 0}
+			<textarea name="${field.name}" cols="50" rows="10">${post.content}</textarea>
 		#{/if}
 		
 		
 		#{else}
-			<textarea name="${field.name}" cols="50" rows="10">${post.content}</textarea>
+			<textarea name="${field.name}" cols="50" rows="10">${post.historys.get(editionIndex).content}</textarea>
 		#{/else}
 		#{/field}
 			

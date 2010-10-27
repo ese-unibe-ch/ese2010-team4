@@ -12,6 +12,19 @@ public class Comment extends Post {
 	public Comment(User author, Post post, String content) {
 		super(author, content);
 		this.post = post;
-		post.comments.add(this);
+		post.addComment(this);
+		author.addComment(this);
 	}
+
+	@Override
+	public Post addHistory(Post post, String title, String content) {
+		return null;
+	}
+
+	@Override
+	public Post vote(User user, boolean result) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

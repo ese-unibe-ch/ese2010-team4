@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import play.data.validation.Email;
@@ -16,8 +18,7 @@ import play.data.validation.Required;
 import play.db.jpa.Model;
 
 /**
- * A user with name and first-name.
- * 
+ * A user with name and first-name. Question
  */
 @Entity
 public class User extends Model {
@@ -33,11 +34,9 @@ public class User extends Model {
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
-	@OneToMany
-	public List<Question> followQ;
-	@OneToMany
-	public List<User> followU;
-	public ArrayList<Post> recentPosts;
+	
+	@OneToOne
+	public Reputation rating;
 
 	@Email
 	@Required
@@ -53,10 +52,30 @@ public class User extends Model {
 	public boolean isAdmin;
 	public String avatarTitel = "standard avatar";
 
+	@OneToMany
+	public List<Question> followQ;
+	@OneToMany
+	public List<User> followU;
+	//@OneToMany
+	public ArrayList<Post> recentPosts;
+
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<Vote> votes;
+	
+	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<Post> posts;
+
 	@Transient
 	public File avatar;
 
+
 	public User(String fullname, String email, String password) {
+
+		// JW rating = new Reputation().save();
+		votes = new ArrayList<Vote>();
+		posts = new ArrayList<Post>();
 		this.fullname = fullname;
 		this.email = email;
 		this.password = password;
@@ -85,7 +104,7 @@ public class User extends Model {
 
 	public boolean isAbleToChoose(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 
 		if (question.author.email.equals(this.email)) {
 			return true;
@@ -102,7 +121,7 @@ public class User extends Model {
 	 */
 	public boolean isAbleToVote(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 
 		if (!question.hasVoted(this)
 				&& !question.author.email.equals(this.email)) {
@@ -122,7 +141,7 @@ public class User extends Model {
 
 	public boolean hasTimeToChange(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 		// changes actual date to date in milisec
 		Date actualdate = new Date();
 		long milidate = actualdate.getTime();
@@ -133,15 +152,7 @@ public class User extends Model {
 		return false;
 	}
 
-	/**
-	 * Helper method
-	 * 
-	 * @param id
-	 * @return searched question
-	 */
-	private Question findQuestion(Long id) {
-		return Question.find("byId", id).first();
-	}
+
 
 	/**
 	 * Calculates the age of the <code>User</code> in years
@@ -232,14 +243,18 @@ public class User extends Model {
 		}
 
 		else {
-			new User(fullname, email, password).save();
+			User newUser = new User(fullname, email, password).save();
+			//add the reputation
+			newUser.rating = new Reputation(newUser).save();
 			message = "Hello, " + fullname + ", please log in";
 		}
 
 		return message;
 	}
 
+
 	public void removeNull() {
+
 		int index = 0;
 		while (index < this.followQ.size()) {
 			try {
@@ -284,4 +299,34 @@ public class User extends Model {
 		}
 		return follows;
 	}
+
+	public User addVote(Vote vote) {
+		this.votes.add(vote);
+		this.save();
+		return this;
+		
+	}
+	
+	public User addAnswer(Answer answer){
+		this.posts.add(answer);
+		this.save();
+		return this;
+	}
+	
+	public Question addQuestion(String title, String content){
+		Question newQuestion = new Question(this, title, content).save();
+		this.posts.add(newQuestion);
+		this.save();
+		return newQuestion;
+	}
+
+	public User addComment(Comment comment) {
+		this.posts.add(comment);
+		this.save();
+		return this;
+		
+	}
+
+
+
 }

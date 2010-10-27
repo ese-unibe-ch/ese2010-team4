@@ -20,7 +20,10 @@ public class Question extends Post {
 	public String title;
 	public File attachment;
 
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+
+
+	@OneToMany(mappedBy = "question", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Answer> answers;
 
 	public Question(User author, String title, String content) {
@@ -35,6 +38,7 @@ public class Question extends Post {
 		this.save();
 		return this;
 	}
+
 
 	public Question previous() {
 		return Question
@@ -51,7 +55,7 @@ public class Question extends Post {
 		for (Answer answer : answers) {
 			if (answer.best) {
 				return true;
-			}
+			} 
 		}
 		return false;
 	}
@@ -68,6 +72,28 @@ public class Question extends Post {
 		this.validity = date.getTime() + delay;
 		this.save();
 
+	}
+
+	public Question addNewAnswer(Answer answer) {
+		this.answers.add(answer);
+		this.save();
+		return this;
+		
+	}
+
+	@Override
+	public Post addHistory(Post post, String title, String content) {
+		History history = new History(this, title, this.content).save();
+		historys.add(history);
+		this.save();
+		return this;
+	}
+
+	public Post vote(User user, boolean result) {
+		Vote vote = new Vote(user, this, result).save();
+		this.votes.add(vote);
+		return this;
+		
 	}
 
 }

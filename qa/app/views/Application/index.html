@@ -6,43 +6,45 @@
 	<div class="questions">
 		<h4>Newest question:</h4>
     	<div class="question">
-					<div class="voting">
-						<div class="vote-curr">
-							${lastQuestion.voting}
-						</div>
+
+		<div class="voting">
+			<div class="vote-curr">
+				${lastQuestion.voting()}
+			</div>
+				#{secure.check 'user'}
+					<div class="vote-up-down">
+						<a class="vote-up" href="@{Users.voteForQuestion(lastQuestion.id, true)}"></a>
+						<a class="vote-down" href="@{Users.voteForQuestion(lastQuestion.id, false)}"></a>
+					</div>
+					#{/secure.check}
+		</div>
+		<div class="question-author">
+			#{ifnot models.User.find("byEmail", lastQuestion.author.fullname).first()==null}
+				<div class="avatar"><img src="${models.User.find("byEmail", lastQuestion.author.fullname).first().avatarURL}" /></div>
+			#{/ifnot}
+				<a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a>
+					<div class="question-date">
+						${lastQuestion.timestamp}
+					</div>
+				</div>
+				<div class="question-main">
+					<div class="question-title">
+						<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.getTitle()}</a>
 						#{secure.check 'user'}
-						<div class="vote-up-down">
-							<a class="vote-up" href="@{Users.voteForQuestion(lastQuestion.id, true)}"></a>
-							<a class="vote-down" href="@{Users.voteForQuestion(lastQuestion.id, false)}"></a>
-						</div>
+							<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
 						#{/secure.check}
 					</div>
-					<div class="question-author">
-						#{ifnot models.User.find("byEmail", lastQuestion.author.fullname).first()==null}
-							<div class="avatar"><img src="${models.User.find("byEmail", lastQuestion.author.fullname).first().avatarURL}" /></div>
-						#{/ifnot}
-						<a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a>
-						<div class="question-date">
-							${lastQuestion.timestamp}
-						</div>
+					<div class="question-content">
+					${lastQuestion.content.nl2br()}
 					</div>
-					<div class="question-main">
-						<div class="question-title">
-							<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.getTitle()}</a>
-							#{secure.check 'user'}
-								<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
-							#{/secure.check}
-						</div>
-						<div class="question-content">
-							${lastQuestion.content.nl2br()}
-						</div>
-						<div class="question-answer">
-							#{ifnot lastQuestion.answers.isEmpty()}
-								(last answered by ${lastQuestion.answers.get(lastQuestion.answers.size()-1).author.fullname})
-							#{/ifnot}
-						</div>
-					</div>
-                </div>
+				<div class="question-answer">
+					#{ifnot lastQuestion.answers.isEmpty()}
+						(last answered by ${lastQuestion.answers.get(lastQuestion.answers.size()-1).author.fullname})
+					#{/ifnot}
+			</div>
+		</div>
+     </div>
+
 	</div>
     
 	#{if questions.size() > 1}
@@ -53,7 +55,9 @@
 				<div class="question">
 					<div class="voting">
 						<div class="vote-curr">
-							${question.voting}
+
+							${question.voting()}
+							
 						</div>
 						#{secure.check 'user'}
 						<div class="vote-up-down">

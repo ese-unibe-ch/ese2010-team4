@@ -17,43 +17,81 @@
 <div class="questions">
 
 <div class="question">
-					<div class="voting">
-						<div class="vote-curr">
-							${question.voting}
-						</div>
-						#{secure.check 'user'}
-						<div class="vote-up-down">
-							<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
-							<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
-						</div>
-						#{/secure.check}
-					</div>
-					<div class="question-author">
-						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarURL}" /></div>
-						#{/ifnot}
-						<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
-						<div class="question-date">
-							${question.timestamp}
-						</div>
-					</div>
-					<div class="question-main">
-						<div class="question-title">
-							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-							#{secure.check 'user'}
-								<a href="@{Users.followQuestion(question.id)}">[follow]</a>
-							#{/secure.check}
-						</div>
-						<div class="question-content">
-							${question.content.nl2br()}
-						</div>
-						<div class="question-answer">
-							#{ifnot question.answers.isEmpty()}
-								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})
-							#{/ifnot}
-						</div>
-					</div>
-                </div>
+	Question:
+    <div class="question-metadata">
+        <span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}, </a></span>
+        <span class="question-date">${question.timestamp}</span>
+        <span class="question-voting"> Voting: ${question.voting()}</span>
+        
+		<br>
+    	<table><tr>
+		#{secure.check 'user'}    
+			#{if abletovote && isvalid}				
+			<td>
+				#{form @Users.voteForQuestion(question.id, true)}
+					<input type="submit" value="voteUp"/>
+				#{/form}
+			</td>
+				
+			<td>
+				#{form @Users.voteForQuestion(question.id, false)}
+					<input type="submit" value="voteDown"/>
+				#{/form}
+			</td>
+			#{/if}
+									
+			<td>
+			#{if isvalid}
+				#{form @Users.writeComment(question.id, question.id)}
+					<input type="submit" value="comment"/>
+				#{/form}
+			#{/if}
+			</td>
+			
+			<td>
+			#{if abletochoose}
+				#{form @Users.showEdit(question.id, 0)}
+					<input type="submit" value="edit"/>
+				#{/form}
+			#{/if}
+			</td>
+			
+			<td>
+			#{if !isfollowing}
+				#{form @Users.followQuestion(question.id)}
+					<input type="submit" value="follow"/>
+				#{/form}
+			#{/if}
+			</td>
+		#{/secure.check}
+	</tr></table>
+			
+    </div>
+    <div class="question-content">
+    	<br>
+    	${question.content.nl2br()}
+    </div>
+    
+        #{if question.comments.size()>0}
+    	<br>
+    	Comments to this question:
+    	
+    	#{list items: question.comments, as:'comment'}
+    	<div class="comments">
+    				<p>
+   			<div class="answer-metadata">
+        		<span class="comment-author">by ${comment.author.fullname},</span>
+        		<span class="comment-date">${comment.timestamp}</span>
+        	</div>
+        </div>
+        <div class="answer-content">
+         	${comment.content.escape().nl2br()}
+    	</div>
+    	#{/list}
+    	#{/if}
+    
+    
+</div>
 <br>
 <div>
 	Answers to this question:
@@ -73,29 +111,58 @@
    		<div class="answer-metadata">
         	<span class="answer-author">by <a href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>,</span>
         	<span class="answer-date">${answer.timestamp}</span>
-        	<span class="answer-voting"> Voting: ${answer.voting}</span>
+        	<span class="answer-voting"> Voting: ${answer.voting()}</span>
         	
+        	<br>
+    		<table><tr>
         	#{secure.check 'user'}       	
         		      
-         				#{if isvalid && !answer.hasVoted(models.User.find("byEmail", controllers.Security.connected()).first()) && !answer.author.fullname.equals(models.User.find("byEmail", controllers.Security.connected()).first().fullname)}
-         				         	
-         						<br>
-								Vote: <a href="@{Users.voteForAnswer(question.id, answer.id, true)}">+</a> / <a href="@{Users.voteForAnswer(question.id, answer.id, false)}">-</a>
-								<br>	
-        			 	#{/if}
-        			 	#{if isvalid}
-        			 	<a href="@{Users.writeComment(answer.id, question.id)}">write comment</a>
-						#{/if}
+         	#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Security.connected()).first())}
+         	<td>
+    			#{form @Users.voteForAnswer(question.id, answer.id, true)}
+    				<input type="submit" value="voteUp"/>
+				#{/form}
+			</td>
+				
+			<td>
+				#{form @Users.voteForAnswer(question.id, answer.id, false)}
+    				<input type="submit" value="voteDown"/>
+				#{/form}
+			</td>
+			#{/if}
+			
+			<td>
+        	#{if isvalid}
+        		#{form @Users.writeComment(answer.id, question.id)}
+        			<input type="submit" value="comment"/>
+        		#{/form}
+			#{/if}
+			</td>
+        	
+        	
+        	<td>
+        	#{if abletochoose}
+				#{form @Users.showEdit(answer.id, 0)}
+					<input type="submit" value="edit"/>
+				#{/form}
+			#{/if}
+			</td>
+			
+        	<td>		 	
+        	#{if isvalid && abletochoose}
+        		#{form @Users.chooseBestAnswer(answer.id)}
+        			<input type="submit" value="best answer"/>
+        		#{/form}
+        	#{/if}
+        	</td>
         			 	
-        			 	#{if isvalid && abletochoose}
-        			 		<a href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
-        			 	#{/if}
-        			 	
-        			 	#{if answer.best && isvalid}
-        			 		This is the best answser!
-        			 	#{/if}
-        			 	
-			#{/secure.check}
+        	#{if answer.best && isvalid}
+        		This is the best answer!
+        	#{/if}
+        	
+    		#{/secure.check}    	
+    	</tr></table>	         	
+         				
         	
         	
     	</div>

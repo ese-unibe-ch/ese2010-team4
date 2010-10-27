@@ -3,7 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,8 +22,8 @@ import play.db.jpa.Model;
 public abstract class Post extends Model {
 
 	public Date timestamp;
-	public int voting;
 	public String fullname;
+	public int voting;
 
 	@Lob
 	@Required
@@ -35,54 +34,56 @@ public abstract class Post extends Model {
 	@ManyToOne
 	public User author;
 
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Comment> comments;
 
-	@OneToMany
-	public List<User> userVoted;
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<Vote> votes;
+	
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<History> historys;
+	
+	public abstract Post addHistory(Post post, String title, String content);	
 
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-	public List<History> history;
+	/**
+	 * Add an vote
+	 * 
+	 * @param user
+	 * @param result
+	 * @return the votet post
+	 */
+	public abstract Post vote(User user, boolean result);
 
 	public Post(User author, String content) {
 
-		this.userVoted = new ArrayList<User>();
-		this.history = new LinkedList<History>();
+		this.votes = new ArrayList<Vote>();
+		this.historys = new ArrayList<History>();
 		this.comments = new ArrayList<Comment>();
-		History hist = new History(this, "", content).save();
-		this.history.add(0, hist);
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.voting = 0;
-		author.recentPosts.add(this);
-
+		
+		//JW author.recentPosts.add(this);
 	}
+	
+
 
 	public String toString() {
 		return content;
 	}
 
-	public void voteUp(User user) {
-		voting++;
-		this.userVoted.add(user);
-		this.save();
-	}
-
-	public void voteDown(User user) {
-		voting--;
-		this.userVoted.add(user);
-		this.save();
-	}
-
-	public boolean hasVoted(User user) {
-		if (userVoted != null) {
-			for (User comuser : userVoted) {
-				if (user.email.equals(comuser.email)) {
-					return true;
-				}
+	public boolean hasVoted(User comuser) {
+		
+		for(Vote vote: votes){
+			if(vote.user.equals(comuser)){
+				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -116,11 +117,36 @@ public abstract class Post extends Model {
 	 * @param content
 	 *            of the post
 	 */
-	public void addToHistory(String title, String content) {
-		History hist = new History(this, title, content).save();
-		history.add(0, hist);
-		this.save();
 
+
+	/**
+	 * Count the positive and negative votes
+	 * 
+	 * @return votestatus
+	 */
+	public int voting() {
+
+		int status = 0;
+
+		for (Vote vote : this.votes) {
+
+			if (vote.result) {
+				status++;
+			} else {
+				status--;
+			}
+		}
+		
+		System.out.println("Status: " + status);
+		return status;
+
+	}
+
+	public Post addComment(Comment comment) {
+		this.comments.add(comment);
+		this.save();
+		return this;
+		
 	}
 
 }
