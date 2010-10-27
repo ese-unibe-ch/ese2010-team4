@@ -21,16 +21,19 @@
 			#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
 				<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" /></div>
 			#{/ifnot}
-			<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
+			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
 			<div class="question-date">
 				${question.timestamp}
 			</div>
 		</div>
 		<div class="question-main">
 			<div class="question-title">
-				<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
+				<a class="button" href="@{Application.show(question.id)}">${question.getTitle()}</a>
 			</div>
-			<div class="question-metadata">
+			<div class="content" id="question-content">
+				${question.content.nl2br()}
+			</div>
+			<div class="metadata" id="question-metadata">
 				#{secure.check 'user'}
 					#{if !isfollowing && !abletochoose}
 						<a class="button" href="@{Users.followQuestion(question.id)}">follow</a>
@@ -45,9 +48,24 @@
 			
 				#{/secure.check}
 			</div>
-			<div class="question-content">
-				${question.content.nl2br()}
-			</div>
+			#{if question.comments.size()>0}
+				<div class="comments">
+					Comments to this question:
+					#{list items: question.comments, as:'comment'}
+						<div class="comment">
+							<div class="comment-author">
+								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname}</a>
+								<div class="comment-date">
+									${comment.timestamp}
+								</div>
+							</div>
+							<div class="comment-content">
+								${comment.content.escape().nl2br()}
+							</div>
+						</div>
+					#{/list}
+				</div>
+			#{/if}
 			<div class="question-answer">
 				#{if question.answers.size() < 1}
 					<div>
@@ -55,6 +73,7 @@
 					</div>
 				#{/if}
 				#{else}
+					Answers to this question:
 					#{list items:question.answers, as:'answer'}
 					<div class="answers">
 						<div class="answer">
@@ -75,15 +94,15 @@
 								#{ifnot models.User.find("byEmail", answer.author.fullname).first()==null}
 									<div class="avatar"><img src="${models.User.find("byEmail", answer.author.fullname).first().avatarPath}" /></div>
 								#{/ifnot}
-								<a href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>
+								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>
 								<div class="answer-date">
 									${answer.timestamp}
 								</div>
 							</div>
-							<div class="answer-content">
+							<div class="content" id="answer-content">
 					         	${answer.content.escape().nl2br()}
 					    	</div>
-							<div class="answer-metadata">
+							<div class="metadata" id="answer-metadata">
 							#{secure.check 'user'}
 								#{if isvalid}
 									<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
@@ -105,8 +124,8 @@
 								#{list items: answer.comments, as:'comment'}
 									<div class="comment">
 										<div class="comment-author">
-											<a href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname}</a>
-											<div class="answer-date">
+											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname}</a>
+											<div class="comment-date">
 												${comment.timestamp}
 											</div>
 										</div>

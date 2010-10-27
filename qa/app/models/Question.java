@@ -1,6 +1,5 @@
 package models;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,9 +17,6 @@ public class Question extends Post {
 
 	public long validity;
 	public String title;
-	public File attachment;
-
-
 
 	@OneToMany(mappedBy = "question", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
@@ -39,7 +35,6 @@ public class Question extends Post {
 		return this;
 	}
 
-
 	public Question previous() {
 		return Question
 				.find("timestamp < ? order by timestamp desc", timestamp)
@@ -55,7 +50,7 @@ public class Question extends Post {
 		for (Answer answer : answers) {
 			if (answer.best) {
 				return true;
-			} 
+			}
 		}
 		return false;
 	}
@@ -78,7 +73,7 @@ public class Question extends Post {
 		this.answers.add(answer);
 		this.save();
 		return this;
-		
+
 	}
 
 	@Override
@@ -92,15 +87,15 @@ public class Question extends Post {
 	public Post vote(User user, boolean result) {
 		Vote vote = new Vote(user, this, result).save();
 		this.votes.add(vote);
-		
-		if(result){
+
+		if (result) {
 			this.author.rating.votedUPQuestion();
 			this.author.rating.save();
 			this.author.save();
 		}
-		
-		else{
-			
+
+		else {
+
 			this.author.rating.voteDown();
 			this.author.rating.save();
 			this.author.save();
@@ -111,11 +106,11 @@ public class Question extends Post {
 		this.voting();
 		this.save();
 		return this;
-		
+
 	}
 
 	public Question bestAnswer(Answer answer) {
-		
+
 		long delay = 10000;
 		// necessary if user change his mind
 		this.setAllAnswersFalse();
@@ -124,7 +119,7 @@ public class Question extends Post {
 		this.setValidity(delay);
 		this.save();
 		return this;
-		
+
 	}
 
 }

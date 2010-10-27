@@ -114,17 +114,23 @@ public class Users extends Controller {
 	 *            the title
 	 * @param content
 	 *            the content
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
 	public static void createQuestion(@Required String author,
-			@Required String title, String content) {
+			@Required String title, String content, File attachment)
+			throws FileNotFoundException, IOException {
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
 		}
 
 		User user = User.find("byFullname", author).first();
-
-		user.addQuestion(title, content).save();
+		if (attachment != null)
+			user.addQuestion(title, content, attachment).save();
+		else {
+			user.addQuestion(title, content).save();
+		}
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
 	}
@@ -242,9 +248,9 @@ public class Users extends Controller {
 	 * My profile.
 	 */
 	public static void myProfile(Long userid) {
-		
+
 		User user = User.findById(userid);
-		
+
 		List<Post> activities = user.activities();
 		System.out.println(activities.size());
 		render("Users/profile.html", activities, user);
@@ -253,7 +259,7 @@ public class Users extends Controller {
 	public static void showProfile(Long authorid) {
 
 		User user = User.findById(authorid);
-		System.out.println("Username: " +user.fullname);
+		System.out.println("Username: " + user.fullname);
 		List<Post> activities = user.activities();
 
 		if (user.email.equals(Security.connected())) {
@@ -383,8 +389,7 @@ public class Users extends Controller {
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
-			String work, String languages, String aboutMe)
-			throws ParseException {
+			String work, String languages, String aboutMe) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.setBirthday(birthday);
 		user.website = website;
@@ -477,8 +482,7 @@ public class Users extends Controller {
 		assert avatar != null;
 		User user = User.find("byEmail", Security.connected()).first();
 		FileInputStream iStream = new FileInputStream(avatar);
-		System.out.println(avatar.getAbsolutePath());
-		File outputFile = new File("qa/public/uploads" + user.id
+		File outputFile = new File("qa/public/uploads/avatar" + user.id
 				+ ".jpg");
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
 		user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
