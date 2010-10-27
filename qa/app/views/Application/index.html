@@ -1,46 +1,39 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-#{if lastQuestion}
+#{if lastActivity}
 	<div class="questions">
-		<h4>Newest question:</h4>
-    	<div class="question">
-
-		<div class="voting">
-			<div class="vote-curr">
-				${lastQuestion.voting()}
-			</div>
-			#{secure.check 'user'}
-					<div class="vote-up-down">
-						<a class="vote-up" href="@{Users.voteForQuestion(lastQuestion.id, true)}"></a>
-						<a class="vote-down" href="@{Users.voteForQuestion(lastQuestion.id, false)}"></a>
-					</div>
-			#{/secure.check}
-		</div>
+	<h3>Newest activity:</h3>
+   	<div class="question">
 		<div class="question-author">
-			#{ifnot models.User.find("byEmail", lastQuestion.author.fullname).first()==null}
-				<div class="avatar"><img src="${models.User.find("byEmail", lastQuestion.author.fullname).first().avatarPath}" /></div>
+			#{ifnot models.User.find("byEmail", lastActivity.author.fullname).first()==null}
+				<div class="avatar"><img src="${models.User.find("byEmail", lastActivity.author.fullname).first().avatarPath}" /></div>
 			#{/ifnot}
-				<a href="@{Users.showProfile(lastQuestion.author.id)}">${lastQuestion.author.fullname}</a>
+				<a href="@{Users.showProfile(lastActivity.author.id)}">${lastActivity.author.fullname}</a>
 					<div class="question-date">
-						${lastQuestion.timestamp}
+						${lastActivity.timestamp}
 					</div>
 				</div>
 				<div class="question-main">
+					#{if lastActivity.checkInstance()}
 					<div class="question-title">
-						<a href="@{Application.show(lastQuestion.id)}">${lastQuestion.getTitle()}</a>
+						<a href="@{Application.show(lastActivity.id)}">${lastActivity.getTitle()}</a>
 						#{secure.check 'user'}
-							<a href="@{Users.followQuestion(lastQuestion.id)}">[follow]</a>
+							<a href="@{Users.followQuestion(lastActivity.id)}">[follow]</a>
 						#{/secure.check}
 					</div>
 					<div class="question-content">
-						${lastQuestion.content.nl2br()}
+						${lastActivity.content.nl2br()}
 					</div>
 				<div class="question-answer">
-					#{ifnot lastQuestion.answers.isEmpty()}
-						(last answered by ${lastQuestion.answers.get(lastQuestion.answers.size()-1).author.fullname})
+					#{ifnot lastActivity.answers.isEmpty()}
+						(last answered by ${lastActivity.answers.get(lastActivity.answers.size()-1).author.fullname})
 					#{/ifnot}
 			</div>
+			#{/if}
+			#{else}
+				${lastActivity.timestamp} a new answer was added to a <a href = "@{Application.show(lastActivity.question.id)}">question</a> by
+			#{/else}
 		</div>
      </div>
 

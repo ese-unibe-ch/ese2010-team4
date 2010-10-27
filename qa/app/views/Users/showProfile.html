@@ -6,7 +6,13 @@
 	
 	<h2>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h2>
 	<p>
-       	<img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarPath}" width="62" height="62"/>
+<<<<<<< HEAD
+       	<img src="${user.avatarPath}" width="62" height="62"/>
+=======
+
+       	<img src="${user.avatarPath}" width="62" height="62"/>
+
+>>>>>>> 5da8475a473bc04d56e6f8fc67d71630cdfef4c5
         <br>
         	<label for="author">Fullname: </label>
         	${user.fullname}
