@@ -15,19 +15,19 @@
     		<div id="banner">
     			<a href="@{Application.index()}"><img src="@{'/public/images/Banner.png'}" width="850" height="100" border="0"/></a>
     		</div>
-    	
-    		
+
+
 			#{if user}
 			<div id="user">
 				<div id="userImg"> <img src="${user.avatarPath}" width="62" height="62"/></div>
 				<div class="userInfo">User: ${user.fullname}</div>
 				<div class="userInfo">Mail: ${user.email}</div>
-				<div class="userInfo">Questions:  </div>
-				<div class="userInfo">Answers: </div>
+				<div class="userInfo">Questions: ${user.countQuestions()} </div>
+				<div class="userInfo">Answers: ${user.countAnswers()}</div>
 				<div class="userInfo">Reputation: ${user.rating}</div>
 			</div>
 			#{/if}
-			
+
 			<div id="menu">
 				<a class="button" href="@{Application.index()}">Home</a>
 				#{ifnot controllers.Security.connected()}
@@ -38,11 +38,11 @@
 					<a class="button" href="@{Users.myQuestions()}">My questions</a>
 					<a class="button" href="@{Users.myAnswers()}">My answers</a>
 					<a class="button" href="@{Users.myFollows()}">My follows</a>
-					<a class="button" href="@{Users.myProfile()}">Profile</a>
+					<a class="button" href="@{Users.myProfile(user.id)}">Profile</a>
 					<a class="button" href="@{Secure.logout()}">Log out</a>
 				#{/secure.check}
 			</div>
-			
+
 			#{secure.check 'user'}
 			<div id="search">
 				#{form @Users.searchResults()}
@@ -52,9 +52,11 @@
 				#{/form}
 			</div>
 			#{/secure.check}
-			
+
+			<br><br>
+
 			<div id="content">
-			    #{doLayout /} 
+			    #{doLayout /}
 			</div>
 		</div>
     </body>

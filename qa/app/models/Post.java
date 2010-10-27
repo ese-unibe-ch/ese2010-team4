@@ -166,5 +166,9 @@ public abstract class Post extends Model {
 						"select distinct p from Post p join p.tags as t where t.name = ?",
 						tag).fetch();
 	}
+	
+	public boolean checkInstance(){
+		return this instanceof Question;
+	}
 
 }

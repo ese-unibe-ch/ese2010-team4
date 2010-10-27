@@ -53,8 +53,7 @@ public class User extends Model {
 	public List<Question> followQ;
 	@OneToMany
 	public List<User> followU;
-	// @OneToMany
-	public ArrayList<Post> recentPosts;
+
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
@@ -66,8 +65,8 @@ public class User extends Model {
 
 	public User(String fullname, String email, String password) {
 
-		votes = new ArrayList<Vote>();
-		posts = new ArrayList<Post>();
+		this.votes = new ArrayList<Vote>();
+		this.posts = new ArrayList<Post>();
 		this.fullname = fullname;
 		this.email = email;
 		this.password = password;
@@ -75,7 +74,6 @@ public class User extends Model {
 		lastLogOff = new Date(System.currentTimeMillis());
 		this.followQ = new ArrayList<Question>();
 		this.followU = new ArrayList<User>();
-		recentPosts = new ArrayList<Post>();
 	}
 
 	public static User login(String email, String password) {
@@ -340,5 +338,18 @@ public class User extends Model {
 		return this;
 
 	}
+	
+	public int countQuestions(){
+		return Question.find("byAuthor", this).fetch().size();
+	}
+	
+	public int countAnswers(){
+		return Answer.find("byAuthor", this).fetch().size();
+	}
+	
+	public List<Post> activities(){
 
+		return Post.find("author like ? order by timestamp desc", this).fetch();		
+	}
+	
 }

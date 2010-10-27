@@ -241,20 +241,27 @@ public class Users extends Controller {
 	/**
 	 * My profile.
 	 */
-	public static void myProfile() {
-		render("Users/profile.html");
+	public static void myProfile(Long userid) {
+		
+		User user = User.findById(userid);
+		
+		List<Post> activities = user.activities();
+		System.out.println(activities.size());
+		render("Users/profile.html", activities, user);
 	}
 
 	public static void showProfile(Long authorid) {
 
 		User user = User.findById(authorid);
+		System.out.println("Username: " +user.fullname);
+		List<Post> activities = user.activities();
 
 		if (user.email.equals(Security.connected())) {
-			myProfile();
+			myProfile(user.id);
 		}
 
 		else {
-			render(user);
+			render(user, activities);
 		}
 
 	}
@@ -385,7 +392,7 @@ public class Users extends Controller {
 		user.favoriteLanguages = languages;
 		user.aboutMe = aboutMe;
 		user.save();
-		Users.myProfile();
+		Users.myProfile(user.id);
 	}
 
 	/**
@@ -469,19 +476,19 @@ public class Users extends Controller {
 		assert avatar != null;
 		User user = User.find("byEmail", Security.connected()).first();
 		FileInputStream iStream = new FileInputStream(avatar);
-		File outputFile = new File("qa/public/uploads/avatar" + user.id
+		File outputFile = new File("/home/juerg/workspaces/ese2010-team4/qa/public/uploads" + user.id
 				+ ".jpg");
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
 		user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
 		user.save();
-		Users.myProfile();
+		Users.myProfile(user.id);
 	}
 
 	public static void updateAvatarPath(String URL) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.avatarPath = URL;
 		user.save();
-		Users.myProfile();
+		Users.myProfile(user.id);
 	}
 
 	public static void avatarPath() {

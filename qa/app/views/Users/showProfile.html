@@ -51,6 +51,17 @@
 			${user.aboutMe}
 		</br>
 	</p>
+	<h2>Activities</h2>
+			#{list items:activities, as:'activity'}
+				<div class="activity">
+					#{if activity.checkInstance()}
+						${activity.timestamp}, ${user.fullname} wrote a new <a href = "@{Application.show(activity.id)}">question</a>.
+					#{/if}
+					#{else}
+					 ${activity.timestamp}, ${user.fullname} wrote a answer to the  <a href = "@{Application.show(activity.question.id)}"> question</a> from ${activity.author.fullname}
+					#{/else}
+				</div>
+     #{/list}
 </div>
 #{/ secure.check}
 
