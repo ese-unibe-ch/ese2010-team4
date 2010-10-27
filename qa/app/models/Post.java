@@ -73,8 +73,6 @@ public abstract class Post extends Model {
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.voting = 0;
-
-		// JW author.recentPosts.add(this);
 	}
 
 	public String toString() {

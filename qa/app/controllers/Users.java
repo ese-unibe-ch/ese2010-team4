@@ -476,7 +476,8 @@ public class Users extends Controller {
 		assert avatar != null;
 		User user = User.find("byEmail", Security.connected()).first();
 		FileInputStream iStream = new FileInputStream(avatar);
-		File outputFile = new File("/home/juerg/workspaces/ese2010-team4/qa/public/uploads" + user.id
+		System.out.println(avatar.getAbsolutePath());
+		File outputFile = new File("qa/public/uploads" + user.id
 				+ ".jpg");
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
 		user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
