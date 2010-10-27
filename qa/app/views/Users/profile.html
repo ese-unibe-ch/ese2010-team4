@@ -55,29 +55,38 @@
 <p>
 	<input type="submit" value="Update"/>
 
-<!--Should not be used with file upload-->
-<!--<p>-->
-	<!--#{field 'avatarURL'}-->
-		<!--<label for="author">Avatar URL: </label>-->
-		<!--<input type="text" name="${field.name}" email="author" id="user-inp" />-->
-	<!--<label for="content"></label>-->
-	<!--#{/field}-->
 
 #{/form}
 
+<hr>
+
+<p>
+<label> Upload an Avatar:
 <form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
 	<table style="padding-left: 60px">
 	<input type="file" id="avatar" name="avatar" />
 	<input type="submit" value="Upload" />
 	</table>
 </form> 
-</div>
 
+<p>
+
+#{form @Users.updateAvatarPath()}
+	#{field 'URL'}
+		<label for="author">or enter an URL:
+		<p>
+		<input type="text" name="${field.name}" email="author" id="user-inp"/>
+		<label for="content">
+		<input type="submit" value="Submit" />
+	#{/field}
+
+#{/form}
 #{/ secure.check}
 
 <p>
 	<label>Recent posts: </label>
 
+</div>
 
 #{if flash.success}
 <br>
