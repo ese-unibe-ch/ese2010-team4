@@ -56,6 +56,21 @@
 		</td>
 	</tr>
 	</table>
+	<br>
+
+#{form @Users.tagQuestion(post.id)}
+
+	#{ifErrors}
+    	<p class="error">
+    	@{Users.myQuestions()}
+    	</p>
+ 	#{/ifErrors}
+	
+	<label for="tag">tag your question:</label>
+	<input type="text" name="tag" id="tag"/>
+	<input type="submit" value="tag"/>
+
+#{/form}
 	
 </div>
 		

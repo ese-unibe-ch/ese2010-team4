@@ -489,4 +489,10 @@ public class Users extends Controller {
 		System.out.println(user.avatarPath);
 		renderText(user.avatarPath);
 	}
+
+	public static void tagQuestion(Long id, String name) {
+		Question question = Question.findById(id);
+		question.tagItWith(name).save();
+		Users.showEdit(id, 0);
+	}
 }
