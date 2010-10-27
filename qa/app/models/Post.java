@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -41,12 +44,15 @@ public abstract class Post extends Model {
 	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Vote> votes;
-	
+
 	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<History> historys;
-	
-	public abstract Post addHistory(Post post, String title, String content);	
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	public Set<Tag> tags;
+
+	public abstract Post addHistory(Post post, String title, String content);
 
 	/**
 	 * Add an vote
@@ -62,24 +68,23 @@ public abstract class Post extends Model {
 		this.votes = new ArrayList<Vote>();
 		this.historys = new ArrayList<History>();
 		this.comments = new ArrayList<Comment>();
+		this.tags = new TreeSet<Tag>();
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.voting = 0;
-		
-		//JW author.recentPosts.add(this);
-	}
-	
 
+		// JW author.recentPosts.add(this);
+	}
 
 	public String toString() {
 		return content;
 	}
 
 	public boolean hasVoted(User comuser) {
-		
-		for(Vote vote: votes){
-			if(vote.user.equals(comuser)){
+
+		for (Vote vote : votes) {
+			if (vote.user.equals(comuser)) {
 				return true;
 			}
 		}
@@ -118,7 +123,6 @@ public abstract class Post extends Model {
 	 *            of the post
 	 */
 
-
 	/**
 	 * Count the positive and negative votes
 	 * 
@@ -136,8 +140,10 @@ public abstract class Post extends Model {
 				status--;
 			}
 		}
+
 		
 		voting = status;
+
 		return status;
 
 	}
@@ -146,7 +152,19 @@ public abstract class Post extends Model {
 		this.comments.add(comment);
 		this.save();
 		return this;
-		
+
+	}
+
+	public Post tagItWith(String name) {
+		tags.add(Tag.findOrCreateByName(name));
+		return this;
+	}
+
+	public static List<Post> findTaggedWith(String tag) {
+		return Post
+				.find(
+						"select distinct p from Post p join p.tags as t where t.name = ?",
+						tag).fetch();
 	}
 
 }

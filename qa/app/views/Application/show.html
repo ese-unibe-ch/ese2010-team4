@@ -57,7 +57,7 @@
 			</td>
 			
 			<td>
-			#{if !isfollowing}
+			#{if !isfollowing && !abletochoose}
 				#{form @Users.followQuestion(question.id)}
 					<input type="submit" value="follow"/>
 				#{/form}
@@ -141,7 +141,7 @@
         	
         	
         	<td>
-        	#{if abletochoose}
+        	#{if answer.author.email.equals(models.User.find("byEmail", controllers.Security.connected()).first().email)}
 				#{form @Users.showEdit(answer.id, 0)}
 					<input type="submit" value="edit"/>
 				#{/form}
