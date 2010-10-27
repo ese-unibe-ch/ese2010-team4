@@ -469,9 +469,10 @@ public class Users extends Controller {
 		assert avatar != null;
 		User user = User.find("byEmail", Security.connected()).first();
 		FileInputStream iStream = new FileInputStream(avatar);
-		File outputFile = new File("qa/public/uploads/pic" + user.id + ".jpg");
+		File outputFile = new File("qa/public/uploads/avatar" + user.id
+				+ ".jpg");
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
-		user.avatarPath = "/public/uploads/pic" + user.id + ".jpg";
+		user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
 		user.save();
 		Users.myProfile();
 	}

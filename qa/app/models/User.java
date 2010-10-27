@@ -28,7 +28,7 @@ public class User extends Model {
 	public String aboutMe = "";
 	public String favoriteLanguages;
 
-	public String avatarPath = "http://imgur.com/FVWB9.png";
+	public String avatarPath = "/public/uploads/standardAvatar.png";
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
