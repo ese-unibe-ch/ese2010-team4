@@ -1,27 +1,29 @@
 package models;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 import play.db.jpa.Model;
 
 @Entity
 public class Reputation extends Model {
 
-	public int questionRep = 0;
-	public int answerRep = 0;
-	public int bestAnswerRep = 0;
-	public int totalRep = 0;
-	public int penalty = 0;
+	public int questionRep;
+	public int answerRep;
+	public int bestAnswerRep;
+	public int totalRep;
+	public int penalty;
 	
-	@OneToOne
-	public User user;
+
 
 	public ReputationValues repVal;
 
-	public Reputation(User user) {
+	public Reputation() {
+		this.questionRep = 0;
+		this.answerRep = 0;
+		this.bestAnswerRep = 0;
+		this.totalRep = 0;
+		this.penalty = 0;
 		this.repVal = ReputationValues.getInstance();
-		this.user = user;
 	}
 
 	public void totalRep() {
@@ -50,6 +52,11 @@ public class Reputation extends Model {
 		this.questionRep += repVal.voteUPQuestion;
 		totalRep();
 
+	}
+	
+	public void bestAnswer(){
+		this.bestAnswerRep += repVal.bestAnswer;
+		totalRep();
 	}
 
 	public void penalty() {

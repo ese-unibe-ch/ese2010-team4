@@ -209,7 +209,6 @@ public class Users extends Controller {
 		Question question = Question.findById(questionId);
 		
 		question.vote(user, vote);
-		question.save();
 		flash.success("Thanks for vote %s!", user.fullname);
 
 		
@@ -234,7 +233,6 @@ public class Users extends Controller {
 		Answer answer = Answer.find("byId", answerId).first();
 
 		answer.vote(user, vote);
-		answer.save();
 
 		flash.success("Thanks for vote %s!", user.fullname);
 		Application.show(questionId);
@@ -354,19 +352,11 @@ public class Users extends Controller {
 	public static void chooseBestAnswer(Long answerid) {
 
 		// delay in milisec
-		long delay = 10000;
+		
 		Answer answer = Answer.findById(answerid);
 		Question question = answer.question;
-
-		// necessary if user changed his mind
-		question.setAllAnswersFalse();
+		question.bestAnswer(answer);
 		question.save();
-		answer.best = true;
-
-		question.setValidity(delay);
-		question.save();
-		answer.save();
-
 		Application.show(answer.question.id);
 	}
 
@@ -493,7 +483,7 @@ public class Users extends Controller {
 	// DR working on a better way to render avatar
 	public static void avatar() {
 		User user = User.find("byEmail", Security.connected()).first();
-		System.out.println(user.avatar);
-		renderBinary(user.avatar);
+		//System.out.println(user.avatar);
+		//renderBinary(user.avatar);
 	}
 }

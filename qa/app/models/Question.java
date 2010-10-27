@@ -92,6 +92,37 @@ public class Question extends Post {
 	public Post vote(User user, boolean result) {
 		Vote vote = new Vote(user, this, result).save();
 		this.votes.add(vote);
+		
+		if(result){
+			this.author.rating.votedUPQuestion();
+			this.author.rating.save();
+			this.author.save();
+		}
+		
+		else{
+			
+			this.author.rating.voteDown();
+			this.author.rating.save();
+			this.author.save();
+			user.rating.penalty();
+			user.rating.save();
+			user.save();
+		}
+		this.voting();
+		this.save();
+		return this;
+		
+	}
+
+	public Question bestAnswer(Answer answer) {
+		
+		long delay = 10000;
+		// necessary if user changed his mind
+		this.setAllAnswersFalse();
+		answer.best = true;
+		answer.save();
+		this.setValidity(delay);
+		this.save();
 		return this;
 		
 	}

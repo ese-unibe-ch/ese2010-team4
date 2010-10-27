@@ -46,10 +46,30 @@ public class Answer extends Post {
 		else
 			return true;
 	}
-
+	
+	
 	public Post vote(User user, boolean result) {
 		Vote vote = new Vote(user, this, result).save();
 		this.votes.add(vote);
+		
+		if(result){
+			this.author.rating.voteUPAnswer();
+			this.author.rating.save();
+			this.author.save();
+		}
+		
+		else{
+			
+			this.author.rating.voteDown();
+			this.author.rating.save();
+			this.author.save();
+			user.rating.penalty();
+			user.rating.save();
+			user.save();
+		}
+		
+		this.voting();
+		this.save();
 		return this;
 		
 	}

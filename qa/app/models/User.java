@@ -73,7 +73,6 @@ public class User extends Model {
 
 	public User(String fullname, String email, String password) {
 
-		// JW rating = new Reputation().save();
 		votes = new ArrayList<Vote>();
 		posts = new ArrayList<Post>();
 		this.fullname = fullname;
@@ -143,13 +142,38 @@ public class User extends Model {
 
 		Question question = Question.findById(id);
 		// changes actual date to date in milisec
-		Date actualdate = new Date();
-		long milidate = actualdate.getTime();
-
+		long milidate = new Date().getTime();
+		
 		if (question.validity == 0 || milidate < question.validity) {
 			return true;
 		}
-		return false;
+		
+		else{
+			
+			//Set the best Answer
+			bestAnswer(question);			
+			return false;
+		}
+		
+	}
+	
+	
+	/**
+	 * Helper method for find best answer
+	 * 
+	 * @param question from the best answer
+	 */
+	private void bestAnswer(Question question) {
+		
+		for(Answer answer: question.answers){
+			if(answer.best){
+				answer.author.rating.bestAnswer();
+				answer.author.rating.save();
+				answer.author.save();
+				answer.save();
+				this.save();
+			}
+		}
 	}
 
 
@@ -245,7 +269,8 @@ public class User extends Model {
 		else {
 			User newUser = new User(fullname, email, password).save();
 			//add the reputation
-			newUser.rating = new Reputation(newUser).save();
+			newUser.rating = new Reputation().save();
+			newUser.save();
 			message = "Hello, " + fullname + ", please log in";
 		}
 

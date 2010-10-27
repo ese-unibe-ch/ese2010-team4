@@ -137,7 +137,7 @@ public abstract class Post extends Model {
 			}
 		}
 		
-		System.out.println("Status: " + status);
+		voting = status;
 		return status;
 
 	}
