@@ -10,64 +10,112 @@ import play.test.UnitTest;
 
 public class ReputationTest extends UnitTest {
 
-	User hans;
-	User sepp;
+	User bob;
+	User jeff;
 	Question firstQuestion;
 	Answer firstAnswer;
 
 	@Before
 	public void setup() throws Exception {
 		Fixtures.deleteAll();
-		User.createUser("Muster Hans", "hans@gmail.com", "keyword", "keyword");
-		hans = User.find("byFullname", "Muster Hans").first();
-		User.createUser("Sepp", "sepp@sepp.ch", "halloo", "halloo");
-		sepp = User.find("byFullname", "Sepp").first();
-		firstQuestion = new Question(hans, "brightliy?",
-				"What is hot and shines brightly?").save();
-		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
+		Fixtures.load("data.yml");
+		bob = User.find("byEmail", "bob@bob.ch").first();
+		jeff = User.find("byEmail", "jeff@jeff.ch").first();
+		
+		firstQuestion = (Question) bob.posts.get(0);
+		firstAnswer = firstQuestion.answers.get(0);
 
 	}
 
 	@Test
 	public void shouldHaveDefaultRepValues() {
 
-		assertEquals(-1, hans.rating.repVal.penalty);
-		assertEquals(-2, hans.rating.repVal.voteDown);
-		assertEquals(5, hans.rating.repVal.voteUPQuestion);
-		assertEquals(10, hans.rating.repVal.voteUPAnswer);
-		assertEquals(50, hans.rating.repVal.bestAnswer);
+		assertEquals(-1, bob.rating.repVal.penalty);
+		assertEquals(-2, bob.rating.repVal.voteDown);
+		assertEquals(5, bob.rating.repVal.voteUPQuestion);
+		assertEquals(10, bob.rating.repVal.voteUPAnswer);
+		assertEquals(50, bob.rating.repVal.bestAnswer);
 
-		assertEquals(-1, sepp.rating.repVal.penalty);
-		assertEquals(-2, sepp.rating.repVal.voteDown);
-		assertEquals(5, sepp.rating.repVal.voteUPQuestion);
-		assertEquals(10, sepp.rating.repVal.voteUPAnswer);
-		assertEquals(50, sepp.rating.repVal.bestAnswer);
+		assertEquals(-1, jeff.rating.repVal.penalty);
+		assertEquals(-2, jeff.rating.repVal.voteDown);
+		assertEquals(5, jeff.rating.repVal.voteUPQuestion);
+		assertEquals(10, jeff.rating.repVal.voteUPAnswer);
+		assertEquals(50, jeff.rating.repVal.bestAnswer);
 	}
 
 	@Test
 	public void shouldHaveDefaultReputation() {
 
-		assertEquals(0, hans.rating.bestAnswerRep);
-		assertEquals(0, hans.rating.answerRep);
-		assertEquals(0, hans.rating.questionRep);
-		assertEquals(0, hans.rating.penalty);
-		assertEquals(0, hans.rating.totalRep);
+		assertEquals(0, bob.rating.bestAnswerRep);
+		assertEquals(0, bob.rating.answerRep);
+		assertEquals(0, bob.rating.questionRep);
+		assertEquals(0, bob.rating.penalty);
+		assertEquals(0, bob.rating.totalRep);
 
-		assertEquals(0, sepp.rating.bestAnswerRep);
-		assertEquals(0, sepp.rating.answerRep);
-		assertEquals(0, sepp.rating.questionRep);
-		assertEquals(0, sepp.rating.penalty);
-		assertEquals(0, sepp.rating.totalRep);
+		assertEquals(0, jeff.rating.bestAnswerRep);
+		assertEquals(0, jeff.rating.answerRep);
+		assertEquals(0, jeff.rating.questionRep);
+		assertEquals(0, jeff.rating.penalty);
+		assertEquals(0, jeff.rating.totalRep);
 	}
 
 	@Test
 	public void shouldIncreaseAnswerRep() {
-
+		
+		firstAnswer.vote(bob, true);
+		firstAnswer.save();
+		
+		assertEquals(10, jeff.rating.answerRep);
+		assertEquals(10, jeff.rating.totalRep);
+		
 	}
 
 	@Test
 	public void shouldIncreaseQuestionRep() {
-
+		
+		firstQuestion.vote(jeff, true);
+		firstQuestion.save();
+		
+		assertEquals(5, bob.rating.questionRep);
+		assertEquals(5, bob.rating.totalRep);
+	}
+	
+	@Test
+	public void shouldDecreaseRatingBobJeff(){
+		
+		firstAnswer.vote(bob, false);
+		firstAnswer.save();
+		
+		assertEquals(-2, jeff.rating.answerRep);
+		assertEquals(-1, bob.rating.penalty);
+	}
+	
+	@Test
+	public void shouldBeBestAnswer(){
+		
+			
+		firstAnswer.best = true;
+		firstAnswer.save();
+		firstQuestion.setValidity(0);
+		firstQuestion.save();
+		
+		
+		
+		bob.hasTimeToChange(firstQuestion.id);
+		
+		assertEquals(50, jeff.rating.bestAnswerRep);
+		assertEquals(50, jeff.rating.totalRep);
+		
+	}
+	
+	@Test
+	public void shouldNotBeBestAnser(){
+		
+		firstQuestion.setValidity(0);
+		firstQuestion.save();		
+		bob.hasTimeToChange(firstQuestion.id);		
+		assertEquals(0, jeff.rating.bestAnswerRep);
+		assertEquals(0, jeff.rating.totalRep);
 	}
 
 }

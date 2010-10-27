@@ -32,7 +32,7 @@ public class Users extends Controller {
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
 			User user = User.find("byEmail", Security.connected()).first();
-			renderArgs.put("user", user.fullname);
+			renderArgs.put("user", user);
 		}
 	}
 
@@ -207,12 +207,10 @@ public class Users extends Controller {
 
 		User user = User.find("byEmail", Security.connected()).first();
 		Question question = Question.findById(questionId);
-		
+
 		question.vote(user, vote);
-		question.save();
 		flash.success("Thanks for vote %s!", user.fullname);
 
-		
 		Application.show(questionId);
 
 	}
@@ -234,7 +232,6 @@ public class Users extends Controller {
 		Answer answer = Answer.find("byId", answerId).first();
 
 		answer.vote(user, vote);
-		answer.save();
 
 		flash.success("Thanks for vote %s!", user.fullname);
 		Application.show(questionId);
@@ -272,27 +269,27 @@ public class Users extends Controller {
 	 */
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
-		
-		if(post instanceof Question){
-			
+
+		if (post instanceof Question) {
+
 			post.addHistory(post, ((Question) post).title, post.content);
 			post.save();
-			
+
 		}
-		
-		else{
+
+		else {
 			post.addHistory(post, "", post.content);
 			post.save();
 		}
-		
+
 		post.content = content;
 		post.save();
-		
+
 		if (post instanceof Question) {
 			Users.myQuestions();
-		} 
-		
-		else{
+		}
+
+		else {
 			Users.myAnswers();
 		}
 	}
@@ -354,19 +351,11 @@ public class Users extends Controller {
 	public static void chooseBestAnswer(Long answerid) {
 
 		// delay in milisec
-		long delay = 10000;
+
 		Answer answer = Answer.findById(answerid);
 		Question question = answer.question;
-
-		// necessary if user changed his mind
-		question.setAllAnswersFalse();
+		question.bestAnswer(answer);
 		question.save();
-		answer.best = true;
-
-		question.setValidity(delay);
-		question.save();
-		answer.save();
-
 		Application.show(answer.question.id);
 	}
 
@@ -387,7 +376,7 @@ public class Users extends Controller {
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
-			String work, String languages, String aboutMe, String avatarURL)
+			String work, String languages, String aboutMe)
 			throws ParseException {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.setBirthday(birthday);
@@ -395,8 +384,6 @@ public class Users extends Controller {
 		user.work = work;
 		user.favoriteLanguages = languages;
 		user.aboutMe = aboutMe;
-		if (avatarURL != "")
-			user.avatarURL = avatarURL;
 		user.save();
 		Users.myProfile();
 	}
@@ -430,13 +417,11 @@ public class Users extends Controller {
 	}
 
 	public static void myFollows() {
-		
-		
+
 		User user = User.find("byEmail", Security.connected()).first();
 
 		user.removeNull();
 		user.save();
-
 
 		List<Question> followQ = user.followQ;
 		Long userId = user.id;
@@ -484,16 +469,18 @@ public class Users extends Controller {
 		assert avatar != null;
 		User user = User.find("byEmail", Security.connected()).first();
 		FileInputStream iStream = new FileInputStream(avatar);
-		File outputFile = new File("qa/public/uploads/pic" + user + ".jpg");
+		File outputFile = new File("qa/public/uploads/avatar" + user.id
+				+ ".jpg");
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
+		user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
 		user.save();
 		Users.myProfile();
 	}
 
 	// DR working on a better way to render avatar
-	public static void avatar() {
+	public static void avatarPath() {
 		User user = User.find("byEmail", Security.connected()).first();
-		System.out.println(user.avatar);
-		renderBinary(user.avatar);
+		System.out.println(user.avatarPath);
+		renderText(user.avatarPath);
 	}
 }
