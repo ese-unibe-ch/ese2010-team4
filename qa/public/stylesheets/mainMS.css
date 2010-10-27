@@ -101,6 +101,21 @@ a {
 	text-align: right;
 }
 
+/** Comments **/
+
+.comment {
+	background: #FFF;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+.comment-author {
+	float: right;
+	text-align: right;
+}
+
 /** Voting **/
 
 .voting {
@@ -150,6 +165,10 @@ a {
 	padding: 20px 20px 20px 20px;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
+}
+
+#answerForm p {
+	margin: 0;
 }
 
 /** Login **/

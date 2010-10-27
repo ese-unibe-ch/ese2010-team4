@@ -18,7 +18,7 @@
 					</div>
 					<div class="question-author">
 						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarURL}" /></div>
+							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" /></div>
 						#{/ifnot}
 						<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
 						<div class="question-date">
