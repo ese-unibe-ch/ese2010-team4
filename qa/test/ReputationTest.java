@@ -27,7 +27,7 @@ public class ReputationTest extends UnitTest {
 
 	}
 
-	@Test
+	/**
 	public void shouldHaveDefaultRepValues() {
 
 		assertEquals(-1, bob.rating.repVal.penalty);
@@ -41,7 +41,7 @@ public class ReputationTest extends UnitTest {
 		assertEquals(5, jeff.rating.repVal.voteUPQuestion);
 		assertEquals(10, jeff.rating.repVal.voteUPAnswer);
 		assertEquals(50, jeff.rating.repVal.bestAnswer);
-	}
+	}**/
 
 	@Test
 	public void shouldHaveDefaultReputation() {

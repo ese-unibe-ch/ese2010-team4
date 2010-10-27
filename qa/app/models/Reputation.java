@@ -23,7 +23,7 @@ public class Reputation extends Model {
 		this.bestAnswerRep = 0;
 		this.totalRep = 0;
 		this.penalty = 0;
-		this.repVal = ReputationValues.getInstance();
+		//this.repVal = ReputationValues.getInstance();
 	}
 
 	public void totalRep() {
@@ -37,30 +37,30 @@ public class Reputation extends Model {
 	}
 
 	public void voteUPAnswer() {
-		this.answerRep += repVal.voteUPAnswer;
+		this.answerRep += 10;
 		totalRep();
 
 	}
 
 	public void voteDown() {
-		this.answerRep += repVal.voteDown;
+		this.answerRep -= 2;
 		totalRep();
 
 	}
 
 	public void votedUPQuestion() {
-		this.questionRep += repVal.voteUPQuestion;
+		this.questionRep += 5;
 		totalRep();
 
 	}
 	
 	public void bestAnswer(){
-		this.bestAnswerRep += repVal.bestAnswer;
+		this.bestAnswerRep += 50;
 		totalRep();
 	}
 
 	public void penalty() {
-		this.penalty += repVal.penalty;
+		this.penalty += -1;
 		totalRep();
 	}
 	
