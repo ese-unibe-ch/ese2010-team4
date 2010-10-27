@@ -77,6 +77,7 @@ a {
 	background: #69F;
 	padding: 20px 20px 20px 20px;
 	margin: 20px 0px 20px 0px;
+	overflow: hidden;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
@@ -92,6 +93,8 @@ a {
 	background: #9CF;
 	padding: 20px 20px 20px 20px;
 	margin: 20px 0px 20px 0px;
+	clear: both;
+	overflow: hidden;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
@@ -107,6 +110,7 @@ a {
 	background: #FFF;
 	padding: 20px 20px 20px 20px;
 	margin: 20px 0px 20px 0px;
+	clear: both;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }

@@ -34,18 +34,14 @@ public class Application extends Controller {
 	 * Index.
 	 */
 	public static void index() {
-		Question lastQuestion = Question.find("order by timestamp desc")
+		Post lastActivity = Post.find("order by timestamp desc")
 				.first();
+		
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
 
-		if (lastQuestion != null && lastQuestion.answers.size() != 0) {
-			lastAnswer = lastQuestion.answers
-					.get(lastQuestion.answers.size() - 1).author.fullname;
-		}
-
-		render(lastQuestion, questions, lastAnswer);
+		render(lastActivity, questions, lastAnswer);
 	}
 
 	/**
