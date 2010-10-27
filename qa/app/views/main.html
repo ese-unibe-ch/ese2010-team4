@@ -22,8 +22,8 @@
 				<div id="userImg"> <img src="${user.avatarPath}" width="62" height="62"/></div>
 				<div class="userInfo">User: ${user.fullname}</div>
 				<div class="userInfo">Mail: ${user.email}</div>
-				<div class="userInfo">Questions:  </div>
-				<div class="userInfo">Answers: </div>
+				<div class="userInfo">Questions: ${user.countQuestions()} </div>
+				<div class="userInfo">Answers: ${user.countAnswers()}</div>
 				<div class="userInfo">Reputation: ${user.rating}</div>
 			</div>
 			#{/if}
@@ -38,7 +38,7 @@
 					<a class="button" href="@{Users.myQuestions()}">My questions</a>
 					<a class="button" href="@{Users.myAnswers()}">My answers</a>
 					<a class="button" href="@{Users.myFollows()}">My follows</a>
-					<a class="button" href="@{Users.myProfile()}">Profile</a>
+					<a class="button" href="@{Users.myProfile(user.id)}">Profile</a>
 					<a class="button" href="@{Secure.logout()}">Log out</a>
 				#{/secure.check}
 			</div>
