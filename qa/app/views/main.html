@@ -18,7 +18,7 @@
     	
 			#{secure.check 'user'}
 			<div id="user">
-				<div id="userImg"> <img src="@{Users.avatar()}" width="62" height="62"/></div>
+				<div id="userImg"> <img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarPath}" width="62" height="62"/></div>
 				<div class="userInfo">User: ${models.User.find("byEmail", controllers.Security.connected()).first().fullname}</div>
 				<div class="userInfo">Mail: ${models.User.find("byEmail", controllers.Security.connected()).first().email}</div>
 				<div class="userInfo">Questions: </div>

@@ -1,6 +1,5 @@
 package models;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
@@ -30,11 +28,11 @@ public class User extends Model {
 	public String aboutMe = "";
 	public String favoriteLanguages;
 
-	public String avatarURL = "http://imgur.com/FVWB9.png";
+	public String avatarPath = "http://imgur.com/FVWB9.png";
 
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	public Date lastLogOff;
-	
+
 	@OneToOne
 	public Reputation rating;
 
@@ -50,26 +48,21 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-	public String avatarTitel = "standard avatar";
 
 	@OneToMany
 	public List<Question> followQ;
 	@OneToMany
 	public List<User> followU;
-	//@OneToMany
+	// @OneToMany
 	public ArrayList<Post> recentPosts;
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Vote> votes;
-	
+
 	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
-
-	@Transient
-	public File avatar;
-
 
 	public User(String fullname, String email, String password) {
 
@@ -83,7 +76,6 @@ public class User extends Model {
 		this.followQ = new ArrayList<Question>();
 		this.followU = new ArrayList<User>();
 		recentPosts = new ArrayList<Post>();
-		this.avatar = new File("avatarURL");
 	}
 
 	public static User login(String email, String password) {
@@ -143,30 +135,30 @@ public class User extends Model {
 		Question question = Question.findById(id);
 		// changes actual date to date in milisec
 		long milidate = new Date().getTime();
-		
+
 		if (question.validity == 0 || milidate < question.validity) {
 			return true;
 		}
-		
-		else{
-			
-			//Set the best Answer
-			bestAnswer(question);			
+
+		else {
+
+			// Set the best Answer
+			bestAnswer(question);
 			return false;
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * Helper method for find best answer
 	 * 
-	 * @param question from the best answer
+	 * @param question
+	 *            from the best answer
 	 */
 	private void bestAnswer(Question question) {
-		
-		for(Answer answer: question.answers){
-			if(answer.best){
+
+		for (Answer answer : question.answers) {
+			if (answer.best) {
 				answer.author.rating.bestAnswer();
 				answer.author.rating.save();
 				answer.author.save();
@@ -175,8 +167,6 @@ public class User extends Model {
 			}
 		}
 	}
-
-
 
 	/**
 	 * Calculates the age of the <code>User</code> in years
@@ -268,7 +258,7 @@ public class User extends Model {
 
 		else {
 			User newUser = new User(fullname, email, password).save();
-			//add the reputation
+			// add the reputation
 			newUser.rating = new Reputation().save();
 			newUser.save();
 			message = "Hello, " + fullname + ", please log in";
@@ -276,7 +266,6 @@ public class User extends Model {
 
 		return message;
 	}
-
 
 	public void removeNull() {
 
@@ -329,16 +318,16 @@ public class User extends Model {
 		this.votes.add(vote);
 		this.save();
 		return this;
-		
+
 	}
-	
-	public User addAnswer(Answer answer){
+
+	public User addAnswer(Answer answer) {
 		this.posts.add(answer);
 		this.save();
 		return this;
 	}
-	
-	public Question addQuestion(String title, String content){
+
+	public Question addQuestion(String title, String content) {
 		Question newQuestion = new Question(this, title, content).save();
 		this.posts.add(newQuestion);
 		this.save();
@@ -349,9 +338,7 @@ public class User extends Model {
 		this.posts.add(comment);
 		this.save();
 		return this;
-		
+
 	}
-
-
 
 }
