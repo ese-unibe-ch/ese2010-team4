@@ -1,13 +1,10 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-
 #{if lastActivity}
 	<div class="questions">
-		<h4>Newest activity:</h4>
-    	<div class="question">
-
-
+	<h3>Newest activity:</h3>
+   	<div class="question">
 		<div class="question-author">
 			#{ifnot models.User.find("byEmail", lastActivity.author.fullname).first()==null}
 				<div class="avatar"><img src="${models.User.find("byEmail", lastActivity.author.fullname).first().avatarPath}" /></div>

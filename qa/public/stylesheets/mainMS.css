@@ -31,7 +31,7 @@ html, body {
 	background: #69F;
 	float: right;
 	padding: 10px 10px 10px 10px;
-    margin: 20px 20px;
+    margin: 20px 20px 0px 20px;
 	width: 180px;
 	-webkit-border-radius: 16px;
     -moz-border-radius: 16px;
@@ -51,7 +51,9 @@ html, body {
 /** Content **/
 
 #content {
-	margin: 20px;
+	margin: 0px 20px 0px 20px;
+	clear: right;
+	overflow: hidden;
 }
 
 /** Links **/
@@ -87,6 +89,20 @@ a {
 	text-align: right;
 }
 
+.question .content {
+	margin: 5px 0px 5px 0px;
+}
+
+.question .metadata {
+	margin: 10px 0px 10px 0px;
+}
+
+.question .metadata .button {
+	background: green;
+	padding: 0px 10px 0px 10px;
+	margin: 5px 0px 5px 0px;
+}
+
 /** Answer **/
 
 .answer {
@@ -120,12 +136,16 @@ a {
 	text-align: right;
 }
 
+.comment-author .button {
+	color: #69F;
+}
+
 /** Voting **/
 
 .voting {
 	float: left;
 	display: inline;
-	margin: 0px 20px 20px 0px;
+	margin: 0px 20px 10px 0px;
 	color: #FFF;
     font-size: 24px;
     text-align: center;
