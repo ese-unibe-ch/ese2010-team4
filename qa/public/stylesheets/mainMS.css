@@ -76,11 +76,27 @@ a {
 .question {
 	background: #69F;
 	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
 
 .question-author {
+	float: right;
+	text-align: right;
+}
+
+/** Answer **/
+
+.answer {
+	background: #9CF;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+.answer-author {
 	float: right;
 	text-align: right;
 }
@@ -125,12 +141,6 @@ a {
 	display: block;
 	margin-top: 2px;
 }
-
-/** Answers **/
-
-.answers {
-}
-
 
 /** Formulars **/
 

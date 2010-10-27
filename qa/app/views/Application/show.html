@@ -1,197 +1,150 @@
 #{extends 'main.html' /} 
 #{set title:'Show question' /} 
 
-
-#{if question.previous()}
-<div class="link" id="previous">
-	<a href="@{Application.show(question.previous().id)}"> Previous question.</a>
-</div>
-#{/if} 
-#{if question.next()}
-<div class="link" id="next">
-	<a href="@{Application.show(question.next().id)}"> Next question.</a>
-</div>
-#{/if}
-<br>
-
 <div class="questions">
+	<h3>View Question:</h3>
+	<div class="question">
+		<div class="voting">
+			<div class="vote-curr">
+				${question.voting()}
+			</div>
+			#{secure.check 'user'}    
+				#{if abletovote && isvalid}
+					<div class="vote-up-down">
+						<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
+						<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
+					</div>
+				#{/if}
+			#{/secure.check}
+		</div>
+		<div class="question-author">
+			#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
+				<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarURL}" /></div>
+			#{/ifnot}
+			<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
+			<div class="question-date">
+				${question.timestamp}
+			</div>
+		</div>
+		<div class="question-main">
+			<div class="question-title">
+				<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
+				#{secure.check 'user'}
+					#{if !isfollowing && !abletochoose}
+						<a href="@{Users.followQuestion(question.id)}">[follow]</a>
+					#{/if}
+				#{/secure.check}
+			</div>
+			<div class="question-content">
+				${question.content.nl2br()}
+			</div>
+			<div class="question-answer">
+				#{if question.answers.size() < 1}
+					<div>
+						There is no answer.
+					</div>
+				#{/if}
+				#{else}
+					#{list items:question.answers, as:'answer'}
+					<div class="answers">
+						<div class="answer">
+							<div class="voting">
+								<div class="vote-curr">
+									${answer.voting()}
+								</div>
+								#{secure.check 'user'}    
+									#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Security.connected()).first())}
+					         			<div class="vote-up-down">
+											<a class="vote-up" href="@{Users.voteForAnswer(question.id, answer.id, true)}"></a>
+											<a class="vote-down" href="@{Users.voteForAnswer(question.id, answer.id, false)}"></a>
+										</div>
+									#{/if}
+								#{/secure.check}
+							</div>
+							<div class="question-author">
+								#{ifnot models.User.find("byEmail", answer.author.fullname).first()==null}
+									<div class="avatar"><img src="${models.User.find("byEmail", answer.author.fullname).first().avatarPath}" /></div>
+								#{/ifnot}
+								<a href="@{Users.showProfile(question.author.id)}">${answer.author.fullname}</a>
+								<div class="question-date">
+									${answer.timestamp}
+								</div>
+							</div>
+							
+						
+						<p>
+				   		<div class="answer-metadata">
+				        	<table><tr>
+				        	#{secure.check 'user'}       	
+				        		      
+				         	<td>
+				        	#{if isvalid}
+				        		#{form @Users.writeComment(answer.id, question.id)}
+				        			<input type="submit" value="comment"/>
+				        		#{/form}
+							#{/if}
+							</td>
+				        	
+				        	
+				        	<td>
+				        	#{if answer.author.email.equals(models.User.find("byEmail", controllers.Security.connected()).first().email)}
+								#{form @Users.showEdit(answer.id, 0)}
+									<input type="submit" value="edit"/>
+								#{/form}
+							#{/if}
+							</td>
+							
+				        	<td>		 	
+				        	#{if isvalid && abletochoose}
+				        		#{form @Users.chooseBestAnswer(answer.id)}
+				        			<input type="submit" value="best answer"/>
+				        		#{/form}
+				        	#{/if}
+				        	</td>
+				        			 	
+				        	#{if answer.best && isvalid}
+				        		This is the best answer!
+				        	#{/if}
+				        	
+				    		#{/secure.check}    	
+				    	</tr></table>	         	
+				         				
+				        	
+				        	
+				    	</div>
+				   		<div class="answer-content">
+				         	${answer.content.escape().nl2br()}
+				    	</div>
+				    	
+				    	#{if answer.comments.size()>0}
+				    	<br>
+				    	Comments to this answer:
+				    	#{/if}
+				    	#{list items: answer.comments, as:'comment'}
+				    	<div class="comments">
+				    				<p>
+				   			<div class="answer-metadata">
+				        		<span class="comment-author">by ${comment.author.fullname},</span>
+				        		<span class="comment-date">${comment.timestamp}</span>
+				        	</div>
+				        </div>
+				        <div class="answer-content">
+				         	${comment.content.escape().nl2br()}
+				    	</div>
+				    	#{/list}
+				    	</p>
+					</div>
+					</div>
+					#{/list}
+				#{/else}
 
-<div class="question">
-	Question:
-    <div class="question-metadata">
-        <span class="question-author">by <a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}, </a></span>
-        <span class="question-date">${question.timestamp}</span>
-        <span class="question-voting"> Voting: ${question.voting()}</span>
-        
-		<br>
-    	<table><tr>
-		#{secure.check 'user'}    
-			#{if abletovote && isvalid}				
-			<td>
-				#{form @Users.voteForQuestion(question.id, true)}
-					<input type="submit" value="voteUp"/>
-				#{/form}
-			</td>
-				
-			<td>
-				#{form @Users.voteForQuestion(question.id, false)}
-					<input type="submit" value="voteDown"/>
-				#{/form}
-			</td>
-			#{/if}
-									
-			<td>
-			#{if isvalid}
-				#{form @Users.writeComment(question.id, question.id)}
-					<input type="submit" value="comment"/>
-				#{/form}
-			#{/if}
-			</td>
-			
-			<td>
-			#{if abletochoose}
-				#{form @Users.showEdit(question.id, 0)}
-					<input type="submit" value="edit"/>
-				#{/form}
-			#{/if}
-			</td>
-			
-			<td>
-			#{if !isfollowing && !abletochoose}
-				#{form @Users.followQuestion(question.id)}
-					<input type="submit" value="follow"/>
-				#{/form}
-			#{/if}
-			</td>
-		#{/secure.check}
-	</tr></table>
-			
-    </div>
-    <div class="question-content">
-    	<br>
-    	${question.content.nl2br()}
-    </div>
-    
-        #{if question.comments.size()>0}
-    	<br>
-    	Comments to this question:
-    	
-    	#{list items: question.comments, as:'comment'}
-    	<div class="comments">
-    				<p>
-   			<div class="answer-metadata">
-        		<span class="comment-author">by ${comment.author.fullname},</span>
-        		<span class="comment-date">${comment.timestamp}</span>
-        	</div>
-        </div>
-        <div class="answer-content">
-         	${comment.content.escape().nl2br()}
-    	</div>
-    	#{/list}
-    	#{/if}
-    
-    
 </div>
-<br>
-<div>
-	Answers to this question:
-</div>
-
-<br>
-#{if question.answers.size() < 1}
-<div>
-	There is no answer.
-</div>
-#{/if}
-
-#{else}
-	#{list items:question.answers, as:'answer'}
-	<div class="answers">
-		<p>
-   		<div class="answer-metadata">
-        	<span class="answer-author">by <a href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>,</span>
-        	<span class="answer-date">${answer.timestamp}</span>
-        	<span class="answer-voting"> Voting: ${answer.voting()}</span>
-        	
-        	<br>
-    		<table><tr>
-        	#{secure.check 'user'}       	
-        		      
-         	#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Security.connected()).first())}
-         	<td>
-    			#{form @Users.voteForAnswer(question.id, answer.id, true)}
-    				<input type="submit" value="voteUp"/>
-				#{/form}
-			</td>
-				
-			<td>
-				#{form @Users.voteForAnswer(question.id, answer.id, false)}
-    				<input type="submit" value="voteDown"/>
-				#{/form}
-			</td>
-			#{/if}
-			
-			<td>
-        	#{if isvalid}
-        		#{form @Users.writeComment(answer.id, question.id)}
-        			<input type="submit" value="comment"/>
-        		#{/form}
-			#{/if}
-			</td>
-        	
-        	
-        	<td>
-        	#{if answer.author.email.equals(models.User.find("byEmail", controllers.Security.connected()).first().email)}
-				#{form @Users.showEdit(answer.id, 0)}
-					<input type="submit" value="edit"/>
-				#{/form}
-			#{/if}
-			</td>
-			
-        	<td>		 	
-        	#{if isvalid && abletochoose}
-        		#{form @Users.chooseBestAnswer(answer.id)}
-        			<input type="submit" value="best answer"/>
-        		#{/form}
-        	#{/if}
-        	</td>
-        			 	
-        	#{if answer.best && isvalid}
-        		This is the best answer!
-        	#{/if}
-        	
-    		#{/secure.check}    	
-    	</tr></table>	         	
-         				
-        	
-        	
-    	</div>
-   		<div class="answer-content">
-         	${answer.content.escape().nl2br()}
-    	</div>
-    	
-    	#{if answer.comments.size()>0}
-    	<br>
-    	Comments to this answer:
-    	#{/if}
-    	#{list items: answer.comments, as:'comment'}
-    	<div class="comments">
-    				<p>
-   			<div class="answer-metadata">
-        		<span class="comment-author">by ${comment.author.fullname},</span>
-        		<span class="comment-date">${comment.timestamp}</span>
-        	</div>
-        </div>
-        <div class="answer-content">
-         	${comment.content.escape().nl2br()}
-    	</div>
-    	#{/list}
-    	</p>
+			</div>
+		</div>
 	</div>
-	#{/list}
-#{/else}
+	
+	
 
-</div>
 
 <p><br></p>
 
