@@ -19,7 +19,7 @@
 
 			#{if user}
 			<div id="user">
-				<div id="userImg"> <img src="@{Users.getAvatar()}" width="62" height="62"/></div>
+				<div id="userImg"> <img src="${user.avatarPath}" width="62" height="62"/></div>
 				<div class="userInfo">User: ${user.fullname}</div>
 				<div class="userInfo">Mail: ${user.email}</div>
 				<div class="userInfo">Questions: ${user.countQuestions()} </div>
