@@ -415,11 +415,14 @@ public class Users extends Controller {
 	public static void searchResults(String toSearch) {
 
 		boolean found = false;
-		List<User> users = User.find("byFullnameLike", "%"+toSearch+"%").fetch();
-		List<Post> postscont = Post.find("byContentLike", "%"+toSearch+"%").fetch();
-		List<Post> poststitl = Post.find("byTitleLike", "%"+toSearch+"%").fetch();
+		List<User> users = User.find("byFullnameLike", "%" + toSearch + "%")
+				.fetch();
+		List<Post> postscont = Post.find("byContentLike", "%" + toSearch + "%")
+				.fetch();
+		List<Post> poststitl = Post.find("byTitleLike", "%" + toSearch + "%")
+				.fetch();
 
-		if (users.size()==0 && postscont.size() == 0 && poststitl.size() == 0) {
+		if (users.size() == 0 && postscont.size() == 0 && poststitl.size() == 0) {
 			String message = "no user found";
 			render(users, message, found);
 		}
@@ -481,7 +484,8 @@ public class Users extends Controller {
 
 	public static void uploadAvatar(File avatar) throws FileNotFoundException,
 			IOException {
-		assert avatar != null;
+		// File should not be null and not bigger than 10KB
+		assert avatar != null && avatar.length() < 10000;
 		User user = User.find("byEmail", Security.connected()).first();
 		FileInputStream iStream = new FileInputStream(avatar);
 		File outputFile = new File("qa/public/uploads/avatar" + user.id
