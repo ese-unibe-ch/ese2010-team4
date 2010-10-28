@@ -1,5 +1,6 @@
 package models;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,13 @@ public class Question extends Post {
 	}
 
 	public Question addAnswer(User author, String content) {
+		Answer newAnswer = new Answer(this, author, content).save();
+		this.answers.add(newAnswer);
+		this.save();
+		return this;
+	}
+
+	public Question addAnswer(User author, String content, File attachment) {
 		Answer newAnswer = new Answer(this, author, content).save();
 		this.answers.add(newAnswer);
 		this.save();

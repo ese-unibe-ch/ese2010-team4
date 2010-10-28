@@ -188,7 +188,7 @@ public class Users extends Controller {
 	 *            the content
 	 */
 	public static void answerQuestion(Long questionId, @Required String author,
-			@Required String content) {
+			@Required String content, File attachment) {
 		Question question = Question.findById(questionId);
 
 		if (validation.hasErrors()) {
@@ -196,7 +196,11 @@ public class Users extends Controller {
 		}
 
 		User user = User.find("byFullname", author).first();
-		question.addAnswer(user, content).save();
+		if (attachment != null)
+			question.addAnswer(user, content, attachment).save();
+		else {
+			question.addAnswer(user, content).save();
+		}
 		flash.success("Thanks for write the answer %s!", author);
 		Application.show(questionId);
 	}
@@ -486,14 +490,18 @@ public class Users extends Controller {
 			IOException {
 		// File should not be null and not bigger than 10KB
 		assert avatar != null && avatar.length() < 10000;
-		User user = User.find("byEmail", Security.connected()).first();
-		FileInputStream iStream = new FileInputStream(avatar);
-		File outputFile = new File("qa/public/uploads/avatar" + user.id
-				+ ".jpg");
-		IOUtils.copy(iStream, new FileOutputStream(outputFile));
-		user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
-		user.save();
-		Users.myProfile(user.id);
+		if (avatar != null && avatar.length() < 10000) {
+			User user = User.find("byEmail", Security.connected()).first();
+			FileInputStream iStream = new FileInputStream(avatar);
+			File outputFile = new File("qa/public/uploads/avatar" + user.id
+					+ ".jpg");
+			IOUtils.copy(iStream, new FileOutputStream(outputFile));
+			user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
+			user.save();
+			Users.myProfile(user.id);
+		} else
+			renderText("File to big");
+
 	}
 
 	public static void updateAvatarPath(String URL) {
