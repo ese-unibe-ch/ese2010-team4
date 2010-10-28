@@ -12,10 +12,7 @@
        	   		All fields are required!
       	  	</p>
  	   	#{/ifErrors}
-    	<p>
-        	<label for="author">Your fullname: </label>
-        <br>
-        	<input type="text" name="author" id="author" value="${user.fullname}" readonly/>
+    	<input type="hidden" name="author" id="author" value="${user.fullname}" readonly/>
     	<p>
     		<label for="title">Title: </label>
     		<br>
@@ -23,7 +20,7 @@
     	<p>
         	<label for="content">Your question: </label>
         	<br>
-        	<textarea name="content" id="content"></textarea>
+        	<textarea name="content"></textarea>
 		
 		<p>
 		<input type="file" id="attachment" name="attachment" />

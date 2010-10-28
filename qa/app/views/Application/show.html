@@ -155,14 +155,13 @@
 					</p>
 				#{/ifErrors}
 				<p>
-					<label for="author">Your fullname: </label>
-					<input type="text" name="author" id="user" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
+					<input type="hidden" name="author" id="user" value="${user.fullname}" readonly/>
 				</p>
     			<p>
 					<label for="content">Your answer: </label>
 				</p>
 				<p>
-					<textarea name="content" id="content"></textarea>
+					<textarea name="content"></textarea>
 				</p>
 				<p>
 					<input type="submit" value="Submit your answer" />
