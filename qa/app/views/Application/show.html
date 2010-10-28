@@ -33,7 +33,11 @@
 			<div class="content" id="question-content">
 				${question.content.nl2br()}
 			</div>
+			
 			<div class="metadata" id="question-metadata">
+					#{if question.attachmentPath != null}
+						<a class="button" href="${question.attachmentPath}"> attachment</a>
+					#{/if}
 				#{secure.check 'user'}
 					#{if !isfollowing && !abletochoose}
 						<a class="button" href="@{Users.followQuestion(question.id)}">follow</a>
@@ -44,6 +48,7 @@
 					#{if abletochoose}
 						<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
 					#{/if}
+
 					
 			
 				#{/secure.check}
