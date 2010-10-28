@@ -34,6 +34,7 @@
                     <div class="follows-content">
         				<a href="@{Users.showProfile(user.id)}">${user.fullname}</a>
         				<p>
+        				
         				#{form @Users.unfollowUser(user.id)}
 							<input type="submit" value="Unfollow"/>
 						#{/form}
@@ -42,4 +43,16 @@
             </div>
             <br>
 	#{/list}
+	
+	        			        <h2>Activities</h2>
+								#{list items:activities, as:'activity'}
+									<div class="activity">
+										#{if activity.checkInstance()}
+											${activity.timestamp}, ${activity.author.fullname} wrote a new <a href = "@{Application.show(activity.id)}">question</a>.
+										#{/if}
+										#{else}
+											 ${activity.timestamp}, ${activity.author.fullname} wrote a answer to the  <a href = "@{Application.show(activity.question.id)}"> question</a> from ${activity.question.author.fullname}
+										#{/else}
+									</div>
+     							#{/list}
 </div>

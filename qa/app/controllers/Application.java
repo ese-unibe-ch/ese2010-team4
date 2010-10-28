@@ -2,7 +2,9 @@ package controllers;
 
 import java.util.List;
 
+import models.Post;
 import models.Question;
+import models.Tag;
 import models.User;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -25,18 +27,20 @@ public class Application extends Controller {
 	 * Index.
 	 */
 	public static void index() {
-		Question lastQuestion = Question.find("order by timestamp desc")
-				.first();
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
+		User user;
+		boolean isconnected = Security.isConnected();
 
-		if (lastQuestion != null && lastQuestion.answers.size() != 0) {
-			lastAnswer = lastQuestion.answers
-					.get(lastQuestion.answers.size() - 1).author.fullname;
+		if (isconnected) {
+			user = User.find("byEmail", Security.connected()).first();
+			render(lastActivity, questions, lastAnswer, isconnected, user);
 		}
 
-		render(lastQuestion, questions, lastAnswer);
+		else
+			render(lastActivity, questions, lastAnswer, isconnected);
 	}
 
 	/**
@@ -92,6 +96,11 @@ public class Application extends Controller {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void tagged(Tag tag) {
+		List<Post> taggedPosts = Post.findTaggedWith(tag.name);
+		render(taggedPosts);
 	}
 
 }

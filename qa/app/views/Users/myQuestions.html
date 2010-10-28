@@ -24,13 +24,15 @@
 						<div class="question-date">
 							${question.timestamp}
 						</div>
+						<div class="metadata" id="question-metadata">
+						#{secure.check 'user'}
+							<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
+						#{/secure.check}
+					</div>
 					</div>
 					<div class="question-main">
 						<div class="question-title">
 							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-							#{secure.check 'user'}
-								<a href="@{Users.followQuestion(question.id)}">[follow]</a>
-							#{/secure.check}
 						</div>
 						<div class="question-content">
 							${question.content.nl2br()}

@@ -13,14 +13,24 @@
 					<div class="question-date">
 						${lastActivity.timestamp}
 					</div>
+					<div class="metadata" id="question-metadata">
+						#{secure.check 'user'}
+						#{if isconnected && lastActivity instanceof models.Question} 
+							#{if !user.isFollowing(lastActivity) && !user.isAbleToChoose(lastActivity.id)}
+								<a class="button" href="@{Users.followQuestion(lastActivity.id)}">follow</a>
+							#{/if}
+							
+							#{if isconnected && user.isAbleToChoose(lastActivity.id)}
+								<a class="button" href="@{Users.showEdit(lastActivity.id, 0)}">edit</a>
+							#{/if}
+						#{/if}
+						#{/secure.check}
+					</div>
 				</div>
 				<div class="question-main">
 					#{if lastActivity.checkInstance()}
 					<div class="question-title">
 						<a href="@{Application.show(lastActivity.id)}">${lastActivity.getTitle()}</a>
-						#{secure.check 'user'}
-							<a href="@{Users.followQuestion(lastActivity.id)}">[follow]</a>
-						#{/secure.check}
 					</div>
 					<div class="question-content">
 						${lastActivity.content.nl2br()}
@@ -34,6 +44,12 @@
 			#{else}
 				${lastActivity.timestamp} a new answer was added to a <a href = "@{Application.show(lastActivity.question.id)}">question</a> by
 			#{/else}
+			#{if lastActivity.tags.size() > 0}
+				Tags:
+				#{list items:lastActivity.tags, as:'tag'}
+    				<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+				#{/list}
+			#{/if}
 		</div>
      </div>
 
@@ -64,13 +80,25 @@
 						<div class="question-date">
 							${question.timestamp}
 						</div>
+						
+						<div class="metadata" id="question-metadata">
+							#{secure.check 'user'}
+							#{if isconnected}
+								#{if !user.isFollowing(question) && !user.isAbleToChoose(question.id)}
+									<a class="button" href="@{Users.followQuestion(question.id)}">follow</a>
+								#{/if}
+							
+								#{if isconnected && user.isAbleToChoose(question.id)}
+									<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
+								#{/if}
+							#{/if}
+							#{/secure.check}
+						</div>
+						
 					</div>
 					<div class="question-main">
 						<div class="question-title">
 							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-							#{secure.check 'user'}
-								<a href="@{Users.followQuestion(question.id)}">[follow]</a>
-							#{/secure.check}
 						</div>
 						<div class="question-content">
 							${question.content.nl2br()}
@@ -79,6 +107,13 @@
 							#{ifnot question.answers.isEmpty()}
 								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})
 							#{/ifnot}
+							#{if question.tags.size() > 0}
+								<br>
+								Tags:
+								#{list items:question.tags, as:'tag'}
+    								<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+								#{/list}
+							#{/if}
 						</div>
 					</div>
                 </div>

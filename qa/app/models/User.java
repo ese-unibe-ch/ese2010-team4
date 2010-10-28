@@ -382,4 +382,19 @@ public class User extends Model {
 		return Post.find("author like ? order by timestamp desc", this).fetch();
 	}
 
+	public List<Post> followAcitvities() {
+		List<Post> activities = new ArrayList<Post>();
+		
+		for(User user: this.followU){
+			List<Post> act2 = Post.find("author like ? order by timestamp desc", user).fetch();
+			for(Post post: act2){
+				activities.add(post);
+			}			
+		}
+		
+		return activities;
+		
+	}
+	
+
 }
