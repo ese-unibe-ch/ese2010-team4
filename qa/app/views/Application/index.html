@@ -57,7 +57,7 @@
     
 	#{if questions.size() > 1}
 		<div class="questions"> 
-			<h3>All questions from this KnowledgeBase</h3>
+			<h3>All questions on A4Q</h3>
 			
 			#{list items:questions, as:'question'}
 				<div class="question">
@@ -103,6 +103,11 @@
 						<div class="question-content">
 							${question.content.nl2br()}
 						</div>
+						#{if question.attachmentPath != null}
+						<div class="question-attachment">
+							<a href="${question.attachmentPath}"> Attachment</a>
+						</div>
+						#{/if}
 						<div class="question-answer">
 							#{ifnot question.answers.isEmpty()}
 								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})

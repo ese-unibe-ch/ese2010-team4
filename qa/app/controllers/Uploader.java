@@ -17,19 +17,18 @@ public class Uploader {
 
 	public Uploader(String uploadPath) {
 		this.uploadPath = uploadPath;
+		this.uploadedFiles = new ArrayList<File>();
 	}
 
 	// Uploads a file to the given Path with the format nameid.typ
 	// DR a lot of refactoring needed!
-	public String upload(File attachment, String name, Long id, String type)
-			throws FileNotFoundException, IOException {
-		String filePath = uploadPath + name + id + "." + type;
+	public String upload(File attachment, String name, String type) {
+		String filePath = uploadPath + name + "." + type;
 		copyFile(attachment, filePath);
 		return filePath;
 	}
 
-	public String upload(File attachment) throws FileNotFoundException,
-			IOException {
+	public String upload(File attachment) {
 		copyFile(attachment, uploadPath);
 		return uploadPath + attachment.getName();
 	}
@@ -38,12 +37,17 @@ public class Uploader {
 		return uploadedFiles;
 	}
 
-	private void copyFile(File attachment, String filePath)
-			throws FileNotFoundException, IOException {
-		iStream = new FileInputStream(attachment);
-		File outputFile = new File(filePath);
-		IOUtils.copy(iStream, new FileOutputStream(outputFile));
-		uploadedFiles.add(outputFile);
+	private void copyFile(File attachment, String filePath) {
+		try {
+			iStream = new FileInputStream(attachment);
+			File outputFile = new File(filePath);
+			IOUtils.copy(iStream, new FileOutputStream(outputFile));
+			uploadedFiles.add(outputFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+		} catch (IOException io) {
+			System.out.println("Input & Output Exception");
+		}
 	}
 
 }

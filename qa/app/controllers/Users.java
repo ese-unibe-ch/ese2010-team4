@@ -115,18 +115,18 @@ public class Users extends Controller {
 	 * @throws FileNotFoundException
 	 */
 	public static void createQuestion(@Required String author,
-			@Required String title, String content, File attachment)
-			throws FileNotFoundException, IOException {
+			@Required String title, String content, File attachment) {
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
 		}
 
 		User user = User.find("byFullname", author).first();
-		if (attachment != null)
-			user.addQuestion(title, content, attachment).save();
-		else {
-			user.addQuestion(title, content).save();
+		Question question = user.addQuestion(title, content).save();
+		if (attachment != null) {
+			question.attachmentPath = uploader.upload(attachment,
+					"question" + question.id, "doc").substring(2);
+			question.save();
 		}
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
@@ -194,10 +194,8 @@ public class Users extends Controller {
 
 		User user = User.find("byFullname", author).first();
 		if (attachment != null)
-			question.addAnswer(user, content, attachment).save();
-		else {
-			question.addAnswer(user, content).save();
-		}
+			question.attachmentPath = uploader.upload(attachment,
+					"question" + question.id, "doc").substring(2);
 		flash.success("Thanks for write the answer %s!", author);
 		Application.show(questionId);
 	}
@@ -385,8 +383,6 @@ public class Users extends Controller {
 	 *            the languages
 	 * @param aboutMe
 	 *            the about me
-	 * @param avatarURL
-	 *            the avatar url
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
@@ -489,8 +485,8 @@ public class Users extends Controller {
 		assert avatar != null && avatar.length() < 10000;
 		if (avatar != null && avatar.length() < 10000) {
 			User user = User.find("byEmail", Security.connected()).first();
-			user.avatarPath = uploader.upload(avatar, "avatar", user.id, "jpg")
-					.substring(2);
+			user.avatarPath = uploader
+					.upload(avatar, "avatar" + user.id, "jpg").substring(2);
 			user.save();
 			Users.myProfile(user.id);
 		} else
