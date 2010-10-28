@@ -7,7 +7,7 @@
    	<div class="question">
 		<div class="question-author">
 			#{ifnot models.User.find("byEmail", lastActivity.author.fullname).first()==null}
-				<div class="avatar"><img src="${models.User.find("byEmail", lastActivity.author.fullname).first().avatarPath}" /></div>
+				<div class="avatar"><img src="${models.User.find("byEmail", lastActivity.author.fullname).first().avatarPath}" width="62" height="62"/></div>
 			#{/ifnot}
 				<a href="@{Users.showProfile(lastActivity.author.id)}">${lastActivity.author.fullname}</a>
 					<div class="question-date">
@@ -74,7 +74,7 @@
 					</div>
 					<div class="question-author">
 						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" /></div>
+							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" width="62" height="62"/></div>
 						#{/ifnot}
 						<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
 						<div class="question-date">
