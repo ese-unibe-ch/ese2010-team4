@@ -25,6 +25,7 @@ public class ReputationValues extends Model {
 		this.voteDown = -2;
 		this.penalty = -1;
 		this.bestAnswer = 50;
+		// comment for merge conflict
 	}
 
 	/**
