@@ -23,7 +23,7 @@ import play.mvc.With;
 @With(Secure.class)
 public class Users extends Controller {
 
-	private static Uploader uploader;
+	private static Uploader uploader = new Uploader("qa/public/uploads/");
 
 	@Before
 	static void setConnectedUser() {
@@ -487,7 +487,6 @@ public class Users extends Controller {
 			IOException {
 		// File should not be null and not bigger than 10KB
 		assert avatar != null && avatar.length() < 10000;
-		uploader = new Uploader("qa/public/uploads/");
 		if (avatar != null && avatar.length() < 10000) {
 			User user = User.find("byEmail", Security.connected()).first();
 			user.avatarPath = uploader.upload(avatar, "avatar", user.id, "jpg")
@@ -506,6 +505,7 @@ public class Users extends Controller {
 		Users.myProfile(user.id);
 	}
 
+	// DR not working probably not needed
 	public static void avatarPath() {
 		User user = User.find("byEmail", Security.connected()).first();
 		System.out.println(user.avatarPath);
