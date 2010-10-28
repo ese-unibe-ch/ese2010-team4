@@ -18,6 +18,7 @@ public class ReputationValues extends Model {
 	public static int penalty;
 	public static int bestAnswer;
 
+	// hier ist was zu löschen
 	private ReputationValues() {
 
 		this.voteUPAnswer = 10;
@@ -25,6 +26,7 @@ public class ReputationValues extends Model {
 		this.voteDown = -2;
 		this.penalty = -1;
 		this.bestAnswer = 50;
+		// dies ist zu löschen
 	}
 
 	/**
