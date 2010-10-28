@@ -17,6 +17,7 @@ public class Uploader {
 		this.uploadPath = uploadPath;
 	}
 
+	// Uploads a file to the given Path with the format nameid.typ
 	public String upload(File attachment, String name, String id, String type)
 			throws FileNotFoundException, IOException {
 		iStream = new FileInputStream(attachment);
