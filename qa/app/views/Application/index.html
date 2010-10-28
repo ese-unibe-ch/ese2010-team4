@@ -15,7 +15,7 @@
 					</div>
 					<div class="metadata" id="question-metadata">
 						#{secure.check 'user'}
-						#{if isconnected} 
+						#{if isconnected && lastActivity instanceof models.Question} 
 							#{if !user.isFollowing(lastActivity) && !user.isAbleToChoose(lastActivity.id)}
 								<a class="button" href="@{Users.followQuestion(lastActivity.id)}">follow</a>
 							#{/if}

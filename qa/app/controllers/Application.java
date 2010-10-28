@@ -36,15 +36,7 @@ public class Application extends Controller {
 
 		if (isconnected) {
 			user = User.find("byEmail", Security.connected()).first();
-			if (lastActivity instanceof Question) {
-
-			}
-
-			else {
-				isconnected = false;
-			}
 			render(lastActivity, questions, lastAnswer, isconnected, user);
-
 		}
 
 		else
