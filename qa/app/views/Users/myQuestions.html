@@ -28,9 +28,6 @@
 					<div class="question-main">
 						<div class="question-title">
 							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-							#{secure.check 'user'}
-								<a href="@{Users.followQuestion(question.id)}">[follow]</a>
-							#{/secure.check}
 						</div>
 						<div class="question-content">
 							${question.content.nl2br()}

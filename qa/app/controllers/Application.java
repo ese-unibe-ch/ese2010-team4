@@ -31,8 +31,15 @@ public class Application extends Controller {
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
+		boolean isconnected = false;
 
-		render(lastActivity, questions, lastAnswer);
+		if (Security.isConnected() && lastActivity instanceof Question) {
+			User user = User.find("byEmail", Security.connected()).first();
+			isconnected = true;
+			render(lastActivity, questions, lastAnswer, isconnected, user);
+		}
+
+		render(lastActivity, questions, lastAnswer, isconnected);
 	}
 
 	/**
