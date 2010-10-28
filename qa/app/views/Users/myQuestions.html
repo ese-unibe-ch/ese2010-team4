@@ -24,6 +24,11 @@
 						<div class="question-date">
 							${question.timestamp}
 						</div>
+						<div class="metadata" id="question-metadata">
+						#{secure.check 'user'}
+							<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
+						#{/secure.check}
+					</div>
 					</div>
 					<div class="question-main">
 						<div class="question-title">
