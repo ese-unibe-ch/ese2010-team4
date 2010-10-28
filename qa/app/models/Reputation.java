@@ -12,8 +12,6 @@ public class Reputation extends Model {
 	public int bestAnswerRep;
 	public int totalRep;
 	public int penalty;
-	
-
 
 	public ReputationValues repVal;
 
@@ -28,7 +26,6 @@ public class Reputation extends Model {
 
 	public void totalRep() {
 		totalRep = questionRep + answerRep + bestAnswerRep + penalty;
-		
 
 		if (totalRep < 0) {
 			totalRep = 0;
@@ -53,8 +50,8 @@ public class Reputation extends Model {
 		totalRep();
 
 	}
-	
-	public void bestAnswer(){
+
+	public void bestAnswer() {
 		this.bestAnswerRep += 50;
 		totalRep();
 	}
@@ -63,8 +60,8 @@ public class Reputation extends Model {
 		this.penalty += -1;
 		totalRep();
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return Integer.toString(totalRep);
 	}
 }

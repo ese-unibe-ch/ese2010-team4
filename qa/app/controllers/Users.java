@@ -1,9 +1,7 @@
 package controllers;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -13,9 +11,6 @@ import models.Comment;
 import models.Post;
 import models.Question;
 import models.User;
-
-import org.apache.commons.io.IOUtils;
-
 import play.data.validation.Required;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -27,6 +22,8 @@ import play.mvc.With;
  */
 @With(Secure.class)
 public class Users extends Controller {
+
+	private static Uploader uploader;
 
 	@Before
 	static void setConnectedUser() {
@@ -490,13 +487,11 @@ public class Users extends Controller {
 			IOException {
 		// File should not be null and not bigger than 10KB
 		assert avatar != null && avatar.length() < 10000;
+		uploader = new Uploader("qa/public/uploads/");
 		if (avatar != null && avatar.length() < 10000) {
 			User user = User.find("byEmail", Security.connected()).first();
-			FileInputStream iStream = new FileInputStream(avatar);
-			File outputFile = new File("qa/public/uploads/avatar" + user.id
-					+ ".jpg");
-			IOUtils.copy(iStream, new FileOutputStream(outputFile));
-			user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
+			user.avatarPath = uploader.upload(avatar, "avatar", user.id, "jpg")
+					.substring(2);
 			user.save();
 			Users.myProfile(user.id);
 		} else

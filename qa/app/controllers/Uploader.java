@@ -19,12 +19,20 @@ public class Uploader {
 
 	// Uploads a file to the given Path with the format nameid.typ
 	// DR a lot of refactoring needed!
-	public String upload(File attachment, String name, String id, String type)
+	public String upload(File attachment, String name, Long id, String type)
 			throws FileNotFoundException, IOException {
 		iStream = new FileInputStream(attachment);
-		File outputFile = new File("/qa" + uploadPath + name + id + "." + type);
+		File outputFile = new File(uploadPath + name + id + "." + type);
 		IOUtils.copy(iStream, new FileOutputStream(outputFile));
 		return uploadPath + name + id + "." + type;
+	}
+
+	public String upload(File attachment) throws FileNotFoundException,
+			IOException {
+		iStream = new FileInputStream(attachment);
+		File outputFile = new File(uploadPath);
+		IOUtils.copy(iStream, new FileOutputStream(outputFile));
+		return uploadPath;
 	}
 
 }
