@@ -12,10 +12,20 @@
 
 	<p>
 	<div class="textarea">
+		
+		
 		#{field 'content'}
 		<label for="content"></label>
-			<textarea name="${field.name}" cols="50" rows="10">${post.history.get(editionIndex)}</textarea>
+		#{if editionIndex == 0}
+			<textarea name="${field.name}" cols="50" rows="10">${post.content}</textarea>
+		#{/if}
+		
+		
+		#{else}
+			<textarea name="${field.name}" cols="50" rows="10">${post.historys.get(editionIndex).content}</textarea>
+		#{/else}
 		#{/field}
+			
 	</div>
 	
 	<p>
@@ -46,6 +56,31 @@
 		</td>
 	</tr>
 	</table>
+	<br>
+
+#{form @Users.tagQuestion(post.id)}
+
+	#{ifErrors}
+    	<p class="error">
+    	@{Users.myQuestions()}
+    	</p>
+ 	#{/ifErrors}
+	
+	#{field 'name'}
+		<label for="tag">tag your question:</label>
+		<input type="text" name="${field.name}"/>
+	#{/field}
+	
+	<input type="submit" value="tag"/>
+	
+#{/form}
+
+#{if post.tags.size() > 0}
+	Actual tags for this question:
+	#{list items:post.tags, as:'tag'}
+   		<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+	#{/list}
+#{/if}
 	
 </div>
 		

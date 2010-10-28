@@ -18,7 +18,8 @@ public class Question extends Post {
 	public long validity;
 	public String title;
 
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "question", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Answer> answers;
 
 	public Question(User author, String title, String content) {
@@ -62,11 +63,63 @@ public class Question extends Post {
 	}
 
 	public void setValidity(long delay) {
-		
 		Date date = new Date();
 		this.validity = date.getTime() + delay;
 		this.save();
-		
+
+	}
+
+	public Question addNewAnswer(Answer answer) {
+		this.answers.add(answer);
+		this.save();
+		return this;
+
+	}
+
+	@Override
+	public Post addHistory(Post post, String title, String content) {
+		History history = new History(this, title, this.content).save();
+		historys.add(history);
+		this.save();
+		return this;
+	}
+
+	public Post vote(User user, boolean result) {
+		Vote vote = new Vote(user, this, result).save();
+		this.votes.add(vote);
+
+		if (result) {
+			this.author.rating.votedUPQuestion();
+			this.author.rating.save();
+			this.author.save();
+		}
+
+		else {
+
+			this.author.rating.voteDown();
+			this.author.rating.save();
+			this.author.save();
+			user.rating.penalty();
+			user.rating.save();
+			user.save();
+		}
+		this.voting();
+		this.save();
+		return this;
+
+	}
+
+	public Question bestAnswer(Answer answer) {
+
+		long delay = 10000;
+		// necessary if user change his mind
+		this.setAllAnswersFalse();
+		answer.best = true;
+		answer.save();
+		this.setValidity(delay);
+		this.save();
+		return this;
+
 	}
 
 }

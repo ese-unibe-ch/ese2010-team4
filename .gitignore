@@ -8,6 +8,9 @@ bin/
 # ignoring test results
 test-result/
 
+# ignoring logs
+logs/
+
 # ignoring tmp
 tmp/
 
@@ -30,3 +33,5 @@ eclipse
 
 # and netbeans
 nbproject
+
+public/upload/avatar

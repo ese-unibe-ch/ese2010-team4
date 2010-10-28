@@ -3,12 +3,14 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -23,8 +25,9 @@ import play.db.jpa.Model;
 public abstract class Post extends Model {
 
 	public Date timestamp;
-	public int voting;
 	public String fullname;
+	public int voting;
+	public String attachmentPath;
 
 	@Lob
 	@Required
@@ -35,19 +38,38 @@ public abstract class Post extends Model {
 	@ManyToOne
 	public User author;
 
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Comment> comments;
 
-	public ArrayList<User> userVoted;
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<Vote> votes;
 
-	public LinkedList<String> history;
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<History> historys;
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	public Set<Tag> tags;
+
+	public abstract Post addHistory(Post post, String title, String content);
+
+	/**
+	 * Add an vote
+	 * 
+	 * @param user
+	 * @param result
+	 * @return the votet post
+	 */
+	public abstract Post vote(User user, boolean result);
 
 	public Post(User author, String content) {
 
-		this.userVoted = new ArrayList<User>();
-		this.history = new LinkedList<String>();
+		this.votes = new ArrayList<Vote>();
+		this.historys = new ArrayList<History>();
 		this.comments = new ArrayList<Comment>();
-		this.history.addFirst(content);
+		this.tags = new TreeSet<Tag>();
 		this.author = author;
 		this.content = content;
 		this.timestamp = new Date(System.currentTimeMillis());
@@ -58,60 +80,93 @@ public abstract class Post extends Model {
 		return content;
 	}
 
-	public void voteUp(User user) {
-		voting++;
-		this.userVoted.add(user);
-		this.save();
-	}
+	public boolean hasVoted(User comuser) {
 
-	public void voteDown(User user) {
-		voting--;
-		this.userVoted.add(user);
-		this.save();
-	}
-
-	public boolean hasVoted(User user) {
-		if (userVoted != null) {
-			for (User comuser : userVoted) {
-				if (user.email.equals(comuser.email)) {
-					return true;
-				}
+		for (Vote vote : votes) {
+			if (vote.user.equals(comuser)) {
+				return true;
 			}
 		}
+
 		return false;
 	}
 
-	public String lastChanges(Long questionId, Long userId) {
+	public List<Post> lastChanges(Long questionId, Long userId) {
 		Question question = Question.findById(questionId);
 		User user = User.findById(userId);
-		int newAnswers = 0;
-		int newComments = 0;
+		List<Post> news = new ArrayList<Post>();
 
-		try {
-			Iterator<Answer> iterA = question.answers.iterator();
-			while (iterA.hasNext()) {
-				if (iterA.next().timestamp.after(user.lastLogOff)) {
-					newAnswers++;
-				}
+		Iterator<Answer> iterA = question.answers.iterator();
+		while (iterA.hasNext()) {
+			if (iterA.next().timestamp.after(user.lastLogOff)) {
+				news.add(iterA.next());
 			}
 		}
 
-		catch (Exception e) {
-		}
-
-		try {
-			Iterator<Comment> iterC = question.comments.iterator();
-			while (iterC.hasNext()) {
-				if (iterC.next().timestamp.after(user.lastLogOff)) {
-					newComments++;
-				}
+		Iterator<Comment> iterC = question.comments.iterator();
+		while (iterC.hasNext()) {
+			if (iterC.next().timestamp.after(user.lastLogOff)) {
+				news.add(iterC.next());
 			}
 		}
 
-		catch (Exception e) {
-		}
-
-		return "this question has " + newAnswers + " new answers and "
-				+ newComments + " new comments";
+		return news;
 	}
+
+	/**
+	 * Add a new History to the post
+	 * 
+	 * @param title
+	 *            necessary if is an question
+	 * @param content
+	 *            of the post
+	 */
+
+	/**
+	 * Count the positive and negative votes
+	 * 
+	 * @return votestatus
+	 */
+	public int voting() {
+
+		int status = 0;
+
+		for (Vote vote : this.votes) {
+
+			if (vote.result) {
+				status++;
+			} else {
+				status--;
+			}
+		}
+
+		voting = status;
+
+		return status;
+
+	}
+
+	public Post addComment(Comment comment) {
+		this.comments.add(comment);
+		this.save();
+		return this;
+
+	}
+
+	public Post tagItWith(String name) {
+		tags.add(Tag.findOrCreateByName(name));
+		return this;
+	}
+
+	public static List<Post> findTaggedWith(String tag) {
+		return Post
+				.find(
+						"select distinct p from Post p join p.tags as t where t.name = ?",
+						tag).fetch();
+	}
+
+	public boolean checkInstance() {
+		return this instanceof Question;
+	}
+
 }

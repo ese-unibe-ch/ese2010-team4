@@ -4,52 +4,58 @@
     <head>
         <title>#{get 'title' /}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/mainDW.css'}">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/mainMS.css'}">
         #{get 'moreStyles' /}
-        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+	        <link rel="shortcut icon" type="image/png" href="@{'/public/images/Icon.png'}">
+	        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
+    	<div id="main">
+    		<div id="banner">
+    			<a href="@{Application.index()}"><img src="@{'/public/images/Banner.png'}" width="850" height="100" border="0"/></a>
+    		</div>
 
-#{secure.check 'user'}
-<div id="user">
-	<div id="userImg"><img src="${models.User.find("byEmail", controllers.Security.connected()).first().avatarURL}" /></div>
-	<div class="userInfo">User: ${models.User.find("byEmail", controllers.Security.connected()).first().fullname}</div>
-	<div class="userInfo">Mail: ${models.User.find("byEmail", controllers.Security.connected()).first().email}</div>
-</div>
-#{/secure.check}
 
-<div id="menu">
-	<div class="link"><a class="button" href="@{Application.index()}">Home</a></div>
-	#{ifnot controllers.Security.connected()}
-	<div class="link"><a class="button" href="@{Application.createUser()}">Create user</a></div>
-	<div class="link"><a class="button" href="@{Secure.login()}">Log in</a></div>
-	#{/ifnot}
-	#{secure.check 'user'}
-		<div class="link"><a class="button" href="@{Users.index()}">New question</a></div>
-		<div class="link"><a class="button" href="@{Users.myQuestions()}">My questions</a></div>
-		<div class="link"><a class="button" href="@{Users.myAnswers()}">My answers</a></div>
-		<div class="link"><a class="button" href="@{Users.myFollows()}">My follows</a></div>
-		<div class="link"><a class="button" href="@{Users.myProfile()}">Profile</a></div>
-		<div class="link"><a class="button" href="@{Secure.logout()}">Log out</a></div>
-	#{/secure.check}
-</div>
+			#{if user}
+			<div id="user">
+				<div id="userImg"> <img src="${user.avatarPath}" width="62" height="62"/></div>
+				<div class="userInfo">User: ${user.fullname}</div>
+				<div class="userInfo">Mail: ${user.email}</div>
+				<div class="userInfo">Questions: ${user.countQuestions()} </div>
+				<div class="userInfo">Answers: ${user.countAnswers()}</div>
+				<div class="userInfo">Reputation: ${user.rating}</div>
+			</div>
+			#{/if}
 
-#{secure.check 'user'}
-<div id="search">
-	#{form @Users.searchResults()}
-		<label for="toSearch">find user: </label>
-		<input type="text" name="toSearch" id="toSearch"/>
-		<input type="submit" value="search" />
-	#{/form}
-</div>
-#{/secure.check}
+			<div id="menu">
+				<a class="button" href="@{Application.index()}">Home</a>
+				#{ifnot controllers.Security.connected()}
+				<a class="button" href="@{Secure.login()}">&{'secure.title'} / &{'register.title'}</a>
+				#{/ifnot}
+				#{secure.check 'user'}
+					<a class="button" href="@{Users.index()}">New question</a>
+					<a class="button" href="@{Users.myQuestions()}">My questions</a>
+					<a class="button" href="@{Users.myAnswers()}">My answers</a>
+					<a class="button" href="@{Users.myFollows()}">My follows</a>
+					<a class="button" href="@{Users.myProfile(user.id)}">Profile</a>
+					<a class="button" href="@{Secure.logout()}">Log out</a>
+				#{/secure.check}
+			</div>
 
-   
-<div id="main">
-    #{doLayout /} 
-</div>
-        
+			#{secure.check 'user'}
+			<div id="search">
+				#{form @Users.searchResults()}
+					<label for="toSearch">search in A4K: </label>
+					<input type="text" name="toSearch" id="toSearch"/>
+					<input type="submit" value="search" />
+				#{/form}
+			</div>
+			#{/secure.check}
+
+			<div id="content">
+			    #{doLayout /}
+			</div>
+		</div>
     </body>
 </html>

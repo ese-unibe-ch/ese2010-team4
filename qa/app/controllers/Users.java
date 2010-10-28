@@ -1,5 +1,10 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -8,6 +13,9 @@ import models.Comment;
 import models.Post;
 import models.Question;
 import models.User;
+
+import org.apache.commons.io.IOUtils;
+
 import play.data.validation.Required;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -24,7 +32,7 @@ public class Users extends Controller {
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
 			User user = User.find("byEmail", Security.connected()).first();
-			renderArgs.put("user", user.fullname);
+			renderArgs.put("user", user);
 		}
 	}
 
@@ -54,12 +62,17 @@ public class Users extends Controller {
 	 */
 	public static void showEdit(Long questionId, int editionIndex) {
 
+		Boolean sizeIsZero = false;
 		Post post = Post.findById(questionId);
 		User user = post.author;
 
+		if (post.historys.size() == 0) {
+			sizeIsZero = true;
+		}
+
 		if (post instanceof Question) {
 			if (user.hasTimeToChange(questionId)) {
-				render(post, editionIndex);
+				render(post, editionIndex, sizeIsZero);
 			}
 
 			else {
@@ -73,7 +86,7 @@ public class Users extends Controller {
 			Long id = ((Answer) post).question.id;
 
 			if (user.hasTimeToChange(id)) {
-				render(post, editionIndex);
+				render(post, editionIndex, sizeIsZero);
 			}
 
 			else {
@@ -101,17 +114,23 @@ public class Users extends Controller {
 	 *            the title
 	 * @param content
 	 *            the content
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
 	public static void createQuestion(@Required String author,
-			@Required String title, String content) {
+			@Required String title, String content, File attachment)
+			throws FileNotFoundException, IOException {
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
 		}
 
 		User user = User.find("byFullname", author).first();
-
-		new Question(user, title, content).save();
+		if (attachment != null)
+			user.addQuestion(title, content, attachment).save();
+		else {
+			user.addQuestion(title, content).save();
+		}
 		flash.success("Thanks for ask a new question %s!", author);
 		Users.myQuestions();
 	}
@@ -195,21 +214,8 @@ public class Users extends Controller {
 		User user = User.find("byEmail", Security.connected()).first();
 		Question question = Question.findById(questionId);
 
-		if (!question.hasVoted(user)
-				&& !question.author.email.equals(user.email)) {
-
-			if (vote) {
-				question.voteUp(user);
-				question.save();
-			}
-
-			else {
-				question.voteDown(user);
-				question.save();
-			}
-
-			flash.success("Thanks for vote %s!", user.fullname);
-		}
+		question.vote(user, vote);
+		flash.success("Thanks for vote %s!", user.fullname);
 
 		Application.show(questionId);
 
@@ -231,19 +237,7 @@ public class Users extends Controller {
 		User user = User.find("byEmail", Security.connected()).first();
 		Answer answer = Answer.find("byId", answerId).first();
 
-		if (!answer.hasVoted(user) && !answer.author.email.equals(user.email)) {
-			System.out.println("geht durch");
-			if (vote) {
-				answer.voteUp(user);
-				answer.save();
-
-			}
-
-			else {
-				answer.voteDown(user);
-				answer.save();
-			}
-		}
+		answer.vote(user, vote);
 
 		flash.success("Thanks for vote %s!", user.fullname);
 		Application.show(questionId);
@@ -253,20 +247,27 @@ public class Users extends Controller {
 	/**
 	 * My profile.
 	 */
-	public static void myProfile() {
-		render("Users/profile.html");
+	public static void myProfile(Long userid) {
+
+		User user = User.findById(userid);
+
+		List<Post> activities = user.activities();
+		System.out.println(activities.size());
+		render("Users/profile.html", activities, user);
 	}
 
 	public static void showProfile(Long authorid) {
 
 		User user = User.findById(authorid);
+		System.out.println("Username: " + user.fullname);
+		List<Post> activities = user.activities();
 
 		if (user.email.equals(Security.connected())) {
-			myProfile();
+			myProfile(user.id);
 		}
 
 		else {
-			render(user);
+			render(user, activities);
 		}
 
 	}
@@ -281,13 +282,29 @@ public class Users extends Controller {
 	 */
 	public static void editPost(Long id, @Required String content) {
 		Post post = Post.findById(id);
+
+		if (post instanceof Question) {
+
+			post.addHistory(post, ((Question) post).title, post.content);
+			post.save();
+
+		}
+
+		else {
+			post.addHistory(post, "", post.content);
+			post.save();
+		}
+
 		post.content = content;
-		post.history.addFirst(content);
 		post.save();
-		if (post.getClass().getName().equals("models.Question")) {
+
+		if (post instanceof Question) {
 			Users.myQuestions();
-		} else
+		}
+
+		else {
 			Users.myAnswers();
+		}
 	}
 
 	/**
@@ -314,9 +331,11 @@ public class Users extends Controller {
 	 *            the index
 	 */
 	public static void nextEdition(Long id, int index) {
+
 		if (index > 0) {
 			index--;
 		}
+
 		Users.showEdit(id, index);
 	}
 
@@ -330,7 +349,7 @@ public class Users extends Controller {
 	 */
 	public static void previousEdition(Long id, int index) {
 		Post post = Post.findById(id);
-		if (index < post.history.size() - 1) {
+		if (index < post.historys.size() - 1) {
 			index++;
 		}
 		Users.showEdit(id, index);
@@ -345,19 +364,11 @@ public class Users extends Controller {
 	public static void chooseBestAnswer(Long answerid) {
 
 		// delay in milisec
-		long delay = 10000;
+
 		Answer answer = Answer.findById(answerid);
 		Question question = answer.question;
-
-		// necessary if user changed his mind
-		question.setAllAnswersFalse();
+		question.bestAnswer(answer);
 		question.save();
-		answer.best = true;
-
-		question.setValidity(delay);
-		question.save();
-		answer.save();
-
 		Application.show(answer.question.id);
 	}
 
@@ -378,17 +389,15 @@ public class Users extends Controller {
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
-			String work, String languages, String aboutMe, String avatarURL)
-			throws ParseException {
+			String work, String languages, String aboutMe) {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.setBirthday(birthday);
 		user.website = website;
 		user.work = work;
 		user.favoriteLanguages = languages;
 		user.aboutMe = aboutMe;
-		user.avatarURL = avatarURL;
 		user.save();
-		Users.myProfile();
+		Users.myProfile(user.id);
 	}
 
 	/**
@@ -406,29 +415,34 @@ public class Users extends Controller {
 	public static void searchResults(String toSearch) {
 
 		boolean found = false;
-		User user = User.find("byFullname", toSearch).first();
+		List<User> users = User.find("byFullnameLike", "%"+toSearch+"%").fetch();
+		List<Post> postscont = Post.find("byContentLike", "%"+toSearch+"%").fetch();
+		List<Post> poststitl = Post.find("byTitleLike", "%"+toSearch+"%").fetch();
 
-		if (user == null) {
+		if (users.size()==0 && postscont.size() == 0 && poststitl.size() == 0) {
 			String message = "no user found";
-			render(user, message, found);
+			render(users, message, found);
 		}
 
 		else {
 			found = true;
-			render(user, found);
+			render(users, postscont, poststitl, found);
 		}
 	}
 
 	public static void myFollows() {
-		User user = User.find("byEmail", Security.connected()).first();
-		user.followQ = user.removeNull();
-		user.save();
-		List<Question> followQ = user.followQ;
-		Long userId = user.id;
 
+		User user = User.find("byEmail", Security.connected()).first();
+
+		user.removeNull();
+		user.save();
+
+		List<Question> followQ = user.followQ;
+		List<Post> activities = user.followAcitvities();
+		Long userId = user.id;
 		List<User> followU = user.followU;
 
-		render(followQ, followU, userId);
+		render(followQ, followU, userId, activities);
 	}
 
 	public static void followQuestion(Long id) {
@@ -451,17 +465,49 @@ public class Users extends Controller {
 		Users.myFollows();
 	}
 
-	public static void deleteFollowQuestion(Long id) {
+	public static void unfollowQuestion(Long id) {
 		Question question = Question.findById(id);
 		User user = User.find("byEmail", Security.connected()).first();
 		user.deleteFollowQ(question);
 		Users.myFollows();
 	}
 
-	public static void deleteFollowUser(Long id) {
+	public static void unfollowUser(Long id) {
 		User userMaster = User.find("byEmail", Security.connected()).first();
 		User userSlave = User.findById(id);
 		userMaster.deleteFollowU(userSlave);
 		Users.myFollows();
+	}
+
+	public static void uploadAvatar(File avatar) throws FileNotFoundException,
+			IOException {
+		assert avatar != null;
+		User user = User.find("byEmail", Security.connected()).first();
+		FileInputStream iStream = new FileInputStream(avatar);
+		File outputFile = new File("qa/public/uploads/avatar" + user.id
+				+ ".jpg");
+		IOUtils.copy(iStream, new FileOutputStream(outputFile));
+		user.avatarPath = "/public/uploads/avatar" + user.id + ".jpg";
+		user.save();
+		Users.myProfile(user.id);
+	}
+
+	public static void updateAvatarPath(String URL) {
+		User user = User.find("byEmail", Security.connected()).first();
+		user.avatarPath = URL;
+		user.save();
+		Users.myProfile(user.id);
+	}
+
+	public static void avatarPath() {
+		User user = User.find("byEmail", Security.connected()).first();
+		System.out.println(user.avatarPath);
+		renderText(user.avatarPath);
+	}
+
+	public static void tagQuestion(Long id, String name) {
+		Question question = Question.findById(id);
+		question.tagItWith(name).save();
+		Users.showEdit(id, 0);
 	}
 }

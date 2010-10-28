@@ -7,7 +7,30 @@
 	
 	<p>
         #{if found}
-        	<a href = "@{Users.showProfile(user.id)}">${user.fullname}</a>
+        	found in user
+        	#{list items:users, as:'user'}
+        		<p>
+        		<a href = "@{Users.showProfile(user.id)}">${user.fullname}</a>
+        		</p>
+        	#{/list}
+        	found in knowledgebase
+        	#{list items:postscont, as:'post'}
+        		#{if post.checkInstance()}
+        		<p>
+        		<a href = "@{Application.show(post.id)}">${post.content}</a>
+        		</p>
+        		#{/if}
+        		#{else}
+        		<p>
+        		<a href = "@{Application.show(post.question.id)}">${post.content}</a>
+        		</p>
+        		#{/else}
+        	#{/list}
+        	#{list items:poststitl, as:'post'}
+        		<p>
+        		<a href = "@{Application.show(post.id)}">${post.title}</a>
+        		</p>
+        	#{/list}
         #{/if}
         
         #{if !found}

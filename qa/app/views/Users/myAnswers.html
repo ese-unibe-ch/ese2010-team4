@@ -12,13 +12,26 @@
                     <div class="answer-content">
         				<a href="@{Application.show(answer.question.id)}">${answer.content.nl2br()}</a>
         			</div>
-        			#{if answer.question.author.hasTimeToChange(answer.question.id)}
-        					<a href="@{Users.showEdit(answer.id, 0)}">[edit]</a>
-        			#{/if}
+        			
+        			<div>
+        			<table>
+					<tr>
+						<td>
+						#{if answer.question.author.hasTimeToChange(answer.question.id)}
+							#{form @Users.showEdit(answer.id, 0)}
+								<input type="submit" value="Edit"/>
+							#{/form}
+						#{/if}
+						</td>
+					</tr>
+					</table>
+					
         			#{if !answer.question.author.hasTimeToChange(answer.question.id)}
         				The question for this answer is already closed!
         			#{/if}
-                 
+        			
+        			</div>	
+	          
                  </div>
             </div>
             <br>

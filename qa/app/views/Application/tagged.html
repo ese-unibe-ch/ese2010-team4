@@ -1,0 +1,49 @@
+#{extends 'main.html' /} 
+#{set title:'Show question' /} 
+
+<div class="questions"> 
+	this questions have the same tag: <br>
+	#{list items:taggedPosts, as:'question'}
+            <div class="question">
+					<div class="voting">
+						<div class="vote-curr">
+							${question.voting}
+						</div>
+						#{secure.check 'user'}
+						<div class="vote-up-down">
+							<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
+							<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
+						</div>
+						#{/secure.check}
+					</div>
+					<div class="question-author">
+						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
+							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" /></div>
+						#{/ifnot}
+						<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
+						<div class="question-date">
+							${question.timestamp}
+						</div>
+						<div class="metadata" id="question-metadata">
+						#{secure.check 'user'}
+							<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
+						#{/secure.check}
+					</div>
+					</div>
+					<div class="question-main">
+						<div class="question-title">
+							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
+						</div>
+						<div class="question-content">
+							${question.content.nl2br()}
+						</div>
+						<div class="question-answer">
+							#{ifnot question.answers.isEmpty()}
+								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})
+							#{/ifnot}
+						</div>
+					</div>
+                </div>
+            <br>
+	#{/list}
+</div>

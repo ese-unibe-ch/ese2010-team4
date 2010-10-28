@@ -6,8 +6,11 @@
 	
 	<h2>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h2>
 	<p>
-        <label for="author">Fullname: </label>
-        ${user.fullname}
+       	<img src="${user.avatarPath}" width="62" height="62"/>
+        <br>
+        	<label for="author">Fullname: </label>
+        	${user.fullname}
+        </br>
     </p>
     	
 	<p>
@@ -47,14 +50,18 @@
 		<br>
 			${user.aboutMe}
 		</br>
-
 	</p>
-    <p>
-
-        	<label for="author">Avatar URL: </label>
-        	${user.avatarURL}
-
-	</p>	
+	<h2>Activities</h2>
+			#{list items:activities, as:'activity'}
+				<div class="activity">
+					#{if activity.checkInstance()}
+						${activity.timestamp}, ${user.fullname} wrote a new <a href = "@{Application.show(activity.id)}">question</a>.
+					#{/if}
+					#{else}
+					 ${activity.timestamp}, ${user.fullname} wrote a answer to the  <a href = "@{Application.show(activity.question.id)}"> question</a> from ${activity.author.fullname}
+					#{/else}
+				</div>
+     #{/list}
 </div>
 #{/ secure.check}
 

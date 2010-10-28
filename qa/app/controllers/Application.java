@@ -2,8 +2,11 @@ package controllers;
 
 import java.util.List;
 
+import models.Post;
 import models.Question;
+import models.Tag;
 import models.User;
+import play.mvc.Before;
 import play.mvc.Controller;
 
 /**
@@ -12,22 +15,32 @@ import play.mvc.Controller;
  */
 public class Application extends Controller {
 
+	@Before
+	static void setConnectedUser() {
+		if (Security.isConnected()) {
+			User user = User.find("byEmail", Security.connected()).first();
+			renderArgs.put("user", user);
+		}
+	}
+
 	/**
 	 * Index.
 	 */
 	public static void index() {
-		Question lastQuestion = Question.find("order by timestamp desc")
-				.first();
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
+		User user;
+		boolean isconnected = Security.isConnected();
 
-		if (lastQuestion != null && lastQuestion.answers.size() != 0) {
-			lastAnswer = lastQuestion.answers
-					.get(lastQuestion.answers.size() - 1).author.fullname;
+		if (isconnected) {
+			user = User.find("byEmail", Security.connected()).first();
+			render(lastActivity, questions, lastAnswer, isconnected, user);
 		}
 
-		render(lastQuestion, questions, lastAnswer);
+		else
+			render(lastActivity, questions, lastAnswer, isconnected);
 	}
 
 	/**
@@ -43,10 +56,11 @@ public class Application extends Controller {
 		boolean abletochoose = false;
 		boolean abletovote = false;
 		boolean isvalid = false;
+		boolean isfollowing = false;
 
 		if (!Security.isConnected()) {
 
-			render(question, isvalid, abletochoose, abletovote);
+			render(question, isvalid, abletochoose, abletovote, isfollowing);
 		}
 
 		else {
@@ -55,21 +69,10 @@ public class Application extends Controller {
 			abletochoose = user.isAbleToChoose(id);
 			abletovote = user.isAbleToVote(id);
 			isvalid = user.hasTimeToChange(id);
+			isfollowing = user.isFollowing(question);
 
-			render(question, isvalid, abletochoose, abletovote);
+			render(question, isvalid, abletochoose, abletovote, isfollowing);
 		}
-	}
-
-	/**
-	 * Creates the user.
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	public static void createUser(String message) {
-
-		render(message);
-
 	}
 
 	/**
@@ -88,6 +91,16 @@ public class Application extends Controller {
 			String password2) {
 
 		String message = User.createUser(fullname, email, password, password2);
-		createUser(message);
+		try {
+			Secure.login(message);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
+
+	public static void tagged(Tag tag) {
+		List<Post> taggedPosts = Post.findTaggedWith(tag.name);
+		render(taggedPosts);
+	}
+
 }

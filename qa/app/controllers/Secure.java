@@ -23,7 +23,7 @@ public class Secure extends Controller {
 			// a
 			// good
 			// default
-			login();
+			login("");
 		}
 		// Checks
 		Check check = getActionAnnotation(Check.class);
@@ -46,12 +46,11 @@ public class Secure extends Controller {
 	}
 
 	// ~~~ Login
-
-	public static void login() throws Throwable {
+	public static void login(String message) throws Throwable {
 		Http.Cookie remember = request.cookies.get("rememberme");
 		if (remember != null && remember.value.indexOf("-") > 0) {
-			String sign = remember.value.substring(0, remember.value
-					.indexOf("-"));
+			String sign = remember.value.substring(0,
+					remember.value.indexOf("-"));
 			String username = remember.value.substring(remember.value
 					.indexOf("-") + 1);
 			if (Crypto.sign(username).equals(sign)) {
@@ -60,7 +59,7 @@ public class Secure extends Controller {
 			}
 		}
 		flash.keep("url");
-		render();
+		render(message);
 	}
 
 	public static void authenticate(@Required String username, String password,
@@ -80,7 +79,7 @@ public class Secure extends Controller {
 			flash.keep("url");
 			flash.error("secure.error");
 			params.flash();
-			login();
+			login("");
 		}
 		// Mark user as connected
 		session.put("username", username);
@@ -101,11 +100,10 @@ public class Secure extends Controller {
 		response.removeCookie("rememberme");
 		Security.invoke("onDisconnected");
 		flash.success("secure.logout");
-		login();
+		login("");
 	}
 
 	// ~~~ Utils
-
 	static void redirectToOriginalURL() throws Throwable {
 		Security.invoke("onAuthenticated");
 		String url = flash.get("url");

@@ -1,20 +1,29 @@
 package models;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.apache.commons.io.IOUtils;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
 /**
- * A user with name and first-name.
- * 
+ * A user with name and first-name. Question
  */
 @Entity
 public class User extends Model {
@@ -26,12 +35,13 @@ public class User extends Model {
 	public String aboutMe = "";
 	public String favoriteLanguages;
 
-	public String avatarURL = "http://imgur.com/j2Qvy.jpg";
+	public String avatarPath = "/public/uploads/standardAvatar.png";
 
-	public static final String DATE_FORMAT = "dd-MM-yyyy";
+	public static final String DATE_FORMAT_de = "dd-MM-yyyy";
 	public Date lastLogOff;
-	public ArrayList<Question> followQ;
-	public ArrayList<User> followU;
+
+	@OneToOne
+	public Reputation rating;
 
 	@Email
 	@Required
@@ -45,16 +55,31 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-	private LinkedList<Post> recentPosts = new LinkedList<Post>();
+
+	@OneToMany
+	public List<Question> followQ;
+	@OneToMany
+	public List<User> followU;
+
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<Vote> votes;
+
+	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public List<Post> posts;
 
 	public User(String fullname, String email, String password) {
+
+		this.votes = new ArrayList<Vote>();
+		this.posts = new ArrayList<Post>();
 		this.fullname = fullname;
 		this.email = email;
 		this.password = password;
 		this.isAdmin = false;
 		lastLogOff = new Date(System.currentTimeMillis());
-		followQ = new ArrayList<Question>();
-		followU = new ArrayList<User>();
+		this.followQ = new ArrayList<Question>();
+		this.followU = new ArrayList<User>();
 	}
 
 	public static User login(String email, String password) {
@@ -74,7 +99,7 @@ public class User extends Model {
 
 	public boolean isAbleToChoose(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 
 		if (question.author.email.equals(this.email)) {
 			return true;
@@ -91,7 +116,7 @@ public class User extends Model {
 	 */
 	public boolean isAbleToVote(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 
 		if (!question.hasVoted(this)
 				&& !question.author.email.equals(this.email)) {
@@ -111,25 +136,40 @@ public class User extends Model {
 
 	public boolean hasTimeToChange(Long id) {
 
-		Question question = this.findQuestion(id);
+		Question question = Question.findById(id);
 		// changes actual date to date in milisec
-		Date actualdate = new Date();
-		long milidate = actualdate.getTime();
+		long milidate = new Date().getTime();
 
 		if (question.validity == 0 || milidate < question.validity) {
 			return true;
 		}
-		return false;
+
+		else {
+
+			// Set the best Answer
+			bestAnswer(question);
+			return false;
+		}
+
 	}
 
 	/**
-	 * Helper method
+	 * Helper method for find best answer
 	 * 
-	 * @param id
-	 * @return searched question
+	 * @param question
+	 *            from the best answer
 	 */
-	private Question findQuestion(Long id) {
-		return Question.find("byId", id).first();
+	private void bestAnswer(Question question) {
+
+		for (Answer answer : question.answers) {
+			if (answer.best) {
+				answer.author.rating.bestAnswer();
+				answer.author.rating.save();
+				answer.author.save();
+				answer.save();
+				this.save();
+			}
+		}
 	}
 
 	/**
@@ -148,11 +188,11 @@ public class User extends Model {
 
 	/**
 	 * Turns the Date object d into a String using the format given in the
-	 * constant DATE_FORMAT.
+	 * constant DATE_FORMAT_de.
 	 */
 	private String dateToString(Date d) {
 		if (d != null) {
-			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT);
+			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
 			return fmt.format(d);
 		} else
 			return ("dd-mm-yyyy");
@@ -160,13 +200,13 @@ public class User extends Model {
 
 	/**
 	 * Turns the String object s into a Date assuming the format given in the
-	 * constant DATE_FORMAT
+	 * constant DATE_FORMAT_de
 	 * 
 	 * @throws ParseException
 	 */
 	private Date stringToDate(String s) throws ParseException {
 		if (s != null) {
-			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT);
+			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
 			return fmt.parse(s);
 		} else
 			return (null);
@@ -176,15 +216,19 @@ public class User extends Model {
 		return dateToString(birthday);
 	}
 
-	public void setBirthday(String birthday) throws ParseException {
-		this.birthday = stringToDate(birthday);
+	public void setBirthday(String birthday) {
+		try {
+			this.birthday = stringToDate(birthday);
+		} catch (ParseException e) {
+			System.out
+					.println("Sorry wrong Date_Format it's " + DATE_FORMAT_de);
+		}
 	}
 
 	public int calculateAge() {
 		return this.age();
 	}
 
-	// JW: refactor
 	/**
 	 * Creates a new user if all requirements are met
 	 * 
@@ -222,14 +266,18 @@ public class User extends Model {
 		}
 
 		else {
-			new User(fullname, email, password).save();
+			User newUser = new User(fullname, email, password).save();
+			// add the reputation
+			newUser.rating = new Reputation().save();
+			newUser.save();
 			message = "Hello, " + fullname + ", please log in";
 		}
 
 		return message;
 	}
 
-	public ArrayList<Question> removeNull() {
+	public void removeNull() {
+
 		int index = 0;
 		while (index < this.followQ.size()) {
 			try {
@@ -245,7 +293,6 @@ public class User extends Model {
 
 		}
 		this.save();
-		return this.followQ;
 	}
 
 	public void deleteFollowQ(Question question) {
@@ -259,4 +306,95 @@ public class User extends Model {
 		this.followU.remove(index);
 		this.save();
 	}
+
+	public boolean isFollowing(Object o) {
+		boolean follows = false;
+		if (o instanceof User) {
+			if (this.followU.contains((User) o)) {
+				follows = true;
+			}
+		}
+
+		if (o instanceof Question) {
+			if (this.followQ.contains((Question) o)) {
+				follows = true;
+			}
+		}
+		return follows;
+	}
+
+	public User addVote(Vote vote) {
+		this.votes.add(vote);
+		this.save();
+		return this;
+
+	}
+
+	public User addAnswer(Answer answer) {
+		this.posts.add(answer);
+		this.save();
+		return this;
+	}
+
+	public Question addQuestion(String title, String content) {
+		Question newQuestion = new Question(this, title, content).save();
+		this.posts.add(newQuestion);
+		this.save();
+		return newQuestion;
+	}
+
+	public Question addQuestion(String title, String content, File attachment)
+			throws FileNotFoundException, IOException {
+		Question newQuestion = new Question(this, title, content);
+		newQuestion.save();
+		if (attachment != null) {
+			FileInputStream iStream = new FileInputStream(attachment);
+			File outputFile = new File("qa/public/uploads/attachment"
+					+ newQuestion.id + ".doc");
+			IOUtils.copy(iStream, new FileOutputStream(outputFile));
+			newQuestion.attachmentPath = "/public/uploads/attachment"
+					+ newQuestion.id + ".doc";
+		}
+		newQuestion.save();
+		this.posts.add(newQuestion);
+		this.save();
+		System.out.println(newQuestion.attachmentPath);
+		return newQuestion;
+	}
+
+	public User addComment(Comment comment) {
+		this.posts.add(comment);
+		this.save();
+		return this;
+
+	}
+
+	public int countQuestions() {
+		return Question.find("byAuthor", this).fetch().size();
+	}
+
+	public int countAnswers() {
+		return Answer.find("byAuthor", this).fetch().size();
+	}
+
+	public List<Post> activities() {
+
+		return Post.find("author like ? order by timestamp desc", this).fetch();
+	}
+
+	public List<Post> followAcitvities() {
+		List<Post> activities = new ArrayList<Post>();
+		
+		for(User user: this.followU){
+			List<Post> act2 = Post.find("author like ? order by timestamp desc", user).fetch();
+			for(Post post: act2){
+				activities.add(post);
+			}			
+		}
+		
+		return activities;
+		
+	}
+	
+
 }
