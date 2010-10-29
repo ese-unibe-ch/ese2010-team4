@@ -10,7 +10,7 @@
                          ${answer.timestamp}
                     </span>
                     <div class="answer-content">
-        				<a href="@{Application.show(answer.question.id)}">${answer.content.nl2br()}</a>
+        				<a href="@{Application.show(answer.question.id)}">${answer.content.raw()}</a>
         			</div>
         			
         			<div>

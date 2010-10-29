@@ -8,14 +8,14 @@
             <div class="question">
                 <div class="follows-metadata">
                     <div class="follows-content">
-        				<a href="@{Application.show(question.id)}">${question.content.nl2br()}</a>
+        				<a href="@{Application.show(question.id)}">${question.content.raw()}</a>
         				<p>
         				#{form @Users.unfollowQuestion(question.id)}
 							<input type="submit" value="Unfollow"/>
 						#{/form}
         				<p> 
         				#{list items: question.lastChanges(question.id, userId), as:'newpost'}
-        					<a href="@{Application.show(newpost.id)}">${newpost.content.nl2br()}</a>
+        					<a href="@{Application.show(newpost.id)}">${newpost.content.raw()}</a>
         				#{/list}
         			</div>
                  </div>

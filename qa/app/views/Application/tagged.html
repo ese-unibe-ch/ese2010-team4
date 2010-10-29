@@ -35,7 +35,7 @@
 							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
 						</div>
 						<div class="question-content">
-							${question.content.nl2br()}
+							${question.content.raw()}
 						</div>
 						<div class="question-answer">
 							#{ifnot question.answers.isEmpty()}

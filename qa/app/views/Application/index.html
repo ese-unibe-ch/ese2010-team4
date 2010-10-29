@@ -33,7 +33,7 @@
 						<a href="@{Application.show(lastActivity.id)}">${lastActivity.getTitle()}</a>
 					</div>
 					<div class="question-content">
-						${lastActivity.content.nl2br()}
+						${lastActivity.content.raw()}
 					</div>
 				<div class="question-answer">
 					#{ifnot lastActivity.answers.isEmpty()}
@@ -101,7 +101,7 @@
 							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
 						</div>
 						<div class="question-content">
-							${question.content.nl2br()}
+							${question.content.raw()}
 						</div>
 						<div class="metadata" id="question-metadata">
 							#{if question.attachmentPath != null}

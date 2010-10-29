@@ -31,7 +31,7 @@
 				<a class="button" href="@{Application.show(question.id)}">${question.getTitle()}</a>
 			</div>
 			<div class="content" id="question-content">
-				${question.content.nl2br()}
+				${question.content.raw()}
 			</div>
 			
 			<div class="metadata" id="question-metadata">
@@ -65,7 +65,7 @@
 								</div>
 							</div>
 							<div class="comment-content">
-								${comment.content.escape().nl2br()}
+								${comment.content.raw()}
 							</div>
 						</div>
 					#{/list}
@@ -105,7 +105,7 @@
 								</div>
 							</div>
 							<div class="content" id="answer-content">
-					         	${answer.content.escape().nl2br()}
+					         	${answer.content.raw()}
 					    	</div>
 							<div class="metadata" id="answer-metadata">
 							#{secure.check 'user'}
@@ -135,7 +135,7 @@
 											</div>
 										</div>
 										<div class="comment-content">
-											${comment.content.escape().nl2br()}
+											${comment.content.raw()}
 										</div>
 									</div>
 								#{/list}

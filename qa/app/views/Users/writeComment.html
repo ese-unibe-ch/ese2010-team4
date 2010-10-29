@@ -13,7 +13,7 @@
     </div>
     <div class="post-content">
     	<br>
-    	${post.content.nl2br()}
+    	${post.content.raw()}
     </div>
 </div>
 
@@ -29,9 +29,8 @@
       	  	</p>
  	    #{/ifErrors}
     		<p>
-        		<label for="author">Your fullname: </label>
-        		<input type="text" name="author" id="author" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
-    		</p>
+					<input type="hidden" name="author" id="user" value="${user.fullname}" readonly/>
+			</p>
     		<p>
         		<label for="content">Your comment: </label>
         		<br>
