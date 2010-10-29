@@ -13,7 +13,7 @@ public class Reputation extends Model {
 	public int totalRep;
 	public int penalty;
 
-	public ReputationValues repVal;
+	// public ReputationValues repVal;
 
 	public Reputation() {
 		this.questionRep = 0;
@@ -21,7 +21,7 @@ public class Reputation extends Model {
 		this.bestAnswerRep = 0;
 		this.totalRep = 0;
 		this.penalty = 0;
-		this.repVal = ReputationValues.getInstance();
+		// this.repVal = ReputationValues.getInstance();
 	}
 
 	public void totalRep() {

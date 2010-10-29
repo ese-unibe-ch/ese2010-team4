@@ -195,6 +195,11 @@ a {
 	margin: 0;
 }
 
+textarea {
+	width: 60%;
+	height: 30ex;
+}
+
 /** Login **/
 #login {
 	float: left;

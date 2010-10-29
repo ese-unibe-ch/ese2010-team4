@@ -49,7 +49,7 @@
 	#{field 'aboutMe'}
 		<label for="aboutMe">About Me: </label>
 	<br>
-		<textarea name="${field.name}" cols="50" rows="10">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
+		<textarea name="${field.name}">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
 	#{/field}
 	
 <p>
