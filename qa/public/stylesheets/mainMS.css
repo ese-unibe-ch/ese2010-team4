@@ -200,6 +200,14 @@ textarea {
 	height: 30ex;
 }
 
+#markDownMenu {
+	background: #9CF;
+	text-align:justify;
+	padding: 20px 20px 20px 20px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
 /** Login **/
 #login {
 	float: left;
