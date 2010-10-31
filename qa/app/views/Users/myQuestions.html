@@ -25,6 +25,9 @@
 							${question.timestamp}
 						</div>
 						<div class="metadata" id="question-metadata">
+						#{if question.attachmentPath != null}
+							<a class="button" href="${question.attachmentPath}"> attachment</a>
+						#{/if}
 						#{secure.check 'user'}
 							<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
 						#{/secure.check}

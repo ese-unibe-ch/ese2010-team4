@@ -187,18 +187,37 @@ public class Users extends Controller {
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
 		Question question = Question.findById(questionId);
-
+		User user = User.find("byFullname", author).first();
+		Answer answer = new Answer(question, user, content).save();
 		if (validation.hasErrors()) {
 			render("Application/show.html", question);
 		}
 
-		User user = User.find("byFullname", author).first();
-		if (attachment != null)
-			question.attachmentPath = uploader.upload(attachment,
-					"question" + question.id).substring(2);
-		flash.success("Thanks for write the answer %s!", author);
+		if (attachment != null) {
+			answer.attachmentPath = uploader.upload(attachment,
+					"answer" + answer.id).substring(2);
+			answer.save();
+		}
+		question.addNewAnswer(answer).save();
+		flash.success("Thanks for writing the answer %s!", author);
 		Application.show(questionId);
 	}
+
+	/*
+	 * Question question = Question.findById(questionId); User user =
+	 * User.find("byFullname", author).first(); Answer answer = new
+	 * Answer(question, user, content);
+	 * 
+	 * if (validation.hasErrors()) { render("Application/show.html", question);
+	 * }
+	 * 
+	 * if (attachment != null) answer.attachmentPath =
+	 * uploader.upload(attachment, "question" + question.id).substring(2);
+	 * 
+	 * question.addNewAnswer(answer).save();
+	 * flash.success("Thanks for writing the answer %s!", author);
+	 * Application.show(questionId); }
+	 */
 
 	/**
 	 * Vote for question.

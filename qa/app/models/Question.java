@@ -35,6 +35,12 @@ public class Question extends Post {
 		return this;
 	}
 
+	public Question addNewAnswer(Answer answer) {
+		this.answers.add(answer);
+		this.save();
+		return this;
+	}
+
 	public Question previous() {
 		return Question
 				.find("timestamp < ? order by timestamp desc", timestamp)
@@ -66,13 +72,6 @@ public class Question extends Post {
 		Date date = new Date();
 		this.validity = date.getTime() + delay;
 		this.save();
-
-	}
-
-	public Question addNewAnswer(Answer answer) {
-		this.answers.add(answer);
-		this.save();
-		return this;
 
 	}
 

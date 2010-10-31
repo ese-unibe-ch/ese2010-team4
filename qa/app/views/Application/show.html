@@ -108,6 +108,9 @@
 					         	${answer.content.raw()}
 					    	</div>
 							<div class="metadata" id="answer-metadata">
+								#{if answer.attachmentPath != null}
+									<a class="button" href="${answer.attachmentPath}"> attachment</a>
+								#{/if}
 							#{secure.check 'user'}
 								#{if isvalid}
 									<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
@@ -153,25 +156,27 @@
 #{secure.check 'user'}
 	#{if isvalid}
 		<div class="form" id="answerForm">
-			#{form @Users.answerQuestion(question.id)}
+			<form action="@{Users.answerQuestion(question.id)}" method="POST" enctype="multipart/form-data">
+				<table style="padding-left: 60px">
 				#{ifErrors}
-					<p class="error">
-						All fields are required!
-					</p>
-				#{/ifErrors}
-				<p>
-					<input type="hidden" name="author" id="user" value="${user.fullname}" readonly/>
-				</p>
+    	   			<p class="error">
+       	   				All fields are required!
+      	  			</p>
+ 	   			#{/ifErrors}
+    			<input type="hidden" name="author" id="author" value="${user.fullname}" readonly/>
     			<p>
-					<label for="content">Your answer: </label>
-				</p>
+        			<label for="content">Your answer: </label>
+        		</p>
+        		<br>
+        		<textarea name="content"></textarea>
 				<p>
-					<textarea name="content"></textarea>
-				</p>
-				<p>
-					<input type="submit" value="Submit your answer" />
-				</p>
-			#{/form}
+					<input type="file" id="attachment" name="attachment" />
+    			</p>
+    			<p>
+        			<input type="submit" value="Submit your answer" />
+    			</p>
+				</table>
+			</form> 
 		</div>
 	#{/if}
 #{/ secure.check}
