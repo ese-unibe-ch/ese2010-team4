@@ -28,6 +28,7 @@ public class User extends Model {
 	public String aboutMe = "";
 	public String favoriteLanguages;
 
+	@Required
 	public String avatarPath = "/public/uploads/standardAvatar.png";
 
 	public static final String DATE_FORMAT_de = "dd-MM-yyyy";

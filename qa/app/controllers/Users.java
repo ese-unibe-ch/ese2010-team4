@@ -125,7 +125,7 @@ public class Users extends Controller {
 		Question question = user.addQuestion(title, content).save();
 		if (attachment != null) {
 			question.attachmentPath = uploader.upload(attachment,
-					"question" + question.id, "doc").substring(2);
+					"question" + question.id).substring(2);
 			question.save();
 		}
 		flash.success("Thanks for ask a new question %s!", author);
@@ -195,7 +195,7 @@ public class Users extends Controller {
 		User user = User.find("byFullname", author).first();
 		if (attachment != null)
 			question.attachmentPath = uploader.upload(attachment,
-					"question" + question.id, "doc").substring(2);
+					"question" + question.id).substring(2);
 		flash.success("Thanks for write the answer %s!", author);
 		Application.show(questionId);
 	}
@@ -485,8 +485,8 @@ public class Users extends Controller {
 		assert avatar != null && avatar.length() < 10000;
 		if (avatar != null && avatar.length() < 10000) {
 			User user = User.find("byEmail", Security.connected()).first();
-			user.avatarPath = uploader
-					.upload(avatar, "avatar" + user.id, "jpg").substring(2);
+			user.avatarPath = uploader.upload(avatar, "avatar" + user.id)
+					.substring(2);
 			user.save();
 			Users.myProfile(user.id);
 		} else
