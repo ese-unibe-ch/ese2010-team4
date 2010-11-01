@@ -129,5 +129,22 @@ public class ReputationTest extends UnitTest {
 		
 		
 	}
+	
+	@Test
+	public void shouldNoTBeEmpty(){
+		
+		Answer secondAnswer = Answer.find("byContent", "answer to question number 2.").first();
+		firstQuestion.vote(jeff, true);
+		secondAnswer.vote(jeff, true);
+		secondAnswer.best = true;
+		secondAnswer.save();
+		firstQuestion.setValidity(0);
+		bob.hasTimeToChange(firstQuestion.id);
+		
+		assertEquals(4, bob.rating.totalRepPoint.size());
+		assertEquals(0, bob.rating.totalRepPoint.get(0).repvalue);
+		assertEquals(5, bob.rating.totalRepPoint.get(1).repvalue);
+		assertEquals(65, bob.rating.totalRepPoint.get(3).repvalue);
+	}
 
 }

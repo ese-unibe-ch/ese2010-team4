@@ -1,35 +1,55 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import play.db.jpa.Model;
 
 @Entity
 public class Reputation extends Model {
-
+	
+	
+	//all the single reputations total
 	public int questionRep;
 	public int answerRep;
 	public int bestAnswerRep;
 	public int totalRep;
 	public int penalty;
-
-	// public ReputationValues repVal;
+	
+	
+	@OneToMany
+	public List<ReputationPoint> totalRepPoint;
+	
+	
 
 	public Reputation() {
+		this.totalRepPoint = new ArrayList<ReputationPoint>();
 		this.questionRep = 0;
 		this.answerRep = 0;
 		this.bestAnswerRep = 0;
 		this.totalRep = 0;
 		this.penalty = 0;
-		// this.repVal = ReputationValues.getInstance();
 	}
 
 	public void totalRep() {
+		
+		
 		totalRep = questionRep + answerRep + bestAnswerRep + penalty;
 
 		if (totalRep < 0) {
 			totalRep = 0;
 		}
+		
+		if(this.totalRepPoint.size()==0){
+			ReputationPoint p = new ReputationPoint(0).save();
+			this.totalRepPoint.add(p);
+		}
+		
+		ReputationPoint p = new ReputationPoint(this.totalRep).save();
+		this.totalRepPoint.add(p);
 
 	}
 
@@ -64,4 +84,6 @@ public class Reputation extends Model {
 	public String toString() {
 		return Integer.toString(totalRep);
 	}
+
 }
+

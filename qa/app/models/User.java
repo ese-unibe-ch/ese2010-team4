@@ -371,5 +371,15 @@ public class User extends Model {
 		return activities;
 
 	}
+	
+	/**
+	 * 
+	 * @return the points for the Reputation graph
+	 */
+	public List<ReputationPoint> getReputationPoints(){
+		
+		return rating.totalRepPoint;
+		
+	}
 
 }
