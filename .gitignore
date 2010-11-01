@@ -34,4 +34,6 @@ eclipse
 # and netbeans
 nbproject
 
-public/upload/avatar
+public/upload/avatar*
+public/upload/answer*
+public/upload/question*
