@@ -10,6 +10,7 @@ import models.Answer;
 import models.Comment;
 import models.Post;
 import models.Question;
+import models.Tag;
 import models.User;
 import play.data.validation.Required;
 import play.mvc.Before;
@@ -271,7 +272,7 @@ public class Users extends Controller {
 
 		List<Post> activities = user.activities();
 		System.out.println(activities.size());
-		render("Users/profile.html", activities, user);
+		render("Users/myProfile.html", activities, user);
 	}
 
 	public static void showProfile(Long authorid) {
@@ -437,15 +438,17 @@ public class Users extends Controller {
 				.fetch();
 		List<Post> poststitl = Post.find("byTitleLike", "%" + toSearch + "%")
 				.fetch();
+		List<Tag> tags = Tag.find("byNameLike", "%" + toSearch + "%").fetch();
 
-		if (users.size() == 0 && postscont.size() == 0 && poststitl.size() == 0) {
+		if (users.size() == 0 && postscont.size() == 0 && poststitl.size() == 0
+				&& tags.isEmpty()) {
 			String message = "no user found";
 			render(users, message, found);
 		}
 
 		else {
 			found = true;
-			render(users, postscont, poststitl, found);
+			render(users, postscont, poststitl, tags, found);
 		}
 	}
 
@@ -529,7 +532,11 @@ public class Users extends Controller {
 
 	public static void tagQuestion(Long id, String name) {
 		Question question = Question.findById(id);
-		question.tagItWith(name).save();
+		String[] tags = name.split(",");
+		for (String tag : tags) {
+			question.tagItWith(tag);
+		}
+		question.save();
 		Users.showEdit(id, 0);
 	}
 }

@@ -18,6 +18,13 @@ public class Uploader {
 	private int maxSize;
 	private String type;
 
+	/**
+	 * Initialize an Uploader with a given <code>uploadPath</code> to which the
+	 * files will be saved minSize and maxSize can be changed to restrict the
+	 * lenght (in byte) of a uploaded file
+	 * 
+	 * @param uploadPath
+	 */
 	public Uploader(String uploadPath) {
 		this.uploadPath = uploadPath;
 		this.uploadedFiles = new ArrayList<File>();
@@ -25,10 +32,17 @@ public class Uploader {
 		assert invariant();
 	}
 
-	// Uploads a file to the given Path with the format nameid.typ
-	// DR a lot of refactoring needed!
+	/**
+	 * Uploads a file in the <code>uploadPath</code> with the given name
+	 * <code>uploadPath</code> is not null and minSize <= maxSize
+	 * 
+	 * @param attachment
+	 * @param name
+	 * @return path on the server
+	 */
 	public String upload(File attachment, String name) {
 		assert invariant();
+		assert this.checkSize(attachment);
 		this.type(attachment);
 		String filePath = uploadPath + name + "." + type;
 		copyFile(attachment, filePath);
@@ -36,21 +50,51 @@ public class Uploader {
 		return filePath;
 	}
 
-	private void type(File attachment) {
-		String filename = attachment.getName();
-		this.type = filename.substring(filename.lastIndexOf('.') + 1, filename
-				.length());
-	}
-
+	/**
+	 * Uploads a file in the <code>uploadPath</code> with the original name
+	 * <code>uploadPath</code> is not null and minSize <= maxSize
+	 * 
+	 * @param attachment
+	 * @return path on the server
+	 */
 	public String upload(File attachment) {
 		assert invariant();
-		copyFile(attachment, uploadPath);
+		assert this.checkSize(attachment);
+		copyFile(attachment, uploadPath + attachment.getName());
 		assert invariant();
 		return uploadPath + attachment.getName();
 	}
 
 	public ArrayList<File> getUploadedFiles() {
 		return uploadedFiles;
+	}
+
+	public int getMinSize() {
+		return minSize;
+	}
+
+	public void setMinSize(int minSize) {
+		assert minSize >= 0;
+		this.minSize = minSize;
+	}
+
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+	public void setMaxSize(int maxSize) {
+		this.maxSize = maxSize;
+	}
+
+	private boolean checkSize(File attachment) {
+		long lenght = attachment.length();
+		return minSize != 0 && maxSize != 0 && lenght >= minSize
+				&& lenght <= maxSize;
+	}
+
+	private void type(File attachment) {
+		String filename = attachment.getName();
+		this.type = filename.substring(filename.lastIndexOf('.') + 1);
 	}
 
 	private void copyFile(File attachment, String filePath) {
@@ -64,22 +108,6 @@ public class Uploader {
 		} catch (IOException io) {
 			System.out.println("Input & Output Exception");
 		}
-	}
-
-	public int getMinSize() {
-		return minSize;
-	}
-
-	public void setMinSize(int minSize) {
-		this.minSize = minSize;
-	}
-
-	public int getMaxSize() {
-		return maxSize;
-	}
-
-	public void setMaxSize(int maxSize) {
-		this.maxSize = maxSize;
 	}
 
 	private boolean invariant() {

@@ -1,0 +1,21 @@
+#{extends 'main.html' /}
+#{set title:'User Profile' /}
+
+
+<div>
+
+	<div id="tabMenu">
+		#{secure.check 'user'}
+		<a class="tab" href="@{Users.myProfile(user.id)}">My profile</a>
+		<a class="tab" href="@{Users.myQuestions()}">My questions</a>
+		<a class="tab" href="@{Users.myAnswers()}">My answers</a>
+		<a class="tab" href="@{Users.myFollows()}">My follows</a>
+		#{/secure.check}
+	</div>
+	
+	<div id="content">
+		#{doLayout /}
+	</div>
+	
+	
+</div>

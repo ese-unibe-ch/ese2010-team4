@@ -75,7 +75,7 @@
 	
 #{/form}
 
-#{if post.tags.size() > 0}
+#{if !post.tags.isEmpty()}
 	Actual tags for this question:
 	#{list items:post.tags, as:'tag'}
    		<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}

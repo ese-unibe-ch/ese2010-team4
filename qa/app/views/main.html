@@ -23,39 +23,52 @@
 			<div id="user">
 				<div id="userImg"> <img src="${user.avatarPath}" width="62" height="62"/></div>
 				<div class="userInfo">User: ${user.fullname}</div>
-				<div class="userInfo">Mail: ${user.email}</div>
-				<div class="userInfo">Questions: ${user.countQuestions()} </div>
-				<div class="userInfo">Answers: ${user.countAnswers()}</div>
 				<div class="userInfo">Reputation: ${user.rating}</div>
+				<a class="button" href="@{Users.myProfile(user.id)}">My Profile</a>
 			</div>
 			#{/if}
+
+			#{ifnot user}
+				<div id="mainLogin" >
+					#{form @Secure.authenticate()}
+					<div id="loginInputs">
+						<label for="username">&{'secure.username'}</label>
+						<input type="text" name="username" id="username" size="10" value="${flash.username}" />
+					</div>
+					<div id="loginInputs">
+						<label for="password">&{'secure.password'}</label>
+						<input type="password" name="password" id="password" size="10" value="" />
+					</div>
+					<div id="loginInputs">
+						<input type="checkbox" name="remember" id="remember" size="10" value="true" ${flash.remember ? 'checked="true"' : ''} />
+						<label for="remember">&{'secure.remember'}</label>
+					
+						<input type="submit" id="signin" value="&{'secure.signin'}" />
+					</div>
+					#{/form}
+				</div>
+			#{/ifnot}
 
 			<div id="menu">
 				<a class="button" href="@{Application.index()}">Home</a>
 				#{ifnot controllers.Security.connected()}
-				<a class="button" href="@{Secure.login()}">&{'secure.title'} / &{'register.title'}</a>
+				<a class="button" id="log" href="@{Secure.login()}">&{'register.title'}</a>
 				#{/ifnot}
 				#{secure.check 'user'}
 					<a class="button" href="@{Users.index()}">New question</a>
-					<a class="button" href="@{Users.myQuestions()}">My questions</a>
-					<a class="button" href="@{Users.myAnswers()}">My answers</a>
-					<a class="button" href="@{Users.myFollows()}">My follows</a>
-					<a class="button" href="@{Users.myProfile(user.id)}">Profile</a>
-					<a class="button" href="@{Secure.logout()}">Log out</a>
+					<a class="button" id="log" href="@{Secure.logout()}">Log out</a>
 				#{/secure.check}
 			</div>
 
 			#{secure.check 'user'}
 			<div id="search">
 				#{form @Users.searchResults()}
-					<label for="toSearch">search in A4Q: </label>
 					<input type="text" name="toSearch" id="toSearch"/>
 					<input type="submit" value="search" />
 				#{/form}
 			</div>
 			#{/secure.check}
-
-			<br><br>
+			
 
 			<div id="content">
 			    #{doLayout /}

@@ -73,6 +73,12 @@ a {
 	color: #36F;
 }
 
+.button#log {
+	float: right;
+		
+}
+	
+
 /** Questions **/
 
 .question {
@@ -181,11 +187,39 @@ a {
 	margin-top: 2px;
 }
 
+
+/** Profile **/
+
+#tabMenu {
+    padding: 20px;
+    margin: 0px 20px 0px 20px;
+    background: #69F;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    text-align: center;
+}
+
+.tab {
+	display: inline;
+	color: #FFF;
+	padding: 5px 40px 5px 40px;
+	border: 1px;
+	border-style: solid;
+	border-color: #000000;
+}
+
+.tab:hover {
+	color: #36F;
+}
+	
+
+
 /** Formulars **/
 
 .form {
 	background: #69F;
 	text-align:justify;
+	margin: 20px 0px 20px 0px;
 	padding: 20px 20px 20px 20px;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
@@ -209,6 +243,23 @@ textarea {
 }
 
 /** Login **/
+#mainLogin {
+	text-align: left;
+	font-size: 12px;
+	float: right;
+	max-width: 350px;
+	max-height: 50px;	
+	background: #69F;
+	margin: 20px 20px 0px 20px;
+	padding: 10px 10px 10px 10px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+#loginInputs {
+	display: inline;
+}
+
 #login {
 	float: left;
 	width: 42%;
@@ -218,3 +269,4 @@ textarea {
 	float: right;
 	width: 42%;
 }
+
