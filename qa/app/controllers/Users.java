@@ -272,7 +272,7 @@ public class Users extends Controller {
 
 		List<Post> activities = user.activities();
 		System.out.println(activities.size());
-		render("Users/profile.html", activities, user);
+		render("Users/myProfile.html", activities, user);
 	}
 
 	public static void showProfile(Long authorid) {
