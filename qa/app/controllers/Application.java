@@ -31,16 +31,9 @@ public class Application extends Controller {
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
-		User user;
 		boolean isconnected = Security.isConnected();
-
-		if (isconnected) {
-			user = User.find("byEmail", Security.connected()).first();
-			render(lastActivity, questions, lastAnswer, isconnected, user);
-		}
-
-		else
-			render(lastActivity, questions, lastAnswer, isconnected);
+		User user = User.find("byEmail", Security.connected()).first();
+		render(lastActivity, questions, lastAnswer, isconnected, user);
 	}
 
 	/**
@@ -99,8 +92,10 @@ public class Application extends Controller {
 	}
 
 	public static void tagged(Tag tag) {
+		boolean isconnected = !Security.isConnected();
+		User user = User.find("byEmail", Security.connected()).first();
 		List<Post> taggedPosts = Post.findTaggedWith(tag.name);
-		render(taggedPosts);
+		render(taggedPosts, isconnected, user);
 	}
 
 }

@@ -529,7 +529,11 @@ public class Users extends Controller {
 
 	public static void tagQuestion(Long id, String name) {
 		Question question = Question.findById(id);
-		question.tagItWith(name).save();
+		String[] tags = name.split(",");
+		for (String tag : tags) {
+			question.tagItWith(tag);
+		}
+		question.save();
 		Users.showEdit(id, 0);
 	}
 }

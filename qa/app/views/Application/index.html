@@ -20,7 +20,7 @@
 								<a class="button" href="@{Users.followQuestion(lastActivity.id)}">follow</a>
 							#{/if}
 							
-							#{if isconnected && user.isAbleToChoose(lastActivity.id)}
+							#{if user.isAbleToChoose(lastActivity.id)}
 								<a class="button" href="@{Users.showEdit(lastActivity.id, 0)}">edit</a>
 							#{/if}
 						#{/if}
@@ -88,7 +88,7 @@
 									<a class="button" href="@{Users.followQuestion(question.id)}">follow</a>
 								#{/if}
 							
-								#{if isconnected && user.isAbleToChoose(question.id)}
+								#{if user.isAbleToChoose(question.id)}
 									<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
 								#{/if}
 							#{/if}
