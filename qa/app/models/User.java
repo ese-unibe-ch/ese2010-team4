@@ -1,5 +1,8 @@
 package models;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +23,8 @@ import play.db.jpa.Model;
  */
 @Entity
 public class User extends Model {
-
+	
+	public int counter;
 	protected Date birthday;
 	public String website = "";
 
@@ -75,6 +79,7 @@ public class User extends Model {
 		lastLogOff = new Date(System.currentTimeMillis());
 		this.followQ = new ArrayList<Question>();
 		this.followU = new ArrayList<User>();
+		this.counter = 0;
 	}
 
 	public static User login(String email, String password) {
@@ -382,8 +387,34 @@ public class User extends Model {
 		return rating.totalRepPoint;
 
 	}
+	
+	public ReputationPoint getReputationPoint(int i){
+		
 
-	public String graphData() {
+		
+		if(i < this.getReputationPoints().size()){
+			return this.getReputationPoints().get(i);
+		}
+		
+		else if(this.getReputationPoints().size()>0){
+			
+			return new ReputationPoint(getReputationPoints().get(getReputationPoints().size()-1).repvalue, getReputationPoints().get(getReputationPoints().size()-1).timestamp).save();
+		}
+		
+		else{
+			return new ReputationPoint(0,0);
+		}
+	}
+	
+	public void deleteCounter(){
+		
+
+			this.counter = 0;
+			this.save();
+
+	}
+
+	public String graphData() throws IOException {
 		List<ReputationPoint> reppoints = this.getReputationPoints();
 
 		StringBuffer strbuffer = new StringBuffer();
@@ -401,8 +432,13 @@ public class User extends Model {
 
 		}
 		strbuffer.append(']');
+		
+	    File outputFile = new File("outagain.json");
+        FileWriter out = new FileWriter(outputFile);
+        out.write(strbuffer.toString());        
+        out.close();
+    
 
-		System.out.println("Stringdata: " + strbuffer.toString());
 
 		return strbuffer.toString();
 
