@@ -211,6 +211,10 @@ public class Users extends Controller {
 	 *            the post id
 	 */
 	public static void quote(Long postId) {
+		Post post = Post.findById(postId);
+		User user = User.find("byEmail", Security.connected()).first();
+		user.quoteContent(post.content, post.author.email);
+		user.save();
 		Application.show(postId);
 	}
 

@@ -27,6 +27,7 @@ public class User extends Model {
 	public String work = "";
 	public String aboutMe = "";
 	public String favoriteLanguages;
+	public String quotedContent = "";
 
 	@Required
 	public String avatarPath = "/public/uploads/standardAvatar.png";
@@ -371,15 +372,19 @@ public class User extends Model {
 		return activities;
 
 	}
-	
+
 	/**
 	 * 
 	 * @return the points for the Reputation graph
 	 */
-	public List<ReputationPoint> getReputationPoints(){
-		
+	public List<ReputationPoint> getReputationPoints() {
+
 		return rating.totalRepPoint;
-		
+
 	}
 
+	public void quoteContent(String content, String quoted) {
+		quotedContent = "" + "\n\n\n\n\n<br><hr>" + "Quoted: " + quoted
+				+ "<br>*" + "'" + content + "'*<hr>";
+	}
 }
