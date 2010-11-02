@@ -33,6 +33,14 @@
 			<div class="content" id="question-content">
 				${question.content.raw()}
 			</div>
+			<div class="tag">
+				#{if !question.tags.isEmpty()}
+				Tags:
+					#{list items:question.tags, as:'tag'}
+   						<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+					#{/list}
+				#{/if}
+			</div>
 			
 			<div class="metadata" id="question-metadata">
 					#{if question.attachmentPath != null}
