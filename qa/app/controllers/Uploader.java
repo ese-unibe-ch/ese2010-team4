@@ -16,6 +16,7 @@ public class Uploader {
 	private FileInputStream iStream;
 	private int minSize;
 	private int maxSize;
+	private boolean sizeChecked;
 	private String type;
 
 	/**
@@ -28,6 +29,7 @@ public class Uploader {
 	public Uploader(String uploadPath) {
 		this.uploadPath = uploadPath;
 		this.uploadedFiles = new ArrayList<File>();
+		sizeChecked = false;
 		minSize = maxSize = 0;
 		assert invariant();
 	}
@@ -42,9 +44,8 @@ public class Uploader {
 	 */
 	public String upload(File attachment, String name) {
 		assert invariant();
-		assert this.checkSize(attachment);
-		this.type(attachment);
 		String filePath = uploadPath + name + "." + type;
+		this.type(attachment);
 		copyFile(attachment, filePath);
 		assert invariant();
 		return filePath;
@@ -59,7 +60,6 @@ public class Uploader {
 	 */
 	public String upload(File attachment) {
 		assert invariant();
-		assert this.checkSize(attachment);
 		copyFile(attachment, uploadPath + attachment.getName());
 		assert invariant();
 		return uploadPath + attachment.getName();
@@ -76,6 +76,7 @@ public class Uploader {
 	public void setMinSize(int minSize) {
 		assert minSize >= 0;
 		this.minSize = minSize;
+		sizeChecked = true;
 	}
 
 	public int getMaxSize() {
@@ -84,12 +85,17 @@ public class Uploader {
 
 	public void setMaxSize(int maxSize) {
 		this.maxSize = maxSize;
+		sizeChecked = true;
 	}
 
-	private boolean checkSize(File attachment) {
+	private void checkSize(File attachment) throws Exception {
 		long lenght = attachment.length();
-		return minSize != 0 && maxSize != 0 && lenght >= minSize
-				&& lenght <= maxSize;
+		if (minSize == 0 && maxSize == 0)
+			throw new Exception("minSize and maxSize are still zero");
+		else if (lenght < minSize)
+			throw new Exception("File is too small");
+		else if (lenght > maxSize)
+			throw new Exception("File is too big");
 	}
 
 	private void type(File attachment) {
@@ -99,6 +105,8 @@ public class Uploader {
 
 	private void copyFile(File attachment, String filePath) {
 		try {
+			if (sizeChecked)
+				this.checkSize(attachment);
 			iStream = new FileInputStream(attachment);
 			File outputFile = new File(filePath);
 			IOUtils.copy(iStream, new FileOutputStream(outputFile));
@@ -107,6 +115,8 @@ public class Uploader {
 			System.out.println("File not found!");
 		} catch (IOException io) {
 			System.out.println("Input & Output Exception");
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 
