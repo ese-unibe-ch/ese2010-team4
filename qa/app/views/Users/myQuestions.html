@@ -2,19 +2,12 @@
 #{set title:'My questions' /}
 
 
-<div class="questions"> 
-	#{list items:questions, as:'question'}
+#{list items:questions, as:'question'}
             <div class="question">
 					<div class="voting">
 						<div class="vote-curr">
 							${question.voting}
 						</div>
-						#{secure.check 'user'}
-						<div class="vote-up-down">
-							<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
-							<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
-						</div>
-						#{/secure.check}
 					</div>
 					<div class="question-author">
 						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
@@ -47,5 +40,4 @@
 						</div>
 					</div>
                 </div>
-	#{/list}
-</div>
+#{/list}
