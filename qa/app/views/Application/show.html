@@ -48,7 +48,7 @@
 					#{if abletochoose}
 						<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
 					#{/if}
-
+						<a class="button" href="@{Users.quote(question.id)}">quote</a>
 					
 			
 				#{/secure.check}
@@ -168,7 +168,7 @@
         			<label for="content">Your answer: </label>
         		</p>
         		<br>
-        		<textarea name="content"></textarea>
+        		<textarea name="content">${user.quotedContent}</textarea>
 				<p>
 					<input type="file" id="attachment" name="attachment" />
     			</p>

@@ -27,6 +27,7 @@ public class User extends Model {
 	public String work = "";
 	public String aboutMe = "";
 	public String favoriteLanguages;
+	public String quotedContent = "";
 
 	@Required
 	public String avatarPath = "/public/uploads/standardAvatar.png";
@@ -404,6 +405,11 @@ public class User extends Model {
 		System.out.println("Stringdata: " + strbuffer.toString());
 
 		return strbuffer.toString();
+
 	}
 
+	public void quoteContent(String content, String quoted) {
+		quotedContent = "" + "\n\n\n\n\n<br><hr>" + "Quoted: " + quoted
+				+ "<br>*" + "'" + content + "'*<hr>";
+	}
 }
