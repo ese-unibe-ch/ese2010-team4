@@ -213,6 +213,24 @@ a {
 }
 	
 
+/** Follows **/
+
+.follows {
+	background: #69F;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
+	clear: both;
+	overflow: hidden;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+	
+}
+
+.activity {
+		
+}
+
+
 
 /** Formulars **/
 

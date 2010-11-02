@@ -10,6 +10,7 @@ import models.Answer;
 import models.Comment;
 import models.Post;
 import models.Question;
+import models.ReputationPoint;
 import models.Tag;
 import models.User;
 import play.data.validation.Required;
@@ -265,7 +266,6 @@ public class Users extends Controller {
 	public static void myProfile(Long userid) {
 
 		User user = User.findById(userid);
-
 		List<Post> activities = user.activities();
 		System.out.println("Size: " + user.rating.totalRepPoint.size());
 		int size = user.rating.totalRepPoint.size();
@@ -275,6 +275,7 @@ public class Users extends Controller {
 	public static void showProfile(Long authorid) {
 
 		User user = User.findById(authorid);
+		List<ReputationPoint> points = user.getReputationPoints();
 		System.out.println("Username: " + user.fullname);
 		List<Post> activities = user.activities();
 

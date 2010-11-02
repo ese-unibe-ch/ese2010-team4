@@ -17,6 +17,11 @@ public class ReputationPoint extends Model {
 		this.timestamp = new Date().getTime();
 	}
 
+	public ReputationPoint(int i, long timestamp2) {
+		this.repvalue = repvalue;
+		this.timestamp = timestamp2;
+	}
+
 	public String toString() {
 		return "[" + timestamp + ",	" + repvalue + "]";
 	}
