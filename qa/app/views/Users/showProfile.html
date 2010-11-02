@@ -4,7 +4,7 @@
 #{secure.check 'user'}
 <div class="form" id="userForm">
 	
-	<h2>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h2>
+	<h3>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h3>
 	<p>
        	<img src="${user.avatarPath}" width="62" height="62"/>
         <br>
@@ -51,7 +51,7 @@
 			${user.aboutMe}
 		</br>
 	</p>
-	<h2>Activities</h2>
+	<h3>Activities</h3>
 			#{list items:activities, as:'activity'}
 				<div class="activity">
 					#{if activity.checkInstance()}
