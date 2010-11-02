@@ -204,21 +204,15 @@ public class Users extends Controller {
 		Application.show(questionId);
 	}
 
-	/*
-	 * Question question = Question.findById(questionId); User user =
-	 * User.find("byFullname", author).first(); Answer answer = new
-	 * Answer(question, user, content);
+	/**
+	 * quotes a post.
 	 * 
-	 * if (validation.hasErrors()) { render("Application/show.html", question);
-	 * }
-	 * 
-	 * if (attachment != null) answer.attachmentPath =
-	 * uploader.upload(attachment, "question" + question.id).substring(2);
-	 * 
-	 * question.addNewAnswer(answer).save();
-	 * flash.success("Thanks for writing the answer %s!", author);
-	 * Application.show(questionId); }
+	 * @param postId
+	 *            the post id
 	 */
+	public static void quote(Long postId) {
+		Application.show(postId);
+	}
 
 	/**
 	 * Vote for question.
