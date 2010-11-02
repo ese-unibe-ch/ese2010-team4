@@ -96,27 +96,33 @@
 					#{/else}
 				</div>
      #{/list}
-     
-     
-     <p>
+    
+
+
 <div id="graph">
 	<div id="graphcanvas" style="width:600px;height:300px"></div>
 </div>
 
 <script id="source" language="javascript" type="text/javascript">
+	
 $(function () {
     
+    
+    #{if size>0}
+    
+    var d1 = [];
+    for (val i = 0; i < ${user.rating.totalRepPoint.size()}; i++){
+        d1.push([${user.rating.totalRepPoint.get(1).timestamp}, ${user.rating.totalRepPoint.get(1).repvalue});
+        }
+	#{/if}
+    var d2 = [[0, 0], [4, 8], [8, 5], [9, 13]];
 
-    var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-
-    // a null signifies separate line segments
+    
     var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
     
-    $.plot($("#graph"), [ d2, d3 ]);
+    $.plot($("#graph"), [ d1, d2, d3 ]);
 });
 </script>
-</p>
-
 
 
 #{if flash.success}

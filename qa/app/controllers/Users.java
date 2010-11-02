@@ -271,8 +271,9 @@ public class Users extends Controller {
 		User user = User.findById(userid);
 
 		List<Post> activities = user.activities();
-		System.out.println(activities.size());
-		render("Users/myProfile.html", activities, user);
+		System.out.println("Size: " + user.rating.totalRepPoint.size());
+		int size = user.rating.totalRepPoint.size();
+		render("Users/myProfile.html", activities, user, size);
 	}
 
 	public static void showProfile(Long authorid) {

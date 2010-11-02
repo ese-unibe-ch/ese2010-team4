@@ -371,15 +371,39 @@ public class User extends Model {
 		return activities;
 
 	}
-	
+
 	/**
 	 * 
 	 * @return the points for the Reputation graph
 	 */
-	public List<ReputationPoint> getReputationPoints(){
-		
+	public List<ReputationPoint> getReputationPoints() {
+
 		return rating.totalRepPoint;
-		
+
+	}
+
+	public String graphData() {
+		List<ReputationPoint> reppoints = this.getReputationPoints();
+
+		StringBuffer strbuffer = new StringBuffer();
+
+		strbuffer.append("[");
+		List<ReputationPoint> points = this.getReputationPoints();
+
+		for (int i = 0; i < points.size(); i++) {
+			strbuffer.append("{\"time\": " + points.get(i).timestamp
+					+ ", \"value\": " + points.get(i).repvalue + "}");
+
+			if (i - 1 < points.size()) {
+				strbuffer.append(',');
+			}
+
+		}
+		strbuffer.append(']');
+
+		System.out.println("Stringdata: " + strbuffer.toString());
+
+		return strbuffer.toString();
 	}
 
 }
