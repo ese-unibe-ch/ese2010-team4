@@ -60,21 +60,19 @@ public class Users extends Controller {
 	 */
 	public static void showEdit(Long questionId, int editionIndex) {
 
-		Boolean sizeIsZero = false;
 		Post post = Post.findById(questionId);
 		User user = post.author;
 
-		if (post.historys.size() == 0) {
-			sizeIsZero = true;
+		if (post.historys.isEmpty()) {
+			post.addHistory(post, post.fullname, post.content);
 		}
 
 		if (post instanceof Question) {
 			if (user.hasTimeToChange(questionId)) {
-				render(post, editionIndex, sizeIsZero);
+				render(post, editionIndex);
 			}
 
 			else {
-
 				myQuestions();
 			}
 		}
@@ -84,7 +82,7 @@ public class Users extends Controller {
 			Long id = ((Answer) post).question.id;
 
 			if (user.hasTimeToChange(id)) {
-				render(post, editionIndex, sizeIsZero);
+				render(post, editionIndex);
 			}
 
 			else {
