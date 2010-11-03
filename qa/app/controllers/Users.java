@@ -117,7 +117,7 @@ public class Users extends Controller {
 	 * @throws FileNotFoundException
 	 */
 	public static void createQuestion(@Required String author,
-			@Required String title, String content, File attachment) {
+			@Required String title, String content, String tags, File attachment) {
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
@@ -125,6 +125,13 @@ public class Users extends Controller {
 
 		User user = User.find("byFullname", author).first();
 		Question question = user.addQuestion(title, content).save();
+
+		String[] separetedTags = tags.split(",");
+		for (String tag : separetedTags) {
+			question.tagItWith(tag);
+		}
+		question.save();
+
 		if (attachment != null) {
 			question.attachmentPath = uploader.upload(attachment,
 					"question" + question.id).substring(2);
