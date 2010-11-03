@@ -105,43 +105,6 @@
 	<div id="graphcanvas" style="width:600px;height:300px"></div>
 </div>
 
-<script id="source" language="javascript" type="text/javascript">
-	
-$(function () {
-    
-    var d1 = [];
-    	
-   	d1.push([${user.getReputationPoint(0).timestamp}, ${user.getReputationPoint(0).repvalue}]);
-   	d1.push([${user.getReputationPoint(1).timestamp}, ${user.getReputationPoint(1).repvalue}]);
-   	d1.push([${user.getReputationPoint(2).timestamp}, ${user.getReputationPoint(2).repvalue}]);
-   	d1.push([${user.getReputationPoint(3).timestamp}, ${user.getReputationPoint(3).repvalue}]);
-   	d1.push([${user.getReputationPoint(4).timestamp}, ${user.getReputationPoint(4).repvalue}]);
-   	d1.push([${user.getReputationPoint(5).timestamp}, ${user.getReputationPoint(5).repvalue}]);
-   	d1.push([${user.getReputationPoint(6).timestamp}, ${user.getReputationPoint(6).repvalue}]);
-   	d1.push([${user.getReputationPoint(7).timestamp}, ${user.getReputationPoint(7).repvalue}]);
-   	d1.push([${user.getReputationPoint(8).timestamp}, ${user.getReputationPoint(8).repvalue}]);
-   	d1.push([${user.getReputationPoint(9).timestamp}, ${user.getReputationPoint(9).repvalue}]);
-   	d1.push([${user.getReputationPoint(10).timestamp}, ${user.getReputationPoint(10).repvalue}]);
-   	d1.push([${user.getReputationPoint(11).timestamp}, ${user.getReputationPoint(11).repvalue}]);
-   	d1.push([${user.getReputationPoint(12).timestamp}, ${user.getReputationPoint(12).repvalue}]);
-   	d1.push([${user.getReputationPoint(13).timestamp}, ${user.getReputationPoint(13).repvalue}]);
-   	d1.push([${user.getReputationPoint(14).timestamp}, ${user.getReputationPoint(14).repvalue}]);
-   	d1.push([${user.getReputationPoint(15).timestamp}, ${user.getReputationPoint(15).repvalue}]);
-   	d1.push([${user.getReputationPoint(16).timestamp}, ${user.getReputationPoint(16).repvalue}]);
-   	d1.push([${user.getReputationPoint(17).timestamp}, ${user.getReputationPoint(17).repvalue}]);
-   	
-
-	
-    var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-
-    // a null signifies separate line segments
-    var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
-    
-    $.plot($("#graph"), [d1]);
-
-});
-</script>
-
 
 #{if flash.success}
 <br>

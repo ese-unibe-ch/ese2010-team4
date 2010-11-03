@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/mainMS.css'}">
+        #{get 'moreStyles' /}
+	        <link rel="shortcut icon" type="image/png" href="@{'/public/images/Icon.png'}">
+	        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>	       
+	        <script src="@{'/public/javascripts/flot/jquery.flot.js'}" type="text/javascript" charset="utf-8"></script>
+	       
+	        
+        #{get 'moreScripts' /}
+    </head>
+    <body>
+    	<div id="main">
+    		<div id="banner">
+    			<a href="@{Application.index()}"><img src="@{'/public/images/Banner.png'}" width="850" height="100" border="0"/></a>
+    		</div>
+
+
+			#{if user}
+			<div id="user">
+				<div id="userImg"> <img src="${user.avatarPath}" width="62" height="62"/></div>
+				<div class="userInfo">User: ${user.fullname}</div>
+				<div class="userInfo">Reputation: ${user.rating}</div>
+				<a class="button" href="@{Users.myProfile(user.id)}">My Profile</a>
+			</div>
+			#{/if}
+
+			#{ifnot user}
+				<div id="mainLogin" >
+					#{form @Secure.authenticate()}
+					<div id="loginInputs">
+						<label for="username">&{'secure.username'}</label>
+						<input type="text" name="username" id="username" size="10" value="${flash.username}" />
+					</div>
+					<div id="loginInputs">
+						<label for="password">&{'secure.password'}</label>
+						<input type="password" name="password" id="password" size="10" value="" />
+					</div>
+					<div id="loginInputs">
+						<input type="checkbox" name="remember" id="remember" size="10" value="true" ${flash.remember ? 'checked="true"' : ''} />
+						<label for="remember">&{'secure.remember'}</label>
+					
+						<input type="submit" id="signin" value="&{'secure.signin'}" />
+					</div>
+					#{/form}
+				</div>
+			#{/ifnot}
+
+			<div id="menu">
+				<a class="button" href="@{Application.index()}">Home</a>
+				#{ifnot controllers.Security.connected()}
+				<a class="button" id="log" href="@{Secure.login()}">&{'register.title'}</a>
+				#{/ifnot}
+				#{secure.check 'user'}
+					<a class="button" href="@{Users.index()}">New question</a>
+					<a class="button" id="log" href="@{Secure.logout()}">Log out</a>
+				#{/secure.check}
+			</div>
+
+			#{secure.check 'user'}
+			<div id="search">
+				#{form @Users.searchResults()}
+					<input type="text" name="toSearch" id="toSearch"/>
+					<input type="submit" value="search" />
+				#{/form}
+			</div>
+			#{/secure.check}
+			
+
+			<div id="content">
+			    #{doLayout /}
+			</div>
+		</div>
+		<script type="text/javascript" src="/public/markdown/wmd.js"></script>
+    </body>
+</html>

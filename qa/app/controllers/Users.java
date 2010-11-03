@@ -262,17 +262,19 @@ public class Users extends Controller {
 
 	/**
 	 * My profile.
+	 * @throws IOException 
 	 */
-	public static void myProfile(Long userid) {
+	public static void myProfile(Long userid) throws IOException {
 
 		User user = User.findById(userid);
+		user.graphData();
 		List<Post> activities = user.activities();
 		System.out.println("Size: " + user.rating.totalRepPoint.size());
 		int size = user.rating.totalRepPoint.size();
 		render("Users/myProfile.html", activities, user, size);
 	}
 
-	public static void showProfile(Long authorid) {
+	public static void showProfile(Long authorid) throws IOException {
 
 		User user = User.findById(authorid);
 		List<ReputationPoint> points = user.getReputationPoints();
@@ -401,10 +403,11 @@ public class Users extends Controller {
 	 *            the languages
 	 * @param aboutMe
 	 *            the about me
+	 * @throws IOException 
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
-			String work, String languages, String aboutMe) {
+			String work, String languages, String aboutMe) throws IOException {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.setBirthday(birthday);
 		user.website = website;
@@ -514,7 +517,7 @@ public class Users extends Controller {
 
 	}
 
-	public static void updateAvatarPath(String URL) {
+	public static void updateAvatarPath(String URL) throws IOException {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.avatarPath = URL;
 		user.save();
