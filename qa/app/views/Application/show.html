@@ -123,7 +123,7 @@
 								#{if isvalid}
 									<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
 								#{/if}
-								#{if answer.author.email.equals(models.User.find("byEmail", controllers.Security.connected()).first().email)}
+								#{if answer.author.email.equals(user.email)}
 									<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
 								#{/if}
 								#{if isvalid && abletochoose}
@@ -176,7 +176,7 @@
         			<label for="content">Your answer: </label>
         		</p>
         		<br>
-        		<textarea name="content">${user.quotedContent}</textarea>
+        		<textarea name="content">${user.getQuotedContent()}</textarea>
 				<p>
 					<input type="file" id="attachment" name="attachment" />
     			</p>

@@ -158,10 +158,6 @@ public class ReputationTest extends UnitTest {
 		secondAnswer.save();
 		firstQuestion.setValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);
-
-		System.out.println(bob.graphData());
-
-		assertEquals("{data: [[", bob.graphData());
 	}
 
 }

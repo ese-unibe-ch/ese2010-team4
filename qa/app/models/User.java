@@ -23,7 +23,7 @@ import play.db.jpa.Model;
  */
 @Entity
 public class User extends Model {
-	
+
 	public int counter;
 	protected Date birthday;
 	public String website = "";
@@ -387,30 +387,30 @@ public class User extends Model {
 		return rating.totalRepPoint;
 
 	}
-	
-	public ReputationPoint getReputationPoint(int i){
-		
 
-		
-		if(i < this.getReputationPoints().size()){
+	public ReputationPoint getReputationPoint(int i) {
+
+		if (i < this.getReputationPoints().size()) {
 			return this.getReputationPoints().get(i);
 		}
-		
-		else if(this.getReputationPoints().size()>0){
-			
-			return new ReputationPoint(getReputationPoints().get(getReputationPoints().size()-1).repvalue, getReputationPoints().get(getReputationPoints().size()-1).timestamp).save();
+
+		else if (this.getReputationPoints().size() > 0) {
+
+			return new ReputationPoint(
+					getReputationPoints().get(getReputationPoints().size() - 1).repvalue,
+					getReputationPoints().get(getReputationPoints().size() - 1).timestamp)
+					.save();
 		}
-		
-		else{
-			return new ReputationPoint(0,0);
+
+		else {
+			return new ReputationPoint(0, 0);
 		}
 	}
-	
-	public void deleteCounter(){
-		
 
-			this.counter = 0;
-			this.save();
+	public void deleteCounter() {
+
+		this.counter = 0;
+		this.save();
 
 	}
 
@@ -432,13 +432,11 @@ public class User extends Model {
 
 		}
 		strbuffer.append(']');
-		
-	    File outputFile = new File("outagain.json");
-        FileWriter out = new FileWriter(outputFile);
-        out.write(strbuffer.toString());        
-        out.close();
-    
 
+		File outputFile = new File("outagain.json");
+		FileWriter out = new FileWriter(outputFile);
+		out.write(strbuffer.toString());
+		out.close();
 
 		return strbuffer.toString();
 
@@ -447,5 +445,12 @@ public class User extends Model {
 	public void quoteContent(String content, String quoted) {
 		quotedContent = "" + "\n\n\n\n\n<br><hr>" + "Quoted: " + quoted
 				+ "<br>*" + "'" + content + "'*<hr>";
+	}
+
+	public String getQuotedContent() {
+		String content = quotedContent;
+		quotedContent = "";
+		this.save();
+		return content;
 	}
 }
