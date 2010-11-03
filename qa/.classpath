@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="views/**" kind="src" path="app"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="crud"/><classpathentry kind="src" path="cobertura-2.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/play.jar" sourcepath="/home/juerg/workspaces/framework" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/modules/cobertura-2.0/lib/asm-tree-3.0.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/modules/cobertura-2.0/lib/asm-3.0.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/modules/cobertura-2.0/lib/cobertura-main.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/modules/cobertura-2.0/lib/play-cobertura.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/modules/cobertura-2.0/lib/jakarta-oro-2.0.8.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/hsqldb.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/c3p0-0.9.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/memcached-2.4.2.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/hibernate-annotations.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/antlr-2.7.6.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-logging-1.1.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/junit-4.4.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-collections-3.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-io.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/hibernate-validator.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/ZDB.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-beanutils.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/gson-1.3.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-lang.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/hibernate-commons-annotations.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/asyncweb-common-0.9.0-SNAPSHOT.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/compiler-jdt.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/slf4j-log4j12-1.5.0.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/backport-util-concurrent-3.0.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/groovy-all-1.7.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/activation.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-httpclient.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/oval-1.31.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/jregex1.2_01.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/jta.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/hibernate3.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/javassist.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/mina-core-2.0.0-M2-SNAPSHOT.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/SnakeYAML-1.2.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/wikitext.core_1.1.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/ezmorph-1.0.3.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/dom4j-1.6.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/log4j-1.2.15.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/hibernate3-ast.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/ejb3-persistence.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/mysql-connector-java-5.1.8-bin.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-codec.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/jsr107cache-1.0.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/lucene-analyzers-2.3.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/lucene-core-2.3.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/jamon-2.7.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/cglib-nodep-2.2.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/WikiText.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/commons-fileupload-1.2.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/hibernate-entitymanager.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/slf4j-api-1.5.0.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/play-SimpleCaptcha.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/jaxen-1.1.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/play-imaging.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/provided-geronimo-servlet_2.5_spec-1.2.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/joda-time-1.6.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/ehcache-1.5.0.jar" />
+	<classpathentry kind="lib" path="/home/juerg/workspaces/framework/lib/mail.jar" />
+	
+	<classpathentry kind="output" path="eclipse/classes"/>
+</classpath>

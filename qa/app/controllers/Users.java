@@ -117,7 +117,7 @@ public class Users extends Controller {
 	 * @throws FileNotFoundException
 	 */
 	public static void createQuestion(@Required String author,
-			@Required String title, String content, File attachment) {
+			@Required String title, String content, String tags, File attachment) {
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
@@ -125,6 +125,13 @@ public class Users extends Controller {
 
 		User user = User.find("byFullname", author).first();
 		Question question = user.addQuestion(title, content).save();
+
+		String[] separetedTags = tags.split(",");
+		for (String tag : separetedTags) {
+			question.tagItWith(tag);
+		}
+		question.save();
+
 		if (attachment != null) {
 			question.attachmentPath = uploader.upload(attachment,
 					"question" + question.id).substring(2);
@@ -216,7 +223,10 @@ public class Users extends Controller {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.quoteContent(post.content, post.author.email);
 		user.save();
-		Application.show(postId);
+		if (post instanceof Answer)
+			Application.show(((Answer) post).question.id);
+		else
+			Application.show(postId);
 	}
 
 	/**
@@ -264,17 +274,19 @@ public class Users extends Controller {
 
 	/**
 	 * My profile.
+	 * @throws IOException 
 	 */
-	public static void myProfile(Long userid) {
+	public static void myProfile(Long userid) throws IOException {
 
 		User user = User.findById(userid);
+		user.graphData();
 		List<Post> activities = user.activities();
 		System.out.println("Size: " + user.rating.totalRepPoint.size());
 		int size = user.rating.totalRepPoint.size();
 		render("Users/myProfile.html", activities, user, size);
 	}
 
-	public static void showProfile(Long authorid) {
+	public static void showProfile(Long authorid) throws IOException {
 
 		User user = User.findById(authorid);
 		List<ReputationPoint> points = user.getReputationPoints();
@@ -401,10 +413,11 @@ public class Users extends Controller {
 	 *            the languages
 	 * @param aboutMe
 	 *            the about me
+	 * @throws IOException 
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
-			String work, String languages, String aboutMe) {
+			String work, String languages, String aboutMe) throws IOException {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.setBirthday(birthday);
 		user.website = website;
@@ -514,7 +527,7 @@ public class Users extends Controller {
 
 	}
 
-	public static void updateAvatarPath(String URL) {
+	public static void updateAvatarPath(String URL) throws IOException {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.avatarPath = URL;
 		user.save();

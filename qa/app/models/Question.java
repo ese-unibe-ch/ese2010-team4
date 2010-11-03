@@ -17,10 +17,12 @@ public class Question extends Post {
 
 	public long validity;
 	public String title;
+	public boolean hasBestAnswer;
 
 	@OneToMany(mappedBy = "question", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Answer> answers;
+	
 
 	public Question(User author, String title, String content) {
 		super(author, content);

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>ese2010-simpleUI</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.playframework.playclipse.playNature</nature>
+	</natures>
+	<linkedResources><link><name>crud</name><type>2</type><location>/home/juerg/workspaces/modules/crud/app</location></link>
+<link><name>conf/crud</name><type>2</type><location>/home/juerg/workspaces/modules/crud/conf</location></link>
+<link><name>public/crud</name><type>2</type><location>/home/juerg/workspaces/modules/crud/public</location></link>
+<link><name>cobertura-2.0</name><type>2</type><location>/home/juerg/workspaces/modules/cobertura-2.0/app</location></link>
+<link><name>conf/cobertura-2.0</name><type>2</type><location>/home/juerg/workspaces/modules/cobertura-2.0/conf</location></link>
+</linkedResources>
+</projectDescription>

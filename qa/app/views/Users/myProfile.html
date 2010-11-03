@@ -4,143 +4,115 @@
 #{secure.check 'user'}
 <div class="form" id="userForm">
 #{form @Users.changeProfile()}
-<p>
-    <label for="author">Fullname: </label>
-	<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
-    
-<p>
-	<label for="author">Email: </label>
-	<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
+	<div class="userInfo">
+    	<label for="author">Fullname: </label>
+		<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().fullname}" readonly/>
+    </div>
 
+	<div class="userInfo">
+		<label for="author">Email: </label>
+		<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().email}" readonly/>
+	</div>
    
-<p>
-	#{field 'birthday'}
-		<label for="author">Birthday: </label>
-		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().getBirthday()}" />
-		<label for="content"></label>
-	#{/field}
+	<div class="userInfo">
+		#{field 'birthday'}
+			<label for="author">Birthday: </label>
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().getBirthday()}" />
+			<label for="content"></label>
+		#{/field}
+	</div>
 	
-
-<p>
-	<label for="author">Age: </label>
-	<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().calculateAge()}" readonly/>
-
-<p>
-	#{field 'website'}
-		<label for="author">Website: </label>
-		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
-		<label for="content"></label>
-	#{/field}
-
-<p>
-	#{field 'work'}
-		<label for="author">Work: </label>
-		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
-		<label for="content"></label>
-	#{/field}
-
-<p>
-	#{field 'languages'}
-		<label for="author">Programming Languages: </label>
-		<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
-		<label for="content"></label>
-	#{/field}
-
-<p>
-	#{field 'aboutMe'}
-		<label for="aboutMe">About Me: </label>
-	<br>
-		<textarea name="${field.name}">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
-	#{/field}
+	<div class="userInfo">
+		<label for="author">Age: </label>
+		<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().calculateAge()}" readonly/>
+	</div>
 	
-<p>
-	<input type="submit" value="Update"/>
+	<div class="userInfo">
+		#{field 'website'}
+			<label for="author">Website: </label>
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().website}" />
+			<label for="content"></label>
+		#{/field}
+	</div>
 
+	<div class="userInfo">
+		#{field 'work'}
+			<label for="author">Work: </label>
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().work}" />
+			<label for="content"></label>
+		#{/field}
+	</div>
+	
+	<div class="userInfo">
+		#{field 'languages'}
+			<label for="author">Programming Languages: </label>
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Security.connected()).first().favoriteLanguages}" />
+			<label for="content"></label>
+		#{/field}
+	</div>
+	
+	<div class="userInfo">
+		#{field 'aboutMe'}
+			<label for="aboutMe">About Me: </label>
+			<br>
+			<textarea name="${field.name}">${models.User.find("byEmail", controllers.Security.connected()).first().aboutMe}</textarea>
+		#{/field}
+	</div>
 
+	<div>
+		<input type="submit" value="Update"/>
+	</div>
+	
+</div>
 #{/form}
 
 <hr>
 
-<p>
-<label> Upload an Avatar:
-<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
-	<table style="padding-left: 60px">
-	<input type="file" id="avatar" name="avatar" />
-	<input type="submit" value="Upload" />
-	</table>
-</form> 
+<div id="userProfile">
+	<label> Upload an Avatar:
+	<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
+		<table style="padding-left: 60px">
+		<input type="file" id="avatar" name="avatar" />
+		<input type="submit" value="Upload" />
+		</table>
+	</form> 
 
-<p>
-
-#{form @Users.updateAvatarPath()}
-	#{field 'URL'}
-		<label for="author">or enter an URL:
-		<p>
-		<input type="text" name="${field.name}" email="author" id="user-inp"/>
-		<label for="content">
-		<input type="submit" value="Submit" />
-	#{/field}
-
-#{/form}
-#{/ secure.check}
-
-<p>
-	<h2>Activities</h2>
-			#{list items:activities, as:'activity'}
-				<div class="activity">
-					#{if activity.checkInstance()}
-						${activity.timestamp}, ${user.fullname} wrote a new <a href = "@{Application.show(activity.id)}">question</a>.
-					#{/if}
-					#{else}
-					 ${activity.timestamp}, ${user.fullname} wrote a answer to the  <a href = "@{Application.show(activity.question.id)}"> question</a> from ${activity.author.fullname}
-					#{/else}
-				</div>
-     #{/list}
-    
-
-
-<h2>Reputation Graph</h2>
-
-<div id="graph">
-	<div id="graphcanvas" style="width:600px;height:300px"></div>
+	<br></br>
+	
+	#{form @Users.updateAvatarPath()}
+		#{field 'URL'}
+			<label for="author">or enter an URL:
+			<input type="text" name="${field.name}" email="author" id="user-inp"/>
+			<label for="content">
+			<input type="submit" value="Submit" />
+		#{/field}
+	#{/form}
 </div>
 
-<script id="source" language="javascript" type="text/javascript">
-	
-$(function () {
+#{/ secure.check}
+
+<hr>
+
+
+<div id="userProfile">
+
+	<h3>Activities</h3>
+	#{list items:activities, as:'activity'}
+			<div class="activity">
+				#{if activity.checkInstance()}
+					${activity.timestamp}, ${user.fullname} wrote a new <a href = "@{Application.show(activity.id)}">question</a>.
+				#{/if}
+				#{else}
+				 ${activity.timestamp}, ${user.fullname} wrote a answer to the  <a href = "@{Application.show(activity.question.id)}"> question</a> from ${activity.author.fullname}
+				#{/else}
+			</div>
+     #{/list}
     
-    var d1 = [];
-    	
-   	d1.push([${user.getReputationPoint(0).timestamp}, ${user.getReputationPoint(0).repvalue}]);
-   	d1.push([${user.getReputationPoint(1).timestamp}, ${user.getReputationPoint(1).repvalue}]);
-   	d1.push([${user.getReputationPoint(2).timestamp}, ${user.getReputationPoint(2).repvalue}]);
-   	d1.push([${user.getReputationPoint(3).timestamp}, ${user.getReputationPoint(3).repvalue}]);
-   	d1.push([${user.getReputationPoint(4).timestamp}, ${user.getReputationPoint(4).repvalue}]);
-   	d1.push([${user.getReputationPoint(5).timestamp}, ${user.getReputationPoint(5).repvalue}]);
-   	d1.push([${user.getReputationPoint(6).timestamp}, ${user.getReputationPoint(6).repvalue}]);
-   	d1.push([${user.getReputationPoint(7).timestamp}, ${user.getReputationPoint(7).repvalue}]);
-   	d1.push([${user.getReputationPoint(8).timestamp}, ${user.getReputationPoint(8).repvalue}]);
-   	d1.push([${user.getReputationPoint(9).timestamp}, ${user.getReputationPoint(9).repvalue}]);
-   	d1.push([${user.getReputationPoint(10).timestamp}, ${user.getReputationPoint(10).repvalue}]);
-   	d1.push([${user.getReputationPoint(11).timestamp}, ${user.getReputationPoint(11).repvalue}]);
-   	d1.push([${user.getReputationPoint(12).timestamp}, ${user.getReputationPoint(12).repvalue}]);
-   	d1.push([${user.getReputationPoint(13).timestamp}, ${user.getReputationPoint(13).repvalue}]);
-   	d1.push([${user.getReputationPoint(14).timestamp}, ${user.getReputationPoint(14).repvalue}]);
-   	d1.push([${user.getReputationPoint(15).timestamp}, ${user.getReputationPoint(15).repvalue}]);
-   	d1.push([${user.getReputationPoint(16).timestamp}, ${user.getReputationPoint(16).repvalue}]);
-   	d1.push([${user.getReputationPoint(17).timestamp}, ${user.getReputationPoint(17).repvalue}]);
-   	
+	<h3>Reputation Graph</h3>
 
-	
-    var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-
-    // a null signifies separate line segments
-    var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
-    
-    $.plot($("#graph"), [d1]);
-
-});
-</script>
+	<div id="graph">
+		<div id="graphcanvas" style="width:600px;height:300px"></div>
+	</div>
 
 
 #{if flash.success}

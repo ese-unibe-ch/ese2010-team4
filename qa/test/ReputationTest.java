@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import models.Answer;
 import models.Question;
 import models.User;
@@ -148,7 +150,7 @@ public class ReputationTest extends UnitTest {
 	}
 
 	@Test
-	public void shouldRetrunTheRightString() {
+	public void shouldRetrunTheRightString() throws IOException {
 
 		Answer secondAnswer = Answer.find("byContent",
 				"answer to question number 2.").first();

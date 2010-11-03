@@ -8,9 +8,10 @@
         <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/mainMS.css'}">
         #{get 'moreStyles' /}
 	        <link rel="shortcut icon" type="image/png" href="@{'/public/images/Icon.png'}">
-	        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
-	        <script src="@{'/public/javascripts/qa.js'}" type="text/javascript" charset="utf-8"></script>
-	         <script src="@{'/public/javascripts/flot/jquery.flot.js'}" type="text/javascript" charset="utf-8"></script>
+	        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>	       
+	        <script src="@{'/public/javascripts/flot/jquery.flot.js'}" type="text/javascript" charset="utf-8"></script>
+	       	<script src="@{'/public/javascripts/qa.js'}" type="text/javascript" charset="utf-8"></script>
+	        
         #{get 'moreScripts' /}
     </head>
     <body>
@@ -23,8 +24,8 @@
 			#{if user}
 			<div id="user">
 				<div id="userImg"> <img src="${user.avatarPath}" width="62" height="62"/></div>
-				<div class="userInfo">User: ${user.fullname}</div>
-				<div class="userInfo">Reputation: ${user.rating}</div>
+				<div>User: ${user.fullname}</div>
+				<div>Reputation: ${user.rating}</div>
 				<a class="button" href="@{Users.myProfile(user.id)}">My Profile</a>
 			</div>
 			#{/if}

@@ -18,7 +18,7 @@ public class ReputationPoint extends Model {
 	}
 
 	public ReputationPoint(int i, long timestamp2) {
-		this.repvalue = repvalue;
+		this.repvalue = i;
 		this.timestamp = timestamp2;
 	}
 
