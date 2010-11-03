@@ -1,0 +1,39 @@
+# ignoring possible locations of bin folders
+bin/
+
+# ignoring .class files
+*.class
+*.o
+
+# ignoring test results
+test-result/
+
+# ignoring logs
+logs/
+
+# ignoring tmp
+tmp/
+
+# ignoring bin
+bin/
+
+
+# ignoring some files we don't want on our repo
+# e.g. nasty editor backup files and OS X FS information
+*~
+.DS_Store
+
+
+# all the eclipse stuff
+.classpath
+.project
+.metadata
+.settings
+eclipse
+
+# and netbeans
+nbproject
+
+public/upload/avatar*
+public/upload/answer*
+public/upload/question*
