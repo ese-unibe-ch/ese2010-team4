@@ -2,55 +2,56 @@
 #{set title:'show profile' /}
 
 #{secure.check 'user'}
-<div class="form" id="userForm">
+
+<div id="userProfile">
+	<div id="userImg">
+    	<img src="${user.avatarPath}" width="62" height="62"/>
+	</div>
 	
 	<h3>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h3>
-	<p>
-       	<img src="${user.avatarPath}" width="62" height="62"/>
-        <br>
-        	<label for="author">Fullname: </label>
-        	${user.fullname}
-        </br>
-    </p>
-    	
-	<p>
-        <label for="author">Email: </label>
-       ${user.email}
-    </p>
-   
-   	<p>
-
-        <label for="author">Birthday: </label>
-        	${user.getBirthday()}
-	</p>	
 	
-	<p>
-        <label for="author">Age: </label>
-        ${user.calculateAge()}
-    </p>
-
-    <p>
-			<label for="author">Website: </label>
-        	${user.website}
-	</p>
-    <p>
+	<div>
+		<label for="author">Fullname: </label>
+   	 	<div class="userInfo"> 
+    		${user.fullname}
+		</div>		
+		
+		<label for="author">Email: </label>
+		<div class="userInfo">
+			${user.email}
+   		</div>
+   	
+   		<label for="author">Birthday: </label>
+   		<div class="userInfo">
+			${user.getBirthday()}
+    	</div>
     	
-        	<label for="author">Work: </label>
-        	${user.work}	
-        	</p>
-	<p>
- 
-        	<label for="author">Programming Languages: </label>
-        	${user.favoriteLanguages}
-
-	</p>
-	<p>
-
+    	<label for="author">Age: </label>
+    	<div class="userInfo">
+    		${user.calculateAge()}
+		</div>
+		
+		<label for="author">Website: </label>
+		<div class="userInfo">
+			${user.website}
+		</div>
+		
+		<label for="author">Work: </label>
+    	<div class="userInfo">	
+			${user.work}	
+   	 	</div>
+   	 	
+		<label for="author">Programming Languages: </label>
+		<div class="userInfo">
+			${user.favoriteLanguages}
+		</div>
+		
 		<label for="aboutMe">About Me: </label>
-		<br>
+		<div class="userInfo">
 			${user.aboutMe}
-		</br>
-	</p>
+		</div>
+	</div>
+	
 	<h3>Activities</h3>
 			#{list items:activities, as:'activity'}
 				<div class="activity">
@@ -64,7 +65,3 @@
      #{/list}
 </div>
 #{/ secure.check}
-
-<p>
-	<label Recent Posts: </label>
-</p>

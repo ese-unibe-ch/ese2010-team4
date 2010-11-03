@@ -2,8 +2,8 @@
 #{set title:'My answers' /}
 
 
-<div class="question"> 
-	#{list items:answers, as:'answer'}
+#{list items:answers, as:'answer'}
+	<div class="question"> 
             <div class="answer">
                 <div class="answer-metadata">
                     <span class="answer-date">
@@ -39,5 +39,5 @@
 	          
                  </div>
             </div>
-	#{/list}
-</div>
+    </div>
+#{/list}
