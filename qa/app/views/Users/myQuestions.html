@@ -22,7 +22,7 @@
 							<a class="button" href="${question.attachmentPath}"> attachment</a>
 						#{/if}
 						#{secure.check 'user'}
-							<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
+							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 						#{/secure.check}
 					</div>
 					</div>

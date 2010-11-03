@@ -158,11 +158,17 @@ public abstract class Post extends Model {
 		return this;
 	}
 
-	public static List<Post> findTaggedWith(String tag) {
-		return Post
+	/**
+	 * public static List<Post> findTaggedWith(String tag) { return Post .find(
+	 * "select distinct p from Post p join p.tags as t where t.name = ?",
+	 * tag).fetch(); }
+	 */
+
+	public static List<Post> findTaggedWith(String... tags) {
+		return Question
 				.find(
-						"select distinct p from Post p join p.tags as t where t.name = ?",
-						tag).fetch();
+						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
+				.bind("tags", tags).fetch();
 	}
 
 	public boolean checkInstance() {

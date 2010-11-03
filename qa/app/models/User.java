@@ -25,7 +25,7 @@ import play.db.jpa.Model;
  */
 @Entity
 public class User extends Model {
-	
+
 	public int counter;
 	protected Date birthday;
 	public String website = "";
@@ -405,6 +405,7 @@ public class User extends Model {
 		return rating.totalRepPoint;
 
 	}
+
 	
 	public ReputationPoint getReputationPoint(){
 		
@@ -428,9 +429,8 @@ public class User extends Model {
 			}
 			return new ReputationPoint(0,0);
 		}
-		
+}
 
-	}
 	
 
 	public String graphData() throws IOException {
@@ -451,6 +451,7 @@ public class User extends Model {
 
 		}
 		strbuffer.append(']');
+
 		
 		FileWriter fw = new FileWriter("ese2010-team4/qa/app/views/Users/myProfile.json");
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -459,17 +460,23 @@ public class User extends Model {
 
 		file.println(strbuffer.toString());
 		file.close();
-    
+		
 
-		
-		
-		System.out.println(strbuffer.toString());
 		return strbuffer.toString();
 
 	}
 
 	public void quoteContent(String content, String quoted) {
+		// Deleting first <p> and last </p>
+		String qContent = content.substring(3, content.lastIndexOf("</p>") - 1);
 		quotedContent = "" + "\n\n\n\n\n<br><hr>" + "Quoted: " + quoted
-				+ "<br>*" + "'" + content + "'*<hr>";
+				+ "<br><em>" + "'" + qContent + "'</em><hr>";
+	}
+
+	public String getQuotedContent() {
+		String content = quotedContent;
+		quotedContent = "";
+		this.save();
+		return content;
 	}
 }

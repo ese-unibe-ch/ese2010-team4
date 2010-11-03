@@ -2,8 +2,8 @@
 #{set title:'My answers' /}
 
 
-<div class="question"> 
-	#{list items:answers, as:'answer'}
+#{list items:answers, as:'answer'}
+	<div class="question"> 
             <div class="answer">
                 <div class="answer-metadata">
                     <span class="answer-date">
@@ -23,7 +23,7 @@
 						#{/if}
 						</div>
 						#{if answer.question.author.hasTimeToChange(answer.question.id)}
-							#{form @Users.showEdit(answer.id, 0)}
+							#{form @Users.showEdit(answer.id, answer.historys.size()-1)}
 								<input type="submit" value="Edit"/>
 							#{/form}
 						#{/if}
@@ -39,5 +39,5 @@
 	          
                  </div>
             </div>
-	#{/list}
-</div>
+    </div>
+#{/list}

@@ -54,7 +54,7 @@
 						<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
 					#{/if}
 					#{if abletochoose}
-						<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
+						<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 					#{/if}
 						<a class="button" href="@{Users.quote(question.id)}">quote</a>
 					
@@ -123,8 +123,8 @@
 								#{if isvalid}
 									<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
 								#{/if}
-								#{if answer.author.email.equals(models.User.find("byEmail", controllers.Security.connected()).first().email)}
-									<a class="button" href="@{Users.showEdit(answer.id, 0)}">edit</a>
+								#{if answer.author.email.equals(user.email)}
+									<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
 								#{/if}
 								#{if isvalid && abletochoose}
 									<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
@@ -132,6 +132,8 @@
 								#{if answer.best && isvalid}
 									This is the best answer!
 								#{/if}
+									<a class="button" href="@{Users.quote(answer.id)}">quote</a>
+								
 							#{/secure.check}
 						</div>
 						#{if answer.comments.size()>0}
@@ -176,7 +178,7 @@
         			<label for="content">Your answer: </label>
         		</p>
         		<br>
-        		<textarea name="content">${user.quotedContent}</textarea>
+        		<textarea name="content">${user.getQuotedContent()}</textarea>
 				<p>
 					<input type="file" id="attachment" name="attachment" />
     			</p>

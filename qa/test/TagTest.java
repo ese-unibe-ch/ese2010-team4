@@ -52,6 +52,7 @@ public class TagTest extends UnitTest {
 		assertEquals(1, Post.findTaggedWith("Red").size());
 		assertEquals(1, Post.findTaggedWith("Blue").size());
 		assertEquals(0, Post.findTaggedWith("Green").size());
+		assertEquals(0, Post.findTaggedWith("Green", "Red").size());
 		assertEquals(0, yellow.compareTo(yellowCopy));
 		assertTrue(0 < yellow.compareTo(red));
 	}

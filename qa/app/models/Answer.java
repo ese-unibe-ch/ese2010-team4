@@ -27,8 +27,9 @@ public class Answer extends Post {
 
 	@Override
 	public Post addHistory(Post post, String title, String content) {
-		History history = new History(this, "", this.content).save();
-		historys.add(history);
+		History history = new History(this, "", content).save();
+		int index = historys.size();
+		this.historys.add(index, history);
 		this.save();
 		return this;
 	}

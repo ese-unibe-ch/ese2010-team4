@@ -12,20 +12,10 @@
 
 	<p>
 	<div class="textarea">
-		
-		
 		#{field 'content'}
-		<label for="content"></label>
-		#{if editionIndex == 0}
-			<textarea name="${field.name}">${post.content}</textarea>
-		#{/if}
-		
-		
-		#{else}
+			<label for="content"></label>
 			<textarea name="${field.name}">${post.historys.get(editionIndex).content}</textarea>
-		#{/else}
-		#{/field}
-			
+		#{/field}	
 	</div>
 	
 	<p>

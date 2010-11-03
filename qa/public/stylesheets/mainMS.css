@@ -41,6 +41,22 @@ html, body {
 	float: right;
 }
 
+#userProfile {
+	background: #69F;
+	padding: 20px 20px 20px 20px;
+    margin: 20px 0px 20px 0px;
+	-webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+.userInfo {
+	background: #9CF;
+	padding: 5px 5px 5px 5px;
+    margin: 10px 0px 10px 0px;	
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
 /** Search **/
 
 #search {
