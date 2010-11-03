@@ -443,8 +443,10 @@ public class User extends Model {
 	}
 
 	public void quoteContent(String content, String quoted) {
+		// Deleting first <p> and last </p>
+		String qContent = content.substring(3, content.lastIndexOf("</p>") - 1);
 		quotedContent = "" + "\n\n\n\n\n<br><hr>" + "Quoted: " + quoted
-				+ "<br>*" + "'" + content + "'*<hr>";
+				+ "<br>*" + "'" + qContent + "'*<hr>";
 	}
 
 	public String getQuotedContent() {

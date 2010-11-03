@@ -216,7 +216,10 @@ public class Users extends Controller {
 		User user = User.find("byEmail", Security.connected()).first();
 		user.quoteContent(post.content, post.author.email);
 		user.save();
-		Application.show(postId);
+		if (post instanceof Answer)
+			Application.show(((Answer) post).question.id);
+		else
+			Application.show(postId);
 	}
 
 	/**
