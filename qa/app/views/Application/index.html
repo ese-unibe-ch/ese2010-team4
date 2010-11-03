@@ -21,7 +21,7 @@
 							#{/if}
 							
 							#{if user.isAbleToChoose(lastActivity.id)}
-								<a class="button" href="@{Users.showEdit(lastActivity.id, 0)}">edit</a>
+								<a class="button" href="@{Users.showEdit(lastActivity.id, lastActivity.historys.size()-1)}">edit</a>
 							#{/if}
 						#{/if}
 						#{/secure.check}
@@ -89,7 +89,7 @@
 								#{/if}
 							
 								#{if user.isAbleToChoose(question.id)}
-									<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
+									<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 								#{/if}
 							#{/if}
 							#{/secure.check}

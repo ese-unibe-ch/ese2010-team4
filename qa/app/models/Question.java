@@ -77,8 +77,9 @@ public class Question extends Post {
 
 	@Override
 	public Post addHistory(Post post, String title, String content) {
-		History history = new History(this, title, this.content).save();
-		historys.add(history);
+		History history = new History(this, title, content).save();
+		int index = historys.size();
+		this.historys.add(index, history);
 		this.save();
 		return this;
 	}

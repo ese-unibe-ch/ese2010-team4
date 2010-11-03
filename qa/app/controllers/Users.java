@@ -66,6 +66,8 @@ public class Users extends Controller {
 
 		if (post.historys.isEmpty()) {
 			post.addHistory(post, post.fullname, post.content);
+			editionIndex++;
+			post.save();
 		}
 
 		if (post instanceof Question) {
@@ -301,14 +303,12 @@ public class Users extends Controller {
 		Post post = Post.findById(id);
 
 		if (post instanceof Question) {
-
-			post.addHistory(post, ((Question) post).title, post.content);
+			post.addHistory(post, ((Question) post).title, content);
 			post.save();
-
 		}
 
 		else {
-			post.addHistory(post, "", post.content);
+			post.addHistory(post, "", content);
 			post.save();
 		}
 
@@ -333,7 +333,7 @@ public class Users extends Controller {
 	public static void deletePost(Long id) {
 		Post post = Post.findById(id);
 		post.delete();
-		if (post.getClass().getName().equals("models.Question")) {
+		if (post instanceof models.Question) {
 			Users.myQuestions();
 		} else
 			Users.myAnswers();
@@ -347,7 +347,7 @@ public class Users extends Controller {
 	 * @param index
 	 *            the index
 	 */
-	public static void nextEdition(Long id, int index) {
+	public static void previousEdition(Long id, int index) {
 
 		if (index > 0) {
 			index--;
@@ -364,7 +364,7 @@ public class Users extends Controller {
 	 * @param index
 	 *            the index
 	 */
-	public static void previousEdition(Long id, int index) {
+	public static void nextEdition(Long id, int index) {
 		Post post = Post.findById(id);
 		if (index < post.historys.size() - 1) {
 			index++;

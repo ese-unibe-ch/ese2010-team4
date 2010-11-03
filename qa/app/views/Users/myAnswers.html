@@ -23,7 +23,7 @@
 						#{/if}
 						</div>
 						#{if answer.question.author.hasTimeToChange(answer.question.id)}
-							#{form @Users.showEdit(answer.id, 0)}
+							#{form @Users.showEdit(answer.id, answer.history.size()-1)}
 								<input type="submit" value="Edit"/>
 							#{/form}
 						#{/if}
