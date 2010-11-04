@@ -19,7 +19,7 @@
 		</div>
 		<div class="question-author">
 			<div id="userImg"> <img src="${question.author.avatarPath}" width="62" height="62"/></div>
-			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} </a> Reputation: ${question.author.rating}
+			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
 			<div class="question-date">
 				${question.timestamp}
 			</div>
@@ -27,7 +27,9 @@
 				#{secure.check 'user'}
 					#{ifnot question.hasBestAnswer}
 						#{if !isfollowing && !abletochoose}
-							<a class="button" href="@{Users.followQuestion(question.id)}">follow</a>
+							<a class="button" href="@{Users.followQuestion(question.id)}">
+								<span>follow</span>
+							</a>
 						#{/if}
 						#{if isvalid}
 							<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
@@ -47,11 +49,10 @@
 			<div class="content" id="question-content">
 				${question.content.raw()}
 			</div>
-			<div class="tag">
+			<div class="question-tag">
 				#{if !question.tags.isEmpty()}
-				Tags:
 					#{list items:question.tags, as:'tag'}
-   						<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+   						<a class="button" href="@{Application.tagged(tag)}">${tag}</a>
 					#{/list}
 				#{/if}
 			</div>
@@ -65,7 +66,7 @@
 					#{list items: question.comments, as:'comment'}
 						<div class="comment">
 							<div class="comment-author">
-								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname}</a>
+								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
 								<div class="comment-date">
 									${comment.timestamp}
 								</div>
@@ -79,13 +80,13 @@
 			#{/if}
 			<div class="question-answer">
 				#{if question.answers.size() < 1}
-					<div>
+					<div class="answers">
 						There is no answer.
 					</div>
 				#{/if}
 				#{else}
-					#{list items:question.answers, as:'answer'}
 					<div class="answers">
+					#{list items:question.answers, as:'answer'}
 						<div class="answer">
 							<div class="voting">
 								#{if answer.best}
@@ -109,7 +110,7 @@
 							</div>
 							<div class="answer-author">
 								<div class="avatar"> <img src="${answer.author.avatarPath}" width="62" height="62"/></div>
-								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>
+								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname} (${answer.author.rating})</a>
 								<div class="answer-date">
 									${answer.timestamp}
 								</div>
@@ -147,7 +148,7 @@
 								#{list items: answer.comments, as:'comment'}
 									<div class="comment">
 										<div class="comment-author">
-											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname}</a>
+											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
 											<div class="comment-date">
 												${comment.timestamp}
 											</div>
@@ -160,8 +161,8 @@
 							</div>
 						#{/if}
 					</div>
-				</div>
-			#{/list}
+				#{/list}
+			</div>
 		#{/else}
 	</div>
 </div>

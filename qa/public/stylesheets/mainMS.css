@@ -30,7 +30,6 @@ html, body {
 }
 
 /** User info **/
-
 #user {
 	background: #69F;
 	float: right;
@@ -63,7 +62,6 @@ html, body {
 }
 
 /** Search **/
-
 #search {
 	margin: 20px;
 }
@@ -78,7 +76,6 @@ html, body {
 }
 
 /** Links **/
-
 a {
 	margin: 0;
 	padding: 0;
@@ -95,8 +92,7 @@ a {
 }
 
 .button#log {
-	float: right;
-		
+	float: right;	
 }
 	
 
@@ -125,13 +121,28 @@ a {
 	margin: 10px 0px 10px 0px;
 }
 
+
+#question-buttons {
+	clear: right;
+}
+
 #question-buttons .button {
 	background: #090;
 	padding: 0px 10px 0px 10px;
 	margin: 0px 0px 0px 4px;
 }
 
+/** Tags **/
+.question-tag .button {
+	background: #03F;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 0px 4px;
+}
+
 /** Answer **/
+.answers {
+	padding: 20px 0px 0px 0px;
+}
 
 .answer {
 	background: #9CF;
@@ -149,7 +160,6 @@ a {
 }
 
 /** Comments **/
-
 .comment {
 	background: #FFF;
 	padding: 20px 20px 20px 20px;
@@ -169,7 +179,6 @@ a {
 }
 
 /** Voting **/
-
 .voting {
 	float: left;
 	display: inline;
@@ -220,7 +229,6 @@ a {
 
 
 /** Profile **/
-
 #tabMenu {
     padding: 20px;
     margin: 0;
@@ -240,7 +248,6 @@ a {
 }	
 
 /** Follows **/
-
 .follows {
 	background: #69F;
 	padding: 20px 20px 20px 20px;
@@ -257,7 +264,6 @@ a {
 }
 
 /** Formulars **/
-
 .form {
 	background: #69F;
 	text-align:justify;
