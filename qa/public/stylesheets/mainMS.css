@@ -25,6 +25,10 @@ html, body {
     padding: 20px;
 }
 
+#menu .button {
+	margin: 0 10px;
+}
+
 /** User info **/
 
 #user {
@@ -208,26 +212,21 @@ a {
 
 #tabMenu {
     padding: 20px;
-    margin: 0px 20px 0px 20px;
+    margin: 0;
     background: #69F;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
     text-align: center;
 }
 
-.tab {
+#tab {
 	display: inline;
-	color: #FFF;
-	padding: 5px 40px 5px 40px;
+	margin: 0px 5px;
+	padding: 5px 40px;
 	border: 1px;
 	border-style: solid;
 	border-color: #000000;
-}
-
-.tab:hover {
-	color: #36F;
-}
-	
+}	
 
 /** Follows **/
 
