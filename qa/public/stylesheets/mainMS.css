@@ -3,7 +3,7 @@
 html, body {
     background: #FFF !important;
     font-family: Arial !important;
-    font-size: 18px;
+    font-size: 16px;
 	margin: 0;
 	height: 100%;
 }
@@ -36,13 +36,14 @@ html, body {
 	float: right;
 	padding: 10px 10px 10px 10px;
     margin: 20px 20px 0px 20px;
-	width: 180px;
+	width: 200px;
 	-webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
 
 #userImg {
 	float: right;
+	margin: 0px 0px 10px 10px;
 }
 
 #userProfile {
@@ -113,6 +114,7 @@ a {
 .question-author {
 	float: right;
 	text-align: right;
+	padding: 0px 0px 20px 0px;
 }
 
 .question .content {
@@ -123,10 +125,10 @@ a {
 	margin: 10px 0px 10px 0px;
 }
 
-.question .metadata .button {
-	background: green;
+#question-buttons .button {
+	background: #090;
 	padding: 0px 10px 0px 10px;
-	margin: 5px 0px 5px 0px;
+	margin: 0px 0px 0px 4px;
 }
 
 /** Answer **/
@@ -179,6 +181,15 @@ a {
 
 .vote-curr {
 	background: #03F;
+	float: left;
+	width: 40px;
+	line-height: 40px;
+	-webkit-border-radius: 5px 0px 0px 5px;
+    -moz-border-radius: 5px 0px 0px 5px;
+}
+
+.vote-curr-best {
+	background: #090;
 	float: left;
 	width: 40px;
 	line-height: 40px;
@@ -244,8 +255,6 @@ a {
 .activity {
 		
 }
-
-
 
 /** Formulars **/
 
