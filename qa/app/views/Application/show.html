@@ -18,9 +18,7 @@
 			#{/secure.check}
 		</div>
 		<div class="question-author">
-			#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-				<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" /></div>
-			#{/ifnot}
+			<div class="avatar"> <img src="${question.author.avatarPath}" width="62" height="62"/></div>
 			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} </a> Reputation: ${question.author.rating}
 			<div class="question-date">
 				${question.timestamp}
@@ -104,9 +102,7 @@
 								#{/secure.check}
 							</div>
 							<div class="answer-author">
-								#{ifnot models.User.find("byEmail", answer.author.fullname).first()==null}
-									<div class="avatar"><img src="${models.User.find("byEmail", answer.author.fullname).first().avatarPath}" /></div>
-								#{/ifnot}
+								<div class="avatar"> <img src="${answer.author.avatarPath}" width="62" height="62"/></div>
 								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>
 								<div class="answer-date">
 									${answer.timestamp}

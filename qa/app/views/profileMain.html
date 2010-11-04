@@ -6,14 +6,14 @@
 
 	<div id="tabMenu">
 		#{secure.check 'user'}
-		<a class="tab" href="@{Users.myProfile(user.id)}">My profile</a>
-		<a class="tab" href="@{Users.myQuestions()}">My questions</a>
-		<a class="tab" href="@{Users.myAnswers()}">My answers</a>
-		<a class="tab" href="@{Users.myFollows()}">My follows</a>
+		<a class="button" id="tab" href="@{Users.myProfile(user.id)}">My profile</a>
+		<a class="button" id="tab" href="@{Users.myQuestions()}">My questions</a>
+		<a class="button" id="tab" href="@{Users.myAnswers()}">My answers</a>
+		<a class="button" id="tab" href="@{Users.myFollows()}">My follows</a>
 		#{/secure.check}
 	</div>
 	
-	<div id="content">
+	<div id="profileContent">
 		#{doLayout /}
 	</div>
 	
