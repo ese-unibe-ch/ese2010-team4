@@ -274,14 +274,14 @@ public class Users extends Controller {
 
 	/**
 	 * My profile.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	public static void myProfile(Long userid) throws IOException {
 
 		User user = User.findById(userid);
-		user.graphData();
+
 		List<Post> activities = user.activities();
-		System.out.println("Size: " + user.rating.totalRepPoint.size());
 		int size = user.rating.totalRepPoint.size();
 		render("Users/myProfile.html", activities, user, size);
 	}
@@ -290,7 +290,6 @@ public class Users extends Controller {
 
 		User user = User.findById(authorid);
 		List<ReputationPoint> points = user.getReputationPoints();
-		System.out.println("Username: " + user.fullname);
 		List<Post> activities = user.activities();
 
 		if (user.email.equals(Security.connected())) {
@@ -413,7 +412,7 @@ public class Users extends Controller {
 	 *            the languages
 	 * @param aboutMe
 	 *            the about me
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws ParseException
 	 */
 	public static void changeProfile(String birthday, String website,
@@ -537,7 +536,6 @@ public class Users extends Controller {
 	// DR not working probably not needed
 	public static void avatarPath() {
 		User user = User.find("byEmail", Security.connected()).first();
-		System.out.println(user.avatarPath);
 		renderText(user.avatarPath);
 	}
 

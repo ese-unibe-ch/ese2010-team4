@@ -1,9 +1,6 @@
 package models;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -148,8 +145,7 @@ public class User extends Model {
 
 		else {
 
-
-			bestAnswer(question);			
+			bestAnswer(question);
 			return false;
 		}
 
@@ -162,15 +158,14 @@ public class User extends Model {
 	 *            from the best answer
 	 */
 	private void bestAnswer(Question question) {
-		
+
 		Answer best = null;
-		
-		
+
 		for (Answer answer : question.answers) {
-			if (answer.best) {				
+			if (answer.best) {
 				best = answer;
-				
-				if(!question.hasBestAnswer){
+
+				if (!question.hasBestAnswer) {
 					answer.author.rating.bestAnswer();
 					answer.author.rating.save();
 					answer.author.save();
@@ -179,8 +174,8 @@ public class User extends Model {
 				}
 			}
 		}
-		
-		if(best != null){
+
+		if (best != null) {
 			question.answers.remove(best);
 			question.answers.add(0, best);
 			question.hasBestAnswer = true;
@@ -406,45 +401,45 @@ public class User extends Model {
 
 	}
 
-	
-	public ReputationPoint getReputationPoint(){
-		
+	public ReputationPoint getReputationPoint() {
 
-		System.out.println("counter: "+counter);
-		if(counter < this.getReputationPoints().size()){
+		System.out.println("counter: " + counter);
+		if (counter < this.getReputationPoints().size()) {
 			counter++;
-			return this.getReputationPoints().get(counter-1);
+			return this.getReputationPoints().get(counter - 1);
 		}
-		
-		else if(this.getReputationPoints().size()>0){
-			if(counter>=999){
-				counter=0;
-			}			
-			return new ReputationPoint(getReputationPoints().get(getReputationPoints().size()-1).repvalue, getReputationPoints().get(getReputationPoints().size()-1).timestamp).save();
-		}
-		
-		else{
-			if(counter>=999){
-				counter=0;
-			}
-			return new ReputationPoint(0,0);
-		}
-}
 
-	
+		else if (this.getReputationPoints().size() > 0) {
+			if (counter >= 999) {
+				counter = 0;
+			}
+			return new ReputationPoint(
+					getReputationPoints().get(getReputationPoints().size() - 1).repvalue,
+					getReputationPoints().get(getReputationPoints().size() - 1).timestamp)
+					.save();
+		}
+
+		else {
+			if (counter >= 999) {
+				counter = 0;
+			}
+			return new ReputationPoint(0, 0);
+		}
+	}
 
 	public String graphData() throws IOException {
 		List<ReputationPoint> reppoints = this.getReputationPoints();
 
 		StringBuffer strbuffer = new StringBuffer();
 		strbuffer.append("[");
-		
+
 		List<ReputationPoint> points = this.getReputationPoints();
 		Iterator<ReputationPoint> it = points.iterator();
-		
-		while(it.hasNext()){
+
+		while (it.hasNext()) {
 			ReputationPoint point = it.next();
-			strbuffer.append("{\"time\": " + point.timestamp + ", \"value\": " + point.repvalue+ "}");
+			strbuffer.append("{\"time\": " + point.timestamp + ", \"value\": "
+					+ point.repvalue + "}");
 			if (it.hasNext()) {
 				strbuffer.append(',');
 			}
@@ -452,15 +447,15 @@ public class User extends Model {
 		}
 		strbuffer.append(']');
 
-		
-		FileWriter fw = new FileWriter("ese2010-team4/qa/app/views/Users/myProfile.json");
-		BufferedWriter bw = new BufferedWriter(fw);
-		PrintWriter file = new PrintWriter(bw);
-		
-
-		file.println(strbuffer.toString());
-		file.close();
-		
+		/*
+		 * FileWriter fw = new
+		 * FileWriter("ese2010-team4/qa/app/views/Users/myProfile.json");
+		 * BufferedWriter bw = new BufferedWriter(fw); PrintWriter file = new
+		 * PrintWriter(bw);
+		 * 
+		 * 
+		 * file.println(strbuffer.toString()); file.close();
+		 */
 
 		return strbuffer.toString();
 
