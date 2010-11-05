@@ -58,7 +58,10 @@
 			</div>
 			<div class="attachment" id="question-attachment">
 				#{if question.attachmentPath != null}
-					<a class="button" href="${question.attachmentPath}"> attachment</a>
+					<a class="button" href="${question.attachmentPath}">
+						<img src="@{'/public/images/file.gif'}" width="16" height="16" border="0"/>
+						Attachment
+					</a>
 				#{/if}
 			</div>
 			#{if question.comments.size()>0}

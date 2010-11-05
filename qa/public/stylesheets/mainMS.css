@@ -143,10 +143,27 @@ a {
 }
 
 /** Tags **/
+.question-tag {
+	margin: 5px 0px 5px 0px;
+}
+
 .question-tag .button {
 	background: #03F;
 	padding: 0px 10px 0px 10px;
 	margin: 0px 0px 0px 4px;
+}
+
+/** Attachment **/
+.attachment {
+	margin: 5px 0px 5px 0px;
+	padding: 3px;
+}
+
+.attachment .button {
+	padding: 3px;
+	border: 1px;
+	border-style: solid;
+	border-color: #000;
 }
 
 /** Answer **/
