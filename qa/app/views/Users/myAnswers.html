@@ -18,9 +18,14 @@
 					<tr>
 						<td>
 						<div class="metadata" id="question-metadata">
-						#{if answer.attachmentPath != null}
-							<a class="button" href="${answer.attachmentPath}"> attachment</a>
-						#{/if}
+							<div class="attachment" id="answer-attachment">
+								#{if answer.attachmentPath != null}
+									<a class="button" href="${answer.attachmentPath}">
+										<img src="@{'/public/images/file.gif'}"/>
+										Attachment
+									</a>
+								#{/if}
+							</div>
 						</div>
 						#{if answer.findQuestion().author.hasTimeToChange(answer.findQuestion().id)}
 							#{form @Users.showEdit(answer.id, answer.historys.size()-1)}

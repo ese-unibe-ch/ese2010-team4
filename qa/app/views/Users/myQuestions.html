@@ -18,9 +18,14 @@
 							${question.timestamp}
 						</div>
 						<div class="metadata" id="question-metadata">
-						#{if question.attachmentPath != null}
-							<a class="button" href="${question.attachmentPath}"> attachment</a>
-						#{/if}
+						<div class="attachment" id="question-attachment">
+							#{if question.attachmentPath != null}
+								<a class="button" href="${question.attachmentPath}">
+									<img src="@{'/public/images/file.gif'}"/>
+									Attachment
+								</a>
+							#{/if}
+						</div>
 						#{secure.check 'user'}
 							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 						#{/secure.check}

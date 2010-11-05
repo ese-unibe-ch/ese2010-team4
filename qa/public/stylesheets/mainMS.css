@@ -166,6 +166,12 @@ a {
 	border-color: #000;
 }
 
+.attachment img {
+	width: 16px;
+	height: 16px;
+	border: 0;
+}
+
 /** Answer **/
 .answers {
 	padding: 20px 0px 0px 0px;

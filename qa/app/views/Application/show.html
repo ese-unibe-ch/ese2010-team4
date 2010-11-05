@@ -59,7 +59,7 @@
 			<div class="attachment" id="question-attachment">
 				#{if question.attachmentPath != null}
 					<a class="button" href="${question.attachmentPath}">
-						<img src="@{'/public/images/file.gif'}" width="16" height="16" border="0"/>
+						<img src="@{'/public/images/file.gif'}"/>
 						Attachment
 					</a>
 				#{/if}
@@ -140,9 +140,12 @@
 							<div class="content" id="answer-content">
 					         	${answer.content.raw()}
 					    	</div>
-							<div class="attachment" id="question-attachment">
+							<div class="attachment" id="answer-attachment">
 								#{if answer.attachmentPath != null}
-									<a class="button" href="${answer.attachmentPath}"> attachment</a>
+									<a class="button" href="${answer.attachmentPath}">
+										<img src="@{'/public/images/file.gif'}"/>
+										Attachment
+									</a>
 								#{/if}
 							</div>
 						#{if answer.comments.size()>0}

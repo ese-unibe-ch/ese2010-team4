@@ -78,7 +78,10 @@
 						</div>
 						<div class="attachment" id="question-attachment">
 							#{if question.attachmentPath != null}
-								<a class="button" href="${question.attachmentPath}"> attachment</a>
+								<a class="button" href="${question.attachmentPath}">
+									<img src="@{'/public/images/file.gif'}"/>
+									Attachment
+								</a>
 							#{/if}
 						</div>
 						<div class="question-metadata">
