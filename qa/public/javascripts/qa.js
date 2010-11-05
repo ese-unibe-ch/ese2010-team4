@@ -11,7 +11,8 @@ $(function () {
 
 function loadGraph() {
 	
-	jQuery.getJSON( '/home/juerg/workspaces/ese2010-team4/qa/app/views/Users/myPorfile.json' , displayGraph);
+	alert(self.location);
+	jQuery.getJSON( "/home/juerg/workspaces/ese2010-team4/qa/app/views/Users/myProfile.json" , displayGraph);
 }
 
 

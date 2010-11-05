@@ -320,6 +320,11 @@ public class User extends Model {
 		this.save();
 	}
 
+	/**
+	 * 
+	 * @param o
+	 * @return true spectific object follows
+	 */
 	public boolean isFollowing(Object o) {
 		boolean follows = false;
 		if (o instanceof User) {
@@ -459,6 +464,7 @@ public class User extends Model {
 		strbuffer.append(']');
 
 		/*
+		 * 
 		 * FileWriter fw = new FileWriter("qa/app/views/Users/myProfile.json");
 		 * BufferedWriter bw = new BufferedWriter(fw); PrintWriter file = new
 		 * PrintWriter(bw);
