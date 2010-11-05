@@ -1,12 +1,10 @@
 package models;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -15,8 +13,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
@@ -59,7 +55,6 @@ public class User extends Model {
 	@Required
 	public boolean isAdmin;
 
-	
 	public ArrayList<Question> followQ;
 	@OneToMany
 	public List<User> followU;
@@ -391,20 +386,21 @@ public class User extends Model {
 				activities.add(post);
 			}
 		}
-		
-		for(Question question: this.followQ){
-			List<Post> act2 = Post.find("post like ? order by timestamp desc", question).fetch();
-			for(Post post: act2){
+
+		for (Question question : this.followQ) {
+			List<Post> act2 = Post.find("post like ? order by timestamp desc",
+					question).fetch();
+			for (Post post : act2) {
 				activities.add(post);
 			}
 		}
-		
+
 		PostActivityComperator comp = new PostActivityComperator();
-		
+
 		Collections.sort(activities, comp);
-		
-		while(activities.size()>number){
-			activities.remove(activities.size()-1);
+
+		while (activities.size() > number) {
+			activities.remove(activities.size() - 1);
 		}
 
 		return activities;
@@ -423,7 +419,6 @@ public class User extends Model {
 
 	public ReputationPoint getReputationPoint(int i) {
 
-		
 		if (i < this.getReputationPoints().size()) {
 
 			return this.getReputationPoints().get(i);
@@ -462,14 +457,14 @@ public class User extends Model {
 
 		}
 		strbuffer.append(']');
-		
-		/*
-		FileWriter fw = new FileWriter("qa/app/views/Users/myProfile.json");
-		BufferedWriter bw = new BufferedWriter(fw);
-		PrintWriter file = new PrintWriter(bw);
 
-		file.println(strbuffer.toString());
-		file.close();*/
+		/*
+		 * FileWriter fw = new FileWriter("qa/app/views/Users/myProfile.json");
+		 * BufferedWriter bw = new BufferedWriter(fw); PrintWriter file = new
+		 * PrintWriter(bw);
+		 * 
+		 * file.println(strbuffer.toString()); file.close();
+		 */
 
 		return strbuffer.toString();
 
