@@ -98,15 +98,17 @@ public abstract class Post extends Model {
 
 		Iterator<Answer> iterA = question.answers.iterator();
 		while (iterA.hasNext()) {
-			if (iterA.next().timestamp.after(user.lastLogOff)) {
-				news.add(iterA.next());
+			Answer answer = iterA.next();
+			if (answer.timestamp.after(user.lastLogOff)) {
+				news.add(answer);
 			}
 		}
 
 		Iterator<Comment> iterC = question.comments.iterator();
 		while (iterC.hasNext()) {
-			if (iterC.next().timestamp.after(user.lastLogOff)) {
-				news.add(iterC.next());
+			Comment comment = iterC.next();
+			if (comment.timestamp.after(user.lastLogOff)) {
+				news.add(comment);
 			}
 		}
 
@@ -173,6 +175,43 @@ public abstract class Post extends Model {
 
 	public boolean checkInstance() {
 		return this instanceof Question;
+	}
+	
+	public boolean isQuestion(){
+		return this instanceof Question;
+	}
+	
+	public boolean isAnswer(){
+		return this instanceof Answer;
+	}
+	
+	public boolean isCommentAnswer(){
+		if(this instanceof Comment){
+			if(((Comment)this).post instanceof Answer){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isCommentQuestion(){
+		if(this instanceof Comment){
+			if(((Comment)this).post instanceof Question){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Question findQuestion(){
+		if(this.isQuestion())
+			return (Question)this;
+		if(this.isAnswer())
+			return ((Answer)this).question;
+		if(this.isCommentAnswer())
+			return ((Answer)((Comment)this).post).question;
+		else
+			return (Question)((Comment)this).post;
 	}
 
 }

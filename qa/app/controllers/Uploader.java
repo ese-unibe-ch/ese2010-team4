@@ -21,7 +21,7 @@ public class Uploader {
 
 	/**
 	 * Initialize an Uploader with a given <code>uploadPath</code> to which the
-	 * files will be saved minSize and maxSize can be changed to restrict the
+	 * files will be saved, minSize and maxSize can be changed to restrict the
 	 * lenght (in byte) of a uploaded file
 	 * 
 	 * @param uploadPath
@@ -44,8 +44,8 @@ public class Uploader {
 	 */
 	public String upload(File attachment, String name) {
 		assert invariant();
+		this.getTypeOf(attachment);
 		String filePath = uploadPath + name + "." + type;
-		this.type(attachment);
 		copyFile(attachment, filePath);
 		assert invariant();
 		return filePath;
@@ -84,11 +84,12 @@ public class Uploader {
 	}
 
 	public void setMaxSize(int maxSize) {
+		assert maxSize > minSize;
 		this.maxSize = maxSize;
 		sizeChecked = true;
 	}
 
-	private void checkSize(File attachment) throws Exception {
+	private void checkSizeOf(File attachment) throws Exception {
 		long lenght = attachment.length();
 		if (minSize == 0 && maxSize == 0)
 			throw new Exception("minSize and maxSize are still zero");
@@ -98,7 +99,7 @@ public class Uploader {
 			throw new Exception("File is too big");
 	}
 
-	private void type(File attachment) {
+	private void getTypeOf(File attachment) {
 		String filename = attachment.getName();
 		this.type = filename.substring(filename.lastIndexOf('.') + 1);
 	}
@@ -106,7 +107,7 @@ public class Uploader {
 	private void copyFile(File attachment, String filePath) {
 		try {
 			if (sizeChecked)
-				this.checkSize(attachment);
+				this.checkSizeOf(attachment);
 			iStream = new FileInputStream(attachment);
 			File outputFile = new File(filePath);
 			IOUtils.copy(iStream, new FileOutputStream(outputFile));

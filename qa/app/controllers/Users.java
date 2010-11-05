@@ -470,7 +470,7 @@ public class Users extends Controller {
 		user.save();
 
 		List<Question> followQ = user.followQ;
-		List<Post> activities = user.followAcitvities();
+		List<Post> activities = user.followAcitvities(10);
 		Long userId = user.id;
 		List<User> followU = user.followU;
 

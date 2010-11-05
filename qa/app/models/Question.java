@@ -22,7 +22,6 @@ public class Question extends Post {
 	@OneToMany(mappedBy = "question", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Answer> answers;
-	
 
 	public Question(User author, String title, String content) {
 		super(author, content);
@@ -66,6 +65,7 @@ public class Question extends Post {
 	public void setAllAnswersFalse() {
 		for (Answer answer : answers) {
 			answer.best = false;
+			answer.save();
 		}
 
 	}

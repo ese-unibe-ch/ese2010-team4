@@ -18,12 +18,28 @@
 			#{/secure.check}
 		</div>
 		<div class="question-author">
-			#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-				<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" /></div>
-			#{/ifnot}
-			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} </a> Reputation: ${question.author.rating}
+			<div id="userImg"> <img src="${question.author.avatarPath}" width="62" height="62"/></div>
+			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
 			<div class="question-date">
 				${question.timestamp}
+			</div>
+			<div class="buttons" id="question-buttons">
+				#{secure.check 'user'}
+					#{ifnot question.hasBestAnswer}
+						#{if !isfollowing && !abletochoose}
+							<a class="button" href="@{Users.followQuestion(question.id)}">
+								<span>follow</span>
+							</a>
+						#{/if}
+						#{if isvalid}
+							<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
+						#{/if}
+						#{if abletochoose}
+							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
+						#{/if}
+						<a class="button" href="@{Users.quote(question.id)}">quote</a>
+					#{/ifnot}
+				#{/secure.check}
 			</div>
 		</div>
 		<div class="question-main">
@@ -33,41 +49,24 @@
 			<div class="content" id="question-content">
 				${question.content.raw()}
 			</div>
-			<div class="tag">
+			<div class="question-tag">
 				#{if !question.tags.isEmpty()}
-				Tags:
 					#{list items:question.tags, as:'tag'}
-   						<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+   						<a class="button" href="@{Application.tagged(tag)}">${tag}</a>
 					#{/list}
 				#{/if}
 			</div>
-			
-			<div class="metadata" id="question-metadata">
-					#{if question.attachmentPath != null}
-						<a class="button" href="${question.attachmentPath}"> attachment</a>
-					#{/if}
-				#{secure.check 'user'}
-					#{if !isfollowing && !abletochoose}
-						<a class="button" href="@{Users.followQuestion(question.id)}">follow</a>
-					#{/if}
-					#{if isvalid}
-						<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
-					#{/if}
-					#{if abletochoose}
-						<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
-					#{/if}
-						<a class="button" href="@{Users.quote(question.id)}">quote</a>
-					
-			
-				#{/secure.check}
+			<div class="attachment" id="question-attachment">
+				#{if question.attachmentPath != null}
+					<a class="button" href="${question.attachmentPath}"> attachment</a>
+				#{/if}
 			</div>
 			#{if question.comments.size()>0}
 				<div class="comments">
-					Comments to this question:
 					#{list items: question.comments, as:'comment'}
 						<div class="comment">
 							<div class="comment-author">
-								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname}</a>
+								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
 								<div class="comment-date">
 									${comment.timestamp}
 								</div>
@@ -81,19 +80,25 @@
 			#{/if}
 			<div class="question-answer">
 				#{if question.answers.size() < 1}
-					<div>
+					<div class="answers">
 						There is no answer.
 					</div>
 				#{/if}
 				#{else}
-					Answers to this question:
-					#{list items:question.answers, as:'answer'}
 					<div class="answers">
+					#{list items:question.answers, as:'answer'}
 						<div class="answer">
 							<div class="voting">
-								<div class="vote-curr">
-									${answer.voting()}
-								</div>
+								#{if answer.best}
+									<div class="vote-curr-best">
+										${answer.voting()}
+									</div>
+								#{/if}
+								#{else}
+									<div class="vote-curr">
+										${answer.voting()}
+									</div>
+								#{/else}
 								#{secure.check 'user'}    
 									#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Security.connected()).first())}
 					         			<div class="vote-up-down">
@@ -104,45 +109,46 @@
 								#{/secure.check}
 							</div>
 							<div class="answer-author">
-								#{ifnot models.User.find("byEmail", answer.author.fullname).first()==null}
-									<div class="avatar"><img src="${models.User.find("byEmail", answer.author.fullname).first().avatarPath}" /></div>
-								#{/ifnot}
-								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname}</a>
+								<div class="avatar"> <img src="${answer.author.avatarPath}" width="62" height="62"/></div>
+								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname} (${answer.author.rating})</a>
 								<div class="answer-date">
 									${answer.timestamp}
+								</div>
+								<div class="buttons" id="question-buttons">
+									#{secure.check 'user'}
+										#{ifnot question.hasBestAnswer}
+											#{if isvalid}
+												<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
+											#{/if}
+											#{if answer.author.email.equals(user.email)}
+												<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
+											#{/if}
+											#{if isvalid && abletochoose}
+												<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
+											#{/if}
+											#{if answer.best && isvalid}
+												This is the best answer!
+											#{/if}
+											<a class="button" href="@{Users.quote(answer.id)}">quote</a>
+										#{/ifnot}
+									#{/secure.check}
 								</div>
 							</div>
 							<div class="content" id="answer-content">
 					         	${answer.content.raw()}
 					    	</div>
-							<div class="metadata" id="answer-metadata">
+							<div class="attachment" id="question-attachment">
 								#{if answer.attachmentPath != null}
 									<a class="button" href="${answer.attachmentPath}"> attachment</a>
 								#{/if}
-							#{secure.check 'user'}
-								#{if isvalid}
-									<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
-								#{/if}
-								#{if answer.author.email.equals(user.email)}
-									<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
-								#{/if}
-								#{if isvalid && abletochoose}
-									<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
-								#{/if}
-								#{if answer.best && isvalid}
-									This is the best answer!
-								#{/if}
-									<a class="button" href="@{Users.quote(answer.id)}">quote</a>
-								
-							#{/secure.check}
-						</div>
+							</div>
 						#{if answer.comments.size()>0}
 							<div class="comments">
 								Comments to this answer:
 								#{list items: answer.comments, as:'comment'}
 									<div class="comment">
 										<div class="comment-author">
-											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname}</a>
+											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
 											<div class="comment-date">
 												${comment.timestamp}
 											</div>
@@ -155,8 +161,8 @@
 							</div>
 						#{/if}
 					</div>
-				</div>
-			#{/list}
+				#{/list}
+			</div>
 		#{/else}
 	</div>
 </div>

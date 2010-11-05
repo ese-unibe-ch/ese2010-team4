@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * A user with name and first-name. Question
@@ -54,8 +55,7 @@ public class User extends Model {
 	@Required
 	public boolean isAdmin;
 
-	@OneToMany
-	public List<Question> followQ;
+	public ArrayList<Question> followQ;
 	@OneToMany
 	public List<User> followU;
 
@@ -376,7 +376,7 @@ public class User extends Model {
 		return Post.find("author like ? order by timestamp desc", this).fetch();
 	}
 
-	public List<Post> followAcitvities() {
+	public List<Post> followAcitvities(int number) {
 		List<Post> activities = new ArrayList<Post>();
 
 		for (User user : this.followU) {
@@ -387,6 +387,22 @@ public class User extends Model {
 			}
 		}
 
+		for (Question question : this.followQ) {
+			List<Post> act2 = Post.find("post like ? order by timestamp desc",
+					question).fetch();
+			for (Post post : act2) {
+				activities.add(post);
+			}
+		}
+
+		PostActivityComperator comp = new PostActivityComperator();
+
+		Collections.sort(activities, comp);
+
+		while (activities.size() > number) {
+			activities.remove(activities.size() - 1);
+		}
+
 		return activities;
 
 	}
@@ -394,25 +410,22 @@ public class User extends Model {
 	/**
 	 * 
 	 * @return the points for the Reputation graph
-	 */
+	 **/
 	public List<ReputationPoint> getReputationPoints() {
 
 		return rating.totalRepPoint;
 
 	}
 
-	public ReputationPoint getReputationPoint() {
+	public ReputationPoint getReputationPoint(int i) {
 
-		System.out.println("counter: " + counter);
-		if (counter < this.getReputationPoints().size()) {
-			counter++;
-			return this.getReputationPoints().get(counter - 1);
+		if (i < this.getReputationPoints().size()) {
+
+			return this.getReputationPoints().get(i);
 		}
 
 		else if (this.getReputationPoints().size() > 0) {
-			if (counter >= 999) {
-				counter = 0;
-			}
+
 			return new ReputationPoint(
 					getReputationPoints().get(getReputationPoints().size() - 1).repvalue,
 					getReputationPoints().get(getReputationPoints().size() - 1).timestamp)
@@ -420,9 +433,7 @@ public class User extends Model {
 		}
 
 		else {
-			if (counter >= 999) {
-				counter = 0;
-			}
+
 			return new ReputationPoint(0, 0);
 		}
 	}
@@ -463,9 +474,10 @@ public class User extends Model {
 
 	public void quoteContent(String content, String quoted) {
 		// Deleting first <p> and last </p>
-		String qContent = content.substring(3, content.lastIndexOf("</p>") - 1);
+		// String qContent = content.substring(3, content.lastIndexOf("</p>") -
+		// 1);
 		quotedContent = "" + "\n\n\n\n\n<br><hr>" + "Quoted: " + quoted
-				+ "<br><em>" + "'" + qContent + "'</em><hr>";
+				+ "<br><em>" + "'" + content + "'</em><hr>";
 	}
 
 	public String getQuotedContent() {
