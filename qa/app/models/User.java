@@ -320,6 +320,11 @@ public class User extends Model {
 		this.save();
 	}
 
+	/**
+	 * 
+	 * @param o
+	 * @return true spectific object follows
+	 */
 	public boolean isFollowing(Object o) {
 		boolean follows = false;
 		if (o instanceof User) {
