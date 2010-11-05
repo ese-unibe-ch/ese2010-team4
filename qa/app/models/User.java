@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +17,6 @@ import javax.persistence.OneToOne;
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * A user with name and first-name. Question
@@ -459,11 +459,10 @@ public class User extends Model {
 		strbuffer.append(']');
 
 		/*
-		 * FileWriter fw = new
-		 * FileWriter("ese2010-team4/qa/app/views/Users/myProfile.json");
+		 * 
+		 * FileWriter fw = new FileWriter("qa/app/views/Users/myProfile.json");
 		 * BufferedWriter bw = new BufferedWriter(fw); PrintWriter file = new
 		 * PrintWriter(bw);
-		 * 
 		 * 
 		 * file.println(strbuffer.toString()); file.close();
 		 */
