@@ -4,15 +4,21 @@
 #{if lastActivity}
 	<h3>Newest activity:</h3>
    	<div class="form">
-		#{if lastActivity.checkInstance()}
+		#{if lastActivity.isQuestion()}
 			A new question was asked <a class="button" href = "@{Application.show(lastActivity.id)}">${lastActivity.getTitle()}</a> (${lastActivity.timestamp}).
 		#{/if}
-		#{else}
-			A new answer was added to a <a class="button" href = "@{Application.show(lastActivity.question.id)}">question</a> (${lastActivity.timestamp}).
-		#{/else}
+		#{if lastActivity.isAnswer()}
+			A new answer was added to a <a class="button" href = "@{Application.show(lastActivity.findQuestion().id)}">question</a> (${lastActivity.timestamp}).
+		#{/if}
+		#{if lastActivity.isCommentAnswer()}
+			A new comment was added to a answer from the <a class="button" href = "@{Application.show(lastActivity.post.findQuestion().id)}">question</a> ${lastActivity.post.findQuestion().title}  (${lastActivity.timestamp}).
+		#{/if}
+		#{if lastActivity.isCommentQuestion()}
+			A new comment was added to the <a class="button" href = "@{Application.show(lastActivity.post.id)}">question</a> ${lastActivity.post.title} (${lastActivity.timestamp}).
+		#{/if}
 	</div>
     
-	#{if questions.size() > 1}
+	#{if questions.size() > 0}
 		<div class="questions"> 
 			<h3>All questions on A4Q</h3>
 			

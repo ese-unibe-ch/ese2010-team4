@@ -10,7 +10,7 @@
                          ${answer.timestamp}
                     </span>
                     <div class="answer-content">
-        				<a href="@{Application.show(answer.question.id)}">${answer.content.raw()}</a>
+        				<a href="@{Application.show(answer.findQuestion().id)}">${answer.content.raw()}</a>
         			</div>
         			
         			<div>
@@ -22,7 +22,7 @@
 							<a class="button" href="${answer.attachmentPath}"> attachment</a>
 						#{/if}
 						</div>
-						#{if answer.question.author.hasTimeToChange(answer.question.id)}
+						#{if answer.findQuestion().author.hasTimeToChange(answer.findQuestion().id)}
 							#{form @Users.showEdit(answer.id, answer.historys.size()-1)}
 								<input type="submit" value="Edit"/>
 							#{/form}
@@ -31,7 +31,7 @@
 					</tr>
 					</table>
 					
-        			#{if !answer.question.author.hasTimeToChange(answer.question.id)}
+        			#{if !answer.findQuestion().author.hasTimeToChange(answer.findQuestion().id)}
         				The question for this answer is already closed!
         			#{/if}
         			

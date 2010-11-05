@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -57,8 +59,8 @@ public class User extends Model {
 	@Required
 	public boolean isAdmin;
 
-	@OneToMany
-	public List<Question> followQ;
+	
+	public ArrayList<Question> followQ;
 	@OneToMany
 	public List<User> followU;
 
@@ -379,7 +381,7 @@ public class User extends Model {
 		return Post.find("author like ? order by timestamp desc", this).fetch();
 	}
 
-	public List<Post> followAcitvities() {
+	public List<Post> followAcitvities(int number) {
 		List<Post> activities = new ArrayList<Post>();
 
 		for (User user : this.followU) {
@@ -389,6 +391,21 @@ public class User extends Model {
 				activities.add(post);
 			}
 		}
+		
+		for(Question question: this.followQ){
+			List<Post> act2 = Post.find("post like ? order by timestamp desc", question).fetch();
+			for(Post post: act2){
+				activities.add(post);
+			}
+		}
+		
+		PostActivityComperator comp = new PostActivityComperator();
+		
+		Collections.sort(activities, comp);
+		
+		while(activities.size()>number){
+			activities.remove(activities.size()-1);
+		}
 
 		return activities;
 
@@ -397,25 +414,23 @@ public class User extends Model {
 	/**
 	 * 
 	 * @return the points for the Reputation graph
-	 */
+	 **/
 	public List<ReputationPoint> getReputationPoints() {
 
 		return rating.totalRepPoint;
 
 	}
 
-	public ReputationPoint getReputationPoint() {
+	public ReputationPoint getReputationPoint(int i) {
 
-		System.out.println("counter: " + counter);
-		if (counter < this.getReputationPoints().size()) {
-			counter++;
-			return this.getReputationPoints().get(counter - 1);
+		
+		if (i < this.getReputationPoints().size()) {
+
+			return this.getReputationPoints().get(i);
 		}
 
 		else if (this.getReputationPoints().size() > 0) {
-			if (counter >= 999) {
-				counter = 0;
-			}
+
 			return new ReputationPoint(
 					getReputationPoints().get(getReputationPoints().size() - 1).repvalue,
 					getReputationPoints().get(getReputationPoints().size() - 1).timestamp)
@@ -423,9 +438,7 @@ public class User extends Model {
 		}
 
 		else {
-			if (counter >= 999) {
-				counter = 0;
-			}
+
 			return new ReputationPoint(0, 0);
 		}
 	}
@@ -449,13 +462,14 @@ public class User extends Model {
 
 		}
 		strbuffer.append(']');
-
+		
+		/*
 		FileWriter fw = new FileWriter("qa/app/views/Users/myProfile.json");
 		BufferedWriter bw = new BufferedWriter(fw);
 		PrintWriter file = new PrintWriter(bw);
 
 		file.println(strbuffer.toString());
-		file.close();
+		file.close();*/
 
 		return strbuffer.toString();
 

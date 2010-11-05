@@ -55,13 +55,52 @@
 	<h3>Activities</h3>
 			#{list items:activities, as:'activity'}
 				<div class="activity">
-					#{if activity.checkInstance()}
-						${activity.timestamp}, ${user.fullname} wrote a new <a href = "@{Application.show(activity.id)}">question</a>.
-					#{/if}
-					#{else}
-					 ${activity.timestamp}, ${user.fullname} wrote a answer to the  <a href = "@{Application.show(activity.question.id)}"> question</a> from ${activity.author.fullname}
-					#{/else}
+		#{if activity.isQuestion()}
+			A new question was asked <a class="button" href = "@{Application.show(activity.id)}">${activity.getTitle()}</a> (${activity.timestamp}).
+		#{/if}
+		#{if activity.isAnswer()}
+			A new answer was added to a <a class="button" href = "@{Application.show(activity.findQuestion().id)}">question</a> (${activity.timestamp}).
+		#{/if}
+		#{if activity.isCommentAnswer()}
+			A new comment was added to a answer from the <a class="button" href = "@{Application.show(activity.post.findQuestion().id)}">question</a> ${activity.post.findQuestion().title}  (${activity.timestamp}).
+		#{/if}
+		#{if activity.isCommentQuestion()}
+			A new comment was added to the <a class="button" href = "@{Application.show(activity.post.id)}">question</a> ${activity.post.title} (${activity.timestamp}).
+		#{/if}
 				</div>
      #{/list}
+     
+    	<h3>Reputation Graph</h3>
+
+	<div id="graph">
+		<div id="graphcanvas" style="width:600px;height:300px"></div>
+	</div>
+
+<script id="source" language="javascript" type="text/javascript">
+$(function () {
+    var d1 = [];
+	
+	d1.push([${user.getReputationPoint(0).timestamp}, ${user.getReputationPoint(0).repvalue}]);
+   	d1.push([${user.getReputationPoint(1).timestamp}, ${user.getReputationPoint(1).repvalue}]);
+   	d1.push([${user.getReputationPoint(2).timestamp}, ${user.getReputationPoint(2).repvalue}]);
+   	d1.push([${user.getReputationPoint(3).timestamp}, ${user.getReputationPoint(3).repvalue}]);
+   	d1.push([${user.getReputationPoint(4).timestamp}, ${user.getReputationPoint(4).repvalue}]);
+   	d1.push([${user.getReputationPoint(5).timestamp}, ${user.getReputationPoint(5).repvalue}]);
+   	d1.push([${user.getReputationPoint(6).timestamp}, ${user.getReputationPoint(6).repvalue}]);
+   	d1.push([${user.getReputationPoint(7).timestamp}, ${user.getReputationPoint(7).repvalue}]);
+   	d1.push([${user.getReputationPoint(8).timestamp}, ${user.getReputationPoint(8).repvalue}]);
+   	d1.push([${user.getReputationPoint(9).timestamp}, ${user.getReputationPoint(9).repvalue}]);
+   	d1.push([${user.getReputationPoint(10).timestamp}, ${user.getReputationPoint(10).repvalue}]);
+   	d1.push([${user.getReputationPoint(11).timestamp}, ${user.getReputationPoint(11).repvalue}]);
+   	d1.push([${user.getReputationPoint(12).timestamp}, ${user.getReputationPoint(12).repvalue}]);
+   	d1.push([${user.getReputationPoint(13).timestamp}, ${user.getReputationPoint(13).repvalue}]);
+   	d1.push([${user.getReputationPoint(14).timestamp}, ${user.getReputationPoint(14).repvalue}]);
+   	d1.push([${user.getReputationPoint(15).timestamp}, ${user.getReputationPoint(15).repvalue}]);
+   	d1.push([${user.getReputationPoint(16).timestamp}, ${user.getReputationPoint(16).repvalue}]);
+   	d1.push([${user.getReputationPoint(17).timestamp}, ${user.getReputationPoint(17).repvalue}]);
+    
+    $.plot($("#graphcanvas"), [ d1]);
+});
+</script>
 </div>
 #{/ secure.check}
