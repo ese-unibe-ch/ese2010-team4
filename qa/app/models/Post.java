@@ -173,45 +173,64 @@ public abstract class Post extends Model {
 				.bind("tags", tags).fetch();
 	}
 
+	public List<Post> similarPosts(Set<Tag> tags, Long id) {
+		Question question = Question.findById(id);
+		Iterator<Tag> iterator = tags.iterator();
+		List<Post> list = new ArrayList<Post>();
+
+		list.addAll(findTaggedWith(iterator.next().name));
+		if (!list.isEmpty()) {
+			while (iterator.hasNext()) {
+				for (Post post : list) {
+					Tag tag = iterator.next();
+					if (!post.tags.contains(tag)) {
+						list.remove(post);
+					}
+				}
+			}
+		}
+		return list;
+	}
+
 	public boolean checkInstance() {
 		return this instanceof Question;
 	}
-	
-	public boolean isQuestion(){
+
+	public boolean isQuestion() {
 		return this instanceof Question;
 	}
-	
-	public boolean isAnswer(){
+
+	public boolean isAnswer() {
 		return this instanceof Answer;
 	}
-	
-	public boolean isCommentAnswer(){
-		if(this instanceof Comment){
-			if(((Comment)this).post instanceof Answer){
+
+	public boolean isCommentAnswer() {
+		if (this instanceof Comment) {
+			if (((Comment) this).post instanceof Answer) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public boolean isCommentQuestion(){
-		if(this instanceof Comment){
-			if(((Comment)this).post instanceof Question){
+
+	public boolean isCommentQuestion() {
+		if (this instanceof Comment) {
+			if (((Comment) this).post instanceof Question) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Question findQuestion(){
-		if(this.isQuestion())
-			return (Question)this;
-		if(this.isAnswer())
-			return ((Answer)this).question;
-		if(this.isCommentAnswer())
-			return ((Answer)((Comment)this).post).question;
+
+	public Question findQuestion() {
+		if (this.isQuestion())
+			return (Question) this;
+		if (this.isAnswer())
+			return ((Answer) this).question;
+		if (this.isCommentAnswer())
+			return ((Answer) ((Comment) this).post).question;
 		else
-			return (Question)((Comment)this).post;
+			return (Question) ((Comment) this).post;
 	}
 
 }
