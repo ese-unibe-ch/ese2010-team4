@@ -156,15 +156,11 @@ public abstract class Post extends Model {
 	}
 
 	public Post tagItWith(String name) {
-		tags.add(Tag.findOrCreateByName(name));
+		if (!(name.equals("") || name.isEmpty() || name.equals(null))) {
+			tags.add(Tag.findOrCreateByName(name));
+		}
 		return this;
 	}
-
-	/**
-	 * public static List<Post> findTaggedWith(String tag) { return Post .find(
-	 * "select distinct p from Post p join p.tags as t where t.name = ?",
-	 * tag).fetch(); }
-	 */
 
 	public static List<Post> findTaggedWith(String... tags) {
 		return Question
@@ -173,22 +169,17 @@ public abstract class Post extends Model {
 				.bind("tags", tags).fetch();
 	}
 
-	public List<Post> similarPosts(Set<Tag> tags, Long id) {
-		Question question = Question.findById(id);
-		Iterator<Tag> iterator = tags.iterator();
+	public List<Post> similarPosts() {
 		List<Post> list = new ArrayList<Post>();
+		Iterator<Tag> iterator = tags.iterator();
 
-		list.addAll(findTaggedWith(iterator.next().name));
-		if (!list.isEmpty()) {
-			while (iterator.hasNext()) {
-				for (Post post : list) {
-					Tag tag = iterator.next();
-					if (!post.tags.contains(tag)) {
-						list.remove(post);
-					}
-				}
+		if (!this.tags.isEmpty()) {
+			for (Tag tag : tags) {
+				list.addAll(findTaggedWith(tag.name));
 			}
 		}
+
+		list.remove(this);
 		return list;
 	}
 
