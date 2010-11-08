@@ -156,21 +156,31 @@ public abstract class Post extends Model {
 	}
 
 	public Post tagItWith(String name) {
-		tags.add(Tag.findOrCreateByName(name));
+		if (!(name.equals("") || name.isEmpty() || name.equals(null))) {
+			tags.add(Tag.findOrCreateByName(name));
+		}
 		return this;
 	}
-
-	/**
-	 * public static List<Post> findTaggedWith(String tag) { return Post .find(
-	 * "select distinct p from Post p join p.tags as t where t.name = ?",
-	 * tag).fetch(); }
-	 */
 
 	public static List<Post> findTaggedWith(String... tags) {
 		return Question
 				.find(
 						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
+	}
+
+	public List<Post> similarPosts() {
+		List<Post> list = new ArrayList<Post>();
+		Iterator<Tag> iterator = tags.iterator();
+
+		if (!this.tags.isEmpty()) {
+			for (Tag tag : tags) {
+				list.addAll(findTaggedWith(tag.name));
+			}
+		}
+
+		list.remove(this);
+		return list;
 	}
 
 	public boolean checkInstance() {

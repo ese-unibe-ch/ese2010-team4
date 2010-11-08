@@ -38,6 +38,22 @@
 						<div class="question-content">
 							${question.content.raw()}
 						</div>
+						
+						#{ifnot question.tags.isEmpty()}
+							<div class question-tag>
+								#{list items:question.tags, as:'tag'}
+			   						<a class="button" href="@{Application.tagged(tag)}">${tag}</a>
+								#{/list}
+							</div>
+						
+							<div class similar-question>
+								this questions have the same tags:
+								#{list items:question.similarPosts(), as:'tagged'}
+									<a href="@{Application.show(tagged.id)}">${tagged.getTitle()}</a>${tagged_isLast ? '' : ', '}	
+								#{/list}
+							</div>
+						#{/ifnot}
+						
 						<div class="question-answer">
 							#{ifnot question.answers.isEmpty()}
 								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})

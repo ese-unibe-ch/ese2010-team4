@@ -126,11 +126,13 @@ public class Users extends Controller {
 		User user = User.find("byFullname", author).first();
 		Question question = user.addQuestion(title, content).save();
 
-		String[] separetedTags = tags.split(",");
-		for (String tag : separetedTags) {
-			question.tagItWith(tag);
+		if (!(tags.equals("") || tags.isEmpty() || tags.equals(null))) {
+			String[] separetedTags = tags.split(",");
+			for (String tag : separetedTags) {
+				question.tagItWith(tag);
+			}
+			question.save();
 		}
-		question.save();
 
 		if (attachment != null) {
 			question.attachmentPath = uploader.upload(attachment,
