@@ -176,42 +176,42 @@ public abstract class Post extends Model {
 	public boolean checkInstance() {
 		return this instanceof Question;
 	}
-	
-	public boolean isQuestion(){
+
+	public boolean isQuestion() {
 		return this instanceof Question;
 	}
-	
-	public boolean isAnswer(){
+
+	public boolean isAnswer() {
 		return this instanceof Answer;
 	}
-	
-	public boolean isCommentAnswer(){
-		if(this instanceof Comment){
-			if(((Comment)this).post instanceof Answer){
+
+	public boolean isCommentAnswer() {
+		if (this instanceof Comment) {
+			if (((Comment) this).post instanceof Answer) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public boolean isCommentQuestion(){
-		if(this instanceof Comment){
-			if(((Comment)this).post instanceof Question){
+
+	public boolean isCommentQuestion() {
+		if (this instanceof Comment) {
+			if (((Comment) this).post instanceof Question) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Question findQuestion(){
-		if(this.isQuestion())
-			return (Question)this;
-		if(this.isAnswer())
-			return ((Answer)this).question;
-		if(this.isCommentAnswer())
-			return ((Answer)((Comment)this).post).question;
+
+	public Question findQuestion() {
+		if (this.isQuestion())
+			return (Question) this;
+		if (this.isAnswer())
+			return ((Answer) this).question;
+		if (this.isCommentAnswer())
+			return ((Answer) ((Comment) this).post).question;
 		else
-			return (Question)((Comment)this).post;
+			return (Question) ((Comment) this).post;
 	}
 
 }
