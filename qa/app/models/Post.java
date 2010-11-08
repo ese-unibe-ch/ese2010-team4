@@ -72,7 +72,7 @@ public abstract class Post extends Model {
 		this.tags = new TreeSet<Tag>();
 		this.author = author;
 		this.content = content;
-		this.timestamp = new Date(System.currentTimeMillis());
+		this.timestamp = new Date();
 		this.voting = 0;
 	}
 
@@ -156,15 +156,11 @@ public abstract class Post extends Model {
 	}
 
 	public Post tagItWith(String name) {
-		tags.add(Tag.findOrCreateByName(name));
+		if (!(name.equals("") || name.isEmpty() || name.equals(null))) {
+			tags.add(Tag.findOrCreateByName(name));
+		}
 		return this;
 	}
-
-	/**
-	 * public static List<Post> findTaggedWith(String tag) { return Post .find(
-	 * "select distinct p from Post p join p.tags as t where t.name = ?",
-	 * tag).fetch(); }
-	 */
 
 	public static List<Post> findTaggedWith(String... tags) {
 		return Question
@@ -173,45 +169,66 @@ public abstract class Post extends Model {
 				.bind("tags", tags).fetch();
 	}
 
+	public List<Post> similarPosts() {
+		List<Post> list = new ArrayList<Post>();
+		Iterator<Tag> iterator = tags.iterator();
+
+		if (!this.tags.isEmpty()) {
+			for (Tag tag : tags) {
+				list.addAll(findTaggedWith(tag.name));
+			}
+		}
+
+		list.remove(this);
+		return list;
+	}
+
 	public boolean checkInstance() {
 		return this instanceof Question;
 	}
-	
-	public boolean isQuestion(){
+
+	public boolean isQuestion() {
 		return this instanceof Question;
 	}
-	
-	public boolean isAnswer(){
+
+	public boolean isAnswer() {
 		return this instanceof Answer;
 	}
-	
-	public boolean isCommentAnswer(){
-		if(this instanceof Comment){
-			if(((Comment)this).post instanceof Answer){
+
+	public boolean isCommentAnswer() {
+		if (this instanceof Comment) {
+			if (((Comment) this).post instanceof Answer) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public boolean isCommentQuestion(){
-		if(this instanceof Comment){
-			if(((Comment)this).post instanceof Question){
+
+	public boolean isCommentQuestion() {
+		if (this instanceof Comment) {
+			if (((Comment) this).post instanceof Question) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Question findQuestion(){
-		if(this.isQuestion())
-			return (Question)this;
-		if(this.isAnswer())
-			return ((Answer)this).question;
-		if(this.isCommentAnswer())
-			return ((Answer)((Comment)this).post).question;
+
+	public Question findQuestion() {
+		if (this.isQuestion())
+			return (Question) this;
+		if (this.isAnswer())
+			return ((Answer) this).question;
+		if (this.isCommentAnswer())
+			return ((Answer) ((Comment) this).post).question;
 		else
-			return (Question)((Comment)this).post;
+			return (Question) ((Comment) this).post;
+	}
+	
+
+	@SuppressWarnings("deprecation")
+	public String getDate(){
+		return this.timestamp.toLocaleString();
+		
 	}
 
 }

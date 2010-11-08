@@ -11,7 +11,6 @@ $(function () {
 
 function loadGraph() {
 	
-	alert(self.location);
 	jQuery.getJSON( "/home/juerg/workspaces/ese2010-team4/qa/app/views/Users/myProfile.json" , displayGraph);
 }
 
@@ -19,7 +18,6 @@ function loadGraph() {
 function displayGraph(data, status) {
 	var points = [];
 		
-	alert("geht auch hier durch");	
 	for(i in data) {
 		
 		points.push([data[i].time, data[i].value]);

@@ -100,16 +100,16 @@
 	#{list items:activities, as:'activity'}
 			<div class="activity">
 		#{if activity.isQuestion()}
-			A new question was asked <a class="button" href = "@{Application.show(activity.id)}">${activity.getTitle()}</a> (${activity.timestamp}).
+			A new question was asked <a class="button" href = "@{Application.show(activity.id)}">${activity.getTitle()}</a> (${activity.getDate()}).
 		#{/if}
 		#{if activity.isAnswer()}
-			A new answer was added to a <a class="button" href = "@{Application.show(activity.findQuestion().id)}">question</a> (${activity.timestamp}).
+			A new answer was added to a <a class="button" href = "@{Application.show(activity.findQuestion().id)}">question</a> (${activity.getDate()}).
 		#{/if}
 		#{if activity.isCommentAnswer()}
-			A new comment was added to a answer from the <a class="button" href = "@{Application.show(activity.post.findQuestion().id)}">question</a> ${activity.post.findQuestion().title}  (${activity.timestamp}).
+			A new comment was added to a answer from the <a class="button" href = "@{Application.show(activity.post.findQuestion().id)}">question</a> ${activity.post.findQuestion().title}  (${activity.getDate()}).
 		#{/if}
 		#{if activity.isCommentQuestion()}
-			A new comment was added to the <a class="button" href = "@{Application.show(activity.post.id)}">question</a> ${activity.post.title} (${activity.timestamp}).
+			A new comment was added to the <a class="button" href = "@{Application.show(activity.post.id)}">question</a> ${activity.post.title} (${activity.getDate()}).
 		#{/if}
 			</div>
      #{/list}
