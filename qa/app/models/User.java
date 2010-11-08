@@ -54,8 +54,9 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-
-	public ArrayList<Question> followQ;
+	
+	@OneToMany
+	public List<Question> followQ;
 	@OneToMany
 	public List<User> followU;
 
