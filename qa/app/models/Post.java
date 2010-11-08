@@ -72,7 +72,7 @@ public abstract class Post extends Model {
 		this.tags = new TreeSet<Tag>();
 		this.author = author;
 		this.content = content;
-		this.timestamp = new Date(System.currentTimeMillis());
+		this.timestamp = new Date();
 		this.voting = 0;
 	}
 
@@ -222,6 +222,13 @@ public abstract class Post extends Model {
 			return ((Answer) ((Comment) this).post).question;
 		else
 			return (Question) ((Comment) this).post;
+	}
+	
+
+	@SuppressWarnings("deprecation")
+	public String getDate(){
+		return this.timestamp.toLocaleString();
+		
 	}
 
 }

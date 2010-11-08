@@ -21,7 +21,7 @@
 			<div id="userImg"> <img src="${question.author.avatarPath}" width="62" height="62"/></div>
 			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
 			<div class="question-date">
-				${question.timestamp}
+				${question.getDate()}
 			</div>
 			<div class="buttons" id="question-buttons">
 				#{secure.check 'user'}
@@ -71,7 +71,7 @@
 							<div class="comment-author">
 								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
 								<div class="comment-date">
-									${comment.timestamp}
+									${comment.getDate()}
 								</div>
 							</div>
 							<div class="comment-content">
@@ -115,7 +115,7 @@
 								<div class="avatar"> <img src="${answer.author.avatarPath}" width="62" height="62"/></div>
 								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname} (${answer.author.rating})</a>
 								<div class="answer-date">
-									${answer.timestamp}
+									${answer.getDate()}
 								</div>
 								<div class="buttons" id="question-buttons">
 									#{secure.check 'user'}
@@ -156,7 +156,7 @@
 										<div class="comment-author">
 											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
 											<div class="comment-date">
-												${comment.timestamp}
+												${comment.getDate()}
 											</div>
 										</div>
 										<div class="comment-content">
