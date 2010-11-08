@@ -52,7 +52,7 @@ html, body {
 
 #userImg {
 	float: right;
-	margin: 0px 0px 10px 10px;
+	margin: 0px 0px 0px 10px;
 }
 
 #userProfile {
@@ -120,11 +120,11 @@ a {
 .question-author {
 	float: right;
 	text-align: right;
-	padding: 0px 0px 20px 0px;
 }
 
 .question .content {
-	margin: 5px 0px 5px 0px;
+	margin: 10px 0px 10px 0px;
+	clear: right;
 }
 
 .question .metadata {
@@ -328,8 +328,8 @@ textarea {
 	text-align: left;
 	font-size: 12px;
 	float: right;
-	max-width: 350px;
-	max-height: 50px;	
+	max-width: 200px;/*quickfix*/
+	max-height: 150px;/*quickfix*/	
 	background: #69F;
 	margin: 20px 20px 0px 20px;
 	padding: 10px 10px 10px 10px;
