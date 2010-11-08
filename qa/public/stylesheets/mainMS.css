@@ -52,7 +52,7 @@ html, body {
 
 #userImg {
 	float: right;
-	margin: 0px 0px 10px 10px;
+	margin: 0px 0px 0px 10px;
 }
 
 #userProfile {
@@ -120,11 +120,11 @@ a {
 .question-author {
 	float: right;
 	text-align: right;
-	padding: 0px 0px 20px 0px;
 }
 
 .question .content {
-	margin: 5px 0px 5px 0px;
+	margin: 10px 0px 10px 0px;
+	clear: right;
 }
 
 .question .metadata {
