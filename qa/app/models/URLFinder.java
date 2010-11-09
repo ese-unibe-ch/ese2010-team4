@@ -30,7 +30,8 @@ public class URLFinder {
 		return checkedContent;
 	}
 
-	private static void findAllURLS(String content) {
+	@ForTestingOnly
+	public static void findAllURLS(String content) {
 		Matcher m = pattern.matcher(content);
 		while (m.find()) {
 			String substring = content.substring(m.start(), m.end());
@@ -39,7 +40,8 @@ public class URLFinder {
 		}
 	}
 
-	private static String shortenURL(String url) {
+	@ForTestingOnly
+	public static String shortenURL(String url) {
 		if (url.length() < 30)
 			return url;
 		else {
@@ -47,19 +49,32 @@ public class URLFinder {
 		}
 	}
 
-	private static void replaceAllURLS(String content) {
+	@ForTestingOnly
+	public static void replaceAllURLS(String content) {
 		checkedContent = content;
 		for (String key : URLMap.keySet()) {
 			checkedContent = checkedContent.replace(key, URLMap.get(key));
 		}
+		URLMap.clear();
 	}
 
-	private static void replaceAllURLSWithHTML(String content) {
+	@ForTestingOnly
+	public static void replaceAllURLSWithHTML(String content) {
 		checkedContent = content;
 		for (String key : URLMap.keySet()) {
 			checkedContent = checkedContent.replace(key, "<a href=" + key
-					+ "target=\"_blank\" title= \"" + key + "\">"
+					+ " target=\"_blank\" title= \"" + key + "\">"
 					+ URLMap.get(key) + "</a>");
 		}
+		URLMap.clear();
 	}
+
+	public static HashMap getURLMap() {
+		return URLMap;
+	}
+
+	public static String getCheckedContent() {
+		return checkedContent;
+	}
+
 }
