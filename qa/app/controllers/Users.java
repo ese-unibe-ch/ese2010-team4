@@ -290,16 +290,16 @@ public class Users extends Controller {
 
 	public static void showProfile(Long authorid) throws IOException {
 
-		User user = User.findById(authorid);
-		List<ReputationPoint> points = user.getReputationPoints();
-		List<Post> activities = user.activities();
+		User userToShow = User.findById(authorid);
+		List<ReputationPoint> points = userToShow.getReputationPoints();
+		List<Post> activities = userToShow.activities();
 
-		if (user.email.equals(Security.connected())) {
-			myProfile(user.id);
+		if (userToShow.email.equals(Security.connected())) {
+			myProfile(userToShow.id);
 		}
 
 		else {
-			render(user, activities);
+			render(userToShow, activities);
 		}
 
 	}

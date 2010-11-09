@@ -5,50 +5,50 @@
 
 <div id="userProfile">
 	<div id="userImg">
-    	<img src="${user.avatarPath}" width="62" height="62"/>
+    	<img src="${userToShow.avatarPath}" width="62" height="62"/>
 	</div>
 	
-	<h3>You are on ${user.fullname}'s profile, <a href="@{Users.followUser(user.id)}">follow him</a></h3>
+	<h3>You are on ${userToShow.fullname}'s profile, <a href="@{Users.followUser(userToShow.id)}">follow him</a></h3>
 	
 	<div>
 		<label for="author">Fullname: </label>
    	 	<div class="userInfo"> 
-    		${user.fullname}
+    		${userToShow.fullname}
 		</div>		
 		
 		<label for="author">Email: </label>
 		<div class="userInfo">
-			${user.email}
+			${userToShow.email}
    		</div>
    	
    		<label for="author">Birthday: </label>
    		<div class="userInfo">
-			${user.getBirthday()}
+			${userToShow.getBirthday()}
     	</div>
     	
     	<label for="author">Age: </label>
     	<div class="userInfo">
-    		${user.calculateAge()}
+    		${userToShow.calculateAge()}
 		</div>
 		
 		<label for="author">Website: </label>
 		<div class="userInfo">
-			${user.website}
+			${userToShow.website}
 		</div>
 		
 		<label for="author">Work: </label>
     	<div class="userInfo">	
-			${user.work}	
+			${userToShow.work}	
    	 	</div>
    	 	
 		<label for="author">Programming Languages: </label>
 		<div class="userInfo">
-			${user.favoriteLanguages}
+			${userToShow.favoriteLanguages}
 		</div>
 		
 		<label for="aboutMe">About Me: </label>
 		<div class="userInfo">
-			${user.aboutMe}
+			${userToShow.aboutMe}
 		</div>
 	</div>
 	
@@ -80,24 +80,24 @@
 $(function () {
     var d1 = [];
 	
-	d1.push([${user.getReputationPoint(0).timestamp}, ${user.getReputationPoint(0).repvalue}]);
-   	d1.push([${user.getReputationPoint(1).timestamp}, ${user.getReputationPoint(1).repvalue}]);
-   	d1.push([${user.getReputationPoint(2).timestamp}, ${user.getReputationPoint(2).repvalue}]);
-   	d1.push([${user.getReputationPoint(3).timestamp}, ${user.getReputationPoint(3).repvalue}]);
-   	d1.push([${user.getReputationPoint(4).timestamp}, ${user.getReputationPoint(4).repvalue}]);
-   	d1.push([${user.getReputationPoint(5).timestamp}, ${user.getReputationPoint(5).repvalue}]);
-   	d1.push([${user.getReputationPoint(6).timestamp}, ${user.getReputationPoint(6).repvalue}]);
-   	d1.push([${user.getReputationPoint(7).timestamp}, ${user.getReputationPoint(7).repvalue}]);
-   	d1.push([${user.getReputationPoint(8).timestamp}, ${user.getReputationPoint(8).repvalue}]);
-   	d1.push([${user.getReputationPoint(9).timestamp}, ${user.getReputationPoint(9).repvalue}]);
-   	d1.push([${user.getReputationPoint(10).timestamp}, ${user.getReputationPoint(10).repvalue}]);
-   	d1.push([${user.getReputationPoint(11).timestamp}, ${user.getReputationPoint(11).repvalue}]);
-   	d1.push([${user.getReputationPoint(12).timestamp}, ${user.getReputationPoint(12).repvalue}]);
-   	d1.push([${user.getReputationPoint(13).timestamp}, ${user.getReputationPoint(13).repvalue}]);
-   	d1.push([${user.getReputationPoint(14).timestamp}, ${user.getReputationPoint(14).repvalue}]);
-   	d1.push([${user.getReputationPoint(15).timestamp}, ${user.getReputationPoint(15).repvalue}]);
-   	d1.push([${user.getReputationPoint(16).timestamp}, ${user.getReputationPoint(16).repvalue}]);
-   	d1.push([${user.getReputationPoint(17).timestamp}, ${user.getReputationPoint(17).repvalue}]);
+	d1.push([${userToShow.getReputationPoint(0).timestamp}, ${userToShow.getReputationPoint(0).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(1).timestamp}, ${userToShow.getReputationPoint(1).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(2).timestamp}, ${userToShow.getReputationPoint(2).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(3).timestamp}, ${userToShow.getReputationPoint(3).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(4).timestamp}, ${userToShow.getReputationPoint(4).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(5).timestamp}, ${userToShow.getReputationPoint(5).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(6).timestamp}, ${userToShow.getReputationPoint(6).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(7).timestamp}, ${userToShow.getReputationPoint(7).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(8).timestamp}, ${userToShow.getReputationPoint(8).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(9).timestamp}, ${userToShow.getReputationPoint(9).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(10).timestamp}, ${userToShow.getReputationPoint(10).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(11).timestamp}, ${userToShow.getReputationPoint(11).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(12).timestamp}, ${userToShow.getReputationPoint(12).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(13).timestamp}, ${userToShow.getReputationPoint(13).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(14).timestamp}, ${userToShow.getReputationPoint(14).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(15).timestamp}, ${userToShow.getReputationPoint(15).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(16).timestamp}, ${userToShow.getReputationPoint(16).repvalue}]);
+   	d1.push([${userToShow.getReputationPoint(17).timestamp}, ${userToShow.getReputationPoint(17).repvalue}]);
     
     $.plot($("#graphcanvas"), [ d1]);
 });
