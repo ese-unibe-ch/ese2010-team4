@@ -6,17 +6,15 @@ import java.util.regex.Pattern;
 
 public class URLFinder {
 
-	private static String checkedContent, originalContent;
+	private static String checkedContent;
 	private static HashMap<String, String> URLMap = new HashMap();
 	static Pattern pattern = Pattern
 			.compile("(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 
 	public static String check(String content) {
-		originalContent = content;
-		findAllURLS(originalContent);
-		replaceAllURLS(originalContent);
-		System.out.println(checkedContent);
-		return originalContent;
+		findAllURLS(content);
+		replaceAllURLSWithHTML(content);
+		return checkedContent;
 	}
 
 	private static void findAllURLS(String content) {
@@ -26,7 +24,6 @@ public class URLFinder {
 			String shortURL = shortenURL(substring);
 			URLMap.put(substring, shortURL);
 		}
-		System.out.println(URLMap);
 	}
 
 	private static String shortenURL(String url) {
@@ -38,9 +35,18 @@ public class URLFinder {
 	}
 
 	private static void replaceAllURLS(String content) {
+		checkedContent = content;
 		for (String key : URLMap.keySet()) {
-			originalContent = originalContent.replace(key, URLMap.get(key));
+			checkedContent = checkedContent.replace(key, URLMap.get(key));
 		}
+	}
 
+	private static void replaceAllURLSWithHTML(String content) {
+		checkedContent = content;
+		for (String key : URLMap.keySet()) {
+			checkedContent = checkedContent.replace(key, "<a href=" + key
+					+ "target=\"_blank\" title= \"" + key + "\">"
+					+ URLMap.get(key) + "</a>");
+		}
 	}
 }
