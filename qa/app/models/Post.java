@@ -71,7 +71,7 @@ public abstract class Post extends Model {
 		this.comments = new ArrayList<Comment>();
 		this.tags = new TreeSet<Tag>();
 		this.author = author;
-		this.content = content;
+		this.content = URLFinder.check(content);
 		this.timestamp = new Date();
 		this.voting = 0;
 	}
@@ -223,12 +223,11 @@ public abstract class Post extends Model {
 		else
 			return (Question) ((Comment) this).post;
 	}
-	
 
 	@SuppressWarnings("deprecation")
-	public String getDate(){
+	public String getDate() {
 		return this.timestamp.toLocaleString();
-		
+
 	}
 
 }
