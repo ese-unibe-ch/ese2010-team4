@@ -9,6 +9,12 @@ import java.util.ArrayList;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * "Simple" Fileuploader with Exception handling and sizeChecking
+ * 
+ * @author d3orn
+ * 
+ */
 public class Uploader {
 
 	private String uploadPath;
