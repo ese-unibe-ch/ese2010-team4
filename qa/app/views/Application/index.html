@@ -22,12 +22,7 @@
 							#{/if}
 						#{/secure.check}
 					</div>
-					<div class="question-author">
-						<div id="userImg"> <img src="${question.author.avatarPath}" width="62" height="62"/></div>
-						<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
-						<div class="question-date">
-							${question.getDate()}
-						</div>
+					<div id="question-author" class="author">
 						<div class="buttons" id="question-buttons">
 							#{secure.check 'user'}
 								#{ifnot question.hasBestAnswer}
@@ -46,6 +41,11 @@
 								#{/ifnot}
 							#{/secure.check}
 						</div>
+						<div class="question-date">
+							${question.getDate()}
+						</div>
+						<div id="userImg"> <img src="${question.author.avatarPath}" width="62" height="62"/></div>
+						<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
 					</div>
 					<div class="question-main">
 						<div class="question-title">
