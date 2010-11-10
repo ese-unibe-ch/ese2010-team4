@@ -127,13 +127,16 @@ a {
     -moz-border-radius: 16px;
 }
 
-.question-author {
+.question .author {
 	float: right;
 	text-align: right;
+	margin: 0px 0px 10px 0px;
 }
 
 .question .content {
+	background: #FFF;
 	margin: 10px 0px 10px 0px;
+	padding: 5px;
 	clear: right;
 }
 
@@ -150,6 +153,21 @@ a {
 	background: #090;
 	padding: 0px 10px 0px 10px;
 	margin: 0px 0px 0px 4px;
+}
+
+/** Text **/
+.question p{
+	margin: 5px 0;
+}
+
+.question strong{
+	font-weight: bold;
+}
+
+.question blockquote {
+	background: #EDEDED;
+	padding: 10px;
+	margin: 10px;
 }
 
 /** Tags **/
@@ -184,7 +202,7 @@ a {
 
 /** Answer **/
 .answers {
-	padding: 20px 0px 0px 0px;
+	padding: 0;
 }
 
 .answer {
@@ -195,11 +213,6 @@ a {
 	overflow: hidden;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
-}
-
-.answer-author {
-	float: right;
-	text-align: right;
 }
 
 /** Comments **/
