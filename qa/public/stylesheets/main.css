@@ -9,7 +9,7 @@ html, body {
 }
 
 #main {
-	width: 1100px;
+	width: 1150px;
     height: 100%;
 	padding: 0;
     margin: 0 auto;
@@ -43,9 +43,9 @@ html, body {
 #user {
 	background: #69F;
 	float: right;
-	padding: 10px 10px 10px 10px;
+	padding: 10px;
     margin: 20px;
-	width: 200px;
+	width: 250px;
 	-webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
@@ -69,6 +69,16 @@ html, body {
     margin: 10px 0px 10px 0px;	
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
+}
+
+#userActivity {
+	background: #9CF;
+	padding: 10px;
+    margin: 20px;
+	width: 250px;
+	-webkit-border-radius: 16px;
+    -moz-border-radius: 16px;	
+	
 }
 
 /** Search **/
@@ -325,14 +335,14 @@ textarea {
 
 /** Login **/
 #mainLogin {
-	text-align: left;
+	text-align: center;
 	font-size: 12px;
 	float: right;
-	max-width: 200px;/*quickfix*/
-	max-height: 150px;/*quickfix*/	
+	width: 250px;
+	max-height: 100px;
 	background: #69F;
-	margin: 20px 20px 0px 20px;
-	padding: 10px 10px 10px 10px;
+	margin: 20px;
+	padding: 10px;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
