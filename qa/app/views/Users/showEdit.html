@@ -4,88 +4,91 @@
 #{stylesheet 'jquery-ui-1.8.6.custom.css' /}
 #{script 'jquery-ui-1.8.6.custom.min.js' /}
 
-<div class="editing">
-#{form @Users.editPost(post.id)}
-
-	#{ifErrors}
-    	<p class="error">
-    		@{Users.myQuestions()}
-    	</p>
- 	#{/ifErrors}
-
-	<p>
-	<div class="textarea">
-		#{field 'content'}
-			<label for="content"></label>
-			<textarea name="${field.name}">${post.historys.get(editionIndex).content}</textarea>
-		#{/field}	
-	</div>
-	
-	<p>
-	<table>
-	<tr>
-		<td>
-			<input type="submit" value="Edit"/>
-		</td>
+<div class="form" id="questionForm">
+	#{form @Users.editPost(post.id)}
+		<table style="padding-left: 60px">
+			
+			#{ifErrors}
+    			<p class="error">
+    				@{Users.myQuestions()}
+    			</p>
+ 			#{/ifErrors}
+ 			
+		<div class="textarea">
+			#{field 'content'}
+				<label for="content"></label>
+				<textarea name="${field.name}">${post.historys.get(editionIndex).content}</textarea>
+			#{/field}	
+		</div>
+		<tr>
 		
-#{/form}
-
-		<td>
-		#{form @Users.deletePost(post.id)}
-			<input type="submit" value="Delete"/>
-		#{/form}
-		</td>
-
-		<td>
-		#{form @Users.previousEdition(post.id, editionIndex)}
-			<input type="submit" value="<<"/>
-		#{/form}
-		</td>
+			<td><input type="submit" value="save edits"/></td>
 		
-		<td>
-		#{form @Users.nextEdition(post.id, editionIndex)}
-			<input type="submit" value=">>"/>
-		#{/form}
-		</td>
-	</tr>
-	</table>
-	<br>
-
-#{form @Users.tagQuestion(post.id)}
-
-	#{ifErrors}
-    	<p class="error">
-    	@{Users.myQuestions()}
-    	</p>
- 	#{/ifErrors}
+	#{/form}
 	
-	#{field 'name'}
-		<label for="tag">tag your question:</label>
-		<input type="text" name="name" id="name"/>
-	#{/field}
+			<td>
+				#{form @Users.deletePost(post.id)}
+					<input type="submit" value="delete post"/>
+				#{/form}
+			</td>
+
+			<td>
+				#{form @Users.previousEdition(post.id, editionIndex)}
+					<input type="submit" value="<<"/>
+				#{/form}
+			</td>
+		
+			<td>
+				#{form @Users.nextEdition(post.id, editionIndex)}
+					<input type="submit" value=">>"/>
+				#{/form}
+			</td>
+		</tr>
+		</table>
+
+	#{form @Users.tagQuestion(post.id)}
+		#{ifErrors}
+    		<p class="error">
+    			@{Users.myQuestions()}
+    		</p>
+ 		#{/ifErrors}
 	
-	<script type="text/javascript">
-	 	$(function () {
-			var propose = #{jsAction @Users.proposeTag() /};
-			$('input#name').autocomplete({
-				delimiter: /(,|;)\s*/, // regex or character
-				source: propose(),
-				delay: 0,
+		#{field 'name'}
+			<label for="name">Add tags, separated by commas:</label>
+			<input type="text" name="name" id="name"/>
+		#{/field}
+	
+		<script type="text/javascript">
+	 		$(function () {
+				var propose = #{jsAction @Users.proposeTag() /};
+				$('input#name').autocomplete({
+					delimiter: /(,|;)\s*/, // regex or character
+					source: propose(),
+					delay: 0,
+				});
 			});
-		});
-	</script>
+		</script>
 	
+		<input type="submit" value="tag"/>
 	
-	<input type="submit" value="tag"/>
-	
-#{/form}
+	#{/form}
 
-#{if !post.tags.isEmpty()}
-	Actual tags for this question:
-	#{list items:post.tags, as:'tag'}
-   		<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
-	#{/list}
-#{/if}
+	#{if !post.tags.isEmpty()}
+	
+		<br>
+		
+		Actual tags for this question:
+		#{list items:post.tags, as:'tag'}
+   			<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+		#{/list}
+		
+		<p>
+
+		This questions have the same tags:
+		#{list items:post.similarPosts(), as:'tagged'}
+			<a href="@{Application.show(tagged.id)}">${tagged.getTitle()}</a>${tagged_isLast ? '' : ', '}	
+		#{/list}
+	#{/if}
 	
 </div>
 		
