@@ -1,103 +1,342 @@
 /** Main layout **/
 
 html, body {
-    background: #8FC3FF !important;
-    font-family: Helvetica, Arial, Sans !important;
+    background: #FFF !important;
+    font-family: Arial !important;
+    font-size: 16px;
+	margin: 0;
+	height: 100%;
 }
 
-body {
-    width: 700px;
-    padding: 0 30px;
-    margin: auto;
+#main {
+	width: 1100px;
+    height: 100%;
+	padding: 0;
+    margin: 0 auto;
+	font-weight: lighter;
+	position: relativ;
 }
 
+#main-left {
+	background: #9CF;
+    width: 850px;
+	min-height: 100%;
+	padding: 0;
+    text-align: left;
+	overflow: hidden;
+}
+
+#main-right {
+	float:right;
+}
+
+/** Menu **/
 #menu {
-    background: #60A0FF;
-    width: 30%;
-    padding: 20px 20px 20px 20px;
-    margin: 20px 0;
-    color: #3C4313;
-    position: relative;
-    -webkit-border-radius: 16px;
-    -webkit-box-shadow: 0 2px 0 #93A045;
+    padding: 20px;
+}
+
+#menu .button {
+	margin: 0 10px;
+}
+	
+/** User info **/
+#user {
+	background: #69F;
+	float: right;
+	padding: 10px 10px 10px 10px;
+    margin: 20px;
+	width: 200px;
+	-webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
 
-/** Links **/
-
-.link {
-	font-size: 15px;
-	border: 1px;
-	border-color: black;
-	border-style: solid;
-	margin: 3px;
-	padding: 2px;
-	text-align:justify;
-}
-
-.link:hover {
-	background: #BBBBFF;
-}
-
-
-
-/** User info **/
-
-div#user {
-	background: #60A0FF;
-	position: relative;
+#userImg {
 	float: right;
+	margin: 0px 0px 0px 10px;
+}
+
+#userProfile {
+	background: #69F;
 	padding: 20px 20px 20px 20px;
+    margin: 20px 0px 20px 0px;
 	-webkit-border-radius: 16px;
-    -webkit-box-shadow: 0 2px 0 #93A045;
+    -moz-border-radius: 16px;
+}
+
+.userInfo {
+	background: #9CF;
+	padding: 5px 10px 5px 10px;
+    margin: 10px 0px 10px 0px;	
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+/** Search **/
+#search {
+	margin: 20px;
+}
+
+
+/** Content **/
+
+#content {
+	margin: 0px 20px 0px 20px;
+	clear: right;
+	overflow: hidden;
+}
+
+/** Links **/
+a {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+}
+
+.button {
+	color: #FFF;
+	display: inline;
+}
+
+.button:hover {
+	color: #36F;
+}
+
+.button#log {
+	float: right;	
+}
+	
+
+/** Questions **/
+
+.question {
+	background: #69F;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
+	overflow: hidden;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+.question-author {
+	float: right;
+	text-align: right;
+}
+
+.question .content {
+	margin: 10px 0px 10px 0px;
+	clear: right;
+}
+
+.question .metadata {
+	margin: 10px 0px 10px 0px;
+}
+
+
+#question-buttons {
+	clear: right;
+}
+
+#question-buttons .button {
+	background: #090;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 0px 4px;
+}
+
+/** Tags **/
+.question-tag {
+	margin: 5px 0px 5px 0px;
+}
+
+.question-tag .button {
+	background: #03F;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 0px 4px;
+}
+
+/** Attachment **/
+.attachment {
+	margin: 5px 0px 5px 0px;
+	padding: 3px;
+}
+
+.attachment .button {
+	padding: 3px;
+	border: 1px;
+	border-style: solid;
+	border-color: #000;
+}
+
+.attachment img {
+	width: 16px;
+	height: 16px;
+	border: 0;
+}
+
+/** Answer **/
+.answers {
+	padding: 20px 0px 0px 0px;
+}
+
+.answer {
+	background: #9CF;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
+	clear: both;
+	overflow: hidden;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+.answer-author {
+	float: right;
+	text-align: right;
+}
+
+/** Comments **/
+.comment {
+	background: #FFF;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
+	clear: both;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+.comment-author {
+	float: right;
+	text-align: right;
+}
+
+.comment-author .button {
+	color: #69F;
+}
+
+/** Voting **/
+.voting {
+	float: left;
+	display: inline;
+	margin: 0px 20px 10px 0px;
+	color: #FFF;
+    font-size: 24px;
+    text-align: center;
+}
+
+.vote-curr {
+	background: #03F;
+	float: left;
+	width: 40px;
+	line-height: 40px;
+	-webkit-border-radius: 5px 0px 0px 5px;
+    -moz-border-radius: 5px 0px 0px 5px;
+}
+
+.vote-curr-best {
+	background: #090;
+	float: left;
+	width: 40px;
+	line-height: 40px;
+	-webkit-border-radius: 5px 0px 0px 5px;
+    -moz-border-radius: 5px 0px 0px 5px;
+}
+
+.vote-up-down {
+	float: right;
+	margin-left: 2px;
+}
+		
+.vote-up {
+	background: url("/public/images/voteUp.png");
+	width: 19px;
+	height: 19px;
+	display: block;
+	margin-bottom: 2px;
+}
+
+.vote-down {
+	background: url("/public/images/voteDown.png");
+	width: 19px;
+	height: 19px;
+	display: block;
+	margin-top: 2px;
+}
+
+
+/** Profile **/
+#tabMenu {
+    padding: 20px;
+    margin: 0;
+    background: #69F;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    text-align: center;
+}
+
+#tab {
+	display: inline;
+	margin: 0px 5px;
+	padding: 5px 40px;
+	border: 1px;
+	border-style: solid;
+	border-color: #000000;
+}	
+
+/** Follows **/
+.follows {
+	background: #69F;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 0px 20px 0px;
+	clear: both;
+	overflow: hidden;
+    -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 	
 }
 
-/** Questions, Answers **/
-
-.questions {
-	background: #60A0FF;
-    width: 100%;
-    padding: 20px 20px 20px 20px;
-    margin: 20px 0;
-    color: #3C4313;
-    position: relative;
-    -webkit-border-radius: 16px;
-    -webkit-box-shadow: 0 2px 0 #93A045;
-    -moz-border-radius: 16px;
-    
-}
-
-.question {
-	background: #4080AA;
-	font-family: Calibri;
-	padding: 20px 20px 20px 20px;
-    -webkit-border-radius: 16px;
-    -webkit-box-shadow: 0 2px 0 #93A045;
-    -moz-border-radius: 16px;
+.activity {
 		
 }
 
-.question:hover {
-	background: #BBBBFF;
-}
-
-.answers {
-	font-family: Calibri;
-}
-
-
 /** Formulars **/
-
 .form {
-	background: #60A0FF;
-	border: 1px;
-	border-color: black;
-	border-style: solid;
-	margin: 3px;
-	padding: 10px;
+	background: #69F;
 	text-align:justify;
+	margin: 20px 0px 20px 0px;
+	padding: 20px 20px 20px 20px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
 }
 
+#answerForm p {
+	margin: 0;
+}
 
+textarea {
+	width: 60%;
+	height: 30ex;
+}
+
+#markDownMenu {
+	background: #9CF;
+	text-align:justify;
+	padding: 20px 20px 20px 20px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+/** Login **/
+#mainLogin {
+	text-align: left;
+	font-size: 12px;
+	float: right;
+	max-width: 200px;/*quickfix*/
+	max-height: 150px;/*quickfix*/	
+	background: #69F;
+	margin: 20px 20px 0px 20px;
+	padding: 10px 10px 10px 10px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+#loginInputs {
+	display: block;
+}
