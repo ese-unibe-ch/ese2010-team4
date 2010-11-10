@@ -120,6 +120,15 @@ public class Users extends Controller {
 	 */
 	public static void createQuestion(@Required String author,
 			@Required String title, String content, String tags, File attachment) {
+		// check if the content only contains of control characters
+		String test = content.replaceAll("[^a-zA-Z]", "");
+		if (test.isEmpty()) {
+			validation.isTrue(false);// create an error, to show on
+										// Users.index()
+			validation.keep();
+			Users.index();
+			return;
+		}
 
 		if (validation.hasErrors()) {
 			render("Users/index.html");
@@ -142,7 +151,7 @@ public class Users extends Controller {
 			question.save();
 		}
 		flash.success("Thanks for ask a new question %s!", author);
-		Users.myQuestions();
+		Application.show(question.getId());
 	}
 
 	/**
@@ -176,7 +185,10 @@ public class Users extends Controller {
 			@Required String author, @Required String content) {
 
 		if (validation.hasErrors()) {
-			render("Users/index.html");
+			validation.isTrue(false);// create an error, to show on
+										// Users.index()
+			validation.keep();
+			writeComment(postid, questionid);
 		}
 
 		User user = User.find("byEmail", Security.connected()).first();
@@ -200,6 +212,13 @@ public class Users extends Controller {
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
 		Question question = Question.findById(questionId);
+		// check if the content only contains of control characters
+		String test = content.replaceAll("[^a-zA-Z]", "");
+		if (test.isEmpty()) {
+			validation.keep();
+			Application.show(questionId);
+			return;
+		}
 		User user = User.find("byFullname", author).first();
 		Answer answer = new Answer(question, user, content).save();
 		if (validation.hasErrors()) {
