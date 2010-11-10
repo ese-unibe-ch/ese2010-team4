@@ -40,7 +40,8 @@ public class Users extends Controller {
 	 * Index.
 	 */
 	public static void index() {
-		render();
+		Post lastActivity = Post.find("order by timestamp desc").first();
+		render(lastActivity);
 	}
 
 	/**
@@ -283,10 +284,10 @@ public class Users extends Controller {
 	public static void myProfile(Long userid) throws IOException {
 
 		User user = User.findById(userid);
-
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Post> activities = user.activities();
 		int size = user.rating.totalRepPoint.size();
-		render("Users/myProfile.html", activities, user, size);
+		render("Users/myProfile.html", activities, user, size, lastActivity);
 	}
 
 	public static void showProfile(Long authorid) throws IOException {
@@ -294,13 +295,14 @@ public class Users extends Controller {
 		User userToShow = User.findById(authorid);
 		List<ReputationPoint> points = userToShow.getReputationPoints();
 		List<Post> activities = userToShow.activities();
+		Post lastActivity = Post.find("order by timestamp desc").first();
 
 		if (userToShow.email.equals(Security.connected())) {
 			myProfile(userToShow.id);
 		}
 
 		else {
-			render(userToShow, activities);
+			render(userToShow, activities, lastActivity);
 		}
 
 	}
