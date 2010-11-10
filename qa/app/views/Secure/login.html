@@ -3,6 +3,12 @@
 
 <div id="loginCont">
 	<div id="register" class="form">
+	
+		#{if flash.error}
+		<p class="error">
+			&{flash.error}
+		</p>
+		#{/if}
 		
 		<h2>&{'register.title'}</h2>
 		<h3>&{'register.subtitle'}</h3>

@@ -340,3 +340,11 @@ textarea {
 #loginInputs {
 	display: block;
 }
+
+.error {
+	color: red;
+	background: #9CF;
+	padding: 10px 10px 10px 10px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;	
+}
