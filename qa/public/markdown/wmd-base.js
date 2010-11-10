@@ -877,8 +877,8 @@ Attacklab.wmdBase = function() {
 		};
 		var _e2 = function() {
 			var _e3 = _2.wmd_env.buttons.split(/\s+/);
-			for ( var _e4 in _e3) {
-				switch (_e3[_e4]) {
+			for ( var i in _e3) {
+				switch (_e3[i]) {
 				case "|":
 					_cf();
 					break;
@@ -893,7 +893,7 @@ Attacklab.wmdBase = function() {
 					break;
 				}
 				if (_2.full) {
-					switch (_e3[_e4]) {
+					switch (_e3[i]) {
 					case "blockquote":
 						_cd(commands.blockquote);
 						break;
@@ -1443,14 +1443,14 @@ Attacklab.wmdBase = function() {
 				_153();
 			};
 			if (_152) {
-				_154 = _6
+				_154 = utils
 						.prompt(
-								"<p style='margin-top: 0px'><b>Enter the image URL.</b></p><p>You can also add a title, which will be displayed as a tool tip.</p><p>Example:<br />http://wmd-editor.com/images/cloud1.jpg   \"Optional title\"</p>",
+								"<p style='margin-top: 0px'><b>Enter the image URL.</b></p><p>You can also add a title, which will be displayed as a tool tip.</p><p>Example:<br />http://www.example.com/images/example.jpg   \"Optional title\"</p>",
 								"http://", _155);
 			} else {
-				_154 = _6
+				_154 = utils
 						.prompt(
-								"<p style='margin-top: 0px'><b>Enter the web address.</b></p><p>You can also add a title, which will be displayed as a tool tip.</p><p>Example:<br />http://wmd-editor.com/   \"Optional title\"</p>",
+								"<p style='margin-top: 0px'><b>Enter the web address.</b></p><p>You can also add a title, which will be displayed as a tool tip.</p><p>Example:<br />http://www.example.com/   \"Optional title\"</p>",
 								"http://", _155);
 			}
 			return true;

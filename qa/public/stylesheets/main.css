@@ -156,7 +156,7 @@ a {
 }
 
 /** Text **/
-.question p{
+.question p, .question pre, .question ul, .question ol{
 	margin: 5px 0;
 }
 
