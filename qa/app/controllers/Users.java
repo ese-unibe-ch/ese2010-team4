@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Answer;
@@ -549,5 +550,14 @@ public class Users extends Controller {
 		}
 		question.save();
 		Users.showEdit(id, 0);
+	}
+
+	public static void proposeTag() {
+		List<Tag> taglist = Tag.findAll();
+		List<String> tags = new ArrayList<String>();
+		for (Tag tag : taglist) {
+			tags.add(tag.name);
+		}
+		renderJSON(tags);
 	}
 }
