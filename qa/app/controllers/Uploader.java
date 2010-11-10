@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.io.IOUtils;
@@ -19,7 +20,7 @@ public class Uploader {
 
 	private String uploadPath;
 	private ArrayList<File> uploadedFiles;
-	private FileInputStream iStream;
+	private InputStream iStream;
 	private int minSize;
 	private int maxSize;
 	private boolean sizeChecked;
