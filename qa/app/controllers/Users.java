@@ -567,7 +567,10 @@ public class Users extends Controller {
 		Question question = Question.findById(id);
 		String[] tags = name.split(",");
 		for (String tag : tags) {
-			question.tagItWith(tag);
+			tag = tag.trim();
+			if (!tag.isEmpty()) {
+				question.tagItWith(tag);
+			}
 		}
 		question.save();
 		Users.showEdit(id, 0);

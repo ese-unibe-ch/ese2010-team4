@@ -171,14 +171,16 @@ public abstract class Post extends Model {
 
 	public List<Post> similarPosts() {
 		List<Post> list = new ArrayList<Post>();
-		Iterator<Tag> iterator = tags.iterator();
-
 		if (!this.tags.isEmpty()) {
 			for (Tag tag : tags) {
-				list.addAll(findTaggedWith(tag.name));
+				List<Post> temp = findTaggedWith(tag.name);
+				for (Post post : temp) {
+					if (!list.contains(post)) {
+						list.add(post);
+					}
+				}
 			}
 		}
-
 		list.remove(this);
 		return list;
 	}
