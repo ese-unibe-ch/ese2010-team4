@@ -64,7 +64,10 @@
 				$('input#name').autocomplete({
 					delimiter: /(,|;)\s*/, // regex or character
 					source: propose(),
-					delay: 0,
+					delay: 10,
+					autoFill: true,
+					selectFirst: true,
+					max: 5,
 				});
 			});
 		</script>
@@ -82,7 +85,7 @@
    			<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
 		#{/list}
 		
-		<p>
+		<br>
 
 		This questions have the same tags:
 		#{list items:post.similarPosts(), as:'tagged'}

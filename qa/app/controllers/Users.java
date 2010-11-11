@@ -124,7 +124,7 @@ public class Users extends Controller {
 		String test = content.replaceAll("[^a-zA-Z]", "");
 		if (test.isEmpty()) {
 			validation.isTrue(false);// create an error, to show on
-										// Users.index()
+			// Users.index()
 			validation.keep();
 			Users.index();
 			return;
@@ -186,7 +186,7 @@ public class Users extends Controller {
 
 		if (validation.hasErrors()) {
 			validation.isTrue(false);// create an error, to show on
-										// Users.index()
+			// Users.index()
 			validation.keep();
 			writeComment(postid, questionid);
 		}
