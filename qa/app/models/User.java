@@ -40,7 +40,7 @@ public class User extends Model {
 	public Date lastLogOff;
 
 	@OneToOne
-	public Reputation rating;
+	public Reputation raiting;
 
 	@Email
 	@Required
@@ -54,7 +54,7 @@ public class User extends Model {
 
 	@Required
 	public boolean isAdmin;
-	
+
 	@OneToMany
 	public List<Question> followQ;
 	@OneToMany
@@ -67,6 +67,16 @@ public class User extends Model {
 	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
+
+	public User() {
+		this.votes = new ArrayList<Vote>();
+		this.posts = new ArrayList<Post>();
+		this.isAdmin = false;
+		lastLogOff = new Date(System.currentTimeMillis());
+		this.followQ = new ArrayList<Question>();
+		this.followU = new ArrayList<User>();
+		this.counter = 0;
+	}
 
 	public User(String fullname, String email, String password) {
 
@@ -167,8 +177,8 @@ public class User extends Model {
 				best = answer;
 
 				if (!question.hasBestAnswer) {
-					answer.author.rating.bestAnswer();
-					answer.author.rating.save();
+					answer.author.raiting.bestAnswer();
+					answer.author.raiting.save();
 					answer.author.save();
 					answer.save();
 					this.save();
@@ -282,7 +292,7 @@ public class User extends Model {
 		else {
 			User newUser = new User(fullname, email, password).save();
 			// add the reputation
-			newUser.rating = new Reputation().save();
+			newUser.raiting = new Reputation().save();
 			newUser.save();
 			message = "Hello, " + fullname + ", please log in";
 		}
@@ -419,7 +429,7 @@ public class User extends Model {
 	 **/
 	public List<ReputationPoint> getReputationPoints() {
 
-		return rating.totalRepPoint;
+		return raiting.totalRepPoint;
 
 	}
 

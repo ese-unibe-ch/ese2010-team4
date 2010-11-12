@@ -48,17 +48,17 @@ public class ReputationTest extends UnitTest {
 	@Test
 	public void shouldHaveDefaultReputation() {
 
-		assertEquals(0, bob.rating.bestAnswerRep);
-		assertEquals(0, bob.rating.answerRep);
-		assertEquals(0, bob.rating.questionRep);
-		assertEquals(0, bob.rating.penalty);
-		assertEquals(0, bob.rating.totalRep);
+		assertEquals(0, bob.raiting.bestAnswerRep);
+		assertEquals(0, bob.raiting.answerRep);
+		assertEquals(0, bob.raiting.questionRep);
+		assertEquals(0, bob.raiting.penalty);
+		assertEquals(0, bob.raiting.totalRep);
 
-		assertEquals(0, jeff.rating.bestAnswerRep);
-		assertEquals(0, jeff.rating.answerRep);
-		assertEquals(0, jeff.rating.questionRep);
-		assertEquals(0, jeff.rating.penalty);
-		assertEquals(0, jeff.rating.totalRep);
+		assertEquals(0, jeff.raiting.bestAnswerRep);
+		assertEquals(0, jeff.raiting.answerRep);
+		assertEquals(0, jeff.raiting.questionRep);
+		assertEquals(0, jeff.raiting.penalty);
+		assertEquals(0, jeff.raiting.totalRep);
 	}
 
 	@Test
@@ -67,8 +67,8 @@ public class ReputationTest extends UnitTest {
 		firstAnswer.vote(bob, true);
 		firstAnswer.save();
 
-		assertEquals(10, jeff.rating.answerRep);
-		assertEquals(10, jeff.rating.totalRep);
+		assertEquals(10, jeff.raiting.answerRep);
+		assertEquals(10, jeff.raiting.totalRep);
 
 	}
 
@@ -78,8 +78,8 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.vote(jeff, true);
 		firstQuestion.save();
 
-		assertEquals(5, bob.rating.questionRep);
-		assertEquals(5, bob.rating.totalRep);
+		assertEquals(5, bob.raiting.questionRep);
+		assertEquals(5, bob.raiting.totalRep);
 	}
 
 	@Test
@@ -88,8 +88,8 @@ public class ReputationTest extends UnitTest {
 		firstAnswer.vote(bob, false);
 		firstAnswer.save();
 
-		assertEquals(-2, jeff.rating.answerRep);
-		assertEquals(-1, bob.rating.penalty);
+		assertEquals(-2, jeff.raiting.answerRep);
+		assertEquals(-1, bob.raiting.penalty);
 	}
 
 	@Test
@@ -100,8 +100,8 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.setValidity(0);
 		firstQuestion.save();
 		bob.hasTimeToChange(firstQuestion.id);
-		assertEquals(50, jeff.rating.bestAnswerRep);
-		assertEquals(50, jeff.rating.totalRep);
+		assertEquals(50, jeff.raiting.bestAnswerRep);
+		assertEquals(50, jeff.raiting.totalRep);
 
 	}
 
@@ -111,8 +111,8 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.setValidity(0);
 		firstQuestion.save();
 		bob.hasTimeToChange(firstQuestion.id);
-		assertEquals(0, jeff.rating.bestAnswerRep);
-		assertEquals(0, jeff.rating.totalRep);
+		assertEquals(0, jeff.raiting.bestAnswerRep);
+		assertEquals(0, jeff.raiting.totalRep);
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.setValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);
 
-		assertEquals(65, bob.rating.totalRep);
+		assertEquals(65, bob.raiting.totalRep);
 
 	}
 
@@ -143,10 +143,10 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.setValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);
 
-		assertEquals(4, bob.rating.totalRepPoint.size());
-		assertEquals(0, bob.rating.totalRepPoint.get(0).repvalue);
-		assertEquals(5, bob.rating.totalRepPoint.get(1).repvalue);
-		assertEquals(65, bob.rating.totalRepPoint.get(3).repvalue);
+		assertEquals(4, bob.raiting.totalRepPoint.size());
+		assertEquals(0, bob.raiting.totalRepPoint.get(0).repvalue);
+		assertEquals(5, bob.raiting.totalRepPoint.get(1).repvalue);
+		assertEquals(65, bob.raiting.totalRepPoint.get(3).repvalue);
 	}
 
 	@Test

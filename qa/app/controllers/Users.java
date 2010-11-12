@@ -305,7 +305,7 @@ public class Users extends Controller {
 		User user = User.findById(userid);
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Post> activities = user.activities();
-		int size = user.rating.totalRepPoint.size();
+		int size = user.raiting.totalRepPoint.size();
 		render("Users/myProfile.html", activities, user, size, lastActivity);
 	}
 
