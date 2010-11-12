@@ -32,6 +32,7 @@ public class Bootstrap extends Job {
 			e.printStackTrace();
 		}
 
+		// For tests
 		System.out.println(User.findAll().toString());
 
 	}

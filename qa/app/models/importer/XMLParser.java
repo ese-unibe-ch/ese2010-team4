@@ -26,6 +26,7 @@ public class XMLParser extends DefaultHandler {
 
 	public void startElement(String uri, String localName, String qname,
 			Attributes attributes) {
+		buf.setLength(0);
 		if (qname.equals("user")) {
 			user = new User();
 			user.save();
@@ -38,7 +39,6 @@ public class XMLParser extends DefaultHandler {
 		if (qname.equals("displayname")) {
 			user.fullname = buf.toString();
 			user.save();
-
 		}
 		if (qname.equals("email")) {
 			user.email = buf.toString();

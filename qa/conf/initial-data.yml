@@ -19,13 +19,13 @@ User(bob):
     fullname: bob
     email: bob@bob.ch
     password: hallo
-    rating: rep1
+    raiting: rep1
     
 User(jeff):
     fullname: jeff
     email: jeff@jeff.ch
     password: hallo
-    rating: rep2
+    raiting: rep2
     
 Question(firstQuestion):
     author: bob

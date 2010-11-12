@@ -97,7 +97,7 @@ public class User extends Model {
 	}
 
 	public String toString() {
-		return fullname;
+		return fullname + " " + password + " " + email;
 	}
 
 	/**
