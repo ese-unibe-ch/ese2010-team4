@@ -30,7 +30,7 @@ public class XMLParser extends DefaultHandler {
 		if (qname.equals("user")) {
 			user = new User();
 			user.save();
-			user.raiting = new Reputation().save();
+			user.rating = new Reputation().save();
 		}
 
 	}

@@ -40,7 +40,7 @@ public class User extends Model {
 	public Date lastLogOff;
 
 	@OneToOne
-	public Reputation raiting;
+	public Reputation rating;
 
 	@Email
 	@Required
@@ -177,8 +177,8 @@ public class User extends Model {
 				best = answer;
 
 				if (!question.hasBestAnswer) {
-					answer.author.raiting.bestAnswer();
-					answer.author.raiting.save();
+					answer.author.rating.bestAnswer();
+					answer.author.rating.save();
 					answer.author.save();
 					answer.save();
 					this.save();
@@ -292,7 +292,7 @@ public class User extends Model {
 		else {
 			User newUser = new User(fullname, email, password).save();
 			// add the reputation
-			newUser.raiting = new Reputation().save();
+			newUser.rating = new Reputation().save();
 			newUser.save();
 			message = "Hello, " + fullname + ", please log in";
 		}
@@ -429,7 +429,7 @@ public class User extends Model {
 	 **/
 	public List<ReputationPoint> getReputationPoints() {
 
-		return raiting.totalRepPoint;
+		return rating.totalRepPoint;
 
 	}
 

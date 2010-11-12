@@ -22,7 +22,8 @@ public class Bootstrap extends Job {
 		URL url;
 
 		try {
-			url = new URL("file:///home/d3orn/ese2010-team4/qa/public/QA3.xml");
+			url = new URL(
+					"file:///home/d3orn/ese2010-team4/qa/public/QA3.1.xml");
 			parser.processURL(url);
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block

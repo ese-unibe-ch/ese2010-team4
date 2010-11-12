@@ -91,18 +91,18 @@ public class Question extends Post {
 		this.votes.add(vote);
 
 		if (result) {
-			this.author.raiting.votedUPQuestion();
-			this.author.raiting.save();
+			this.author.rating.votedUPQuestion();
+			this.author.rating.save();
 			this.author.save();
 		}
 
 		else {
 
-			this.author.raiting.voteDown();
-			this.author.raiting.save();
+			this.author.rating.voteDown();
+			this.author.rating.save();
 			this.author.save();
-			user.raiting.penalty();
-			user.raiting.save();
+			user.rating.penalty();
+			user.rating.save();
 			user.save();
 		}
 		this.voting();
