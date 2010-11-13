@@ -18,8 +18,9 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLParser extends DefaultHandler {
 
 	private User user;
-	private long ownerID;
-	private HashMap<Long, Long> idMap = new HashMap<Long, Long>();
+	private long ownerID, questionId, answerId;
+	private HashMap<Long, Long> userIdMap = new HashMap<Long, Long>();
+	private HashMap<Long, Long> questionIdMap = new HashMap<Long, Long>();
 	private String content, title;
 	private StringBuffer buf = new StringBuffer();
 	private ArrayList<String> tags = new ArrayList<String>();
@@ -38,10 +39,18 @@ public class XMLParser extends DefaultHandler {
 			user = new User();
 			user.save();
 			// I should probably check if the id is already in use or not..
-			idMap.put(Long.parseLong(atts.getValue("id")), user.id);
-			System.out.println(idMap);
+			userIdMap.put(Long.parseLong(atts.getValue("id")), user.id);
+			System.out.println(userIdMap);
 			user.save();
 			user.rating = new Reputation().save();
+		}
+
+		if (qname.equals("question")) {
+			questionId = Long.parseLong(atts.getValue("id"));
+		}
+
+		if (qname.equals("answer")) {
+			answerId = Long.parseLong(atts.getValue("id"));
 		}
 
 	}
@@ -75,12 +84,20 @@ public class XMLParser extends DefaultHandler {
 		}
 
 		if (qname.equals("question")) {
-			long searchId = idMap.get(ownerID);
+			long searchId = userIdMap.get(ownerID);
 			User u = User.findById(searchId);
 			Question q = u.addQuestion(title, content).save();
 			for (String tag : tags)
 				q.tagItWith(tag).save();
+			questionIdMap.put(questionId, q.id);
 		}
+
+		/*
+		 * if (qname.equals("answer")) { long searchId = userIdMap.get(ownerID);
+		 * User u = User.findById(searchId); searchId =
+		 * questionIdMap.get(questionId); Question q =
+		 * Question.findById(searchId); q.addAnswer(u, content); }
+		 */
 
 	}
 
