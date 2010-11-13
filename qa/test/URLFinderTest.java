@@ -81,4 +81,14 @@ public class URLFinderTest extends UnitTest {
 		assertEquals(content, result);
 	}
 
+	@Test
+	public void shouldNotChangeHTMLAnchors() {
+		String content = "This is just for testing if the Finder findes and replace all different URLS with HTML"
+				+ " from <a href=http://d3orn.ch title= \"http://d3orn.ch\">http://d3orn.ch</a>";
+		String result = "This is just for testing if the Finder findes and replace all different URLS with HTML"
+				+ " from <a href=http://d3orn.ch title= \"http://d3orn.ch\">http://d3orn.ch</a>";
+		content = finder.check(content);
+		assertEquals(content, result);
+	}
+
 }

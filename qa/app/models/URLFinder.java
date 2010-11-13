@@ -17,6 +17,8 @@ public class URLFinder {
 	private static HashMap<String, String> URLMap = new HashMap();
 	static Pattern pattern = Pattern
 			.compile("(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+	static Pattern htmlPattern = Pattern
+			.compile("<a href=http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]</a>");
 
 	/**
 	 * Checkes a String <code>content</code> for URLs and replace them with HTML
@@ -25,9 +27,21 @@ public class URLFinder {
 	 * @return checkedContent
 	 */
 	public static String check(String content) {
+		content = deleteAllHTMLAnchors(content);
 		findAllURLS(content);
 		replaceAllURLSWithHTML(content);
 		return checkedContent;
+	}
+
+	private static String deleteAllHTMLAnchors(String content) {
+		Matcher m = htmlPattern.matcher(content);
+		while (m.find()) {
+			Matcher n = pattern.matcher(content.substring(m.start(), m.end()));
+			content = content.replace(content.substring(m.start(), m.end()),
+					content.substring(n.start(), n.end()));
+			System.out.println(content);
+		}
+		return content;
 	}
 
 	@ForTestingOnly
