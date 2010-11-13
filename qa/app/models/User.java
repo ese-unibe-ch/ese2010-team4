@@ -24,7 +24,6 @@ import play.db.jpa.Model;
 @Entity
 public class User extends Model {
 
-	private long userId;
 	public int counter;
 	protected Date birthday;
 	public String website = "";
@@ -33,16 +32,6 @@ public class User extends Model {
 	public String aboutMe = "";
 	public String favoriteLanguages;
 	public String quotedContent = "";
-
-	/**
-	 * Sets the id of this Player to the specified value.
-	 * 
-	 * @param id
-	 *            the new id
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	@Required
 	public String avatarPath = "/public/uploads/standardAvatar.png";
@@ -108,7 +97,7 @@ public class User extends Model {
 	}
 
 	public String toString() {
-		return fullname + " " + password + " " + email;
+		return fullname;
 	}
 
 	/**

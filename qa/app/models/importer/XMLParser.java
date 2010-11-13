@@ -1,10 +1,13 @@
 package models.importer;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import models.Question;
 import models.Reputation;
 import models.User;
 
@@ -16,8 +19,10 @@ public class XMLParser extends DefaultHandler {
 
 	private User user;
 	private long ownerID;
+	private HashMap<Long, Long> idMap = new HashMap<Long, Long>();
 	private String content, title;
 	private StringBuffer buf = new StringBuffer();
+	private ArrayList<String> tags = new ArrayList<String>();
 
 	public void processURL(URL url) throws Exception {
 		InputSource inputSource = new InputSource(url.openStream());
@@ -31,9 +36,11 @@ public class XMLParser extends DefaultHandler {
 		buf.setLength(0);
 		if (qname.equals("user")) {
 			user = new User();
-			// user.setId(Long.parseLong(atts.getValue("id")));
 			user.save();
-			System.out.println(user.id);
+			// I should probably check if the id is already in use or not..
+			idMap.put(Long.parseLong(atts.getValue("id")), user.id);
+			System.out.println(idMap);
+			user.save();
 			user.rating = new Reputation().save();
 		}
 
@@ -63,11 +70,18 @@ public class XMLParser extends DefaultHandler {
 			this.title = buf.toString();
 		}
 
-		/*
-		 * if (qname.equals("question")) { // System.out.println(title); User u
-		 * = User.findById(ownerID); // System.out.println(u);
-		 * user.addQuestion(title, content).save(); }
-		 */
+		if (qname.equals("tag")) {
+			this.tags.add(buf.toString());
+		}
+
+		if (qname.equals("question")) {
+			long searchId = idMap.get(ownerID);
+			User u = User.findById(searchId);
+			Question q = u.addQuestion(title, content).save();
+			for (String tag : tags)
+				q.tagItWith(tag).save();
+		}
+
 	}
 
 	public void characters(char[] chars, int start, int length) {
