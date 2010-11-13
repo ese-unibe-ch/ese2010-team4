@@ -159,7 +159,8 @@ Attacklab.wmdPlus = function() {
 		return _8.doBlockquote(_22);
 	};
 	_8.code = {};
-	_8.code.description = "Code Sample <pre><code>";
+//	_8.code.description = "Code Sample <pre><code>";
+	_8.code.description = "Code Sample <code>";
 	_8.code.image = "images/code.png";
 	_8.code.key = "k";
 	_8.code.textOp = _8.doCode;
