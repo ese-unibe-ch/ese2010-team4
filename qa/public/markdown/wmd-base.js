@@ -1673,10 +1673,10 @@ Attacklab.wmdBase = function() {
 				} else {
 					var _18d = text.replace(/&/g, "&amp;");
 					_18d = _18d.replace(/</g, "&lt;");
-					_169.output.innerHTML = "<code>" + _18d
-					+ "</code>";
-//					_169.output.innerHTML = "<pre><code>" + _18d
-//							+ "</code></pre>";
+//					_169.output.innerHTML = "<code>" + _18d
+//					+ "</code>";
+					_169.output.innerHTML = "<pre><code>" + _18d
+							+ "</code></pre>";
 				}
 			}
 			if (_169.preview) {
