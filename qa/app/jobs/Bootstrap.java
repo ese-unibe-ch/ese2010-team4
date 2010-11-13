@@ -34,7 +34,7 @@ public class Bootstrap extends Job {
 		}
 
 		// For tests
-		System.out.println(User.findAll().toString());
+		// System.out.println(User.findAll().toString());
 
 	}
 }

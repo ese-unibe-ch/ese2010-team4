@@ -15,6 +15,8 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLParser extends DefaultHandler {
 
 	private User user;
+	private long ownerID;
+	private String content, title;
 	private StringBuffer buf = new StringBuffer();
 
 	public void processURL(URL url) throws Exception {
@@ -25,11 +27,13 @@ public class XMLParser extends DefaultHandler {
 	}
 
 	public void startElement(String uri, String localName, String qname,
-			Attributes attributes) {
+			Attributes atts) {
 		buf.setLength(0);
 		if (qname.equals("user")) {
 			user = new User();
+			// user.setId(Long.parseLong(atts.getValue("id")));
 			user.save();
+			System.out.println(user.id);
 			user.rating = new Reputation().save();
 		}
 
@@ -48,6 +52,22 @@ public class XMLParser extends DefaultHandler {
 			user.password = buf.toString();
 			user.save();
 		}
+		if (qname.equals("ownerid")) {
+			this.ownerID = Long.parseLong(buf.toString());
+		}
+		if (qname.equals("body")) {
+			this.content = buf.toString();
+		}
+
+		if (qname.equals("title")) {
+			this.title = buf.toString();
+		}
+
+		/*
+		 * if (qname.equals("question")) { // System.out.println(title); User u
+		 * = User.findById(ownerID); // System.out.println(u);
+		 * user.addQuestion(title, content).save(); }
+		 */
 	}
 
 	public void characters(char[] chars, int start, int length) {

@@ -1,1 +1,25 @@
-<?xml version="1.0" ?><QA><users><user id="277826"><displayname>sdaau</displayname><age>-1</age><ismoderator>false</ismoderator><email>sdaau@gmail.com</email><password>secret</password><aboutme></aboutme><location></location><website></website></user></users></QA>
+<?xml version="1.0" ?><QA><users><user id="277826"><displayname>sdaau</displayname><age>-1</age><ismoderator>false</ismoderator><email>sdaau@gmail.com</email><password>secret</password><aboutme></aboutme><location></location><website></website></user></users><questions>
+−
+<question id="4119991">
+<ownerid>277826</ownerid>
+<creationdate>1289168092</creationdate>
+<lastactivity>1289176685</lastactivity>
+−
+<body>
+<![CDATA[<p>Hi all, </p><p>Lets say I have a script, "<code>myscript.sh</code>", with contents being simply <code>echo $PWD</code>. I'd like to bind somehow this script to a key combo in <code>bash</code> (<code>gnome-terminal</code>) - so that when I press this key combination, the output of "<code>myscript.sh</code>" is inserted ("pasted") at the cursor position in the terminal. </p><p>Apparently, <code>bash</code> history and line manipulation is handled by <a href="http://en.wikipedia.org/wiki/Readline" rel="nofollow">readline</a> - and the references I got for <code>bash</code> keyboard shortcuts, do reference <code>readline</code>: </p><ul><li><a href="http://ss64.com/bash/syntax-keyboard.html" rel="nofollow">bash keyboard shortcuts</a></li><li><a href="http://www.faqs.org/docs/bashman/bashref_93.html" rel="nofollow">Bash Reference Manual: Bindable Readline Commands</a></li></ul><p>I've also seen in <a href="http://www.faqs.org/docs/bashman/bashref_90.html" rel="nofollow">Bash Reference Manual: Readline Init File Syntax</a> that the key bindings for <code>bash</code> can be listed by using <code>bind -p</code> (<em>see <code>help bind</code> [not 'man bind'] for more</em>). So maybe this question would better be titled as "_binding macros to custom keyboard shortcuts in <code>readline</code>" :) But in any case, is what I want possible to do? </p><p>I guess an alternative would be to have the script be something like "<code>pwd | xsel -b</code>", and then I call it on terminal - and I can paste afterwards; but I'd still like a single keyboard shortcut instead, say like Ctrl-Alt-H (which seems to be not used for anything), which will immediately insert/paste script output when pressed. </p><p>Thanks in advance,<br>Cheers!</p><p>&nbsp;<br>EDIT: Just to clarify - here is my use case where I'd like this facility. I'm usually <code>cd</code>'d in a project folder, usually named something like <code>myproject-folder-0012a</code>, which is under revision control by <code>svn</code>. And there is a bunch of these folders. So quite often, I do commits where the first word of the message is the directory name, as in:</p><pre><code>svn ci -m "myproject-folder-0012a: here a commit message"</code></pre><p>But that is what I don't like - first I type 11 characters, which go rather fast: </p><pre><code>svn ci -m "</code></pre><p>And then, I cannot use autocompletion to get the name (i'm inside the folder) - which means I either have to fully type it (<em>no way :)</em>), or I copy paste it from the prompt (which requires selection - press mouse, drag, release mouse; then Ctrl+Shift+C, and then Ctrl+Shift+V, plus any left/right keys if I miss allignment - plus deletions and such if I make the copy wrong). </p><p>Meaning - so much work, just to get the bloody folder name for a bloody commit message :( I'd MUCH rather press something like (say) Ctrl-Alt-H, and have the folder name automatically inserted at cursor position, and be done with it :) </p><p>My suggestion for <code>xsel</code> is only because I could put it into a "global" script - say symlink it as <code>/usr/bin/myscript</code> (<em>and obviously, the contents of the script are <code>echo $(basename $PWD)</code> rather than just <code>pwd</code> for my needs</em>), and then I could do: </p><pre><code>$ myscript       # this puts directory name in clipboard$ svn ci -m "[CTRL+SHIFT+V TO PASTE HERE]myproject-folder-0012a[NOW TYPE]: here a commit message"</code></pre><p>... which sort of makes the workload less, but still - then I have to remember what the script name is, and call it, <strong>before</strong> I type the <code>svn</code> command (and I don't always remember that)... And still - I have to call a command, and then press a key combo; why shouldn't I just press a key combo once, and be done with it ??! :) </p><p>Well, hope this clarifies my problem a bit better .... </p><p>&nbsp;<br>EDIT2: However, another reason why a <code>bash</code> keyboard shortcut would be useful, is that then I could also "paste/insert current directory name" not only in shell commands - but also in terminal programs, say like <code>nano</code> (<em>where it would, arguably, be more difficult to use <code>bash</code> script or function expansion directly</em>).</p>]]>
+</body>
+−
+<title>
+Bash: call script with customized keyboard shortcuts?
+</title>
+<lastedit>1289176685</lastedit>
+<acceptedanswer>-1</acceptedanswer>
+−
+<tags>
+<tag id="0">linux</tag>
+<tag id="1">bash</tag>
+<tag id="2">keyboard-shortcuts</tag>
+<tag id="3">readline</tag>
+<tag id="4">customize</tag>
+</tags>
+</question></QA>
