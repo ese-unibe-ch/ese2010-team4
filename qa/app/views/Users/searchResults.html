@@ -4,35 +4,35 @@
 #{secure.check 'user'}
 <div class="form" id="userForm">
 	
-	
+
+	<p>you looking for ${toSearch}</p>
 	<p>
         #{if found}
         	#{if !users.isEmpty()}
         		found in user
         		#{list items:users, as:'user'}
         			<p>
-        			<a href = "@{Users.showProfile(user.id)}">${user.fullname}</a>
+        			<a href = "@{Users.showProfile(user.id)}">${user.fullname} (${user.rating})</a>
         			</p>
         		#{/list}
         	#{/if}
         	#{ifnot postscont.isEmpty() && poststitl.isEmpty()}
-        		found in knowledgebase
+        		<p>found in knowledgebase </p>
         		#{list items:postscont, as:'post'}
-        			#{if post.checkInstance()}
-        			<p>
-        			<a href = "@{Application.show(post.id)}">${post.content}</a>
-        			</p>
-        			#{/if}
-        			#{else}
-        			<p>
-        			<a href = "@{Application.show(post.question.id)}">${post.content}</a>
-        			</p>
-        			#{/else}
-        		#{/list}
-        		#{list items:poststitl, as:'post'}
-        			<p>
-        			<a href = "@{Application.show(post.id)}">${post.title}</a>
-        			</p>
+        					#{if post.isQuestion()}
+									<p>in question <a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</p>
+							#{/if}
+							#{if post.isAnswer()}
+								<p>in answer to the<a class="button" href = "@{Application.show(post.findQuestion().id)}">question</a> ${post.findQuestion().title} (${post.getDate()}).</p>
+							#{/if}
+							#{if post.isCommentAnswer()}
+								<p>in the comment to the <a class="button" href = "@{Application.show(post.post.findQuestion().id)}">question</a> ${post.post.findQuestion().title}  (${post.getDate()}).</p>
+									
+							#{/if}
+							#{if post.isCommentQuestion()}
+								<p>in a comment to an answer for the <a class="button" href = "@{Application.show(post.post.id)}">question</a> ${post.post.title} (${post.getDate()}).</p>
+							#{/if}
+							<p>content:  ${post.content}</p>
         		#{/list}
         	#{/ifnot}
         	#{if !tags.isEmpty()}

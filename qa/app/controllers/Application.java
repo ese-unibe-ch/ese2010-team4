@@ -45,7 +45,7 @@ public class Application extends Controller {
 	public static void show(Long id) {
 
 		Question question = Question.find("byId", id).first();
-
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		boolean abletochoose = false;
 		boolean abletovote = false;
 		boolean isvalid = false;
@@ -64,7 +64,7 @@ public class Application extends Controller {
 			isvalid = user.hasTimeToChange(id);
 			isfollowing = user.isFollowing(question);
 
-			render(question, isvalid, abletochoose, abletovote, isfollowing);
+			render(question, isvalid, abletochoose, abletovote, isfollowing, lastActivity);
 		}
 	}
 

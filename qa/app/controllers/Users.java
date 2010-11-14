@@ -165,8 +165,9 @@ public class Users extends Controller {
 	public static void writeComment(Long id, Long questionid) {
 
 		Post post = Post.find("byId", id).first();
-
-		render(post, questionid);
+		Post lastActivity = Post.find("order by timestamp desc").first();
+		
+		render(post, questionid, lastActivity);
 	}
 
 	/**
@@ -183,7 +184,8 @@ public class Users extends Controller {
 	 */
 	public static void createComment(Long postid, Long questionid,
 			@Required String author, @Required String content) {
-
+		
+		
 		if (validation.hasErrors()) {
 			validation.isTrue(false);// create an error, to show on
 			// Users.index()
@@ -466,6 +468,7 @@ public class Users extends Controller {
 	public static void searchResults(String toSearch) {
 
 		boolean found = false;
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<User> users = User.find("byFullnameLike", "%" + toSearch + "%")
 				.fetch();
 		List<Post> postscont = Post.find("byContentLike", "%" + toSearch + "%")
@@ -477,19 +480,19 @@ public class Users extends Controller {
 		if (users.size() == 0 && postscont.size() == 0 && poststitl.size() == 0
 				&& tags.isEmpty()) {
 			String message = "no user found";
-			render(users, message, found);
+			render(users, message, found, lastActivity, toSearch);
 		}
 
 		else {
 			found = true;
-			render(users, postscont, poststitl, tags, found);
+			render(users, postscont, poststitl, tags, found, lastActivity, toSearch);
 		}
 	}
 
 	public static void myFollows() {
-
+		
 		User user = User.find("byEmail", Security.connected()).first();
-
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		user.removeNull();
 		user.save();
 
@@ -498,7 +501,7 @@ public class Users extends Controller {
 		Long userId = user.id;
 		List<User> followU = user.followU;
 
-		render(followQ, followU, userId, activities);
+		render(followQ, followU, userId, activities, lastActivity);
 	}
 
 	public static void followQuestion(Long id) {
