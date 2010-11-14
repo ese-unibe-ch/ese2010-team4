@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import models.urlHTMLhandler.HTMLHandler;
+import models.urlHTMLhandler.URLHandler;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -28,6 +30,8 @@ public abstract class Post extends Model {
 	public String fullname;
 	public int voting;
 	public String attachmentPath;
+	public static URLHandler uHandler = new URLHandler();
+	public static HTMLHandler hHandler = new HTMLHandler();
 
 	@Lob
 	@Required
@@ -71,7 +75,8 @@ public abstract class Post extends Model {
 		this.comments = new ArrayList<Comment>();
 		this.tags = new TreeSet<Tag>();
 		this.author = author;
-		this.content = URLFinder.check(content);
+		// this.content = content;
+		this.content = uHandler.check(hHandler.check(content));
 		this.timestamp = new Date();
 		this.voting = 0;
 	}
