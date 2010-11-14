@@ -26,10 +26,8 @@ public class Bootstrap extends Job {
 			url = new File("qa/public/QA3.xml").toURI().toURL();
 			parser.processURL(url);
 		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
