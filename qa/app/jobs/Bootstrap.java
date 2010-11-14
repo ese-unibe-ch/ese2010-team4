@@ -1,5 +1,6 @@
 package jobs;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -22,7 +23,7 @@ public class Bootstrap extends Job {
 		URL url;
 
 		try {
-			url = new URL("file:///home/d3orn/ese2010-team4/qa/public/QA3.xml");
+			url = new File("qa/public/QA3.xml").toURI().toURL();
 			parser.processURL(url);
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
