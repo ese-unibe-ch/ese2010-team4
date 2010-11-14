@@ -10,6 +10,7 @@
 	        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>	       
 	        <script src="@{'/public/javascripts/flot/jquery.flot.js'}" type="text/javascript" charset="utf-8"></script>
 	       	#{script 'qa.js' /}
+	       	#{script 'jquery.highlightRegex.js' /}
 	        
         #{get 'moreScripts' /}
     </head>
@@ -26,21 +27,10 @@
 				
 				<div id="userActivity">
 					<h4>Newest activity:</h4>
-					
-					#{if lastActivity}
+				
+					#{if lastActivity}					
 					<div class="activity">
-							#{if lastActivity.isQuestion()}
-								A new question was asked <a class="button" href = "@{Application.show(lastActivity.id)}">${lastActivity.getTitle()}</a> (${lastActivity.getDate()}).
-							#{/if}
-							#{if lastActivity.isAnswer()}
-								A new answer was added to a <a class="button" href = "@{Application.show(lastActivity.findQuestion().id)}">question</a> (${lastActivity.getDate()}).
-							#{/if}
-							#{if lastActivity.isCommentAnswer()}
-								A new comment was added to a answer from the <a class="button" href = "@{Application.show(lastActivity.post.findQuestion().id)}">question</a> ${lastActivity.post.findQuestion().title}  (${lastActivity.getDate()}).
-							#{/if}
-							#{if lastActivity.isCommentQuestion()}
-								A new comment was added to the <a class="button" href = "@{Application.show(lastActivity.post.id)}">question</a> ${lastActivity.post.title} (${lastActivity.getDate()}).
-							#{/if}
+						#{activity activity:lastActivity /}
 					</div>
 					#{/if}
 				</div>
