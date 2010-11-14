@@ -1,0 +1,613 @@
+<QA>
+−
+<users>
+−
+<user id="277826">
+<displayname>sdaau</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>sdaau@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="236455">
+<displayname>Fraser Graham</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Fraser Graham@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="69307">
+<displayname>anon</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>anon@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="324528">
+<displayname>ipeet</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>ipeet@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="354803">
+<displayname>ShinTakezou</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>ShinTakezou@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="103167">
+<displayname>Ben Voigt</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Ben Voigt@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="366377">
+<displayname>Jens Gustedt</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Jens Gustedt@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="67022">
+<displayname>bstpierre</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>bstpierre@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="448275">
+<displayname>trevor</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>trevor@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="430719">
+<displayname>Bart van Ingen Schenau</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Bart van Ingen Schenau@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="20270">
+<displayname>Hasturkun</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Hasturkun@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="464709">
+<displayname>Frédéric Hamidi</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Frédéric Hamidi@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="371250">
+<displayname>ninjalj</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>ninjalj@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="104596">
+<displayname>mpe</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>mpe@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="130641">
+<displayname>John Ledbetter</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>John Ledbetter@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="239696">
+<displayname>Michael Greene</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Michael Greene@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="121112">
+<displayname>Fragsworth</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Fragsworth@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="95810">
+<displayname>Alex Martelli</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Alex Martelli@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="182668">
+<displayname>Pointy</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Pointy@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="71058">
+<displayname>Craig Peterson</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Craig Peterson@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="236554">
+<displayname>manifest</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>manifest@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="321013">
+<displayname>Martin</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Martin@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="237062">
+<displayname>ak2</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>ak2@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="146909">
+<displayname>rsp2k</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>rsp2k@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="912">
+<displayname>jkp</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>jkp@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="118903">
+<displayname>Vinay Sajip</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Vinay Sajip@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="141186">
+<displayname>jpartogi</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>jpartogi@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="126042">
+<displayname>Mark Rushakoff</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Mark Rushakoff@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="176958">
+<displayname>whatnick</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>whatnick@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="137317">
+<displayname>kaizer.se</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>kaizer.se@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="180174">
+<displayname>Kimvais</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Kimvais@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="16363">
+<displayname>Mark</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Mark@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="179910">
+<displayname>Jerry Coffin</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Jerry Coffin@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="299301">
+<displayname>nategoose</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>nategoose@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="388520">
+<displayname>Zack</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Zack@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="20862">
+<displayname>Ignacio Vazquez-Abrams</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Ignacio Vazquez-Abrams@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="392358">
+<displayname>joe</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>joe@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="275455">
+<displayname>frankc</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>frankc@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="26428">
+<displayname>Dennis Williamson</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Dennis Williamson@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="402528">
+<displayname>trevor</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>trevor@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="19563">
+<displayname>Charles Bailey</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Charles Bailey@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="406936">
+<displayname>zaga</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>zaga@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="105043">
+<displayname>second</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>second@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="389146">
+<displayname>Karl Bielefeldt</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Karl Bielefeldt@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="86432">
+<displayname>masonk</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>masonk@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="324731">
+<displayname>lkraider</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>lkraider@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="209744">
+<displayname>PP</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>PP@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="224671">
+<displayname>KennyTM</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>KennyTM@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="151292">
+<displayname>James McNellis</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>James McNellis@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="338803">
+<displayname>sje397</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>sje397@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="22985">
+<displayname>BatchyX</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>BatchyX@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="202555">
+<displayname>Amnon</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>Amnon@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="119280">
+<displayname>DVK</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>DVK@gmail.com</email>
+<password>secret</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+</users>
+<questions>
+<question id="3311182">
+<ownerid>277826</ownerid>
+<creationdate>1279816708</creationdate>
+<lastactivity>1279957330</lastactivity>
+−
+<body>
+<![CDATA[<p>I am having a slight problem with some structs in a kernel module I'm building, so I thought it would be nice if there was an easy way to print out structs and their values - and below is a small userland example of what I mean.</p><p>Say we have the simple C example as below (given in form of a bash commands):</p><pre><code>FN=mtestcat &gt; $FN.c &lt;&lt;EOF#include &lt;stdio.h&gt; //printf#include &lt;stdlib.h&gt; //callocstruct person{ int age;  int height; };static struct person *johndoe;main (){ johndoe = (struct person *)calloc(1, sizeof(struct person)); johndoe-&gt;age = 6;  asm("int3"); //breakpoint for gdb printf("Hello World - age: %d\n", johndoe-&gt;age); free(johndoe);}EOFgcc -g -O0 $FN.c -o $FN# just a run command for gdbcat &gt; ./gdbcmds &lt;&lt;EOFrunEOFgdb --command=./gdbcmds ./$FN </code></pre><p>&nbsp;</p><p>If we run this example, the program will compile, and gdb will run it, and automatically stop at the breakpoint. Here we can do the following:</p><pre><code>Program received signal SIGTRAP, Trace/breakpoint trap.main () at mtest.c:2020  printf("Hello World - age: %d\n", johndoe-&gt;age);(gdb) p johndoe$1 = (struct person *) 0x804b008(gdb) p (struct person)*0x804b008$2 = {age = 6, height = 0}(gdb) cContinuing.Hello World - age: 6Program exited with code 0300.(gdb) q</code></pre><p>&nbsp;</p><p>As shown, in gdb we can printout (dump?) the value of the struct pointer <code>johndoe</code> as <code>{age = 6, height = 0}</code> ... I would like to do the same, but directly from a C program; say as in the following example: </p><pre><code>#include &lt;stdio.h&gt; //printf#include &lt;stdlib.h&gt; //calloc#include &lt;whatever.h&gt; //for imaginary printout_structstruct person{ int age;  int height; };static struct person *johndoe;static char report[255]; main (){ johndoe = (struct person *)calloc(1, sizeof(struct person)); johndoe-&gt;age = 6;  printout_struct(johndoe, report); //imaginary command printf("Hello World - age: %d\nreport: %s", johndoe-&gt;age, report); free(johndoe);}</code></pre><p>&nbsp;</p><p>which would result with an output like:</p><pre><code>Hello World - age: 6$2 = {age = 6, height = 0}</code></pre><p>&nbsp;</p><p>So my question is - does a function like that imaginary <code>printout_struct</code> exist - or is there another approach to make a printout like this possible? </p><p>Thanks in advance for any help, <br/>Cheers!</p>]]>
+</body>
+−
+<title>
+Linux C: Easy & 'pretty' dump/printout of structs (like in gdb) - from source code?
+</title>
+<lastedit>1279823413</lastedit>
+<acceptedanswer>3312105</acceptedanswer>
+−
+<tags>
+<tag id="0">c</tag>
+<tag id="1">linux</tag>
+<tag id="2">printing</tag>
+<tag id="3">struct</tag>
+<tag id="4">gdb</tag>
+</tags>
+</question>
+</questions>
+</QA>

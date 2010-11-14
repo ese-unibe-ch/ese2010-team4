@@ -75,7 +75,6 @@ public abstract class Post extends Model {
 		this.comments = new ArrayList<Comment>();
 		this.tags = new TreeSet<Tag>();
 		this.author = author;
-		// this.content = content;
 		this.content = uHandler.check(hHandler.check(content));
 		this.timestamp = new Date();
 		this.voting = 0;

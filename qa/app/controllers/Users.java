@@ -166,7 +166,7 @@ public class Users extends Controller {
 
 		Post post = Post.find("byId", id).first();
 		Post lastActivity = Post.find("order by timestamp desc").first();
-		
+
 		render(post, questionid, lastActivity);
 	}
 
@@ -184,8 +184,7 @@ public class Users extends Controller {
 	 */
 	public static void createComment(Long postid, Long questionid,
 			@Required String author, @Required String content) {
-		
-		
+
 		if (validation.hasErrors()) {
 			validation.isTrue(false);// create an error, to show on
 			// Users.index()
@@ -485,12 +484,13 @@ public class Users extends Controller {
 
 		else {
 			found = true;
-			render(users, postscont, poststitl, tags, found, lastActivity, toSearch);
+			render(users, postscont, poststitl, tags, found, lastActivity,
+					toSearch);
 		}
 	}
 
 	public static void myFollows() {
-		
+
 		User user = User.find("byEmail", Security.connected()).first();
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		user.removeNull();

@@ -10,7 +10,7 @@ import play.jobs.Job;
 import play.jobs.OnApplicationStart;
 import play.test.Fixtures;
 
-//@OnApplicationStart
+@OnApplicationStart
 public class Bootstrap extends Job {
 
 	public void doJob() {
@@ -23,16 +23,13 @@ public class Bootstrap extends Job {
 		URL url;
 
 		try {
-			url = new File("qa/public/QA3.xml").toURI().toURL();
+			url = new File("qa/public/QA3.2.xml").toURI().toURL();
 			parser.processURL(url);
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// For tests
-		// System.out.println(User.findAll().toString());
 
 	}
 }

@@ -58,13 +58,13 @@ public class Application extends Controller {
 
 		else {
 			User user = User.find("byEmail", Security.connected()).first();
-
 			abletochoose = user.isAbleToChoose(id);
 			abletovote = user.isAbleToVote(id);
 			isvalid = user.hasTimeToChange(id);
 			isfollowing = user.isFollowing(question);
 
-			render(question, isvalid, abletochoose, abletovote, isfollowing, lastActivity);
+			render(question, isvalid, abletochoose, abletovote, isfollowing,
+					lastActivity);
 		}
 	}
 

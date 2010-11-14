@@ -7,6 +7,7 @@ import java.util.HashMap;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import models.Answer;
 import models.Question;
 import models.Reputation;
 import models.User;
@@ -18,6 +19,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLParser extends DefaultHandler {
 
 	private User user;
+	private int userCounter, questionCounter, answerCounter;
 	private long ownerID, questionId, answerId;
 	private HashMap<Long, Long> userIdMap = new HashMap<Long, Long>();
 	private HashMap<Long, Long> questionIdMap = new HashMap<Long, Long>();
@@ -41,7 +43,6 @@ public class XMLParser extends DefaultHandler {
 			user.save();
 			// I should probably check if the id is already in use or not..
 			userIdMap.put(Long.parseLong(atts.getValue("id")), user.id);
-			System.out.println(userIdMap);
 			user.save();
 			user.rating = new Reputation().save();
 		}
@@ -57,6 +58,9 @@ public class XMLParser extends DefaultHandler {
 	}
 
 	public void endElement(String uri, String localName, String qname) {
+		if (qname.equals("user")) {
+			userCounter++;
+		}
 		if (qname.equals("displayname")) {
 			user.fullname = buf.toString();
 			user.save();
@@ -71,6 +75,10 @@ public class XMLParser extends DefaultHandler {
 		}
 		if (qname.equals("ownerid")) {
 			this.ownerID = Long.parseLong(buf.toString());
+		}
+
+		if (qname.equals("questionid")) {
+			this.questionId = Long.parseLong(buf.toString());
 		}
 		if (qname.equals("body")) {
 			this.content = buf.toString();
@@ -91,15 +99,25 @@ public class XMLParser extends DefaultHandler {
 			for (String tag : tags)
 				q.tagItWith(tag).save();
 			questionIdMap.put(questionId, q.id);
+			questionCounter++;
+			System.out.println(questionId);
 		}
 
-		/*
-		 * if (qname.equals("answer")) { long searchId = userIdMap.get(ownerID);
-		 * User u = User.findById(searchId); searchId =
-		 * questionIdMap.get(questionId); Question q =
-		 * Question.findById(searchId); q.addAnswer(u, content); }
-		 */
+		if (qname.equals("answer")) {
+			long searchId = userIdMap.get(ownerID);
+			User u = User.findById(searchId);
+			searchId = questionIdMap.get(questionId);
+			Question q = Question.findById(searchId);
+			Answer a = new Answer(q, u, content).save();
+			q.addNewAnswer(a).save();
+			answerCounter++;
+		}
 
+		if (qname.equals("QA")) {
+			System.out.println(userCounter + " users, " + questionCounter
+					+ " questions and " + answerCounter
+					+ " answers have been added");
+		}
 	}
 
 	public void characters(char[] chars, int start, int length) {
