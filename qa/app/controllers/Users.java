@@ -539,7 +539,7 @@ public class Users extends Controller {
 			IOException {
 		// File should not be null and not bigger than 10KB
 		assert avatar != null && avatar.length() < 10000;
-		if (avatar != null && avatar.length() < 10000) {
+		if (avatar != null && avatar.length() < 50000) {
 			User user = User.find("byEmail", Security.connected()).first();
 			user.avatarPath = uploader.upload(avatar, "avatar" + user.id)
 					.substring(2);
