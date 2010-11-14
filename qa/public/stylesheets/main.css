@@ -176,6 +176,10 @@ a {
 	margin: 10px;
 }
 
+pre {
+	white-space: pre-wrap;
+}
+
 /** Tags **/
 .question-tag {
 	margin: 5px 0px 5px 0px;
