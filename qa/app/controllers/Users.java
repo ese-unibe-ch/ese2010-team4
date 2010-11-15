@@ -30,8 +30,9 @@ public class Users extends Controller {
 
 	@Before
 	static void setConnectedUser() {
-		if (Security.isConnected()) {
-			User user = User.find("byEmail", Security.connected()).first();
+		if (Secure.Security.isConnected()) {
+			User user = User.find("byEmail", Secure.Security.connected())
+					.first();
 			renderArgs.put("user", user);
 		}
 	}
@@ -48,7 +49,7 @@ public class Users extends Controller {
 	 * My questions.
 	 */
 	public static void myQuestions() {
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		List<Question> questions = Question.find("byAuthor", user).fetch();
 		render(questions);
 	}
@@ -100,7 +101,7 @@ public class Users extends Controller {
 	 * My answers.
 	 */
 	public static void myAnswers() {
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		List<Answer> answers = Answer.find("byAuthor", user).fetch();
 
 		render(answers);
@@ -192,7 +193,7 @@ public class Users extends Controller {
 			writeComment(postid, questionid);
 		}
 
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		Post post = Post.find("byId", postid).first();
 
 		new Comment(user, post, content).save();
@@ -244,7 +245,7 @@ public class Users extends Controller {
 	 */
 	public static void quote(Long postId) {
 		Post post = Post.findById(postId);
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		user.quoteContent(post.content, post.author.email);
 		user.save();
 		if (post instanceof Answer)
@@ -263,7 +264,7 @@ public class Users extends Controller {
 	 */
 	public static void voteForQuestion(Long questionId, boolean vote) {
 
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		Question question = Question.findById(questionId);
 
 		question.vote(user, vote);
@@ -286,7 +287,7 @@ public class Users extends Controller {
 	public static void voteForAnswer(Long questionId, Long answerId,
 			boolean vote) {
 
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		Answer answer = Answer.find("byId", answerId).first();
 
 		answer.vote(user, vote);
@@ -317,7 +318,7 @@ public class Users extends Controller {
 		List<Post> activities = userToShow.activities();
 		Post lastActivity = Post.find("order by timestamp desc").first();
 
-		if (userToShow.email.equals(Security.connected())) {
+		if (userToShow.email.equals(Secure.Security.connected())) {
 			myProfile(userToShow.id);
 		}
 
@@ -442,7 +443,7 @@ public class Users extends Controller {
 	 */
 	public static void changeProfile(String birthday, String website,
 			String work, String languages, String aboutMe) throws IOException {
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		user.setBirthday(birthday);
 		user.website = website;
 		user.work = work;
@@ -458,7 +459,7 @@ public class Users extends Controller {
 	 * @return the list
 	 */
 	public static void recentPosts() {
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		Post post = Post.find("byAutor", user).first();
 		render(post);
 	}
@@ -491,7 +492,7 @@ public class Users extends Controller {
 
 	public static void myFollows() {
 
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		user.removeNull();
 		user.save();
@@ -505,7 +506,7 @@ public class Users extends Controller {
 	}
 
 	public static void followQuestion(Long id) {
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		Question question = Post.findById(id);
 		if (!user.followQ.contains(question)) {
 			user.followQ.add(question);
@@ -515,7 +516,8 @@ public class Users extends Controller {
 	}
 
 	public static void followUser(Long id) {
-		User userClient = User.find("byEmail", Security.connected()).first();
+		User userClient = User.find("byEmail", Secure.Security.connected())
+				.first();
 		User userServer = User.findById(id);
 		if (!userClient.followU.contains(userServer)) {
 			userClient.followU.add(userServer);
@@ -526,13 +528,14 @@ public class Users extends Controller {
 
 	public static void unfollowQuestion(Long id) {
 		Question question = Question.findById(id);
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		user.deleteFollowQ(question);
 		Users.myFollows();
 	}
 
 	public static void unfollowUser(Long id) {
-		User userMaster = User.find("byEmail", Security.connected()).first();
+		User userMaster = User.find("byEmail", Secure.Security.connected())
+				.first();
 		User userSlave = User.findById(id);
 		userMaster.deleteFollowU(userSlave);
 		Users.myFollows();
@@ -543,7 +546,8 @@ public class Users extends Controller {
 		// File should not be null and not bigger than 10KB
 		assert avatar != null && avatar.length() < 10000;
 		if (avatar != null && avatar.length() < 50000) {
-			User user = User.find("byEmail", Security.connected()).first();
+			User user = User.find("byEmail", Secure.Security.connected())
+					.first();
 			user.avatarPath = uploader.upload(avatar, "avatar" + user.id)
 					.substring(2);
 			user.save();
@@ -554,7 +558,7 @@ public class Users extends Controller {
 	}
 
 	public static void updateAvatarPath(String URL) throws IOException {
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		user.avatarPath = URL;
 		user.save();
 		Users.myProfile(user.id);
@@ -562,7 +566,7 @@ public class Users extends Controller {
 
 	// DR not working probably not needed
 	public static void avatarPath() {
-		User user = User.find("byEmail", Security.connected()).first();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		renderText(user.avatarPath);
 	}
 
