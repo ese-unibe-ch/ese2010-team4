@@ -1,64 +1,54 @@
 #{extends 'profileMain.html' /}
 #{set title:'My questions' /}
 
-
 #{list items:questions, as:'question'}
-            <div class="question">
-					<div class="voting">
-						<div class="vote-curr">
-							${question.voting}
-						</div>
-					</div>
-					<div class="question-author">
-						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" width="62" height="62" /></div>
-						#{/ifnot}
-						<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
-						<div class="question-date">
-							${question.getDate()}
-						</div>
-						<div class="metadata" id="question-metadata">
-						<div class="attachment" id="question-attachment">
-							#{if question.attachmentPath != null}
-								<a class="button" href="${question.attachmentPath}">
-									<img src="@{'/public/images/file.gif'}"/>
-									Attachment
-								</a>
-							#{/if}
-						</div>
-						#{secure.check 'user'}
-							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
-						#{/secure.check}
-					</div>
-					</div>
-					<div class="question-main">
-						<div class="question-title">
-							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-						</div>
-						<div class="question-content">
-							${question.content.raw()}
-						</div>
-						
-						#{ifnot question.tags.isEmpty()}
-							<div class question-tag>
-								#{list items:question.tags, as:'tag'}
-			   						<a class="button" href="@{Application.tagged(tag)}">${tag}</a>
-								#{/list}
-							</div>
-						
-							<div class similar-question>
-								this questions have the same tags:
-								#{list items:question.similarPosts(), as:'tagged'}
-									<a href="@{Application.show(tagged.id)}">${tagged.getTitle()}</a>${tagged_isLast ? '' : ', '}	
-								#{/list}
-							</div>
-						#{/ifnot}
-						
-						<div class="question-answer">
-							#{ifnot question.answers.isEmpty()}
-								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})
-							#{/ifnot}
-						</div>
-					</div>
-                </div>
+	<div class="question">
+		<div class="voting">
+			<div class="vote-curr">
+				${question.voting()}
+			</div>
+		</div>
+		<div id="question-author" class="author">
+			<div class="buttons" id="question-buttons">
+				#{secure.check 'user'}
+					#{ifnot question.hasBestAnswer}
+						<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
+						<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
+						<a class="button" href="@{Users.quote(question.id)}">quote</a>
+					#{/ifnot}
+				#{/secure.check}
+			</div>
+			<div class="question-date">
+				${question.getDate()}
+			</div>
+			<div id="userImg"> <img src="${question.author.avatarPath}"/></div>
+			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
+		</div>
+		<div class="question-main">
+			<div class="question-title">
+				<a class="button" href="@{Application.show(question.id)}">${question.getTitle()}</a>
+			</div>
+			<div class="content" id="question-content">
+				${question.content.raw()}
+			</div>
+			<div class="question-tag">
+				#{if !question.tags.isEmpty()}
+					#{list items:question.tags, as:'tag'}
+			   			<a class="button" href="@{Application.tagged(tag)}">${tag}</a>
+					#{/list}
+				#{/if}
+			</div>
+			<div class="attachment" id="question-attachment">
+				#{if question.attachmentPath != null}
+					<a class="button" href="${question.attachmentPath}">
+						<img src="@{'/public/images/file.gif'}"/>
+						Attachment
+					</a>
+				#{/if}
+			</div>
+			<div class="question-metadata">
+				(Number of answers: ${question.answers.size()} | Number of comments: ${question.comments.size()})
+			</div>
+		</div>
+	</div>
 #{/list}
