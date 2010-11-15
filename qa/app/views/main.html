@@ -23,6 +23,7 @@
 					<div>User: ${user.fullname}</div>
 					<div>Reputation: ${user.rating}</div>
 					<a class="button" href="@{Users.myProfile(user.id)}">My Profile</a>
+					<a class="button" id="log" href="@{Secure.logout()}">Log out</a>
 				</div>
 				
 				<div id="userActivity">
@@ -52,6 +53,7 @@
 							<label for="remember">&{'secure.remember'}</label>
 						
 							<input type="submit" id="signin" value="&{'secure.signin'}" />
+							<div id="menu"><a class="button" href="@{Secure.login()}">&{'register.title'}</a></div>
 						</div>
 						#{/form}
 					</div>
@@ -64,24 +66,17 @@
 	
 				<div id="menu">
 					<a class="button" href="@{Application.index()}">Home</a>
-					#{ifnot controllers.Security.connected()}
-					<a class="button" id="log" href="@{Secure.login()}">&{'register.title'}</a>
-					#{/ifnot}
 					#{secure.check 'user'}
 						<a class="button" href="@{Users.index()}">New question</a>
-						<a class="button" id="log" href="@{Secure.logout()}">Log out</a>
+						
+						<div id="search">
+							#{form @Users.searchResults()}
+								<input type="text" name="toSearch" id="toSearch"/>
+								<input type="submit" value="search" />
+							#{/form}
+						</div>
 					#{/secure.check}
 				</div>
-	
-				#{secure.check 'user'}
-				<div id="search">
-					#{form @Users.searchResults()}
-						<input type="text" name="toSearch" id="toSearch"/>
-						<input type="submit" value="search" />
-					#{/form}
-				</div>
-				#{/secure.check}
-				
 	
 				<div id="content">
 				    #{doLayout /}
