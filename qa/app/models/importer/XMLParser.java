@@ -100,7 +100,6 @@ public class XMLParser extends DefaultHandler {
 				q.tagItWith(tag).save();
 			questionIdMap.put(questionId, q.id);
 			questionCounter++;
-			System.out.println(questionId);
 		}
 
 		if (qname.equals("answer")) {
