@@ -7,9 +7,10 @@ import java.net.URL;
 import models.User;
 import models.importer.XMLParser;
 import play.jobs.Job;
+import play.jobs.OnApplicationStart;
 import play.test.Fixtures;
 
-//@OnApplicationStart
+@OnApplicationStart
 public class Bootstrap extends Job {
 
 	public void doJob() {
