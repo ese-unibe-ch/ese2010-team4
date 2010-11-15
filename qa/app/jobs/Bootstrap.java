@@ -23,7 +23,8 @@ public class Bootstrap extends Job {
 		URL url;
 
 		try {
-			url = new File("qa/public/QA3.xml").toURI().toURL();
+			// url = new File("qa/public/QA.xml").toURI().toURL();
+			url = new File("qa/public/inconsistentData.xml").toURI().toURL();
 			parser.processURL(url);
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();

@@ -19,7 +19,7 @@ public class URLHandler implements IHandler {
 	private URLShortner uShortner;
 	private HashMap<String, String> URLMap;
 	static Pattern URLPattern = Pattern
-			.compile("(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+			.compile("(?<!src=\")(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 
 	private Matcher htmlMatcher, linkMatcher;
 

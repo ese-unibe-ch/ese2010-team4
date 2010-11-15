@@ -1,4 +1,3 @@
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +23,14 @@ public class URLHandlerTest extends UnitTest {
 		assertTrue(URLMap.containsKey("http://d3orn.ch"));
 		assertTrue(URLMap.containsKey("https://github.com"));
 		assertTrue(URLMap.containsKey("ftp://drahm.ch"));
+	}
+
+	@Test
+	public void shouldNotFindURLSinIMGTag() {
+		String content = "This is just a Image: <img src=\"http://d3orn.ch\">";
+		uHandler.findURLS(content);
+		HashMap URLMap = uHandler.getURLMap();
+		assertEquals(URLMap.size(), 0);
 	}
 
 	@Test
