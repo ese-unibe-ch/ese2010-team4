@@ -36,7 +36,9 @@ html, body {
 }
 
 #menu .button {
-	margin: 0 10px;
+	background: #090;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 0px 4px;
 }
 	
 /** User info **/
@@ -51,6 +53,8 @@ html, body {
 }
 
 #userImg {
+	width: 62;
+	height: 62;
 	float: right;
 	margin: 0px 0px 0px 10px;
 }
@@ -127,7 +131,7 @@ a {
     -moz-border-radius: 16px;
 }
 
-.question .author {
+.question .author, .answer .author {
 	float: right;
 	text-align: right;
 	margin: 0px 0px 10px 0px;
@@ -216,13 +220,17 @@ pre {
 }
 
 .answer {
-	background: #9CF;
+	background: #69F;
 	padding: 20px 20px 20px 20px;
 	margin: 20px 0px 20px 0px;
 	clear: both;
 	overflow: hidden;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
+}
+
+.question .answer {
+	background: #9CF;
 }
 
 /** Comments **/
