@@ -230,6 +230,13 @@ pre {
     -moz-border-radius: 16px;
 }
 
+.answer .content {
+	background: #FFF;
+	margin: 10px 0px 10px 0px;
+	padding: 5px;
+	clear: right;
+}
+
 .question .answer {
 	background: #9CF;
 }
