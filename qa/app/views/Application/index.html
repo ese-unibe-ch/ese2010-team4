@@ -26,11 +26,16 @@
 						<div class="buttons" id="question-buttons">
 							#{secure.check 'user'}
 								#{ifnot question.hasBestAnswer}
-									#{if !isfollowing && !abletochoose}
+									#{if !user.isFollowing(question) && !abletochoose}
 										<a class="button" href="@{Users.followQuestion(question.id)}">
 											<span>follow</span>
 										</a>
 									#{/if}
+									#{elseif user.isFollowing(question) && !abletochoose}
+										<a class="button" href="@{Users.unfollowQuestion(question.id)}">
+											<span>unfollow</span>
+										</a>
+									#{/elseif}
 									#{if isvalid}
 										<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
 									#{/if}
