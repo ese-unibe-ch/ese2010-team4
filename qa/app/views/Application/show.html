@@ -103,7 +103,7 @@
 									</div>
 								#{/else}
 								#{secure.check 'user'}    
-									#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Security.connected()).first())}
+									#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Secure.Security.connected()).first())}
 					         			<div class="vote-up-down">
 											<a class="vote-up" href="@{Users.voteForAnswer(question.id, answer.id, true)}"></a>
 											<a class="vote-down" href="@{Users.voteForAnswer(question.id, answer.id, false)}"></a>

@@ -16,6 +16,10 @@ POST	/user/uploadAvatar						Users.uploadAvatar
 *      /admin            						module:crud
 
 # Administration
+POST  	/admin/importXML						Admin.importXML
+GET     /admin/                                 Admin.index
+*       /admin                                  module:crud
+
 GET     /user/?                                Users.index
 GET		/user/searchresults/{toSearch}		   Users.searchResults
 GET		/user/showprofile/{authorid}		   Users.showProfile

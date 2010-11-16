@@ -23,6 +23,7 @@ public class XMLParser extends DefaultHandler {
 	private long ownerID, questionId, answerId;
 	private HashMap<Long, Long> userIdMap = new HashMap<Long, Long>();
 	private HashMap<Long, Long> questionIdMap = new HashMap<Long, Long>();
+	private HashMap<Long, Long> answerIdMap = new HashMap<Long, Long>();
 	private String content, title;
 	private StringBuffer buf = new StringBuffer();
 	private ArrayList<String> tags = new ArrayList<String>();
@@ -118,7 +119,7 @@ public class XMLParser extends DefaultHandler {
 			try {
 				if (!userIdMap.containsKey(ownerID)) {
 					throw new Exception("No owner found");
-				} else if (!questionIdMap.containsKey(ownerID)) {
+				} else if (!questionIdMap.containsKey(questionId)) {
 					throw new Exception("No question found");
 				} else {
 					long searchId = userIdMap.get(ownerID);
@@ -127,6 +128,7 @@ public class XMLParser extends DefaultHandler {
 					Question q = Question.findById(searchId);
 					Answer a = new Answer(q, u, content).save();
 					q.addNewAnswer(a).save();
+					answerIdMap.put(answerId, a.id);
 					answerCounter++;
 				}
 			} catch (Exception e) {
