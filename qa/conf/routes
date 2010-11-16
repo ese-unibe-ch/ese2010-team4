@@ -21,7 +21,7 @@ GET		/user/showprofile/{authorid}		   Users.showProfile
 
 # Administration
 POST  	/admin/importXML						Admin.importXML
-GET     /admin/                                 Admin.index
+GET     /admin/?                                Admin.index
 *       /admin                                  module:crud
 
 # Secure
