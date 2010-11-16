@@ -17,6 +17,8 @@ POST	/user/uploadAvatar						Users.uploadAvatar
 
 # Administration
 GET     /user/?                                Users.index
+GET     /user/myquestions                      Users.myQuestions
+GET     /user/myanswers                        Users.myAnswers
 GET		/user/searchresults/{toSearch}		   Users.searchResults
 GET		/user/showprofile/{authorid}		   Users.showProfile
 *       /user                                  module:crud
