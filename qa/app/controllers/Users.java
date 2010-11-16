@@ -16,7 +16,6 @@ import models.Tag;
 import models.User;
 import play.data.validation.Required;
 import play.mvc.Before;
-import play.mvc.Controller;
 import play.mvc.With;
 
 /**
@@ -24,7 +23,7 @@ import play.mvc.With;
  * 
  */
 @With(Secure.class)
-public class Users extends Controller {
+public class Users extends CRUD {
 
 	private static Uploader uploader = new Uploader("qa/public/uploads/");
 
