@@ -28,12 +28,12 @@
 								#{ifnot question.hasBestAnswer}
 									#{if !user.isFollowing(question)}
 										<a class="button" href="@{Users.followQuestion(question.id)}">
-											<span>follow</span>
+											<span>follow question</span>
 										</a>
 									#{/if}
 									#{else}
 										<a class="button" href="@{Users.unfollowQuestion(question.id)}">
-											<span>unfollow</span>
+											<span>unfollow question</span>
 										</a>
 									#{/else}
 									#{if user.isAbleToChoose(question.id)}
