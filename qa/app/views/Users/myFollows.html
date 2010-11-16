@@ -5,16 +5,16 @@
 <div class="follows"> 
 following this questions:
 	#{list items:followQ, as:'question'}
-            <div class="answer">
-                <div class="question-content">
-        			<a href="@{Application.show(question.id)}">${question.content.raw()}</a>
-        		</div>
-        		<div>
-        			#{form @Users.unfollowQuestion(question.id)}
-						<input type="submit" value="Unfollow"/>
-					#{/form}
-        		</div> 
-
+            <div class="question">
+            	<div class="answer">
+					<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
+					
+					<div>
+        				#{form @Users.unfollowQuestion(question.id)}
+							<input type="submit" value="Unfollow"/>
+						#{/form}
+        			</div>
+				</div>
             </div>
 	#{/list}
 </div>
@@ -23,9 +23,9 @@ following this questions:
 <div class="follows"> 
 	following this users:
 		#{list items:followU, as:'user'}
-        	<div class="answer">
-                <div class="question-metadata">
-                    <div class="question-content">
+        	<div class="question">
+                <div class="answer">
+                    <div class="question-author">
         				<a href="@{Users.showProfile(user.id)}">${user.fullname}</a>
         				<div>
         					#{form @Users.unfollowUser(user.id)}
