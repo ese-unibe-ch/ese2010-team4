@@ -17,8 +17,9 @@ public class Application extends Controller {
 
 	@Before
 	static void setConnectedUser() {
-		if (Security.isConnected()) {
-			User user = User.find("byEmail", Security.connected()).first();
+		if (Secure.Security.isConnected()) {
+			User user = User.find("byEmail", Secure.Security.connected())
+					.first();
 			renderArgs.put("user", user);
 		}
 	}
@@ -31,8 +32,8 @@ public class Application extends Controller {
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 		String lastAnswer = "";
-		boolean isconnected = Security.isConnected();
-		User user = User.find("byEmail", Security.connected()).first();
+		boolean isconnected = Secure.Security.isConnected();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		render(lastActivity, questions, lastAnswer, isconnected, user);
 	}
 
@@ -51,13 +52,14 @@ public class Application extends Controller {
 		boolean isvalid = false;
 		boolean isfollowing = false;
 
-		if (!Security.isConnected()) {
+		if (!Secure.Security.isConnected()) {
 
 			render(question, isvalid, abletochoose, abletovote, isfollowing);
 		}
 
 		else {
-			User user = User.find("byEmail", Security.connected()).first();
+			User user = User.find("byEmail", Secure.Security.connected())
+					.first();
 			abletochoose = user.isAbleToChoose(id);
 			abletovote = user.isAbleToVote(id);
 			isvalid = user.hasTimeToChange(id);
@@ -92,8 +94,8 @@ public class Application extends Controller {
 	}
 
 	public static void tagged(Tag tag) {
-		boolean isconnected = !Security.isConnected();
-		User user = User.find("byEmail", Security.connected()).first();
+		boolean isconnected = !Secure.Security.isConnected();
+		User user = User.find("byEmail", Secure.Security.connected()).first();
 		List<Post> taggedPosts = Post.findTaggedWith(tag.name);
 		render(taggedPosts, isconnected, user);
 	}

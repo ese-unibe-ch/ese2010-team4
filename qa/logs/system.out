@@ -1,11 +1,54 @@
-12:42:09,516 INFO  ~ Starting /Users/Marius/Desktop/ese/ese2010-team4/qa
-12:42:09,521 ERROR ~ Module cobertura will not be loaded because /Applications/weitere Programme/Play/modules/cobertura does not exist
-12:42:09,522 INFO  ~ Module crud is available (/Applications/weitere Programme/Play/modules/crud)
-12:42:10,619 WARN  ~ You're running Play! in DEV mode
-~
-~ Go to http://localhost:9000/@tests to run the tests
-~
-12:42:10,751 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
-12:42:15,991 ERROR ~ Cannot include routes for module secure (not found)
-12:42:19,667 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
-12:42:21,691 INFO  ~ Application 'ese2010-simpleUI' is now started !
+11:53:13,971 INFO  ~ Starting /home/d3orn/ese2010-team4/qa
+11:53:13,990 INFO  ~ Module cobertura is available (/home/d3orn/play-1.0.3.2/modules/cobertura-2.0)
+11:53:13,991 INFO  ~ Module crud is available (/home/d3orn/play-1.0.3.2/modules/crud)
+11:53:15,006 WARN  ~ Actually play.tmp is set to null. Set it to play.tmp=none
+11:53:15,013 INFO  ~ 
+11:53:15,013 INFO  ~ Go to http://localhost:9000/@tests to run the tests
+11:53:15,014 INFO  ~ 
+11:53:15,014 WARN  ~ You're running Play! in DEV mode
+11:53:15,122 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+Cobertura: Saved information on 37 classes.
+11:53:22,464 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
+11:53:23,656 INFO  ~ Application 'ese2010-simpleUI' is now started !
+11:53:38,060 INFO  ~ Cobertura plugin: generating test coverage report
+Cobertura: Loaded information on 37 classes.
+Cobertura: Saved information on 37 classes.
+Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+Cobertura: Loaded information on 37 classes.
+Javancss.<init>(InputStream).e: net.sourceforge.cobertura.javancss.ParseException: Encountered "interface" at line 162, column 13.
+Was expecting one of:
+    "assert" ...
+    "enum" ...
+    <IDENTIFIER> ...
+    
+11:53:40,249 WARN  ~ JavaNCSS got an error while parsing the java file /home/d3orn/play-1.0.3.2/modules/crud/app/controllers/CRUD.java
+ParseException in STDIN
+Last useful checkpoint: "controllers.CRUD"
+Encountered "interface" at line 162, column 13.
+Was expecting one of:
+    "assert" ...
+    "enum" ...
+    <IDENTIFIER> ...
+    
+
+Report time: 605ms
+Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+Cobertura: Loaded information on 37 classes.
+Javancss.<init>(InputStream).e: net.sourceforge.cobertura.javancss.ParseException: Encountered "interface" at line 162, column 13.
+Was expecting one of:
+    "assert" ...
+    "enum" ...
+    <IDENTIFIER> ...
+    
+11:53:40,748 WARN  ~ JavaNCSS got an error while parsing the java file /home/d3orn/play-1.0.3.2/modules/crud/app/controllers/CRUD.java
+ParseException in STDIN
+Last useful checkpoint: "controllers.CRUD"
+Encountered "interface" at line 162, column 13.
+Was expecting one of:
+    "assert" ...
+    "enum" ...
+    <IDENTIFIER> ...
+    
+
+Report time: 444ms
+11:53:41,116 INFO  ~ Test coverage report has been generated: file:/home/d3orn/ese2010-team4/qa/test-result/code-coverage/index.html

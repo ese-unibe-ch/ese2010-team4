@@ -23,6 +23,7 @@ public class XMLParser extends DefaultHandler {
 	private long ownerID, questionId, answerId;
 	private HashMap<Long, Long> userIdMap = new HashMap<Long, Long>();
 	private HashMap<Long, Long> questionIdMap = new HashMap<Long, Long>();
+	private HashMap<Long, Long> answerIdMap = new HashMap<Long, Long>();
 	private String content, title;
 	private StringBuffer buf = new StringBuffer();
 	private ArrayList<String> tags = new ArrayList<String>();
@@ -81,7 +82,13 @@ public class XMLParser extends DefaultHandler {
 			this.questionId = Long.parseLong(buf.toString());
 		}
 		if (qname.equals("body")) {
-			this.content = buf.toString();
+			String body = buf.toString();
+			if (body.contains("<![CDATA[")) {
+				this.content = body.replace("<![CDATA[", "");
+				this.content = this.content.substring(0,
+						this.content.length() - 3);
+			} else
+				this.content = body;
 		}
 
 		if (qname.equals("title")) {
@@ -93,23 +100,47 @@ public class XMLParser extends DefaultHandler {
 		}
 
 		if (qname.equals("question")) {
-			long searchId = userIdMap.get(ownerID);
-			User u = User.findById(searchId);
-			Question q = u.addQuestion(title, content).save();
-			for (String tag : tags)
-				q.tagItWith(tag).save();
-			questionIdMap.put(questionId, q.id);
-			questionCounter++;
+
+			try {
+				if (!userIdMap.containsKey(ownerID)) {
+					throw new Exception("No owner found");
+				} else {
+					long searchId = userIdMap.get(ownerID);
+					User u = User.findById(searchId);
+					Question q = u.addQuestion(title, content).save();
+					for (String tag : tags)
+						q.tagItWith(tag).save();
+					tags.clear();
+					questionIdMap.put(questionId, q.id);
+					questionCounter++;
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+				// e.printStackTrace();
+			}
+
 		}
 
 		if (qname.equals("answer")) {
-			long searchId = userIdMap.get(ownerID);
-			User u = User.findById(searchId);
-			searchId = questionIdMap.get(questionId);
-			Question q = Question.findById(searchId);
-			Answer a = new Answer(q, u, content).save();
-			q.addNewAnswer(a).save();
-			answerCounter++;
+			try {
+				if (!userIdMap.containsKey(ownerID)) {
+					throw new Exception("No owner found");
+				} else if (!questionIdMap.containsKey(questionId)) {
+					throw new Exception("No question found");
+				} else {
+					long searchId = userIdMap.get(ownerID);
+					User u = User.findById(searchId);
+					searchId = questionIdMap.get(questionId);
+					Question q = Question.findById(searchId);
+					Answer a = new Answer(q, u, content).save();
+					q.addNewAnswer(a).save();
+					answerIdMap.put(answerId, a.id);
+					answerCounter++;
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+				// e.printStackTrace();
+			}
 		}
 
 		if (qname.equals("QA")) {
@@ -117,6 +148,11 @@ public class XMLParser extends DefaultHandler {
 					+ " questions and " + answerCounter
 					+ " answers have been added");
 		}
+	}
+
+	public String info() {
+		return userCounter + " users, " + questionCounter + " questions and "
+				+ answerCounter + " answers have been added";
 	}
 
 	public void characters(char[] chars, int start, int length) {

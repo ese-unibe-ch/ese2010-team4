@@ -2,45 +2,43 @@
 #{set title:'show profile' /}
 
 #{secure.check 'user'}
-<div class="form" id="userForm">
+<div class="question">
 	
-
-	<p>you looking for ${toSearch}</p>
-	<p>
+	<h4>you are looking for ${toSearch}</h4>
+	
+	<div class="answers">
         #{if found}
         	#{if !users.isEmpty()}
         		found in user
         		#{list items:users, as:'user'}
-        			<p>
+        			<div class="answer">
         			<a href = "@{Users.showProfile(user.id)}">${user.fullname} (${user.rating})</a>
-        			</p>
+        			</div>
         		#{/list}
         	#{/if}
         	#{ifnot postscont.isEmpty() && poststitl.isEmpty()}
-        		<p>found in knowledgebase </p>
         		#{list items:postscont, as:'post'}
         					#{if post.isQuestion()}
-									<p>in question <a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</p>
+								<div class="answer">in question <a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</div>
 							#{/if}
 							#{if post.isAnswer()}
-								<p>in answer to the<a class="button" href = "@{Application.show(post.findQuestion().id)}">question</a> ${post.findQuestion().title} (${post.getDate()}).</p>
+								<div class="answer">in answer to the<a class="button" href = "@{Application.show(post.findQuestion().id)}">question</a> ${post.findQuestion().title} (${post.getDate()}).</div>
 							#{/if}
 							#{if post.isCommentAnswer()}
-								<p>in the comment to the <a class="button" href = "@{Application.show(post.post.findQuestion().id)}">question</a> ${post.post.findQuestion().title}  (${post.getDate()}).</p>
+								<div class="answer">in the comment to the <a class="button" href = "@{Application.show(post.post.findQuestion().id)}">question</a> ${post.post.findQuestion().title}  (${post.getDate()}).</div>
 									
 							#{/if}
 							#{if post.isCommentQuestion()}
-								<p>in a comment to an answer for the <a class="button" href = "@{Application.show(post.post.id)}">question</a> ${post.post.title} (${post.getDate()}).</p>
+								<div class="answer">in a comment to an answer for the <a class="button" href = "@{Application.show(post.post.id)}">question</a> ${post.post.title} (${post.getDate()}).</div>
 							#{/if}
-							<p>content:  ${post.content}</p>
         		#{/list}
         	#{/ifnot}
         	#{if !tags.isEmpty()}
         		found by tags
         		#{list items:tags, as:'tag'}
-        			<p>
+        			<div class="answer">
    					<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
-   					</p>
+   					</div>
 				#{/list}
 			#{/if}
         #{/if}
@@ -48,6 +46,6 @@
         #{if !found}
         	${message}
         #{/if}
-    </p>
+    </div>
 </div>
 #{/ secure.check}

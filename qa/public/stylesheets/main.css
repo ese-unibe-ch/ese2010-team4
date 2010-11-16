@@ -87,7 +87,8 @@ html, body {
 
 /** Search **/
 #search {
-	margin: 20px;
+	margin: 0px;
+	float: right;
 }
 
 
