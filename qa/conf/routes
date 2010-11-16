@@ -12,14 +12,6 @@ POST    /posts/{postId}/comments                Application.postComment
 
 POST	/user/uploadAvatar						Users.uploadAvatar
 
-# Import CRUD routes
-*      /admin            						module:crud
-
-# Administration
-POST  	/admin/importXML						Admin.importXML
-GET     /admin/                                 Admin.index
-*       /admin                                  module:crud
-
 GET     /user/?                                Users.index
 GET     /user/myquestions                      Users.myQuestions
 GET     /user/myanswers                        Users.myAnswers
@@ -27,6 +19,10 @@ GET		/user/searchresults/{toSearch}		   Users.searchResults
 GET		/user/showprofile/{authorid}		   Users.showProfile
 *       /user                                  module:crud
 
+# Administration
+POST  	/admin/importXML						Admin.importXML
+GET     /admin/                                 Admin.index
+*       /admin                                  module:crud
 
 # Secure
 GET			/login			Secure.login
