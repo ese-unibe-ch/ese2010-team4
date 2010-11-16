@@ -26,23 +26,19 @@
 						<div class="buttons" id="question-buttons">
 							#{secure.check 'user'}
 								#{ifnot question.hasBestAnswer}
-									#{if !user.isFollowing(question) && !abletochoose}
+									#{if !user.isFollowing(question)}
 										<a class="button" href="@{Users.followQuestion(question.id)}">
 											<span>follow</span>
 										</a>
 									#{/if}
-									#{elseif user.isFollowing(question) && !abletochoose}
+									#{else}
 										<a class="button" href="@{Users.unfollowQuestion(question.id)}">
 											<span>unfollow</span>
 										</a>
-									#{/elseif}
-									#{if isvalid}
-										<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
-									#{/if}
-									#{if abletochoose}
+									#{/else}
+									#{if user.isAbleToChoose(question.id)}
 										<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 									#{/if}
-									<a class="button" href="@{Users.quote(question.id)}">quote</a>
 								#{/ifnot}
 							#{/secure.check}
 						</div>

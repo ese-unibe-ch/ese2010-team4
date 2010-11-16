@@ -4,46 +4,72 @@
 <div class="questions"> 
 	this questions have the same tag: <br>
 	#{list items:taggedPosts, as:'question'}
-            <div class="question">
-					<div class="voting">
-						<div class="vote-curr">
-							${question.voting}
-						</div>
-						#{secure.check 'user'}
+		<div class="question">
+			<div class="voting">
+				<div class="vote-curr">
+					${question.voting()}
+				</div>
+				#{secure.check 'user'}    
+					#{if user.isAbleToVote(question.id) && user.hasTimeToChange(question.id)}
 						<div class="vote-up-down">
 							<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
 							<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
 						</div>
-						#{/secure.check}
-					</div>
-					<div class="question-author">
-						#{ifnot models.User.find("byEmail", question.author.fullname).first()==null}
-							<div class="avatar"><img src="${models.User.find("byEmail", question.author.fullname).first().avatarPath}" /></div>
+					#{/if}
+				#{/secure.check}
+			</div>
+			<div id="question-author" class="author">
+				<div class="buttons" id="question-buttons">
+					#{secure.check 'user'}
+						#{ifnot question.hasBestAnswer}
+							#{if !user.isFollowing(question)}
+								<a class="button" href="@{Users.followQuestion(question.id)}">
+									<span>follow</span>
+								</a>
+							#{/if}
+							#{else}
+								<a class="button" href="@{Users.unfollowQuestion(question.id)}">
+									<span>unfollow</span>
+								</a>
+							#{/else}
+							#{if user.isAbleToChoose(question.id)}
+								<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
+							#{/if}
 						#{/ifnot}
-						<a href="@{Users.showProfile(question.author.id)}">${question.author.fullname}</a>
-						<div class="question-date">
-							${question.getDate()}
-						</div>
-						<div class="metadata" id="question-metadata">
-						#{secure.check 'user'}
-							<a class="button" href="@{Users.showEdit(question.id, 0)}">edit</a>
-						#{/secure.check}
-					</div>
-					</div>
-					<div class="question-main">
-						<div class="question-title">
-							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-						</div>
-						<div class="question-content">
-							${question.content.raw()}
-						</div>
-						<div class="question-answer">
-							#{ifnot question.answers.isEmpty()}
-								(last answered by ${question.answers.get(question.answers.size()-1).author.fullname})
-							#{/ifnot}
-						</div>
-					</div>
-                </div>
-            <br>
+					#{/secure.check}
+				</div>
+				<div class="question-date">
+					${question.getDate()}
+				</div>
+				<div id="userImg"> <img src="${question.author.avatarPath}"/></div>
+				<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
+			</div>
+			<div class="question-main">
+				<div class="question-title">
+					<a class="button" href="@{Application.show(question.id)}">${question.getTitle()}</a>
+				</div>
+				<div class="content" id="question-content">
+					${question.content.raw()}
+				</div>
+				<div class="question-tag">
+					#{if !question.tags.isEmpty()}
+						#{list items:question.tags, as:'tag'}
+	   						<a class="button" href="@{Application.tagged(tag)}">${tag}</a>
+						#{/list}
+					#{/if}
+				</div>
+				<div class="attachment" id="question-attachment">
+					#{if question.attachmentPath != null}
+						<a class="button" href="${question.attachmentPath}">
+							<img src="@{'/public/images/file.gif'}"/>
+							Attachment
+						</a>
+					#{/if}
+				</div>
+				<div class="question-metadata">
+						(Number of answers: ${question.answers.size()} | Number of comments: ${question.comments.size()})
+				</div>
+			</div>
+		</div>
 	#{/list}
 </div>

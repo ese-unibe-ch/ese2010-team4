@@ -8,7 +8,14 @@
     	<img src="${userToShow.avatarPath}" width="62" height="62"/>
 	</div>
 	
-	<h3>You are on ${userToShow.fullname}'s profile, <a href="@{Users.followUser(userToShow.id)}">follow him</a></h3>
+	<h3>You are on ${userToShow.fullname}'s profile
+	#{if !user.isFollowing(userToShow)}
+		<a href="@{Users.followUser(userToShow.id)}">(follow him)</a>
+	#{/if}
+	#{else}
+		<a href="@{Users.unfollowUser(userToShow.id)}">(unfollow him)</a>
+	#{/else}
+	</h3>
 	
 	<div>
 		<label for="author">Fullname: </label>
