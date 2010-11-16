@@ -6,44 +6,36 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/crud.css'}" />
     </head>
-	<body id="crud">
+    <body id="crud">
 		
 		<div id="crudHeader">
 			<h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
 		</div>
 		
-		#{if request.actionMethod != 'index'}
-			<div id="crudBreadcrumb">
-				#{crud.navigation /}
-			</div>
-		#{/if}
-
 		#{if flash.success}
 			<div class="crudFlash flashSuccess">
 				${flash.success}
 			</div>
 		#{/if}
-		#{if flash.error || error}
-			<div class="crudFlash flashError">
-				${error ?: flash.error}
-			</div>
-		#{/if}
-		
-		<div id="crudContent">
-			#{doLayout /}
+
+		<div id="report">
+			<label> Report:
+			${report.nl2br()}
 		</div>
+
+		<br>
 		
 		<div id="import">
-			<label> Import XML:
+			<label> Import more XML:
 			<form action="@{Admin.importXML()}" method="POST" enctype="multipart/form-data">
 				<table style="padding-left: 10px">
 				<input type="file" id="xml" name="xml" />
 				<input type="submit" value="Import" />
 			</table>
 			</form> 
-		</div>
+		</div>		
 		
-		<a class="button" href="@{Application.index()}">Back to A4Q</a>
-		
+		<a class="button" href="@{Admin.index()}">Back to adminpage</a>
+				
 	</body>
 </html>

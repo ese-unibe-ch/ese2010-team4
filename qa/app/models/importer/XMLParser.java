@@ -26,6 +26,7 @@ public class XMLParser extends DefaultHandler {
 	private HashMap<Long, Long> answerIdMap = new HashMap<Long, Long>();
 	private String content, title;
 	private StringBuffer buf = new StringBuffer();
+	private StringBuilder report = new StringBuilder();
 	private ArrayList<String> tags = new ArrayList<String>();
 
 	public void processURL(URL url) throws Exception {
@@ -100,46 +101,37 @@ public class XMLParser extends DefaultHandler {
 		}
 
 		if (qname.equals("question")) {
-
-			try {
-				if (!userIdMap.containsKey(ownerID)) {
-					throw new Exception("No owner found");
-				} else {
-					long searchId = userIdMap.get(ownerID);
-					User u = User.findById(searchId);
-					Question q = u.addQuestion(title, content).save();
-					for (String tag : tags)
-						q.tagItWith(tag).save();
-					tags.clear();
-					questionIdMap.put(questionId, q.id);
-					questionCounter++;
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-				// e.printStackTrace();
+			if (!userIdMap.containsKey(ownerID)) {
+				report.append("ERROR: question {" + questionId
+						+ "} could not be imported - no owner found \n");
+			} else {
+				long searchId = userIdMap.get(ownerID);
+				User u = User.findById(searchId);
+				Question q = u.addQuestion(title, content).save();
+				for (String tag : tags)
+					q.tagItWith(tag).save();
+				tags.clear();
+				questionIdMap.put(questionId, q.id);
+				questionCounter++;
 			}
-
 		}
 
 		if (qname.equals("answer")) {
-			try {
-				if (!userIdMap.containsKey(ownerID)) {
-					throw new Exception("No owner found");
-				} else if (!questionIdMap.containsKey(questionId)) {
-					throw new Exception("No question found");
-				} else {
-					long searchId = userIdMap.get(ownerID);
-					User u = User.findById(searchId);
-					searchId = questionIdMap.get(questionId);
-					Question q = Question.findById(searchId);
-					Answer a = new Answer(q, u, content).save();
-					q.addNewAnswer(a).save();
-					answerIdMap.put(answerId, a.id);
-					answerCounter++;
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-				// e.printStackTrace();
+			if (!userIdMap.containsKey(ownerID)) {
+				report.append("ERROR: answer {" + answerId
+						+ "} could not be imported - no owner found \n");
+			} else if (!questionIdMap.containsKey(questionId)) {
+				report.append("ERROR: answer {" + answerId
+						+ "} could not be imported - question not found \n");
+			} else {
+				long searchId = userIdMap.get(ownerID);
+				User u = User.findById(searchId);
+				searchId = questionIdMap.get(questionId);
+				Question q = Question.findById(searchId);
+				Answer a = new Answer(q, u, content).save();
+				q.addNewAnswer(a).save();
+				answerIdMap.put(answerId, a.id);
+				answerCounter++;
 			}
 		}
 
@@ -153,6 +145,10 @@ public class XMLParser extends DefaultHandler {
 	public String info() {
 		return userCounter + " users, " + questionCounter + " questions and "
 				+ answerCounter + " answers have been added";
+	}
+
+	public String getReport() {
+		return this.report.toString();
 	}
 
 	public void characters(char[] chars, int start, int length) {

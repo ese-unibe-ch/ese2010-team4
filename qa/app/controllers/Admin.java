@@ -28,18 +28,20 @@ public class Admin extends Controller {
 			IOException {
 		XMLParser parser = new XMLParser();
 		URL url;
+		String report = "";
 		assert xml != null;
 
 		try {
 			url = xml.toURI().toURL();
 			parser.processURL(url);
+			report = parser.getReport();
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		flash.success(parser.info());
-		Admin.index();
+		render(report);
 
 	}
 
