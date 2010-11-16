@@ -16,8 +16,6 @@ import controllers.Secure.Security;
 @With(Secure.class)
 public class Admin extends Controller {
 
-	private static Uploader uploader;
-
 	@Before
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
@@ -40,6 +38,7 @@ public class Admin extends Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		flash.success(parser.info());
 		Admin.index();
 
 	}

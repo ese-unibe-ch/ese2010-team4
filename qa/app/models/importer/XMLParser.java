@@ -82,7 +82,13 @@ public class XMLParser extends DefaultHandler {
 			this.questionId = Long.parseLong(buf.toString());
 		}
 		if (qname.equals("body")) {
-			this.content = buf.toString();
+			String body = buf.toString();
+			if (body.contains("<![CDATA[")) {
+				this.content = body.replace("<![CDATA[", "");
+				this.content = this.content.substring(0,
+						this.content.length() - 3);
+			} else
+				this.content = body;
 		}
 
 		if (qname.equals("title")) {
@@ -142,6 +148,11 @@ public class XMLParser extends DefaultHandler {
 					+ " questions and " + answerCounter
 					+ " answers have been added");
 		}
+	}
+
+	public String info() {
+		return userCounter + " users, " + questionCounter + " questions and "
+				+ answerCounter + " answers have been added";
 	}
 
 	public void characters(char[] chars, int start, int length) {
