@@ -2,40 +2,38 @@
 #{set title:'My follows' /}
 
 
-<div class="follows"> 
+<div class="question"> 
 following this questions:
 	#{list items:followQ, as:'question'}
-            <div class="question">
-            	<div class="answer">
-					<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-					
-					<div>
-        				#{form @Users.unfollowQuestion(question.id)}
-							<input type="submit" value="Unfollow"/>
-						#{/form}
-        			</div>
-				</div>
-            </div>
+    	<div class="answers">
+            <div class="answer">
+				<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
+					<div id="answer-author" class="author">
+						<div class="buttons" id="question-buttons">
+        					<a class="button" href="@{Users.unfollowQuestion(question.id)}">
+								<span>unfollow question</span>
+							</a>
+        				</div>
+					</div>
+           	</div>
+    	</div>
 	#{/list}
-</div>
 
-
-<div class="follows"> 
-	following this users:
-		#{list items:followU, as:'user'}
-        	<div class="question">
-                <div class="answer">
-                    <div class="question-author">
-        				<a href="@{Users.showProfile(user.id)}">${user.fullname}</a>
-        				<div>
-        					#{form @Users.unfollowUser(user.id)}
-								<input type="submit" value="Unfollow"/>
-							#{/form}
-						</div>
+following this users:
+	#{list items:followU, as:'user'}
+    	<div class="answers">
+        	<div class="answer">
+        		<a href="@{Users.showProfile(user.id)}">${user.fullname}</a>
+        			<div class="answer-author" class"author">
+        				<div class="buttons" id="question-buttons">
+        					<a class="button" href="@{@Users.unfollowUser(user.id)}">
+								<span>unfollow user</span>
+							</a>
+        				</div>
         			</div>
-                 </div>
-            </div>
-		#{/list}
+        	</div>
+    	</div>
+	#{/list}
 	
 	<h3>Activities:</h3>
 	#{list items:activities, as:'activity'}
