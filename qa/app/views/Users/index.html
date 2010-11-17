@@ -1,9 +1,6 @@
 #{extends 'main.html' /}
 #{set title:'User administration' /}
 
-#{stylesheet 'jquery-ui-1.8.6.custom.css' /}
-#{script 'jquery-ui-1.8.6.custom.min.js' /}
-
 #{secure.check 'user'}
 <div class="form" id="questionForm">
 	<form action="@{Users.createQuestion()}" method="POST" enctype="multipart/form-data">
@@ -27,19 +24,6 @@
 			<label for="tags">Tags, separeted by commas: </label>
 			<br>
 			<input type="text" name="tags" id="tags"/>
-			<script type="text/javascript">
-	 			$(function () {
-					var propose = #{jsAction @Users.proposeTag() /};
-					$('input#tags').autocomplete({
-						// delimiter: /(,|;)\s*/, // regex or character
-						multiple: true,
-						multipleSeparator: ",",
-						source: propose(),
-						delay: 10,
-						max: 5,
-					});
-				});
-			</script>
 		<p>
 			<input type="file" id="attachment" name="attachment" />
     	<p>
