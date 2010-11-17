@@ -7,7 +7,7 @@ import play.db.jpa.Model;
 @Entity
 public class ReputationPoint extends Model {
 	public static int counter = 0;
-	public int timestamp;
+	public long timestamp;
 	public int repvalue;
 
 	public ReputationPoint(int repvalue) {
@@ -16,7 +16,7 @@ public class ReputationPoint extends Model {
 		this.counter++;
 	}
 
-	public ReputationPoint(int i, int timestamp2) {
+	public ReputationPoint(int i, long timestamp2) {
 		this.repvalue = i;
 		this.timestamp = timestamp2;
 	}
