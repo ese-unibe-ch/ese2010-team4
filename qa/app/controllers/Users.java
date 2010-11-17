@@ -66,9 +66,13 @@ public class Users extends CRUD {
 		Post post = Post.findById(questionId);
 		User user = post.author;
 
+		if (editionIndex < 0) {
+			editionIndex = 0;
+		}
+
 		if (post.historys.isEmpty()) {
 			post.addHistory(post, post.fullname, post.content);
-			editionIndex++;
+			editionIndex = 0;
 			post.save();
 		}
 

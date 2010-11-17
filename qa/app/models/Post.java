@@ -2,7 +2,6 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -93,30 +92,6 @@ public abstract class Post extends Model {
 		}
 
 		return false;
-	}
-
-	public List<Post> lastChanges(Long questionId, Long userId) {
-		Question question = Question.findById(questionId);
-		User user = User.findById(userId);
-		List<Post> news = new ArrayList<Post>();
-
-		Iterator<Answer> iterA = question.answers.iterator();
-		while (iterA.hasNext()) {
-			Answer answer = iterA.next();
-			if (answer.timestamp.after(user.lastLogOff)) {
-				news.add(answer);
-			}
-		}
-
-		Iterator<Comment> iterC = question.comments.iterator();
-		while (iterC.hasNext()) {
-			Comment comment = iterC.next();
-			if (comment.timestamp.after(user.lastLogOff)) {
-				news.add(comment);
-			}
-		}
-
-		return news;
 	}
 
 	/**
