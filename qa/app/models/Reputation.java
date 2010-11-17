@@ -10,20 +10,16 @@ import play.db.jpa.Model;
 
 @Entity
 public class Reputation extends Model {
-	
-	
-	//all the single reputations total
+
+	// all the single reputations total
 	public int questionRep;
 	public int answerRep;
 	public int bestAnswerRep;
 	public int totalRep;
 	public int penalty;
-	
-	
+
 	@OneToMany
 	public List<ReputationPoint> totalRepPoint;
-	
-	
 
 	public Reputation() {
 		this.totalRepPoint = new ArrayList<ReputationPoint>();
@@ -35,40 +31,35 @@ public class Reputation extends Model {
 	}
 
 	public void totalRep() {
-		
-		
+
 		totalRep = questionRep + answerRep + bestAnswerRep + penalty;
 
 		if (totalRep < 0) {
 			totalRep = 0;
 		}
-		
-		if(this.totalRepPoint.size()==0){
+
+		if (this.totalRepPoint.size() == 0) {
 			ReputationPoint p = new ReputationPoint(0).save();
 			this.totalRepPoint.add(p);
 		}
-		
+
 		ReputationPoint p = new ReputationPoint(this.totalRep).save();
 		this.totalRepPoint.add(p);
-
 	}
 
 	public void voteUPAnswer() {
 		this.answerRep += 10;
 		totalRep();
-
 	}
 
 	public void voteDown() {
 		this.answerRep -= 2;
 		totalRep();
-
 	}
 
 	public void votedUPQuestion() {
 		this.questionRep += 5;
 		totalRep();
-
 	}
 
 	public void bestAnswer() {
@@ -86,4 +77,3 @@ public class Reputation extends Model {
 	}
 
 }
-

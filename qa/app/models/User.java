@@ -159,7 +159,6 @@ public class User extends Model {
 			bestAnswer(question);
 			return false;
 		}
-
 	}
 
 	/**

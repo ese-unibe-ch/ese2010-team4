@@ -567,12 +567,6 @@ public class Users extends CRUD {
 		Users.myProfile(user.id);
 	}
 
-	// DR not working probably not needed
-	public static void avatarPath() {
-		User user = User.find("byEmail", Secure.Security.connected()).first();
-		renderText(user.avatarPath);
-	}
-
 	public static void tagQuestion(Long id, String name) {
 		Question question = Question.findById(id);
 		String[] tags = name.split(",");

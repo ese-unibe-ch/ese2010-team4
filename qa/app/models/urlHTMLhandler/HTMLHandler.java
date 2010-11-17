@@ -8,6 +8,13 @@ import java.util.regex.Pattern;
 
 import models.ForTestingOnly;
 
+/**
+ * Searches all HTML-Anchors in a given String and replace them only with the
+ * responding URL
+ * 
+ * @author d3orn
+ * 
+ */
 public class HTMLHandler {
 	private String checkedContent;
 	private HashMap<String, String> HTMLMap;

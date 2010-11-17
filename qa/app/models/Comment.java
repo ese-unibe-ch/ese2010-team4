@@ -23,8 +23,7 @@ public class Comment extends Post {
 
 	@Override
 	public Post vote(User user, boolean result) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

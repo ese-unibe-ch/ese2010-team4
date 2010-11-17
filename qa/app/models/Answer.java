@@ -63,7 +63,6 @@ public class Answer extends Post {
 			user.rating.save();
 			user.save();
 		}
-
 		this.voting();
 		this.save();
 		return this;

@@ -67,14 +67,12 @@ public class Question extends Post {
 			answer.best = false;
 			answer.save();
 		}
-
 	}
 
 	public void setValidity(long delay) {
 		Date date = new Date();
 		this.validity = date.getTime() + delay;
 		this.save();
-
 	}
 
 	@Override
@@ -108,7 +106,6 @@ public class Question extends Post {
 		this.voting();
 		this.save();
 		return this;
-
 	}
 
 	public Question bestAnswer(Answer answer) {
@@ -121,12 +118,10 @@ public class Question extends Post {
 		this.setValidity(delay);
 		this.save();
 		return this;
-
 	}
 
 	@Override
 	public String toString() {
 		return title;
 	}
-
 }

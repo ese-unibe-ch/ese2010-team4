@@ -16,6 +16,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * XML Parser but it's currently very slow - big file -> wait 30sec
+ * 
+ * @author d3orn
+ * 
+ */
 public class XMLParser extends DefaultHandler {
 
 	private User user;

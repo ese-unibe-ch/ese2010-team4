@@ -2,6 +2,12 @@ package models.urlHTMLhandler;
 
 import models.ForTestingOnly;
 
+/**
+ * Shortens a URL if it's lenght is greater than <code>maxURLLenght</code>
+ * 
+ * @author d3orn
+ * 
+ */
 public class URLShortner {
 
 	private int maxURLLenght;
