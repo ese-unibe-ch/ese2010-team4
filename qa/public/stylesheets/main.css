@@ -260,6 +260,16 @@ pre {
 	color: #69F;
 }
 
+.comment-like {
+	font-size: 12px;
+	float: left;
+	text-align: left;
+}
+
+.comment-like .button {
+	background: #090;
+}
+
 /** Voting **/
 .voting {
 	float: left;

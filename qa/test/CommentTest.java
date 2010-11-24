@@ -23,7 +23,6 @@ public class CommentTest extends UnitTest {
 	    sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
 	    firstQuestion = new Question(hans, "brightliy?", "What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
-		
     }
     
     @Test
@@ -37,6 +36,7 @@ public class CommentTest extends UnitTest {
     	assertEquals(firstQuestion, comment.post);
     	assertEquals(1, Comment.count());
     }
+    
     @Test
     public void shouldCreateAndFindANewAnswerComment(){
     	
@@ -57,9 +57,7 @@ public class CommentTest extends UnitTest {
     	new Comment(hans, firstAnswer, "and one more").save();
     	
     	assertEquals(3, Comment.count());
-    	
     }
-	
 	
 }
 

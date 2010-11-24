@@ -135,6 +135,39 @@ public class User extends Model {
 
 		return false;
 	}
+	
+	/**
+	 * checks whether the user can like a comment
+	 * 
+	 * @param id of the comment
+	 * @return true if he is able to like the comment
+	 */
+	public boolean isAbleToLikeComment(Long id) {
+
+		Comment comment = Comment.findById(id);
+
+		if (!comment.author.email.equals(this.email)) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * checks whether the user already likes the comment
+	 * 
+	 * @param id of the comment
+	 * @return true if he is able to like the comment
+	 */
+	public boolean alreadyLikesComment(Long id) {
+
+		Comment comment = Comment.findById(id);
+		
+		if (comment.getLikers().contains(this))
+			return true;
+		else
+			return false;
+	}
 
 	/**
 	 * Check if the validation time form a question is not over.
