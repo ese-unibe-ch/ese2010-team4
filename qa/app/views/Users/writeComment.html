@@ -6,12 +6,12 @@
 
 <div class="post">
 	Post:
-    <div class="post-metadata">
-        <span class="post-author">by ${post.author.fullname}</span>
+    <div class="metadata">
+        <span class="post-author">by ${post.author.username}</span>
         <span class="post-date">${post.timestamp}</span>
         <span class="post-voting"> Voting: ${post.voting}</span>
     </div>
-    <div class="post-content">
+    <div class="content">
     	<br>
     	${post.content.raw()}
     </div>
@@ -29,7 +29,7 @@
       	  	</p>
  	    #{/ifErrors}
     		<p>
-					<input type="hidden" name="author" id="user" value="${user.fullname}" readonly/>
+					<input type="hidden" name="author" id="user" value="${user.username}" readonly/>
 			</p>
     		<p>
         		<label for="content">Your comment: </label>

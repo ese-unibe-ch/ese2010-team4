@@ -1,0 +1,95 @@
+<QA>
+−
+<users>
+−
+<user id="277826">
+<displayname>admin</displayname>
+<age>-1</age>
+<ismoderator>true</ismoderator>
+<email>admin@admin.ch</email>
+<password>admin</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+−
+<user id="236455">
+<displayname>Bob</displayname>
+<age>-1</age>
+<ismoderator>false</ismoderator>
+<email>bob@bob.ch</email>
+<password>hallo</password>
+<aboutme/>
+<location/>
+<website/>
+</user>
+</users>
+
+<questions>
+−
+<question id="4119991">
+<ownerid>236455</ownerid>
+<creationdate>1289168092</creationdate>
+<lastactivity>1289176685</lastactivity>
+−
+<body>
+<![CDATA[mhm I think the register (for a new User) should be a drop down menu below the Login^^]]>
+</body>
+−
+<title>
+Why is the register on a new page?
+</title>
+<lastedit>1289176685</lastedit>
+<acceptedanswer>-1</acceptedanswer>
+−
+<tags>
+<tag id="0">linux</tag>
+<tag id="1">bash</tag>
+<tag id="2">keyboard-shortcuts</tag>
+<tag id="3">readline</tag>
+<tag id="4">customize</tag>
+</tags>
+</question>
+−
+<question id="4118207">
+<ownerid>236455</ownerid>
+<creationdate>1289141038</creationdate>
+<lastactivity>1289141538</lastactivity>
+−
+<body>
+<![CDATA[I think we should be able to clear our datebase (only Admins)]]>
+</body>
+<title>Clear DB</title>
+<lastedit>1289141538</lastedit>
+<acceptedanswer>-1</acceptedanswer>
+−
+<tags>
+<tag id="0">gdb</tag>
+<tag id="1">linux-kernel</tag>
+<tag id="2">source</tag>
+<tag id="3">reload</tag>
+</tags>
+</question>
+</questions>
+
+<answers>
+−
+<answer id="4120453">
+<ownerid>277826</ownerid>
+<questionid>4119991</questionid>
+<creationdate>1289175652</creationdate>
+<lastactivity>1289175652</lastactivity>
+−
+<body>
+<![CDATA[<p>Hi all, </p><p>Ok, not really an answer, but I'd just like to summarize the comments I got so far, which are useful for my problem. However, the question as it stands - in respect to bash keyboard shortcuts running arbitrary scripts - is still not answered (<em>I'd still prefer doing all this with a single key combo :)</em>)</p><p>&nbsp;<br>First, I can use a 'global' script like: </p><pre><code>$ sudo bash -c 'cat &gt; /usr/bin/bpwd &lt;&lt;EOF#!/bin/bashbasepwd=\$(basename \$(pwd))echo -n \$basepwd                 # suppress line ending# exec 1&gt;/dev/null               # debug: redir stdout to nullecho -n \$basepwd | xsel -i -b    # suppress LF, and make xsel read from stdin # exec 1&gt;/dev/tty                # debug: restore stdoutEOFchmod +x /usr/bin/bpwd'</code></pre><p>Or, I can add <code>bash</code> functions to my <code>.bashrc</code> (<em>note: make sure you reload <code>bash</code> after you add these lines to <code>.bashrc</code> - for example, simply by typing <code>bash</code> in your current terminal</em>):</p><pre><code>$ echo 'bpwd2() { basepwd=${PWD##*/} ; echo -n $basepwd | xsel -i -b ; echo -n $basepwd ; }svnci-test() { echo -n "$(bpwd2): $*" ; }svnci-m() { svn ci -m "$(bpwd2): $*" ; }' &gt;&gt; ~/.bashrc</code></pre><p>&nbsp;<br>Basically, I misunderstood Reese Moore's suggestion originally - you can indeed use backticks - consider this command session (<em>after the above commands have been ran</em>):</p><pre><code>$ bpwdDesktop\$ bpwd2Desktop\$ echo `bpwd`Desktop$ echo "`bpwd2` 2"Desktop 2</code></pre><p>This is what I needed to understand Moore's "<em>the output from the backticked commands will be used as input on the executed command</em>" (however, one also needs to take care to clean the line endings from the output); or, in my case, I can call</p><pre><code>svn ci -m "`bpwd`: my message here"# svn ci -m "${PWD##*/}: my message here" # alternatively</code></pre><p>... or, I could follow camh's suggestion, and use <code>svnci-m</code> as a function (<em>in my case, I almost never use additional arguments to <code>svn ci</code>, and so my version is slightly different</em>). And to test whether arguments are passed correctly, I can use the <code>svnci-test</code> function:</p><pre><code>$ svnci-test "my message"Desktop: my message\</code></pre><p>&nbsp;<br>Thanks for the comments so far,<br>Cheers!</p>]]>
+</body>
+−
+<title>
+Bash: call script with customized keyboard shortcuts?
+</title>
+<lastedit>-1</lastedit>
+<accepted>false</accepted>
+</answer>
+</answers>
+
+</QA>

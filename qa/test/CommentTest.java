@@ -23,6 +23,7 @@ public class CommentTest extends UnitTest {
 	    sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
 	    firstQuestion = new Question(hans, "brightliy?", "What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
+		
     }
     
     @Test

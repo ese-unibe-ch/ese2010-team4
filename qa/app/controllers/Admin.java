@@ -13,14 +13,15 @@ import play.mvc.Controller;
 import play.mvc.With;
 import controllers.Secure.Security;
 
+@Check("admin")
 @With(Secure.class)
 public class Admin extends Controller {
 
 	@Before
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
-			User user = User.find("byEmail", Security.connected()).first();
-			renderArgs.put("user", user.fullname);
+			User user = User.find("byUsername", Security.connected()).first();
+			renderArgs.put("user", user.username);
 		}
 	}
 

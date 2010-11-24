@@ -8,21 +8,24 @@ question=Related question
 name=Common name
 email=Email
 password=Password
+username=Username
 isAdmin=User is admin
 
 # Secure messages
 secure.title=Log in
-secure.username=Your email:
+secure.username=Your username:
 secure.password=Your password:
 secure.signin=Log in now
-secure.remember=Remember me
+secure.remember=Remember
 secure.error=Oops, unknown username or password.
+secure.success=Welcome on A4Q.
 secure.logout=You have been logged out.
+secure.login=Welcome back %s
 
 # Register messages
 register.title=Register
 register.subtitle=fill the formular and get knowledge
-register.name=Name
+register.username=Username
 register.email=Email
 register.password1=Password
 register.password2=Confirm password

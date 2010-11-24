@@ -26,6 +26,7 @@ public class User extends Model {
 
 	public int counter;
 	protected Date birthday;
+	public String fullname = "";
 	public String website = "";
 
 	public String work = "";
@@ -50,7 +51,7 @@ public class User extends Model {
 	public String password;
 
 	@Required
-	public String fullname;
+	public String username;
 
 	@Required
 	public boolean isAdmin;
@@ -78,11 +79,11 @@ public class User extends Model {
 		this.counter = 0;
 	}
 
-	public User(String fullname, String email, String password) {
+	public User(String username, String email, String password) {
 
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
-		this.fullname = fullname;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.isAdmin = false;
@@ -92,8 +93,8 @@ public class User extends Model {
 		this.counter = 0;
 	}
 
-	public static User login(String email, String password) {
-		return find("byEmailAndPassword", email, password).first();
+	public static User login(String username, String password) {
+		return find("byUsernameAndPassword", username, password).first();
 	}
 
 	public String toString() {
@@ -298,36 +299,14 @@ public class User extends Model {
 	 *            the validation password
 	 * @return the message
 	 */
-	public static String createUser(String fullname, String email,
+	public static String createUser(String username, String email,
 			String password, String password2) {
 
-		String message = "";
-		User user = User.find("byEmail", email).first();
-
-		if (fullname.isEmpty() || email.isEmpty() || password.isEmpty()) {
-			message = "you forgot one or more gap's";
-		}
-
-		else if (!password.equals(password2)) {
-			message = "the password's aren't the same";
-		}
-
-		else if (password.length() < 6) {
-			message = "your password must be 6 singns or longer";
-		}
-
-		else if (user != null && user.email.equals(email)) {
-
-			message = "user allready exists";
-		}
-
-		else {
-			User newUser = new User(fullname, email, password).save();
-			// add the reputation
-			newUser.rating = new Reputation().save();
-			newUser.save();
-			message = "Hello, " + fullname + ", please log in";
-		}
+		User newUser = new User(username, email, password).save();
+		// add the reputation
+		newUser.rating = new Reputation().save();
+		newUser.save();
+		String message = username + " welcome on A4Q, please log in";
 
 		return message;
 	}

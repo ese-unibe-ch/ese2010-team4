@@ -4,33 +4,41 @@
 #{secure.check 'user'}
 <div class="form" id="userForm">
 #{form @Users.changeProfile()}
-	<label for="author">Fullname: </label>
+	<label for="author">Username: </label>
 	<div class="userInfo">
-		<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Secure.Security.connected()).first().fullname}" readonly/>
+		<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
     </div>
 
 	<label for="author">Email: </label>
 	<div class="userInfo">
-		<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Secure.Security.connected()).first().email}" readonly/>
+		<input type="text" fullname="author" id="user-inp" value="${user.email}" readonly/>
+	</div>
+	
+	<label for="author">Fullname: </label>
+	<div class="userInfo">
+		#{field 'fullname'}
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.fullname}" />
+			<label for="content"></label>
+		#{/field}
 	</div>
    
     <label for="author">Birthday: </label>
 	<div class="userInfo">
 		#{field 'birthday'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Secure.Security.connected()).first().getBirthday()}" />
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.getBirthday()}" />
 			<label for="content"></label>
 		#{/field}
 	</div>
 	
 	<label for="author">Age: </label>
 	<div class="userInfo">
-		<input type="text" fullname="author" id="user-inp" value="${models.User.find("byEmail", controllers.Secure.Security.connected()).first().calculateAge()}" readonly/>
+		<input type="text" fullname="author" id="user-inp" value="${user.calculateAge()}" readonly/>
 	</div>
 	
 	<label for="author">Website: </label>
 	<div class="userInfo">
 		#{field 'website'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Secure.Security.connected()).first().website}" />
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.website}" />
 			<label for="content"></label>
 		#{/field}
 	</div>
@@ -38,7 +46,7 @@
 	<label for="author">Work: </label>
 	<div class="userInfo">
 		#{field 'work'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Secure.Security.connected()).first().work}" />
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.work}" />
 			<label for="content"></label>
 		#{/field}
 	</div>
@@ -46,7 +54,7 @@
 	<label for="author">Programming Languages: </label>
 	<div class="userInfo">
 		#{field 'languages'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${models.User.find("byEmail", controllers.Secure.Security.connected()).first().favoriteLanguages}" />
+			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.favoriteLanguages}" />
 			<label for="content"></label>
 		#{/field}
 	</div>
@@ -55,7 +63,7 @@
 	<div class="userInfo">
 		#{field 'aboutMe'}
 			<br>
-			<textarea name="${field.name}">${models.User.find("byEmail", controllers.Secure.Security.connected()).first().aboutMe}</textarea>
+			<textarea name="${field.name}">${user.aboutMe}</textarea>
 		#{/field}
 	</div>
 
