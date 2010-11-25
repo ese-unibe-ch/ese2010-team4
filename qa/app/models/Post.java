@@ -19,6 +19,7 @@ import models.urlHTMLhandler.URLHandler;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import controllers.Secure;
 
 /**
  * The Class Post.
@@ -84,6 +85,19 @@ public abstract class Post extends Model {
 
 	public String toString() {
 		return content;
+	}
+
+	public boolean isOwnPost() {
+		if (Secure.Security.isConnected()) {
+			User connectedUser = User.find("byUsername",
+					Secure.Security.connected()).first();
+			if (connectedUser != null) {
+				return connectedUser.equals(this.author);
+			}
+
+		}
+
+		return false;
 	}
 
 	public boolean hasVoted(User comuser) {
