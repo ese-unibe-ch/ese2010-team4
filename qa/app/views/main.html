@@ -79,6 +79,24 @@
 					</div>
 					
 				#{/ifnot}
+				
+				<div>
+					#{if flash.error}
+						<div class="error">
+							&{flash.error}
+						</div>
+					#{/if}
+					#{if flash.success}
+						<div class="success">
+							#{if user}
+								&{flash.success, user.username}
+							#{/if}
+							#{ifnot user}
+								&{flash.success}
+							#{/ifnot}	
+						</div>
+					#{/if}
+				</div>
 			
 	    	</div>
 	    	<div id="main-left">
@@ -108,22 +126,6 @@
 				</div>
 	
 				<div id="content">
-					#{if flash.error}
-						<p class="error">
-							&{flash.error}
-						</p>
-					#{/if}
-					#{if flash.success}
-						<p class="success">
-						#{if user}
-							&{flash.success, user.username}
-						#{/if}
-						#{ifnot user}
-							&{flash.success}
-						#{/ifnot}
-						
-						</p>
-					#{/if}
 				  	  #{doLayout /}
 				</div>
 			</div>	
