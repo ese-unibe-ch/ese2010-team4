@@ -21,8 +21,6 @@ public class URLHandler implements IHandler {
 	static Pattern URLPattern = Pattern
 			.compile("(?<!src=\")(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 
-	private Matcher htmlMatcher, linkMatcher;
-
 	public URLHandler() {
 		URLMap = new HashMap<String, String>();
 		uShortner = new URLShortner(30);
@@ -63,9 +61,9 @@ public class URLHandler implements IHandler {
 	public void replaceAllURLSWithHTML(String content) {
 		checkedContent = content;
 		for (String key : URLMap.keySet()) {
-			checkedContent = checkedContent.replace(key, "<a href=" + key
-					+ " target=\"_blank\" title= \"" + key + "\">"
-					+ URLMap.get(key) + "</a>");
+			checkedContent = checkedContent.replace(key,
+					"<a href=" + key + " target=\"_blank\" title= \"" + key
+							+ "\">" + URLMap.get(key) + "</a>");
 		}
 		URLMap.clear();
 	}

@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.List;
 
 import models.urlHTMLhandler.URLHandler;
 
@@ -10,8 +9,6 @@ import play.test.UnitTest;
 public class URLHandlerTest extends UnitTest {
 
 	private URLHandler uHandler = new URLHandler();
-	private HashMap<String, String> checkMap;
-	private List<String> checkAnchorList;
 
 	@Test
 	public void shouldFindAllURLS() {

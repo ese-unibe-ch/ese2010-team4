@@ -33,7 +33,7 @@ public abstract class Post extends Model {
 	public String attachmentPath;
 	public static URLHandler uHandler = new URLHandler();
 	public static HTMLHandler hHandler = new HTMLHandler();
-	private HashSet<User> likers;
+	public HashSet<User> likers;
 
 	@Lob
 	@Required
@@ -292,8 +292,8 @@ public abstract class Post extends Model {
 	/**
 	 * Clear the list of users who like the post.
 	 */
-	public void clearLikers() {
-		likers.clear();
-	}
+	// public void clearLikers() {
+	// likers.clear();
+	// }
 
 }

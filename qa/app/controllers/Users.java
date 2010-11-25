@@ -11,7 +11,6 @@ import models.Answer;
 import models.Comment;
 import models.Post;
 import models.Question;
-import models.ReputationPoint;
 import models.Tag;
 import models.User;
 import play.data.validation.Required;
@@ -341,9 +340,7 @@ public class Users extends CRUD {
 	}
 
 	public static void showProfile(Long authorid) throws IOException {
-
 		User userToShow = User.findById(authorid);
-		List<ReputationPoint> points = userToShow.getReputationPoints();
 		List<Post> activities = userToShow.activities();
 		Post lastActivity = Post.find("order by timestamp desc").first();
 

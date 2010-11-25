@@ -29,26 +29,26 @@ public class PostTest extends UnitTest {
 
 	@Test
 	public void AddUserToLikers() {
-		assertTrue(firstAnswer.getLikers().isEmpty());
+		assertTrue(firstAnswer.likers.isEmpty());
 		firstAnswer.addLiker(hans);
-		assertEquals(hans, firstAnswer.getLikers().get(0));
+		assertEquals(hans, firstAnswer.likers.toArray()[0]);
 	}
 
 	@Test
 	public void RemoveUserFromLikers() {
 		firstAnswer.addLiker(hans);
-		assertEquals(1, firstAnswer.getLikers().size());
+		assertEquals(1, firstAnswer.likers.size());
 		firstAnswer.removeLiker(hans);
-		assertTrue(firstAnswer.getLikers().isEmpty());
+		assertTrue(firstAnswer.likers.isEmpty());
 	}
 
 	@Test
 	public void ClearLikersList() {
 		firstAnswer.addLiker(hans);
 		firstAnswer.addLiker(sepp);
-		assertTrue(firstAnswer.getLikers().size() > 0);
-		firstAnswer.clearLikers();
-		assertTrue(firstAnswer.getLikers().isEmpty());
+		assertTrue(firstAnswer.likers.size() > 0);
+		firstAnswer.likers.clear();
+		assertTrue(firstAnswer.likers.isEmpty());
 	}
 
 	@Test
