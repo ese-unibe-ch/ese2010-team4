@@ -84,12 +84,12 @@
 							</div>
 							<div class="like-unlike">
 								<span>
-								#{if comment.numberOfLikers()==1}
-									${comment.numberOfLikers()} user likes this comment.
-								#{/if}
-								#{else}
-									${comment.numberOfLikers()} users like this comment.
-								#{/else}
+									#{if comment.numberOfLikers()==1}
+										${comment.numberOfLikers()} user likes this comment.
+									#{/if}
+									#{else}
+										${comment.numberOfLikers()} users like this comment.
+									#{/else}
 								</span>
 								#{secure.check 'user'}
 									#{if !comment.isOwnPost()}
@@ -187,21 +187,22 @@
 										<div class="comment-content">
 											${comment.content.raw()}
 										</div>
-										<div class="comment-like">
-											#{if comment.numberOfLikers()==1}
-												${comment.numberOfLikers()} user likes this comment.
-											#{/if}
-											#{else}
-												${comment.numberOfLikers()} users like this comment.
-											#{/else}
+										<div class="like-unlike">
+											<span>
+												#{if comment.numberOfLikers()==1}
+													${comment.numberOfLikers()} user likes this comment.
+												#{/if}
+												#{else}
+													${comment.numberOfLikers()} users like this comment.
+												#{/else}
+											</span>
 											#{secure.check 'user'}
 												#{if !comment.isOwnPost()}
 													#{if !user.alreadyLikesComment(comment.id)}
-															<a href="/users/voteforquestion?questionId=1&amp;like=true" class="vote-up"></a>
-															<a class="comment-like-button" href="@{Users.likeComment(comment.id, true)}"></a>
+														<a class="like" href="@{Users.likeComment(comment.id, true)}"></a>
 													#{/if}
 													#{else}
-															<a class="comment-like-button" href="@{Users.likeComment(comment.id, false)}"></a>
+														<a class="unlike" href="@{Users.likeComment(comment.id, false)}"></a>
 													#{/else}
 												#{/if}
 											#{/secure.check}
