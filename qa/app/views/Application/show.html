@@ -82,20 +82,24 @@
 							<div class="comment-content">
 								${comment.content.raw()}
 							</div>
-							#{secure.check 'user'}
-								#{if user.isAbleToLikeComment(comment.id) && !user.alreadyLikesComment(comment.id)}
-									<div class="comment-like">
-										<a class="button" href="@{Users.LikeComment(comment.id, true)}">Like</a>
-										${comment.countLikers()} person(s) like that.
-									</div>
+							<div class="comment-like">
+								#{if comment.numberOfLikers()==1}
+									${comment.numberOfLikers()} user likes this comment.
 								#{/if}
-								#{elseif user.isAbleToLikeComment(comment.id) && user.alreadyLikesComment(comment.id)}
-									<div class="comment-like">
-										<a class="button" href="@{Users.LikeComment(comment.id, false)}">Dislike</a>
-										${comment.countLikers()} people like this.
-									</div>
-								#{/elseif}
-							#{/secure.check}
+								#{else}
+									${comment.numberOfLikers()} users like this comment.
+								#{/else}
+								#{secure.check 'user'}
+									#{if !comment.author.username.equals(user.username)}
+										#{if !user.alreadyLikesComment(comment.id)}
+											<a class="button" href="@{Users.likeComment(comment.id, true)}">like</a>
+										#{/if}
+										#{else}
+											<a class="button" href="@{Users.likeComment(comment.id, false)}">unlike</a>
+										#{/else}
+									#{/if}
+								#{/secure.check}
+							</div>
 						</div>
 					#{/list}
 				</div>
@@ -182,20 +186,22 @@
 											${comment.content.raw()}
 										</div>
 										<div class="comment-like">
-										#{secure.check 'user'}
-											#{if user.isAbleToLikeComment(comment.id) && !user.alreadyLikesComment(comment.id)}
-												<div class="comment-like">
-													<a class="button" href="@{Users.LikeComment(comment.id, true)}">Like</a>
-													${comment.countLikers()} person(s) like that.
-												</div>
+											#{if comment.numberOfLikers()==1}
+												${comment.numberOfLikers()} user likes this comment.
 											#{/if}
-											#{elseif user.isAbleToLikeComment(comment.id) && user.alreadyLikesComment(comment.id)}
-												<div class="comment-like">
-													<a class="button" href="@{Users.LikeComment(comment.id, false)}">Dislike</a>
-													${comment.countLikers()} people like this.
-												</div>
-											#{/elseif}
-										#{/secure.check}
+											#{else}
+												${comment.numberOfLikers()} users like this comment.
+											#{/else}
+											#{secure.check 'user'}
+												#{if !comment.author.username.equals(user.username)}
+													#{if !user.alreadyLikesComment(comment.id)}
+															<a class="button" href="@{Users.likeComment(comment.id, true)}">like</a>
+													#{/if}
+													#{else}
+															<a class="button" href="@{Users.likeComment(comment.id, false)}">unlike</a>
+													#{/else}
+												#{/if}
+											#{/secure.check}
 										</div>
 									</div>
 								#{/list}

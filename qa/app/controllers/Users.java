@@ -307,21 +307,22 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Likes/Dislikes a comment.
+	 * Likes/Unlikes a comment.
 	 * 
 	 * @param commentId
 	 * @param like
 	 *            boolean whether the user likes the comment or not
 	 */
-	public static void LikeComment(Long commentId, boolean like) {
-
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+	public static void likeComment(Long commentId, boolean like) {
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		Comment comment = Comment.findById(commentId);
 		Question question = comment.findQuestion();
-		if (like)
+		if (like) {
 			comment.addLiker(user);
-		else
+		} else {
 			comment.removeLiker(user);
+		}
 		Application.show(question.id);
 	}
 

@@ -19,7 +19,6 @@ import models.urlHTMLhandler.URLHandler;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
-import controllers.Timer;
 
 /**
  * The Class Post.
@@ -147,8 +146,7 @@ public abstract class Post extends Model {
 
 	public static List<Post> findTaggedWith(String... tags) {
 		return Question
-				.find(
-						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
+				.find("select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
 	}
 
@@ -220,8 +218,8 @@ public abstract class Post extends Model {
 	 * 
 	 * @return count of likers
 	 */
-	public int countLikers() {
-		return this.likers.size();
+	public int numberOfLikers() {
+		return likers.size();
 	}
 
 	/**
@@ -233,9 +231,9 @@ public abstract class Post extends Model {
 	 * @return true if the User was not already in the list.
 	 */
 	public boolean addLiker(User liker) {
-		boolean likes = this.likers.add(liker);
-		this.save();
-		return likes;
+		boolean out = likers.add(liker);
+		save();
+		return out;
 	}
 
 	/**

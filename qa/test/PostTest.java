@@ -54,23 +54,23 @@ public class PostTest extends UnitTest {
 	@Test
 	public void CountLikersInComments() {
 		firstComment = new Comment(hans, firstAnswer, "hallo");
-		assertEquals(0, firstComment.countLikers());
+		assertEquals(0, firstComment.numberOfLikers());
 		firstComment.addLiker(hans);
-		assertEquals(1, firstComment.countLikers());
+		assertEquals(1, firstComment.numberOfLikers());
 	}
 
 	@Test
 	public void CountLikersInAnswers() {
-		assertEquals(0, firstAnswer.countLikers());
+		assertEquals(0, firstAnswer.numberOfLikers());
 		firstAnswer.addLiker(hans);
-		assertEquals(1, firstAnswer.countLikers());
+		assertEquals(1, firstAnswer.numberOfLikers());
 	}
 
 	@Test
 	public void CountLikersInQuestions() {
-		assertEquals(0, firstQuestion.countLikers());
+		assertEquals(0, firstQuestion.numberOfLikers());
 		firstQuestion.addLiker(hans);
-		assertEquals(1, firstQuestion.countLikers());
+		assertEquals(1, firstQuestion.numberOfLikers());
 	}
 
 }
