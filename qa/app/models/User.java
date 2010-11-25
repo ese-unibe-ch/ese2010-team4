@@ -136,11 +136,12 @@ public class User extends Model {
 
 		return false;
 	}
-	
+
 	/**
 	 * checks whether the user can like a comment
 	 * 
-	 * @param id of the comment
+	 * @param id
+	 *            of the comment
 	 * @return true if he is able to like the comment
 	 */
 	public boolean isAbleToLikeComment(Long id) {
@@ -153,17 +154,18 @@ public class User extends Model {
 
 		return false;
 	}
-	
+
 	/**
 	 * checks whether the user already likes the comment
 	 * 
-	 * @param id of the comment
+	 * @param id
+	 *            of the comment
 	 * @return true if he is able to like the comment
 	 */
 	public boolean alreadyLikesComment(Long id) {
 
 		Comment comment = Comment.findById(id);
-		
+
 		if (comment.getLikers().contains(this))
 			return true;
 		else
@@ -306,7 +308,7 @@ public class User extends Model {
 		// add the reputation
 		newUser.rating = new Reputation().save();
 		newUser.save();
-		String message = username + " welcome on A4Q, please log in";
+		String message = username + "<br> welcome on A4Q, please log in";
 
 		return message;
 	}
