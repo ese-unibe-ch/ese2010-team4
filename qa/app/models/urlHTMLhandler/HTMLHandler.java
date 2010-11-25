@@ -21,8 +21,7 @@ public class HTMLHandler {
 	private List<String> anchorList;
 	private Pattern htmlPattern = Pattern
 			.compile("<a\\s[^>]*href\\s*=\\s*[\"\']?([^\"\' ]*)[\"\']?[^>]*>(.*?)</a>");
-	private Pattern htmlLink = Pattern.compile("href=\"[^>]*\">");
-	private Matcher htmlMatcher, linkMatcher;
+	private Matcher htmlMatcher;
 
 	public HTMLHandler() {
 		anchorList = new ArrayList<String>();
@@ -40,8 +39,8 @@ public class HTMLHandler {
 	public void findHTMLAnchors(String content) {
 		htmlMatcher = htmlPattern.matcher(content);
 		while (htmlMatcher.find()) {
-			anchorList.add(content.substring(htmlMatcher.start(), htmlMatcher
-					.end()));
+			anchorList.add(content.substring(htmlMatcher.start(),
+					htmlMatcher.end()));
 		}
 	}
 
