@@ -1,0 +1,30 @@
+# Messages (english)
+
+# General
+author=Author
+content=Inhalt
+timestamp=Geschrieben am
+question=Ähnliche Fragen
+email=Email
+password=Passwort
+username=Benutzername
+isAdmin=User ist Administrator
+
+# Secure messages
+secure.title=Einloggen
+secure.username=Dein Benutzername:
+secure.password=Dein Passwort:
+secure.signin=Jetzt einloggen
+secure.remember=Erinnern
+secure.error=Oops, unbekannter Benutzername oder Passwort.
+secure.success=Willkommen auf A4Q.
+secure.logout=Du wurdest ausgeloggt.
+secure.login=Willkommen zurück %s
+
+# Register messages
+register.title=Registrieren
+register.subtitle=fill the formular and get knowledge
+register.username=Benutzername
+register.email=Email
+register.password1=Passwort
+register.password2=Passwort bestätigen
