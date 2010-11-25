@@ -48,10 +48,10 @@ public class QuestionTest extends UnitTest {
 	@Test
 	public void shouldSetAllAnswerFalse(){
 		
-		firstAnswer.best = true;
+		firstAnswer.isBestAnswer = true;
 		firstAnswer.save();
 		Answer secondAnswer = new Answer(firstQuestion, sepp, "this is the moon").save();
-		secondAnswer.best = true;
+		secondAnswer.isBestAnswer = true;
 		
 		firstQuestion.setAllAnswersFalse();
 		
@@ -64,10 +64,10 @@ public class QuestionTest extends UnitTest {
 		
 		firstQuestion.addAnswer(sepp, "it's the moon");
 		Answer secondAnswer = Answer.find("byContent", "it's the moon").first();
-		secondAnswer.best = true;
+		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
 		
-		assertEquals(true, firstQuestion.answers.get(1).best);
+		assertEquals(true, firstQuestion.answers.get(1).isBestAnswer);
 		
 		assertEquals(true, firstQuestion.hasChosen());
 	}

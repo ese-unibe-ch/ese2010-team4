@@ -12,7 +12,7 @@
 		<div class="answer">
 		
 			<div class="voting">
-				#{if answer.best}
+				#{if answer.isBestAnswer}
 					<div class="vote-curr-best">
 						${answer.voting()}
 					</div>
@@ -30,7 +30,7 @@
 						#{if answer.findQuestion().author.hasTimeToChange(answer.findQuestion().id)}
 							<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
 						#{/if}
-						#{if answer.best}
+						#{if answer.isBestAnswer}
 							This is the best answer!
 						#{/if}
 					#{/secure.check}

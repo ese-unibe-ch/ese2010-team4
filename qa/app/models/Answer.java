@@ -12,11 +12,11 @@ import play.data.validation.Required;
 @Entity
 public class Answer extends Post {
 
-	public boolean best = false;
-
 	@Required
 	@ManyToOne
 	public Question question;
+
+	public boolean isBestAnswer = false;
 
 	public Answer(Question question, User author, String content) {
 		super(author, content);

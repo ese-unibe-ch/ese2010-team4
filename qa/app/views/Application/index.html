@@ -36,7 +36,7 @@
 											<span>unfollow question</span>
 										</a>
 									#{/else}
-									#{if user.isAbleToChoose(question.id)}
+									#{if question.isOwnPost()}
 										<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 									#{/if}
 								#{/ifnot}

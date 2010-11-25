@@ -9,7 +9,7 @@
 				${question.voting()}
 			</div>
 			#{secure.check 'user'}    
-				#{if abletovote && isvalid}
+				#{if abletovote && hasTimeToChange}
 					<div class="vote-up-down">
 						<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
 						<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
@@ -31,10 +31,10 @@
 								<span>unfollow</span>
 							</a>
 						#{/else}
-						#{if isvalid}
+						#{if hasTimeToChange}
 							<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
 						#{/if}
-						#{if abletochoose}
+						#{if question.isOwnPost()}
 							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 						#{/if}
 						<a class="button" href="@{Users.quote(question.id)}">quote</a>
@@ -115,7 +115,7 @@
 					#{list items:question.answers, as:'answer'}
 						<div class="answer">
 							<div class="voting">
-								#{if answer.best}
+								#{if answer.isBestAnswer}
 									<div class="vote-curr-best">
 										${answer.voting()}
 									</div>
@@ -126,7 +126,7 @@
 									</div>
 								#{/else}
 								#{secure.check 'user'}    
-									#{if isvalid && answer.isAbleToVoteAnswer(user)}
+									#{if hasTimeToChange && answer.isAbleToVoteAnswer(user)}
 					         			<div class="vote-up-down">
 											<a class="vote-up" href="@{Users.voteForAnswer(question.id, answer.id, true)}"></a>
 											<a class="vote-down" href="@{Users.voteForAnswer(question.id, answer.id, false)}"></a>
@@ -137,20 +137,20 @@
 							<div id="answer-author" class="author">
 								<div class="buttons" id="question-buttons">
 									#{secure.check 'user'}
+										#{if answer.isBestAnswer}
+											This is the best answer!
+										#{/if}
 										#{ifnot question.hasBestAnswer}
-											#{if isvalid}
+											#{if hasTimeToChange}
 												<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
+												#{if answer.isOwnPost()}
+													<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
+												#{/if}
+												#{if question.isOwnPost() && !answer.isBestAnswer}
+													<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
+												#{/if}
+												<a class="button" href="@{Users.quote(answer.id)}">quote</a>
 											#{/if}
-											#{if answer.isOwnPost()}
-												<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
-											#{/if}
-											#{if isvalid && abletochoose}
-												<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
-											#{/if}
-											#{if answer.best && isvalid}
-												This is the best answer!
-											#{/if}
-											<a class="button" href="@{Users.quote(answer.id)}">quote</a>
 										#{/ifnot}
 									#{/secure.check}
 								</div>
@@ -217,7 +217,7 @@
 </div>
 
 #{secure.check 'user'}
-	#{if isvalid}
+	#{if hasTimeToChange}
 		<div class="form" id="answerForm">
 			<form action="@{Users.answerQuestion(question.id)}" method="POST" enctype="multipart/form-data">
 				<table style="padding-left: 60px">

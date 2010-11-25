@@ -52,25 +52,22 @@ public class Application extends Controller {
 
 		Question question = Question.find("byId", id).first();
 		Post lastActivity = Post.find("order by timestamp desc").first();
-		boolean abletochoose = false;
 		boolean abletovote = false;
-		boolean isvalid = false;
+		boolean hasTimeToChange = false;
 		boolean isfollowing = false;
 
 		if (!Secure.Security.isConnected()) {
-
-			render(question, isvalid, abletochoose, abletovote, isfollowing);
+			render(question, hasTimeToChange, abletovote, isfollowing);
 		}
 
 		else {
 			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
-			abletochoose = user.isAbleToChoose(id);
 			abletovote = user.isAbleToVote(id);
-			isvalid = user.hasTimeToChange(id);
+			hasTimeToChange = user.hasTimeToChange(id);
 			isfollowing = user.isFollowing(question);
 
-			render(question, isvalid, abletochoose, abletovote, isfollowing,
+			render(question, hasTimeToChange, abletovote, isfollowing,
 					lastActivity);
 		}
 	}

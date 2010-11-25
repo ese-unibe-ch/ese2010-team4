@@ -95,7 +95,7 @@ public class ReputationTest extends UnitTest {
 	@Test
 	public void shouldBeBestAnswer() {
 
-		firstAnswer.best = true;
+		firstAnswer.isBestAnswer = true;
 		firstAnswer.save();
 		firstQuestion.setValidity(0);
 		firstQuestion.save();
@@ -122,7 +122,7 @@ public class ReputationTest extends UnitTest {
 				"answer to question number 2.").first();
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
-		secondAnswer.best = true;
+		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
 		firstQuestion.setValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);
@@ -138,7 +138,7 @@ public class ReputationTest extends UnitTest {
 				"answer to question number 2.").first();
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
-		secondAnswer.best = true;
+		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
 		firstQuestion.setValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);
@@ -156,7 +156,7 @@ public class ReputationTest extends UnitTest {
 				"answer to question number 2.").first();
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
-		secondAnswer.best = true;
+		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
 		firstQuestion.setValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);

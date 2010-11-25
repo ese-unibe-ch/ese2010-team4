@@ -102,24 +102,6 @@ public class User extends Model {
 	}
 
 	/**
-	 * checks whether the user can choose the best answer for an question.
-	 * 
-	 * @param id
-	 * @return true if he is able
-	 */
-
-	public boolean isAbleToChoose(Long id) {
-
-		Question question = Question.findById(id);
-
-		if (question.author.email.equals(this.email)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * checks whether the user can vote
 	 * 
 	 * @param id
@@ -173,7 +155,6 @@ public class User extends Model {
 		}
 
 		else {
-
 			bestAnswer(question);
 			return false;
 		}
@@ -190,7 +171,7 @@ public class User extends Model {
 		Answer best = null;
 
 		for (Answer answer : question.answers) {
-			if (answer.best) {
+			if (answer.isBestAnswer) {
 				best = answer;
 
 				if (!question.hasBestAnswer) {
@@ -450,8 +431,6 @@ public class User extends Model {
 	}
 
 	public String graphData() throws IOException {
-		List<ReputationPoint> reppoints = this.getReputationPoints();
-
 		StringBuffer strbuffer = new StringBuffer();
 		strbuffer.append("[");
 

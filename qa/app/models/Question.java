@@ -55,7 +55,7 @@ public class Question extends Post {
 
 	public boolean hasChosen() {
 		for (Answer answer : answers) {
-			if (answer.best) {
+			if (answer.isBestAnswer) {
 				return true;
 			}
 		}
@@ -64,7 +64,7 @@ public class Question extends Post {
 
 	public void setAllAnswersFalse() {
 		for (Answer answer : answers) {
-			answer.best = false;
+			answer.isBestAnswer = false;
 			answer.save();
 		}
 	}
@@ -113,7 +113,7 @@ public class Question extends Post {
 		long delay = 10000;
 		// necessary if user change his mind
 		this.setAllAnswersFalse();
-		answer.best = true;
+		answer.isBestAnswer = true;
 		answer.save();
 		this.setValidity(delay);
 		this.save();

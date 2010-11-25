@@ -43,8 +43,7 @@ public class UserTest extends UnitTest {
 
 	public void shouldCreateANewUserWithCreateUserMethod() {
 
-		String message = User.createUser("Rüedu", "ruedi@ruedi.ch", "test",
-				"test");
+		User.createUser("Rüedu", "ruedi@ruedi.ch", "test", "test");
 		User user = User.find("byEmail", "ruedi@ruedi.ch").first();
 
 		assertEquals(2, User.count());
@@ -94,16 +93,6 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldBeNotAbleToVote() {
 		assertFalse(hans.isAbleToVote(firstQuestion.id));
-	}
-
-	@Test
-	public void shouldBeAbleToChoose() {
-		assertTrue(hans.isAbleToChoose(firstQuestion.id));
-	}
-
-	@Test
-	public void shouldNotBeAbleToChoose() {
-		assertFalse(sepp.isAbleToChoose(firstQuestion.id));
 	}
 
 	@Test
