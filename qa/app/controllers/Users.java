@@ -331,7 +331,6 @@ public class Users extends CRUD {
 	 * @throws IOException
 	 */
 	public static void myProfile(Long userid) throws IOException {
-
 		User user = User.findById(userid);
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Post> activities = user.activities();
@@ -341,17 +340,14 @@ public class Users extends CRUD {
 
 	public static void showProfile(Long authorid) throws IOException {
 		User userToShow = User.findById(authorid);
-		List<Post> activities = userToShow.activities();
-		Post lastActivity = Post.find("order by timestamp desc").first();
-
-		if (userToShow.email.equals(Secure.Security.connected())) {
-			myProfile(userToShow.id);
-		}
-
-		else {
+		if (userToShow.equals(User.find("byUsername",
+				Secure.Security.connected()).first())) {
+			myProfile(authorid);
+		} else {
+			List<Post> activities = userToShow.activities();
+			Post lastActivity = Post.find("order by timestamp desc").first();
 			render(userToShow, activities, lastActivity);
 		}
-
 	}
 
 	/**
