@@ -30,43 +30,35 @@ public class Answer extends Post {
 	public Post addHistory(Post post, String title, String content) {
 		History history = new History(this, "", content).save();
 		int index = historys.size();
-		this.historys.add(index, history);
-		this.save();
+		historys.add(index, history);
+		save();
 		return this;
 	}
 
 	public boolean isAbleToVoteAnswer(User user) {
-
-		if (this.hasVoted(user) || this.author.email.equals(user.email)) {
-			return false;
-		}
-
-		else
-			return true;
+		return (!hasVoted(user) && !isOwnPost(user));
 	}
 
 	public Post vote(User user, boolean result) {
 		Vote vote = new Vote(user, this, result).save();
-		this.votes.add(vote);
+		votes.add(vote);
 
 		if (result) {
-			this.author.rating.voteUPAnswer();
-			this.author.rating.save();
-			this.author.save();
-		}
-
-		else {
-
-			this.author.rating.voteDown();
-			this.author.rating.save();
-			this.author.save();
+			author.rating.voteUPAnswer();
+			author.rating.save();
+			author.save();
+		} else {
+			author.rating.voteDown();
+			author.rating.save();
+			author.save();
 			user.rating.penalty();
 			user.rating.save();
 			user.save();
 		}
-		this.voting();
-		this.save();
-		return this;
 
+		voting();
+		save();
+
+		return this;
 	}
 }
