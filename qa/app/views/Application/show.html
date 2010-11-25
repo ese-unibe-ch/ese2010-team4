@@ -90,7 +90,7 @@
 									${comment.numberOfLikers()} users like this comment.
 								#{/else}
 								#{secure.check 'user'}
-									#{if !comment.author.username.equals(user.username)}
+									#{if !comment.isOwnPost()}
 										#{if !user.alreadyLikesComment(comment.id)}
 											<a class="button" href="@{Users.likeComment(comment.id, true)}">like</a>
 										#{/if}
@@ -141,7 +141,7 @@
 											#{if isvalid}
 												<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
 											#{/if}
-											#{if answer.author.email.equals(user.email)}
+											#{if answer.isOwnPost()}
 												<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
 											#{/if}
 											#{if isvalid && abletochoose}
@@ -193,7 +193,7 @@
 												${comment.numberOfLikers()} users like this comment.
 											#{/else}
 											#{secure.check 'user'}
-												#{if !comment.author.username.equals(user.username)}
+												#{if !comment.isOwnPost()}
 													#{if !user.alreadyLikesComment(comment.id)}
 															<a class="button" href="@{Users.likeComment(comment.id, true)}">like</a>
 													#{/if}
