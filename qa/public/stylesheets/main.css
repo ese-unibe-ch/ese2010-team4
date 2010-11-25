@@ -284,7 +284,7 @@ pre
 .comment 
 {
 	background: #FFF;
-	padding: 20px 20px 20px 20px;
+	padding: 20px 20px 5px 20px;
 	margin: 20px 0px 20px 0px;
 	clear: both;
     -webkit-border-radius: 16px;
@@ -307,25 +307,33 @@ pre
 {
 	font-size: 12px;
 	text-align: left;
-	margin-left: 2px;
+	margin: 2px;
+	overflow: hidden;
 }
-		
+
+.like-unlike span
+{
+	margin: 0px 5px;
+}
+
 .like 
 {
 	background: url("/public/images/thumbsUp.png");
+	float: left;
 	width: 30px;
 	height: 35px;
 	display: block;
-	margin-bottom: 2px;
+	margin: 0px 5px;
 }
 
 .unlike 
 {
 	background: url("/public/images/thumbsDown.png");
+	float: left;
 	width: 30px;
 	height: 35px;
 	display: block;
-	margin-top: 2px;
+	margin: 0px 5px;
 }
 
 /** Voting **/

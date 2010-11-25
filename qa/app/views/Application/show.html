@@ -83,12 +83,14 @@
 								${comment.content.raw()}
 							</div>
 							<div class="like-unlike">
+								<span>
 								#{if comment.numberOfLikers()==1}
 									${comment.numberOfLikers()} user likes this comment.
 								#{/if}
 								#{else}
 									${comment.numberOfLikers()} users like this comment.
 								#{/else}
+								</span>
 								#{secure.check 'user'}
 									#{if !comment.isOwnPost()}
 										#{if !user.alreadyLikesComment(comment.id)}

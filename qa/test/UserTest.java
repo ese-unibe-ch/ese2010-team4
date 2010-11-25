@@ -66,7 +66,8 @@ public class UserTest extends UnitTest {
 				"testing");
 		User user = User.find("byUsername", "Ruedi").first();
 
-		assertEquals(message, "Hello, " + user.username + ", please log in");
+		assertEquals(message, user.username
+				+ "<br> welcome on A4Q, please log in");
 
 		// not everything was filled
 		message = User.createUser("Ruedi", "", "", "");
