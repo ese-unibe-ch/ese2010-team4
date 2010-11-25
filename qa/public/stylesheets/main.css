@@ -302,16 +302,30 @@ pre
 	color: #69F;
 }
 
-.comment-like {
+
+.like-unlike 
+{
 	font-size: 12px;
-	float: left;
 	text-align: left;
+	margin-left: 2px;
+}
+		
+.like 
+{
+	background: url("/public/images/thumbsUp.png");
+	width: 19px;
+	height: 19px;
+	display: block;
+	margin-bottom: 2px;
 }
 
-.comment-like .button {
-	background: #090;
-	margin: 0px 10px;
-	padding: 0px 10px;
+.unlike 
+{
+	background: url("/public/images/thumbsDown.png");
+	width: 19px;
+	height: 19px;
+	display: block;
+	margin-top: 2px;
 }
 
 /** Voting **/
