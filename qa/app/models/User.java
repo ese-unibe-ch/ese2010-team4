@@ -97,10 +97,6 @@ public class User extends Model {
 		return find("byUsernameAndPassword", username, password).first();
 	}
 
-	public String toString() {
-		return email;
-	}
-
 	/**
 	 * Checks whether the user can vote a question or not.
 	 * 
@@ -111,11 +107,7 @@ public class User extends Model {
 	public boolean isAbleToVote(Long id) {
 		Question question = Question.findById(id);
 
-		if (!question.hasVoted(this) && !question.isOwnPost(this)) {
-			return true;
-		}
-
-		return false;
+		return (!question.hasVoted(this) && !question.isOwnPost(this));
 	}
 
 	/**
@@ -272,20 +264,16 @@ public class User extends Model {
 	}
 
 	public void removeNull() {
-
 		int index = 0;
-		while (index < this.followQ.size()) {
+		while (index < followQ.size()) {
 			try {
-				Long id = this.followQ.get(index).getId();
-				Question q = Question.findById(id);
-				q.toString();
+				Long id = followQ.get(index).getId();
+				Question question = Question.findById(id);
+				question.getTitle();
 				index++;
-			}
-
-			catch (Exception e) {
+			} catch (Exception e) {
 				this.followQ.remove(index);
 			}
-
 		}
 		this.save();
 	}
@@ -430,17 +418,16 @@ public class User extends Model {
 		strbuffer.append("[");
 
 		List<ReputationPoint> points = this.getReputationPoints();
-		Iterator<ReputationPoint> it = points.iterator();
 
-		while (it.hasNext()) {
-			ReputationPoint point = it.next();
+		for (Iterator<ReputationPoint> itr = points.iterator(); itr.hasNext();) {
+			ReputationPoint point = itr.next();
 			strbuffer.append("{\"time\": " + point.timestamp + ", \"value\": "
 					+ point.repvalue + "}");
-			if (it.hasNext()) {
+			if (itr.hasNext()) {
 				strbuffer.append(',');
 			}
-
 		}
+
 		strbuffer.append(']');
 
 		return strbuffer.toString();

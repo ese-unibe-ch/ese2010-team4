@@ -83,10 +83,6 @@ public abstract class Post extends Model {
 		likers = new HashSet();
 	}
 
-	public String toString() {
-		return content;
-	}
-
 	/**
 	 * Checks if the post belongs to the given user.
 	 * 
@@ -176,8 +172,7 @@ public abstract class Post extends Model {
 
 	public static List<Post> findTaggedWith(String... tags) {
 		return Question
-				.find(
-						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
+				.find("select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
 	}
 

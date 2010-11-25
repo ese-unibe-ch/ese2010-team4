@@ -159,7 +159,7 @@ public class XMLParser extends DefaultHandler {
 	}
 
 	public String getReport() {
-		return this.report.toString();
+		return report.toString();
 	}
 
 	public void characters(char[] chars, int start, int length) {

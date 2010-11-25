@@ -29,6 +29,10 @@ public class Question extends Post {
 		this.title = title;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
 	public Question addAnswer(User author, String content) {
 		Answer newAnswer = new Answer(this, author, content).save();
 		this.answers.add(newAnswer);
@@ -118,10 +122,5 @@ public class Question extends Post {
 		this.setValidity(delay);
 		this.save();
 		return this;
-	}
-
-	@Override
-	public String toString() {
-		return title;
 	}
 }

@@ -37,7 +37,7 @@
         		found by tags
         		#{list items:tags, as:'tag'}
         			<div class="answer">
-   					<a href="@{Application.tagged(tag)}">${tag}</a>${tag_isLast ? '' : ', '}
+   					<a href="@{Application.tagged(tag)}">${tag.getName()}</a>${tag_isLast ? '' : ', '}
    					</div>
 				#{/list}
 			#{/if}
