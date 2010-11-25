@@ -45,7 +45,7 @@
 						<div class="question-date">
 							${question.getDate()}
 						</div>
-						<div id="userImg"> <img src="${question.author.avatarPath}" width="62" height="62"/></div>
+						<div id="userImg"> <img src="${question.author.avatarPath}"/></div>
 						<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.username} (${question.author.rating})</a>
 					</div>
 					<div class="question-main">

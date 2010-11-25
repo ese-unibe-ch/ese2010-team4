@@ -62,10 +62,10 @@ html, body
     -moz-border-radius: 16px;
 }
 
-#userImg 
+#userImg img
 {
-	width: 62;
-	height: 62;
+	width: 62px;
+	height: 62px;
 	float: right;
 	margin: 0px 0px 0px 10px;
 }
