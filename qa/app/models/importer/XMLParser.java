@@ -46,6 +46,7 @@ public class XMLParser extends DefaultHandler {
 			Attributes atts) {
 		buf.setLength(0);
 		if (qname.equals("user")) {
+			// I should check for multiple IDs...
 			user = new User();
 			user.avatarPath = "/public/uploads/standardAvatar.png";
 			user.save();
@@ -70,7 +71,7 @@ public class XMLParser extends DefaultHandler {
 			userCounter++;
 		}
 		if (qname.equals("displayname")) {
-			user.fullname = buf.toString();
+			user.username = buf.toString();
 			user.save();
 		}
 		if (qname.equals("email")) {
@@ -79,6 +80,10 @@ public class XMLParser extends DefaultHandler {
 		}
 		if (qname.equals("password")) {
 			user.password = buf.toString();
+			user.save();
+		}
+		if (qname.equals("ismoderator")) {
+			user.isAdmin = buf.toString().equals("true");
 			user.save();
 		}
 		if (qname.equals("ownerid")) {

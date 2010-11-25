@@ -45,7 +45,7 @@
 				${question.getDate()}
 			</div>
 			<div id="userImg"><img src="${question.author.avatarPath}" width="62" height="62"/></div>
-			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
+			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.username} (${question.author.rating})</a>
 		</div>
 		<div class="question-main">
 			<div class="question-title">
@@ -74,7 +74,7 @@
 					#{list items: question.comments, as:'comment'}
 						<div class="comment">
 							<div class="comment-author">
-								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
+								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
 								<div class="comment-date">
 									${comment.getDate()}
 								</div>
@@ -82,6 +82,20 @@
 							<div class="comment-content">
 								${comment.content.raw()}
 							</div>
+							#{secure.check 'user'}
+								#{if user.isAbleToLikeComment(comment.id) && !user.alreadyLikesComment(comment.id)}
+									<div class="comment-like">
+										<a class="button" href="@{Users.LikeComment(comment.id, true)}">Like</a>
+										${comment.countLikers()} person(s) like that.
+									</div>
+								#{/if}
+								#{elseif user.isAbleToLikeComment(comment.id) && user.alreadyLikesComment(comment.id)}
+									<div class="comment-like">
+										<a class="button" href="@{Users.LikeComment(comment.id, false)}">Dislike</a>
+										${comment.countLikers()} people like this.
+									</div>
+								#{/elseif}
+							#{/secure.check}
 						</div>
 					#{/list}
 				</div>
@@ -108,7 +122,7 @@
 									</div>
 								#{/else}
 								#{secure.check 'user'}    
-									#{if isvalid && answer.isAbleToVoteAnswer(models.User.find("byEmail", controllers.Secure.Security.connected()).first())}
+									#{if isvalid && answer.isAbleToVoteAnswer(user)}
 					         			<div class="vote-up-down">
 											<a class="vote-up" href="@{Users.voteForAnswer(question.id, answer.id, true)}"></a>
 											<a class="vote-down" href="@{Users.voteForAnswer(question.id, answer.id, false)}"></a>
@@ -140,7 +154,7 @@
 									${answer.getDate()}
 								</div>
 								<div id="userImg"><img src="${answer.author.avatarPath}" width="62" height="62"/></div>
-								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.fullname} (${answer.author.rating})</a>
+								<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.username} (${answer.author.rating})</a>
 							</div>
 							<div class="content" id="answer-content">
 					         	${answer.content.raw()}
@@ -159,13 +173,29 @@
 								#{list items: answer.comments, as:'comment'}
 									<div class="comment">
 										<div class="comment-author">
-											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.fullname} (${comment.author.rating})</a>
+											<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
 											<div class="comment-date">
 												${comment.getDate()}
 											</div>
 										</div>
 										<div class="comment-content">
 											${comment.content.raw()}
+										</div>
+										<div class="comment-like">
+										#{secure.check 'user'}
+											#{if user.isAbleToLikeComment(comment.id) && !user.alreadyLikesComment(comment.id)}
+												<div class="comment-like">
+													<a class="button" href="@{Users.LikeComment(comment.id, true)}">Like</a>
+													${comment.countLikers()} person(s) like that.
+												</div>
+											#{/if}
+											#{elseif user.isAbleToLikeComment(comment.id) && user.alreadyLikesComment(comment.id)}
+												<div class="comment-like">
+													<a class="button" href="@{Users.LikeComment(comment.id, false)}">Dislike</a>
+													${comment.countLikers()} people like this.
+												</div>
+											#{/elseif}
+										#{/secure.check}
 										</div>
 									</div>
 								#{/list}
@@ -190,7 +220,7 @@
        	   				All fields are required!
       	  			</p>
  	   			#{/ifErrors}
-    			<input type="hidden" name="author" id="author" value="${user.fullname}" readonly/>
+    			<input type="hidden" name="author" id="author" value="${user.username}" readonly/>
     			<p>
         			<label for="content">Your answer: </label>
         		</p>

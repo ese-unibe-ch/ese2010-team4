@@ -6,6 +6,8 @@ import models.Post;
 import models.Question;
 import models.Tag;
 import models.User;
+import models.helper.ValidationHelper;
+import play.data.validation.Required;
 import play.mvc.Before;
 import play.mvc.Controller;
 
@@ -15,10 +17,12 @@ import play.mvc.Controller;
  */
 public class Application extends Controller {
 
+	private static ValidationHelper helper = new ValidationHelper();
+
 	@Before
 	static void setConnectedUser() {
 		if (Secure.Security.isConnected()) {
-			User user = User.find("byEmail", Secure.Security.connected())
+			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
 			renderArgs.put("user", user);
 		}
@@ -33,7 +37,8 @@ public class Application extends Controller {
 				.fetch();
 		String lastAnswer = "";
 		boolean isconnected = Secure.Security.isConnected();
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		render(lastActivity, questions, lastAnswer, isconnected, user);
 	}
 
@@ -58,7 +63,7 @@ public class Application extends Controller {
 		}
 
 		else {
-			User user = User.find("byEmail", Secure.Security.connected())
+			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
 			abletochoose = user.isAbleToChoose(id);
 			abletovote = user.isAbleToVote(id);
@@ -82,10 +87,18 @@ public class Application extends Controller {
 	 * @param password2
 	 *            the password2
 	 */
-	public static void addUser(String fullname, String email, String password,
-			String password2) {
+	public static void addUser(@Required String newusername,
+			@Required String email, @Required String password,
+			@Required String password2) {
+		validation.isTrue(helper.ckeck(newusername, "Username"));
+		validation.isTrue(helper.ckeck(email, "Email"));
+		validation.equals(password, password2);
+		validation.isTrue(password.length() > 6);
 
-		String message = User.createUser(fullname, email, password, password2);
+		String message = User.createUser(newusername, email, password,
+				password2);
+		flash.success(message);
+
 		try {
 			Secure.login(message);
 		} catch (Throwable e) {
@@ -95,9 +108,15 @@ public class Application extends Controller {
 
 	public static void tagged(Tag tag) {
 		boolean isconnected = !Secure.Security.isConnected();
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		List<Post> taggedPosts = Post.findTaggedWith(tag.name);
 		render(taggedPosts, isconnected, user);
+	}
+
+	public static void userExists(String username) {
+		User user = User.find("byUsername", username).first();
+		renderJSON(user != null);
 	}
 
 }

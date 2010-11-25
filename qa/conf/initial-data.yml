@@ -14,15 +14,21 @@ Reputation(rep2):
     totalRep: 0
     penalty: 0
 
+User(admin):
+    username: admin
+    email: admin@admin.ch
+    password: admin
+    raiting: rep1
+    isAdmin: true
 
 User(bob):
-    fullname: bob
+    username: bob
     email: bob@bob.ch
     password: hallo
     raiting: rep1
     
 User(jeff):
-    fullname: jeff
+    username: jeff
     email: jeff@jeff.ch
     password: hallo
     raiting: rep2

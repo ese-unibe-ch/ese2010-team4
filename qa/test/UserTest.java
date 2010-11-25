@@ -29,16 +29,16 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldCreateAndRetrieveUser() {
 		assertNotNull(hans);
-		assertEquals("Muster Hans", hans.fullname);
+		assertEquals("Muster Hans", hans.username);
 	}
 
 	@Test
 	public void shouldTryLoginAsUser() {
-		assertNotNull(User.login("hans@gmail.com", "keyword"));
+		assertNotNull(User.login("Muster Hans", "keyword"));
 		// Not the right password.
-		assertNull(User.login("hans@gmail.com", "badKey"));
+		assertNull(User.login("Muster Hans", "badKey"));
 		// Not the right email.
-		assertNull(User.login("hahn@gmail.com", "keyword"));
+		assertNull(User.login("Muster Hand", "keyword"));
 	}
 
 	public void shouldCreateANewUserWithCreateUserMethod() {
@@ -48,7 +48,7 @@ public class UserTest extends UnitTest {
 		User user = User.find("byEmail", "ruedi@ruedi.ch").first();
 
 		assertEquals(2, User.count());
-		assertEquals("Rüedu", user.fullname);
+		assertEquals("Rüedu", user.username);
 
 		// Login successfully
 		assertNotNull(User.login("ruedi@ruedi.ch", "test"));
@@ -63,22 +63,26 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldReturnTheRightCreateUserMessages() {
 
-		String message = User.createUser("Rüedu", "ruedi@ruedi.ch", "testing",
+		String message = User.createUser("Ruedi", "ruedi@ruedi.ch", "testing",
 				"testing");
-		User user = User.find("byEmail", "ruedi@ruedi.ch").first();
+		User user = User.find("byUsername", "Ruedi").first();
 
-		assertEquals(message, "Hello, " + user.fullname + ", please log in");
+		assertEquals(message, "Hello, " + user.username + ", please log in");
 
 		// not everything was filled
-		message = User.createUser("Rüedu", "", "", "");
+		message = User.createUser("Ruedi", "", "", "");
 		assertEquals(message, "you forgot one or more gap's");
 
+		// invalid email
+		message = User.createUser("Ruedi", "rüedu@rüedu.ch", "test", "tets");
+		assertEquals(message, "you entered a invalid email address");
+
 		// wrong password
-		message = User.createUser("Rüedu", "rüedu@rüedu.ch", "test", "tets");
+		message = User.createUser("Ruedi", "ruedi@ruedi.ch", "test", "tets");
 		assertEquals(message, "the password's aren't the same");
 
 		// to short password
-		message = User.createUser("Rüedu", "rüedu@rüedu.ch", "test", "test");
+		message = User.createUser("Ruedi", "ruedi@ruedi.ch", "test", "test");
 		assertEquals(message, "your password must be 6 singns or longer");
 	}
 

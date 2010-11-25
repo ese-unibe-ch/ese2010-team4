@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -18,6 +19,7 @@ import models.urlHTMLhandler.URLHandler;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import controllers.Timer;
 
 /**
  * The Class Post.
@@ -31,6 +33,7 @@ public abstract class Post extends Model {
 	public String attachmentPath;
 	public static URLHandler uHandler = new URLHandler();
 	public static HTMLHandler hHandler = new HTMLHandler();
+	private HashSet<User> likers;
 
 	@Lob
 	@Required
@@ -63,7 +66,7 @@ public abstract class Post extends Model {
 	 * 
 	 * @param user
 	 * @param result
-	 * @return the votet post
+	 * @return the voted post
 	 */
 	public abstract Post vote(User user, boolean result);
 
@@ -77,6 +80,7 @@ public abstract class Post extends Model {
 		this.content = uHandler.check(hHandler.check(content));
 		this.timestamp = new Date();
 		this.voting = 0;
+		likers = new HashSet();
 	}
 
 	public String toString() {
@@ -209,6 +213,61 @@ public abstract class Post extends Model {
 	public String getDate() {
 		return this.timestamp.toLocaleString();
 
+	}
+
+	/**
+	 * Returns the number of Users who like the post.
+	 * 
+	 * @return count of likers
+	 */
+	public int countLikers() {
+		return this.likers.size();
+	}
+
+	/**
+	 * Add the User to the list of Users who like the post.
+	 * 
+	 * @param liker
+	 *            - user which will be added to the likers list.
+	 * 
+	 * @return true if the User was not already in the list.
+	 */
+	public boolean addLiker(User liker) {
+		boolean likes = this.likers.add(liker);
+		this.save();
+		return likes;
+	}
+
+	/**
+	 * Remove a user from the list of Users who like the post.
+	 * 
+	 * @param disliker
+	 *            - User which will be removed from the likers list.
+	 * 
+	 * @return true if the list contained the User
+	 */
+	public boolean removeLiker(User disliker) {
+		boolean dislikes = this.likers.remove(disliker);
+		this.save();
+		return dislikes;
+	}
+
+	/**
+	 * Get all Users who like the post.
+	 * 
+	 * @return an ArrayList of Users.
+	 */
+	public ArrayList<User> getLikers() {
+		ArrayList<User> likers = new ArrayList<User>();
+		likers.addAll(this.likers);
+		return likers;
+	}
+
+	/**
+	 * Clear the list of users who like the post.
+	 */
+	public void clearLikers() {
+		likers.clear();
 	}
 
 }

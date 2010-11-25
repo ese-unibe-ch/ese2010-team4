@@ -1,17 +1,33 @@
 package jobs;
 
-import models.User;
-import play.jobs.Job;
-import play.test.Fixtures;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-//@OnApplicationStart
+import models.User;
+import models.importer.XMLParser;
+import play.Play;
+import play.jobs.Job;
+import play.jobs.OnApplicationStart;
+
+@OnApplicationStart
 public class Bootstrap extends Job {
 
 	public void doJob() {
 
-		// Check if the database is empty
+		// Check if the database is empty and imports startxml
 		if (User.count() == 0) {
-			Fixtures.load("initial-data.yml");
+			XMLParser parser = new XMLParser();
+
+			try {
+				URL url = new File(Play.applicationPath + "/conf/startUp.xml")
+						.toURI().toURL();
+				parser.processURL(url);
+			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

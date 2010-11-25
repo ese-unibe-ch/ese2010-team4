@@ -56,7 +56,7 @@ public class Secure extends Controller {
 			}
 		}
 		flash.keep("url");
-		render(message);
+		redirectToOriginalURL();
 	}
 
 	public static void authenticate(@Required String username, String password,
@@ -80,6 +80,7 @@ public class Secure extends Controller {
 		}
 		// Mark user as connected
 		session.put("username", username);
+		flash.success("secure.login");
 		// Remember if needed
 		if (remember) {
 			response.setCookie("rememberme", Crypto.sign(username) + "-"
@@ -90,7 +91,7 @@ public class Secure extends Controller {
 	}
 
 	public static void logout() throws Throwable {
-		User user = User.find("byEmail", Security.connected()).first(); // SS
+		User user = User.find("byUsername", Security.connected()).first(); // SS
 		user.lastLogOff = new Date(System.currentTimeMillis()); // SS
 		user.save(); // SS
 		session.clear();
@@ -104,6 +105,7 @@ public class Secure extends Controller {
 	static void redirectToOriginalURL() throws Throwable {
 		Security.invoke("onAuthenticated");
 		String url = flash.get("url");
+		flash.keep();
 		if (url == null) {
 			url = "/";
 		}
@@ -147,10 +149,10 @@ public class Secure extends Controller {
 		 */
 		static boolean check(String profile) {
 			if ("user".equals(profile)) {
-				return (User.find("byEmail", connected()).<User> first() != null);
+				return (User.find("byUsername", connected()).<User> first() != null);
 			}
 			if ("admin".equals(profile)) {
-				return User.find("byEmail", connected()).<User> first().isAdmin;
+				return User.find("byUsername", connected()).<User> first().isAdmin;
 			}
 			return false;
 		}

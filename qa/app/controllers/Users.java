@@ -30,7 +30,7 @@ public class Users extends CRUD {
 	@Before
 	static void setConnectedUser() {
 		if (Secure.Security.isConnected()) {
-			User user = User.find("byEmail", Secure.Security.connected())
+			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
 			renderArgs.put("user", user);
 		}
@@ -48,7 +48,8 @@ public class Users extends CRUD {
 	 * My questions.
 	 */
 	public static void myQuestions() {
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		List<Question> questions = Question.find("byAuthor", user).fetch();
 		render(questions);
 	}
@@ -104,7 +105,8 @@ public class Users extends CRUD {
 	 * My answers.
 	 */
 	public static void myAnswers() {
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		List<Answer> answers = Answer.find("byAuthor", user).fetch();
 
 		render(answers);
@@ -138,7 +140,7 @@ public class Users extends CRUD {
 			render("Users/index.html");
 		}
 
-		User user = User.find("byFullname", author).first();
+		User user = User.find("byUsername", author).first();
 		Question question = user.addQuestion(title, content).save();
 
 		if (!(tags.equals("") || tags.isEmpty() || tags.equals(null))) {
@@ -196,7 +198,8 @@ public class Users extends CRUD {
 			writeComment(postid, questionid);
 		}
 
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		Post post = Post.find("byId", postid).first();
 
 		new Comment(user, post, content).save();
@@ -224,7 +227,7 @@ public class Users extends CRUD {
 			Application.show(questionId);
 			return;
 		}
-		User user = User.find("byFullname", author).first();
+		User user = User.find("byUsername", author).first();
 		Answer answer = new Answer(question, user, content).save();
 		if (validation.hasErrors()) {
 			render("Application/show.html", question);
@@ -248,7 +251,8 @@ public class Users extends CRUD {
 	 */
 	public static void quote(Long postId) {
 		Post post = Post.findById(postId);
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		user.quoteContent(post.content, post.author.email);
 		user.save();
 		if (post instanceof Answer)
@@ -267,11 +271,12 @@ public class Users extends CRUD {
 	 */
 	public static void voteForQuestion(Long questionId, boolean vote) {
 
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		Question question = Question.findById(questionId);
 
 		question.vote(user, vote);
-		flash.success("Thanks for vote %s!", user.fullname);
+		flash.success("Thanks for vote %s!", user.username);
 
 		Application.show(questionId);
 
@@ -290,14 +295,34 @@ public class Users extends CRUD {
 	public static void voteForAnswer(Long questionId, Long answerId,
 			boolean vote) {
 
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		Answer answer = Answer.find("byId", answerId).first();
 
 		answer.vote(user, vote);
 
-		flash.success("Thanks for vote %s!", user.fullname);
+		flash.success("Thanks for vote %s!", user.username);
 		Application.show(questionId);
 
+	}
+
+	/**
+	 * Likes/Dislikes a comment.
+	 * 
+	 * @param commentId
+	 * @param like
+	 *            boolean whether the user likes the comment or not
+	 */
+	public static void LikeComment(Long commentId, boolean like) {
+
+		User user = User.find("byEmail", Secure.Security.connected()).first();
+		Comment comment = Comment.findById(commentId);
+		Question question = comment.findQuestion();
+		if (like)
+			comment.addLiker(user);
+		else
+			comment.removeLiker(user);
+		Application.show(question.id);
 	}
 
 	/**
@@ -444,9 +469,12 @@ public class Users extends CRUD {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public static void changeProfile(String birthday, String website,
-			String work, String languages, String aboutMe) throws IOException {
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+	public static void changeProfile(String fullname, String birthday,
+			String website, String work, String languages, String aboutMe)
+			throws IOException {
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		user.fullname = fullname;
 		user.setBirthday(birthday);
 		user.website = website;
 		user.work = work;
@@ -462,7 +490,8 @@ public class Users extends CRUD {
 	 * @return the list
 	 */
 	public static void recentPosts() {
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		Post post = Post.find("byAutor", user).first();
 		render(post);
 	}
@@ -472,7 +501,7 @@ public class Users extends CRUD {
 
 		boolean found = false;
 		Post lastActivity = Post.find("order by timestamp desc").first();
-		List<User> users = User.find("byFullnameLike", "%" + toSearch + "%")
+		List<User> users = User.find("byUsernameLike", "%" + toSearch + "%")
 				.fetch();
 		List<Post> postscont = Post.find("byContentLike", "%" + toSearch + "%")
 				.fetch();
@@ -495,7 +524,8 @@ public class Users extends CRUD {
 
 	public static void myFollows() {
 
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		user.removeNull();
 		user.save();
@@ -509,7 +539,8 @@ public class Users extends CRUD {
 	}
 
 	public static void followQuestion(Long id) {
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		Question question = Post.findById(id);
 		if (!user.followQ.contains(question)) {
 			user.followQ.add(question);
@@ -519,7 +550,7 @@ public class Users extends CRUD {
 	}
 
 	public static void followUser(Long id) {
-		User userClient = User.find("byEmail", Secure.Security.connected())
+		User userClient = User.find("byUsername", Secure.Security.connected())
 				.first();
 		User userServer = User.findById(id);
 		if (!userClient.followU.contains(userServer)) {
@@ -531,13 +562,14 @@ public class Users extends CRUD {
 
 	public static void unfollowQuestion(Long id) {
 		Question question = Question.findById(id);
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		user.deleteFollowQ(question);
 		Users.myFollows();
 	}
 
 	public static void unfollowUser(Long id) {
-		User userMaster = User.find("byEmail", Secure.Security.connected())
+		User userMaster = User.find("byUsername", Secure.Security.connected())
 				.first();
 		User userSlave = User.findById(id);
 		userMaster.deleteFollowU(userSlave);
@@ -549,7 +581,7 @@ public class Users extends CRUD {
 		// File should not be null and not bigger than 10KB
 		assert avatar != null && avatar.length() < 10000;
 		if (avatar != null && avatar.length() < 50000) {
-			User user = User.find("byEmail", Secure.Security.connected())
+			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
 			user.avatarPath = uploader.upload(avatar, "avatar" + user.id)
 					.substring(2);
@@ -561,7 +593,8 @@ public class Users extends CRUD {
 	}
 
 	public static void updateAvatarPath(String URL) throws IOException {
-		User user = User.find("byEmail", Secure.Security.connected()).first();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
 		user.avatarPath = URL;
 		user.save();
 		Users.myProfile(user.id);
