@@ -87,12 +87,28 @@ public abstract class Post extends Model {
 		return content;
 	}
 
+	/**
+	 * Checks if the post belongs to the given user.
+	 * 
+	 * @param user
+	 *            The user to check.
+	 * @return true if the post belongs to the user.
+	 */
+	public boolean isOwnPost(User user) {
+		return user.equals(author);
+	}
+
+	/**
+	 * Checks if the post belongs to the loggedIn user.
+	 * 
+	 * @return true if the post belongs to the loggedIn user.
+	 */
 	public boolean isOwnPost() {
 		if (Secure.Security.isConnected()) {
 			User connectedUser = User.find("byUsername",
 					Secure.Security.connected()).first();
 			if (connectedUser != null) {
-				return connectedUser.equals(this.author);
+				return isOwnPost(connectedUser);
 			}
 
 		}
@@ -239,13 +255,13 @@ public abstract class Post extends Model {
 	/**
 	 * Add the User to the list of Users who like the post.
 	 * 
-	 * @param liker
-	 *            - user which will be added to the likers list.
+	 * @param user
+	 *            The user which will be added to the likers list.
 	 * 
-	 * @return true if the User was not already in the list.
+	 * @return true if the user was not already in the list.
 	 */
-	public boolean addLiker(User liker) {
-		boolean out = likers.add(liker);
+	public boolean addLiker(User user) {
+		boolean out = likers.add(user);
 		save();
 		return out;
 	}
@@ -253,26 +269,24 @@ public abstract class Post extends Model {
 	/**
 	 * Remove a user from the list of Users who like the post.
 	 * 
-	 * @param disliker
-	 *            - User which will be removed from the likers list.
+	 * @param user
+	 *            The user which will be removed from the likers list.
 	 * 
-	 * @return true if the list contained the User
+	 * @return true if the list contained the user.
 	 */
-	public boolean removeLiker(User disliker) {
-		boolean dislikes = this.likers.remove(disliker);
-		this.save();
-		return dislikes;
+	public boolean removeLiker(User user) {
+		boolean out = likers.remove(user);
+		save();
+		return out;
 	}
 
 	/**
-	 * Get all Users who like the post.
+	 * Check if a user likes the post.
 	 * 
-	 * @return an ArrayList of Users.
+	 * @return true if the the user likes the post
 	 */
-	public ArrayList<User> getLikers() {
-		ArrayList<User> likers = new ArrayList<User>();
-		likers.addAll(this.likers);
-		return likers;
+	public boolean userLikePost(User user) {
+		return likers.contains(user);
 	}
 
 	/**

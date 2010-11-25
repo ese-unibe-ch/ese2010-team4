@@ -102,17 +102,16 @@ public class User extends Model {
 	}
 
 	/**
-	 * checks whether the user can vote
+	 * Checks whether the user can vote a question or not.
 	 * 
 	 * @param id
+	 *            The ID of the question.
 	 * @return true if he is able to vote
 	 */
 	public boolean isAbleToVote(Long id) {
-
 		Question question = Question.findById(id);
 
-		if (!question.hasVoted(this)
-				&& !question.author.email.equals(this.email)) {
+		if (!question.hasVoted(this) && !question.isOwnPost(this)) {
 			return true;
 		}
 
@@ -123,17 +122,13 @@ public class User extends Model {
 	 * checks whether the user already likes the comment
 	 * 
 	 * @param id
-	 *            of the comment
+	 *            The ID of the comment.
 	 * @return true if he is able to like the comment
 	 */
 	public boolean alreadyLikesComment(Long id) {
-
 		Comment comment = Comment.findById(id);
 
-		if (comment.getLikers().contains(this))
-			return true;
-		else
-			return false;
+		return comment.userLikePost(this);
 	}
 
 	/**
