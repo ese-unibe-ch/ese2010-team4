@@ -313,8 +313,8 @@ pre
 .like 
 {
 	background: url("/public/images/thumbsUp.png");
-	width: 19px;
-	height: 19px;
+	width: 30px;
+	height: 35px;
 	display: block;
 	margin-bottom: 2px;
 }
@@ -322,8 +322,8 @@ pre
 .unlike 
 {
 	background: url("/public/images/thumbsDown.png");
-	width: 19px;
-	height: 19px;
+	width: 30px;
+	height: 35px;
 	display: block;
 	margin-top: 2px;
 }
