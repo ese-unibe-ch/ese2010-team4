@@ -80,7 +80,6 @@ public class User extends Model {
 	}
 
 	public User(String username, String email, String password) {
-
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
 		this.username = username;
@@ -128,71 +127,53 @@ public class User extends Model {
 	 * 
 	 * 
 	 * @param id
-	 * @return true if the user has more time to edit the question
+	 *            the ID of the question to check.
+	 * @return true if the user can change the question.
 	 */
-
 	public boolean hasTimeToChange(Long id) {
-
 		Question question = Question.findById(id);
 		// changes actual date to date in milisec
 		long milidate = new Date().getTime();
 
 		if (question.validity == 0 || milidate < question.validity) {
 			return true;
-		}
-
-		else {
+		} else {
 			bestAnswer(question);
 			return false;
 		}
 	}
 
 	/**
-	 * Helper method for find best answer
+	 * Helper method for find best answer.
 	 * 
 	 * @param question
 	 *            from the best answer
 	 */
 	private void bestAnswer(Question question) {
-
-		Answer best = null;
+		Answer bestAnswer = null;
 
 		for (Answer answer : question.answers) {
 			if (answer.isBestAnswer) {
-				best = answer;
+				bestAnswer = answer;
 
 				if (!question.hasBestAnswer) {
 					answer.author.rating.bestAnswer();
 					answer.author.rating.save();
 					answer.author.save();
 					answer.save();
-					this.save();
+					save();
 				}
 			}
 		}
 
-		if (best != null) {
-			question.answers.remove(best);
-			question.answers.add(0, best);
+		if (bestAnswer != null) {
+			question.answers.remove(bestAnswer);
+			question.answers.add(0, bestAnswer);
 			question.hasBestAnswer = true;
 			question.save();
-			best.save();
-			this.save();
+			bestAnswer.save();
+			save();
 		}
-	}
-
-	/**
-	 * Calculates the age of the <code>User</code> in years
-	 * 
-	 * @return age of the <code>User</code>
-	 */
-	private int age() {
-		Date now = new Date();
-		if (birthday != null) {
-			long age = now.getTime() - birthday.getTime();
-			return (int) (age / ((long) 1000 * 3600 * 24 * 365));
-		} else
-			return (0);
 	}
 
 	/**
@@ -203,8 +184,9 @@ public class User extends Model {
 		if (d != null) {
 			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
 			return fmt.format(d);
-		} else
-			return ("dd-mm-yyyy");
+		} else {
+			return "dd-mm-yyyy";
+		}
 	}
 
 	/**
@@ -217,8 +199,9 @@ public class User extends Model {
 		if (s != null) {
 			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
 			return fmt.parse(s);
-		} else
-			return (null);
+		} else {
+			return null;
+		}
 	}
 
 	public String getBirthday() {
@@ -234,8 +217,19 @@ public class User extends Model {
 		}
 	}
 
+	/**
+	 * Calculates the age of the <code>User</code> in years
+	 * 
+	 * @return age of the <code>User</code>
+	 */
 	public int calculateAge() {
-		return this.age();
+		Date now = new Date();
+		if (birthday != null) {
+			long age = now.getTime() - birthday.getTime();
+			return (int) (age / ((long) 1000 * 3600 * 24 * 365));
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -291,49 +285,44 @@ public class User extends Model {
 	}
 
 	/**
+	 * Checks if the user is following an object (user or question).
 	 * 
-	 * @param o
-	 * @return true spectific object follows
+	 * @param followingObject
+	 *            the object to check (user or question)
+	 * @return true if the user follows this object
 	 */
-	public boolean isFollowing(Object o) {
-		boolean follows = false;
-		if (o instanceof User) {
-			if (this.followU.contains((User) o)) {
-				follows = true;
-			}
+	public boolean isFollowing(Object followingObject) {
+		if (followingObject instanceof User) {
+			return followU.contains((User) followingObject);
+		} else if (followingObject instanceof Question) {
+			return followQ.contains((Question) followingObject);
+		} else {
+			return false;
 		}
-
-		if (o instanceof Question) {
-			if (this.followQ.contains((Question) o)) {
-				follows = true;
-			}
-		}
-		return follows;
 	}
 
 	public User addVote(Vote vote) {
-		this.votes.add(vote);
-		this.save();
+		votes.add(vote);
+		save();
 		return this;
-
 	}
 
 	public User addAnswer(Answer answer) {
-		this.posts.add(answer);
-		this.save();
+		posts.add(answer);
+		save();
 		return this;
 	}
 
 	public Question addQuestion(String title, String content) {
 		Question newQuestion = new Question(this, title, content).save();
-		this.posts.add(newQuestion);
-		this.save();
+		posts.add(newQuestion);
+		save();
 		return newQuestion;
 	}
 
 	public User addComment(Comment comment) {
-		this.posts.add(comment);
-		this.save();
+		posts.add(comment);
+		save();
 		return this;
 
 	}
@@ -347,7 +336,6 @@ public class User extends Model {
 	}
 
 	public List<Post> activities() {
-
 		return Post.find("author like ? order by timestamp desc", this).fetch();
 	}
 
@@ -355,17 +343,17 @@ public class User extends Model {
 		List<Post> activities = new ArrayList<Post>();
 
 		for (User user : this.followU) {
-			List<Post> act2 = Post.find(
+			List<Post> postList = Post.find(
 					"author like ? order by timestamp desc", user).fetch();
-			for (Post post : act2) {
+			for (Post post : postList) {
 				activities.add(post);
 			}
 		}
 
 		for (Question question : this.followQ) {
-			List<Post> act2 = Post.find("post like ? order by timestamp desc",
-					question).fetch();
-			for (Post post : act2) {
+			List<Post> postList = Post.find(
+					"post like ? order by timestamp desc", question).fetch();
+			for (Post post : postList) {
 				activities.add(post);
 			}
 		}
@@ -379,7 +367,6 @@ public class User extends Model {
 		}
 
 		return activities;
-
 	}
 
 	/**
@@ -387,28 +374,18 @@ public class User extends Model {
 	 * @return the points for the Reputation graph
 	 **/
 	public List<ReputationPoint> getReputationPoints() {
-
 		return rating.totalRepPoint;
-
 	}
 
 	public ReputationPoint getReputationPoint(int i) {
-
 		if (i < this.getReputationPoints().size()) {
-
 			return this.getReputationPoints().get(i);
-		}
-
-		else if (this.getReputationPoints().size() > 0) {
-
+		} else if (this.getReputationPoints().size() > 0) {
 			return new ReputationPoint(
 					getReputationPoints().get(getReputationPoints().size() - 1).repvalue,
 					getReputationPoints().get(getReputationPoints().size() - 1).timestamp)
 					.save();
-		}
-
-		else {
-
+		} else {
 			return new ReputationPoint(0, 0);
 		}
 	}
@@ -431,7 +408,6 @@ public class User extends Model {
 		strbuffer.append(']');
 
 		return strbuffer.toString();
-
 	}
 
 	public void quoteContent(String content, String quoted) {
@@ -445,7 +421,7 @@ public class User extends Model {
 	public String getQuotedContent() {
 		String content = quotedContent;
 		quotedContent = "";
-		this.save();
+		save();
 		return content;
 	}
 }
