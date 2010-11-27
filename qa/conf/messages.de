@@ -28,3 +28,20 @@ register.username=Benutzername
 register.email=Email
 register.password1=Passwort
 register.password2=Passwort bestätigen
+
+# Link messages
+profile=Mein Profil
+logout=Ausloggen
+lastActivity=Neuste Aktivität
+home=Home
+newQuestion=Neue Frage
+addAnswer=Antwort hinzufügen
+follow=Folgen
+unfollow=Nicht folgen
+edit=Editieren
+activities=Aktivitäten
+repGraph=Reputations Grafik
+myQuestions=Meine Fragen
+myAnswers=Meine Antworten
+myFollows=Ich folge
+

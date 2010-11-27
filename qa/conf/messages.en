@@ -29,3 +29,19 @@ register.username=Username
 register.email=Email
 register.password1=Password
 register.password2=Confirm password
+
+# Link messages
+profile=My profile
+logout=Log out
+lastActivity=Newest activity
+home=Home
+newQuestion=New question
+addAnswer=Add answer
+follow=Follow
+unfollow=Unfollow
+edit=Edit
+activities=Activities
+repGraph=Reputation Graph
+myQuestions=My questions
+myAnswers=My answers
+myFollows=My follows

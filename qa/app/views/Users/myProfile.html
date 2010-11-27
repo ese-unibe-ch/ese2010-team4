@@ -104,9 +104,7 @@
 
 <div id="userProfile">
 
-	
-
-	<h3>Activities</h3>
+	<h3>&{'activities'}</h3>
 	#{list items:activities, as:'activity'}
 			<div class="activity">
 		
@@ -114,7 +112,7 @@
 			</div>
      #{/list}
     
-	<h3>Reputation Graph</h3>
+	<h3>&{'repGraph'}</h3>
 
 	<div id="graph">
 		<div id="graphcanvas" style="width:600px;height:300px"></div>
@@ -160,8 +158,3 @@ $(function () {
     $.plot($("#graphcanvas"), [ d1]);
 });
 </script>
-
-#{if flash.success}
-<br>
-	<p class="success">${flash.success}</p>
-#{/if}

@@ -3,10 +3,10 @@
 
 <div id="tabMenu">
 	#{secure.check 'user'}
-	<a class="button" id="tab" href="@{Users.myProfile(user.id)}">My profile</a>
-	<a class="button" id="tab" href="@{Users.myQuestions()}">My questions</a>
-	<a class="button" id="tab" href="@{Users.myAnswers()}">My answers</a>
-	<a class="button" id="tab" href="@{Users.myFollows()}">My follows</a>
+	<a class="button" id="tab" href="@{Users.myProfile(user.id)}">&{'profile'}</a>
+	<a class="button" id="tab" href="@{Users.myQuestions()}">&{'myQuestions'}</a>
+	<a class="button" id="tab" href="@{Users.myAnswers()}">&{'myAnswers'}</a>
+	<a class="button" id="tab" href="@{Users.myFollows()}">&{'myFollows'}</a>
 	#{/secure.check}
 </div>
 

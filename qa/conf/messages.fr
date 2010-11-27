@@ -1,14 +1,14 @@
 # Messages (english)
 
 # General
-author=Author
-content=Inhalt
-timestamp=Geschrieben am
-question=Ähnliche Fragen
+author=Auteur
+content=Contenu
+timestamp=Ecrit le
+question=Questions similaires
 email=Email
-password=Passwort
-username=Benutzername
-isAdmin=User ist Administrator
+password=Mot de passe
+username=Nom de client
+isAdmin=Etre administrateur
 
 # Secure messages
 secure.title=Einloggen
@@ -28,3 +28,10 @@ register.username=Benutzername
 register.email=Email
 register.password1=Passwort
 register.password2=Passwort bestätigen
+
+# Link messages
+profile=Mon profile
+logout=Se déloguer
+home=Home
+newQuestion=Nouveau question
+addAnswer=Ecrit une réponse

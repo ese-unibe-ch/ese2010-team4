@@ -10,10 +10,10 @@
 	
 	<h3>You are on ${userToShow.username}'s profile
 	#{if !user.isFollowing(userToShow)}
-		<a href="@{Users.followUser(userToShow.id)}">(follow him)</a>
+		<a href="@{Users.followUser(userToShow.id)}">&{'follow'}</a>
 	#{/if}
 	#{else}
-		<a href="@{Users.unfollowUser(userToShow.id)}">(unfollow him)</a>
+		<a href="@{Users.unfollowUser(userToShow.id)}">&{'unfollow'}</a>
 	#{/else}
 	</h3>
 	
@@ -64,14 +64,14 @@
 		</div>
 	</div>
 	
-	<h3>Activities</h3>
+	<h3>&{'activities'}</h3>
 			#{list items:activities, as:'activity'}
 				<div class="activity">
 						#{activity activity:activity /}
 				</div>
      #{/list}
      
-    	<h3>Reputation Graph</h3>
+    	<h3>&{'repGraph'}</h3>
 
 	<div id="graph">
 		<div id="graphcanvas" style="width:600px;height:300px"></div>

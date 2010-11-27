@@ -11,7 +11,7 @@ following this questions:
 					<div id="answer-author" class="author">
 						<div class="buttons" id="question-buttons">
         					<a class="button" href="@{Users.unfollowQuestion(question.id)}">
-								<span>unfollow question</span>
+								<span>&{'unfollow'}</span>
 							</a>
         				</div>
 					</div>
@@ -27,7 +27,7 @@ following this users:
         			<div class="answer-author" class"author">
         				<div class="buttons" id="question-buttons">
         					<a class="button" href="@{Users.unfollowUser(user.id)}">
-								<span>unfollow user</span>
+								<span>&{'unfollow'}</span>
 							</a>
         				</div>
         			</div>
@@ -35,7 +35,7 @@ following this users:
     	</div>
 	#{/list}
 	
-	<h3>Activities:</h3>
+	<h3>&{'activities'}</h3>
 	#{list items:activities, as:'activity'}
 		<div class="activity">
 		#{if activity.isQuestion()}

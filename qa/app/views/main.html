@@ -28,12 +28,12 @@
 					<div id="userImg"> <img src="${user.avatarPath}"/></div>
 					<div>User: ${user.username}</div>
 					<div>Reputation: ${user.rating}</div>
-					<a class="button" href="@{Users.myProfile(user.id)}">My Profile</a>
-					<a class="button" id="log" href="@{Secure.logout()}">Log out</a>
+					<a class="button" href="@{Users.myProfile(user.id)}">&{'profile'}</a>
+					<a class="button" id="log" href="@{Secure.logout()}">&{'logout'}</a>
 				</div>
 				
 				<div id="userActivity">
-					<h4>Newest activity:</h4>
+					<h4>&{'lastActivity'}</h4>
 				
 					#{if lastActivity}					
 					<div class="activity">
@@ -105,13 +105,13 @@
 	    		</div>
 	
 				<div id="menu">
-					<a class="button" href="@{Application.index()}">Home</a>
+					<a class="button" href="@{Application.index()}">&{'home'}</a>
 					#{secure.check 'user'}
-						<a class="button" href="@{Users.index()}">new question</a>
+						<a class="button" href="@{Users.index()}">&{'newQuestion'}</a>
 					#{/secure.check}
 					
 					#{if get_permalink == questions}
-						<a class="button" href="#answerForm">add answer</a>
+						<a class="button" href="#answerForm">&{'addAnswer'}</a>
 					#{/if}	
 					#{secure.check 'admin'}
 						<a class="button" href="@{Admin.index()}">Admin</a>

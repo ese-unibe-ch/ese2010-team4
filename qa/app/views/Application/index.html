@@ -28,16 +28,16 @@
 								#{ifnot question.hasBestAnswer}
 									#{if !user.isFollowing(question)}
 										<a class="button" href="@{Users.followQuestion(question.id)}">
-											<span>follow question</span>
+											<span>&{'follow'}</span>
 										</a>
 									#{/if}
 									#{else}
 										<a class="button" href="@{Users.unfollowQuestion(question.id)}">
-											<span>unfollow question</span>
+											<span>&{'unfollow'}</span>
 										</a>
 									#{/else}
 									#{if question.isOwnPost()}
-										<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
+										<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">&{'edit'}</a>
 									#{/if}
 								#{/ifnot}
 							#{/secure.check}
