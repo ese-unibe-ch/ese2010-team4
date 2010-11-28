@@ -4,12 +4,6 @@
 <div class="form" id="questionForm">
 	#{form @Users.editPost(post.id)}
 		<table style="padding-left: 60px">
-			
-			#{ifErrors}
-    			<p class="error">
-    				@{Users.myQuestions()}
-    			</p>
- 			#{/ifErrors}
  			
 		<div class="textarea">
 			#{field 'content'}
@@ -45,11 +39,6 @@
 
 	#{if post.isQuestion()}
 		#{form @Users.tagQuestion(post.id)}
-			#{ifErrors}
-    			<p class="error">
-    				@{Users.myQuestions()}
-    			</p>
- 			#{/ifErrors}
 	
 			#{field 'name'}
 				<label for="name">Add tags, separated by commas:</label>
@@ -61,12 +50,14 @@
 		#{/form}
 
 		#{if !post.tags.isEmpty()}
+		<div class="question-tag">
 			<br>		
 				Actual tags for this question:
 				#{list items:post.tags, as:'tag'}
-   					<a href="@{Application.tagged(tag)}">${tag.getName()}</a>${tag_isLast ? '' : ', '}
+   					<a class="button" href="@{Application.tagged(tag)}">${tag.getName()}</a>
 				#{/list}
 			<br>
+		</div>
 		#{/if}
 	
 	#{/if}
