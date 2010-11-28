@@ -1,14 +1,23 @@
-# Messages (english)
+# Messages (Deutsch)
 
 # General
 author=Author
 content=Inhalt
+title=Titel
 timestamp=Geschrieben am
 question=Ähnliche Fragen
+yourQuestion=Deine Frage
+yourAnswer=Deine Antwort
+tags=Deine Tags, getrennt durch Kommas
+submitQ=Stelle deine Frage
+submitA=Antworten
+name=Name
 email=Email
 password=Passwort
 username=Benutzername
 isAdmin=User ist Administrator
+dbTitle=Alle Fragen bei A4Q
+view=Ansicht der Frage
 
 # Secure messages
 secure.title=Einloggen
@@ -39,9 +48,11 @@ addAnswer=Antwort hinzufügen
 follow=Folgen
 unfollow=Nicht folgen
 edit=Editieren
+comment=Kommentieren
+quote=Zitieren
 activities=Aktivitäten
 repGraph=Reputations Grafik
 myQuestions=Meine Fragen
 myAnswers=Meine Antworten
 myFollows=Ich folge
-
+search=Suchen

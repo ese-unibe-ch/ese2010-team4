@@ -3,13 +3,21 @@
 # General
 author=Author
 content=Content
+title=Title
 timestamp=Posted at
 question=Related question
+yourQuestion=Your question
+yourAnswer=Your answer
+tags=Your tags, separated by commas
+submitQ=Submit your question
+submitA=Submit your answer
 name=Common name
 email=Email
 password=Password
 username=Username
 isAdmin=User is admin
+dbTitle=All questions on A4Q
+view=View question
 
 # Secure messages
 secure.title=Log in
@@ -40,8 +48,11 @@ addAnswer=Add answer
 follow=Follow
 unfollow=Unfollow
 edit=Edit
+comment=Comment
+quote=Quote
 activities=Activities
 repGraph=Reputation Graph
 myQuestions=My questions
 myAnswers=My answers
 myFollows=My follows
+search=Search

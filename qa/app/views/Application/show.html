@@ -2,7 +2,7 @@
 #{set title:'Show question' /} 
 
 <div>
-	<h3>View Question:</h3>
+	<h3>&{'view'}</h3>
 	<div class="question">
 		<div class="voting">
 			<div class="vote-curr">
@@ -23,21 +23,21 @@
 					#{ifnot question.hasBestAnswer}
 						#{if !isfollowing}
 							<a class="button" href="@{Users.followQuestion(question.id)}">
-								<span>follow</span>
+								<span>&{'follow'}</span>
 							</a>
 						#{/if}
 						#{else}
 							<a class="button" href="@{Users.unfollowQuestion(question.id)}">
-								<span>unfollow</span>
+								<span>&{'unfollow'}</span>
 							</a>
 						#{/else}
 						#{if hasTimeToChange}
-							<a class="button" href="@{Users.writeComment(question.id, question.id)}">comment</a>
+							<a class="button" href="@{Users.writeComment(question.id, question.id)}">&{'comment'}</a>
 						#{/if}
 						#{if question.isOwnPost()}
-							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
+							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">&{'edit'}</a>
 						#{/if}
-						<a class="button" href="@{Users.quote(question.id)}">quote</a>
+						<a class="button" href="@{Users.quote(question.id)}">&{'quote'}</a>
 					#{/ifnot}
 				#{/secure.check}
 			</div>
@@ -144,14 +144,14 @@
 										#{/if}
 										#{ifnot question.hasBestAnswer}
 											#{if hasTimeToChange}
-												<a class="button" href="@{Users.writeComment(answer.id, question.id)}">comment</a>
+												<a class="button" href="@{Users.writeComment(answer.id, question.id)}">&{'comment'}</a>
 												#{if answer.isOwnPost()}
-													<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
+													<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 												#{/if}
 												#{if question.isOwnPost() && !answer.isBestAnswer}
 													<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
 												#{/if}
-												<a class="button" href="@{Users.quote(answer.id)}">quote</a>
+												<a class="button" href="@{Users.quote(answer.id)}">&{'quote'}</a>
 											#{/if}
 										#{/ifnot}
 									#{/secure.check}
@@ -232,7 +232,7 @@
  	   			#{/ifErrors}
     			<input type="hidden" name="author" id="author" value="${user.username}" readonly/>
     			<p>
-        			<label for="content">Your answer: </label>
+        			<label for="content">&{'yourAnswer'}: </label>
         		</p>
         		<br>
         		<textarea name="content">${user.getQuotedContent()}</textarea>
@@ -240,7 +240,7 @@
 					<input type="file" id="attachment" name="attachment" />
     			</p>
     			<p>
-        			<input type="submit" value="Submit your answer" />
+        			<input type="submit" value="&{'submitA'}" />
     			</p>
 				</table>
 			</form> 

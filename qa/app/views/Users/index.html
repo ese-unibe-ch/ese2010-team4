@@ -13,28 +13,23 @@
  	   	#{/ifErrors}
     	<input type="hidden" name="author" id="author" value="${user.username}" readonly/>
     	<p>
-    		<label for="title">Title: </label>
+    		<label for="title">&{'title'}:</label>
     		<br>
     		<input type="text" name="title" id="title"/>
     	<p>
-        	<label for="content">Your question: </label>
+        	<label for="content">&{'yourQuestion'}: </label>
         	<br>
         	<textarea name="content"></textarea>
         <p>
-			<label for="tags">Tags, separeted by commas: </label>
+			<label for="tags">&{'tags'}: </label>
 			<br>
 			<input type="text" name="tags" id="tags"/>
 		<p>
 			<input type="file" id="attachment" name="attachment" />
     	<p>
-        	<input type="submit" value="Submit your question" />
+        	<input type="submit" value="&{'submitQ'}" />
     	</p>
 	</table>
 	</form> 
 </div>
 #{/ secure.check}
-
-#{if flash.success}
-	<br>
-    <p class="success">${flash.success}</p>
-#{/if}

@@ -1,4 +1,4 @@
-# Messages (english)
+# Messages (français)
 
 # General
 author=Auteur

@@ -66,11 +66,11 @@
     							#{form @Application.addUser()}
     							
     							<ul>
-									<li id="loginInputs">Username: <input type="text" id="newusername" name="newusername" /></li>
-	    							<li id="loginInputs">Email: <input type="text" id="email" name="email" /></li>
-	    							<li id="loginInputs">Password: <input type="password" id="newPassword" name="password" /></li>
-	    							<li id="loginInputs">Confirm Password: <input type="password" id="newPassword2" name="password2" /></li>
-	    							<li id="loginInputs"><input type="submit" id="register" value="Register" /></li>
+									<li id="loginInputs">&{'register.username'}: <input type="text" id="newusername" name="newusername" /></li>
+	    							<li id="loginInputs">&{'register.email'}: <input type="text" id="email" name="email" /></li>
+	    							<li id="loginInputs">&{'register.password1'}: <input type="password" id="newPassword" name="password" /></li>
+	    							<li id="loginInputs">&{'register.password2'}: <input type="password" id="newPassword2" name="password2" /></li>
+	    							<li id="loginInputs"><input type="submit" id="register" value=&{'register.title'} /></li>
 	    						</ul>
 	    				
 								#{/form}
@@ -120,7 +120,7 @@
 						<div id="search">
 							#{form @Users.searchResults()}
 								<input type="text" name="toSearch" id="toSearch"/>
-								<input type="submit" value="search" />
+								<input type="submit" value="&{'search'}" />
 							#{/form}
 						</div>
 				</div>
