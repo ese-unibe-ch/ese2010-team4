@@ -341,7 +341,7 @@ public class Users extends CRUD {
 	public static void showProfile(Long authorid) throws IOException {
 		User userToShow = User.findById(authorid);
 		if (userToShow.equals(User.find("byUsername",
-				Secure.Security.connected()).first())) {
+			Secure.Security.connected()).first())) {
 			myProfile(authorid);
 		} else {
 			List<Post> activities = userToShow.activities();
@@ -614,5 +614,13 @@ public class Users extends CRUD {
 			tags.add(tag.name);
 		}
 		renderJSON(tags);
+	}
+
+	public static void getGraphData(long uid) {
+
+		User user = User.findById(uid);
+
+		renderJSON(user.graphData());
+
 	}
 }
