@@ -1,6 +1,5 @@
 package models;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,57 +17,92 @@ import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
+// TODO: Auto-generated Javadoc
 /**
  * A user with name and first-name. Question
  */
 @Entity
 public class User extends Model {
 
+	/** The counter. */
 	public int counter;
+
+	/** The birthday. */
 	protected Date birthday;
+
+	/** The fullname. */
 	public String fullname = "";
+
+	/** The website. */
 	public String website = "";
 
+	/** The work. */
 	public String work = "";
+
+	/** The about me. */
 	public String aboutMe = "";
+
+	/** The favorite languages. */
 	public String favoriteLanguages;
+
+	/** The quoted content. */
 	public String quotedContent = "";
 
+	/** The timestamp. */
+	public Date timestamp;
+
+	/** The avatar path. */
 	@Required
 	public String avatarPath = "/public/uploads/standardAvatar.png";
 
+	/** The Constant DATE_FORMAT_de. */
 	public static final String DATE_FORMAT_de = "dd-MM-yyyy";
+
+	/** The last log off. */
 	public Date lastLogOff;
 
+	/** The rating. */
 	@OneToOne
 	public Reputation rating;
 
+	/** The email. */
 	@Email
 	@Required
 	public String email;
 
+	/** The password. */
 	@Required
 	public String password;
 
+	/** The username. */
 	@Required
 	public String username;
 
+	/** The is admin. */
 	@Required
 	public boolean isAdmin;
 
+	/** The follow q. */
 	@OneToMany
 	public List<Question> followQ;
+
+	/** The follow u. */
 	@OneToMany
 	public List<User> followU;
 
+	/** The votes. */
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Vote> votes;
 
+	/** The posts. */
 	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
 
+	/**
+	 * Instantiates a new user.
+	 */
 	public User() {
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
@@ -77,8 +111,19 @@ public class User extends Model {
 		this.followQ = new ArrayList<Question>();
 		this.followU = new ArrayList<User>();
 		this.counter = 0;
+		this.timestamp = new Date();
 	}
 
+	/**
+	 * Instantiates a new user.
+	 * 
+	 * @param username
+	 *            the username
+	 * @param email
+	 *            the email
+	 * @param password
+	 *            the password
+	 */
 	public User(String username, String email, String password) {
 
 		this.votes = new ArrayList<Vote>();
@@ -91,12 +136,27 @@ public class User extends Model {
 		this.followQ = new ArrayList<Question>();
 		this.followU = new ArrayList<User>();
 		this.counter = 0;
+		this.timestamp = new Date();
 	}
 
+	/**
+	 * Login.
+	 * 
+	 * @param username
+	 *            the username
+	 * @param password
+	 *            the password
+	 * @return the user
+	 */
 	public static User login(String username, String password) {
 		return find("byUsernameAndPassword", username, password).first();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see play.db.jpa.JPASupport#toString()
+	 */
 	public String toString() {
 		return email;
 	}
@@ -105,6 +165,7 @@ public class User extends Model {
 	 * checks whether the user can choose the best answer for an question.
 	 * 
 	 * @param id
+	 *            the id
 	 * @return true if he is able
 	 */
 
@@ -120,9 +181,10 @@ public class User extends Model {
 	}
 
 	/**
-	 * checks whether the user can vote
+	 * checks whether the user can vote.
 	 * 
 	 * @param id
+	 *            the id
 	 * @return true if he is able to vote
 	 */
 	public boolean isAbleToVote(Long id) {
@@ -136,11 +198,12 @@ public class User extends Model {
 
 		return false;
 	}
-	
+
 	/**
-	 * checks whether the user can like a comment
+	 * checks whether the user can like a comment.
 	 * 
-	 * @param id of the comment
+	 * @param id
+	 *            of the comment
 	 * @return true if he is able to like the comment
 	 */
 	public boolean isAbleToLikeComment(Long id) {
@@ -153,17 +216,18 @@ public class User extends Model {
 
 		return false;
 	}
-	
+
 	/**
-	 * checks whether the user already likes the comment
+	 * checks whether the user already likes the comment.
 	 * 
-	 * @param id of the comment
+	 * @param id
+	 *            of the comment
 	 * @return true if he is able to like the comment
 	 */
 	public boolean alreadyLikesComment(Long id) {
 
 		Comment comment = Comment.findById(id);
-		
+
 		if (comment.getLikers().contains(this))
 			return true;
 		else
@@ -173,8 +237,8 @@ public class User extends Model {
 	/**
 	 * Check if the validation time form a question is not over.
 	 * 
-	 * 
 	 * @param id
+	 *            the id
 	 * @return true if the user has more time to edit the question
 	 */
 
@@ -196,7 +260,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Helper method for find best answer
+	 * Helper method for find best answer.
 	 * 
 	 * @param question
 	 *            from the best answer
@@ -230,7 +294,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Calculates the age of the <code>User</code> in years
+	 * Calculates the age of the <code>User</code> in years.
 	 * 
 	 * @return age of the <code>User</code>
 	 */
@@ -246,6 +310,10 @@ public class User extends Model {
 	/**
 	 * Turns the Date object d into a String using the format given in the
 	 * constant DATE_FORMAT_de.
+	 * 
+	 * @param d
+	 *            the d
+	 * @return the string
 	 */
 	private String dateToString(Date d) {
 		if (d != null) {
@@ -257,9 +325,13 @@ public class User extends Model {
 
 	/**
 	 * Turns the String object s into a Date assuming the format given in the
-	 * constant DATE_FORMAT_de
+	 * constant DATE_FORMAT_de.
 	 * 
+	 * @param s
+	 *            the s
+	 * @return the date
 	 * @throws ParseException
+	 *             the parse exception
 	 */
 	private Date stringToDate(String s) throws ParseException {
 		if (s != null) {
@@ -269,10 +341,21 @@ public class User extends Model {
 			return (null);
 	}
 
+	/**
+	 * Gets the birthday.
+	 * 
+	 * @return the birthday
+	 */
 	public String getBirthday() {
 		return dateToString(birthday);
 	}
 
+	/**
+	 * Sets the birthday.
+	 * 
+	 * @param birthday
+	 *            the new birthday
+	 */
 	public void setBirthday(String birthday) {
 		try {
 			this.birthday = stringToDate(birthday);
@@ -282,15 +365,20 @@ public class User extends Model {
 		}
 	}
 
+	/**
+	 * Calculate age.
+	 * 
+	 * @return the int
+	 */
 	public int calculateAge() {
 		return this.age();
 	}
 
 	/**
-	 * Creates a new user if all requirements are met
+	 * Creates a new user if all requirements are met.
 	 * 
-	 * @param fullname
-	 *            the fullname
+	 * @param username
+	 *            the username
 	 * @param email
 	 *            the email
 	 * @param password
@@ -311,6 +399,9 @@ public class User extends Model {
 		return message;
 	}
 
+	/**
+	 * Removes the null.
+	 */
 	public void removeNull() {
 
 		int index = 0;
@@ -330,12 +421,24 @@ public class User extends Model {
 		this.save();
 	}
 
+	/**
+	 * Delete follow q.
+	 * 
+	 * @param question
+	 *            the question
+	 */
 	public void deleteFollowQ(Question question) {
 		int index = this.followQ.indexOf(question);
 		this.followQ.remove(index);
 		this.save();
 	}
 
+	/**
+	 * Delete follow u.
+	 * 
+	 * @param user
+	 *            the user
+	 */
 	public void deleteFollowU(User user) {
 		int index = this.followU.indexOf(user);
 		this.followU.remove(index);
@@ -343,8 +446,10 @@ public class User extends Model {
 	}
 
 	/**
+	 * Checks if is following.
 	 * 
 	 * @param o
+	 *            the o
 	 * @return true spectific object follows
 	 */
 	public boolean isFollowing(Object o) {
@@ -363,6 +468,13 @@ public class User extends Model {
 		return follows;
 	}
 
+	/**
+	 * Adds the vote.
+	 * 
+	 * @param vote
+	 *            the vote
+	 * @return the user
+	 */
 	public User addVote(Vote vote) {
 		this.votes.add(vote);
 		this.save();
@@ -370,12 +482,28 @@ public class User extends Model {
 
 	}
 
+	/**
+	 * Adds the answer.
+	 * 
+	 * @param answer
+	 *            the answer
+	 * @return the user
+	 */
 	public User addAnswer(Answer answer) {
 		this.posts.add(answer);
 		this.save();
 		return this;
 	}
 
+	/**
+	 * Adds the question.
+	 * 
+	 * @param title
+	 *            the title
+	 * @param content
+	 *            the content
+	 * @return the question
+	 */
 	public Question addQuestion(String title, String content) {
 		Question newQuestion = new Question(this, title, content).save();
 		this.posts.add(newQuestion);
@@ -383,6 +511,13 @@ public class User extends Model {
 		return newQuestion;
 	}
 
+	/**
+	 * Adds the comment.
+	 * 
+	 * @param comment
+	 *            the comment
+	 * @return the user
+	 */
 	public User addComment(Comment comment) {
 		this.posts.add(comment);
 		this.save();
@@ -390,19 +525,41 @@ public class User extends Model {
 
 	}
 
+	/**
+	 * Count questions.
+	 * 
+	 * @return the int
+	 */
 	public int countQuestions() {
 		return Question.find("byAuthor", this).fetch().size();
 	}
 
+	/**
+	 * Count answers.
+	 * 
+	 * @return the int
+	 */
 	public int countAnswers() {
 		return Answer.find("byAuthor", this).fetch().size();
 	}
 
+	/**
+	 * Activities.
+	 * 
+	 * @return the list
+	 */
 	public List<Post> activities() {
 
 		return Post.find("author like ? order by timestamp desc", this).fetch();
 	}
 
+	/**
+	 * Follow acitvities.
+	 * 
+	 * @param number
+	 *            the number
+	 * @return the list
+	 */
 	public List<Post> followAcitvities(int number) {
 		List<Post> activities = new ArrayList<Post>();
 
@@ -435,43 +592,29 @@ public class User extends Model {
 	}
 
 	/**
+	 * Gets the reputation points.
 	 * 
 	 * @return the points for the Reputation graph
-	 **/
+	 */
 	public List<ReputationPoint> getReputationPoints() {
 
 		return rating.totalRepPoint;
 
 	}
 
-	public ReputationPoint getReputationPoint(int i) {
-
-		if (i < this.getReputationPoints().size()) {
-
-			return this.getReputationPoints().get(i);
-		}
-
-		else if (this.getReputationPoints().size() > 0) {
-
-			return new ReputationPoint(
-					getReputationPoints().get(getReputationPoints().size() - 1).repvalue,
-					getReputationPoints().get(getReputationPoints().size() - 1).timestamp)
-					.save();
-		}
-
-		else {
-
-			return new ReputationPoint(0, 0);
-		}
-	}
-
-	public String graphData() throws IOException {
-		List<ReputationPoint> reppoints = this.getReputationPoints();
-
+	/**
+	 * Generates the graph data for the JSON output.
+	 * 
+	 * @return the json array string
+	 */
+	public String graphData() {
 		StringBuffer strbuffer = new StringBuffer();
 		strbuffer.append("[");
 
 		List<ReputationPoint> points = this.getReputationPoints();
+		points.add(0, new ReputationPoint(0, this.timestamp.getTime()));
+		points.add(new ReputationPoint(points.get(points.size() - 1).repvalue,
+				new Date().getTime()));
 		Iterator<ReputationPoint> it = points.iterator();
 
 		while (it.hasNext()) {
@@ -489,6 +632,14 @@ public class User extends Model {
 
 	}
 
+	/**
+	 * Quote content.
+	 * 
+	 * @param content
+	 *            the content
+	 * @param quoted
+	 *            the quoted
+	 */
 	public void quoteContent(String content, String quoted) {
 		// Deleting first <p> and last </p>
 		// String qContent = content.substring(3, content.lastIndexOf("</p>") -
@@ -497,6 +648,11 @@ public class User extends Model {
 				+ "<blockquote>" + content + "</blockquote>";
 	}
 
+	/**
+	 * Gets the quoted content.
+	 * 
+	 * @return the quoted content
+	 */
 	public String getQuotedContent() {
 		String content = quotedContent;
 		quotedContent = "";

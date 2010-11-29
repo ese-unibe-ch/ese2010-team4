@@ -1,17 +1,17 @@
-function goto(url) {
-top.location = url;
-}
-
-$(function () {
-
+$(function() {
+	$('div#graph').ready(function () {
 	
-	loadGraph();
+		loadGraph();
+	
+	});
 
 });
 
 function loadGraph() {
-	
-	jQuery.getJSON( "/home/juerg/workspaces/ese2010-team4/qa/app/views/Users/myProfile.json" , displayGraph);
+	if(!$("#graph")[0].loaded) {
+		jQuery.getJSON( graphData({id: userid}), displayGraph);
+		$("#graph")[0].loaded = true;
+	}
 }
 
 

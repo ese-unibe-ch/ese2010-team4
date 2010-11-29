@@ -1,5 +1,6 @@
 #{extends 'profileMain.html' /}
 #{set title:'User Profile' /}
+#{script 'userprofile.js' /}
 
 #{secure.check 'user'}
 <div class="form" id="userForm">
@@ -115,51 +116,17 @@
      #{/list}
     
 	<h3>Reputation Graph</h3>
+	
+	<script type="text/javascript">
+		var userid = ${user.id};
+		var graphData = #{jsAction @Users.getGraphData(':id') /};
+	</script>
 
 	<div id="graph">
 		<div id="graphcanvas" style="width:600px;height:300px"></div>
 	</div>
 
-<script id="source" language="javascript" type="text/javascript">
-$(function () {
-    var d1 = [];
-	
-	d1.push([${user.getReputationPoint(0).timestamp}, ${user.getReputationPoint(0).repvalue}]);
-   	d1.push([${user.getReputationPoint(1).timestamp}, ${user.getReputationPoint(1).repvalue}]);
-   	d1.push([${user.getReputationPoint(2).timestamp}, ${user.getReputationPoint(2).repvalue}]);
-   	d1.push([${user.getReputationPoint(3).timestamp}, ${user.getReputationPoint(3).repvalue}]);
-   	d1.push([${user.getReputationPoint(4).timestamp}, ${user.getReputationPoint(4).repvalue}]);
-   	d1.push([${user.getReputationPoint(5).timestamp}, ${user.getReputationPoint(5).repvalue}]);
-   	d1.push([${user.getReputationPoint(6).timestamp}, ${user.getReputationPoint(6).repvalue}]);
-   	d1.push([${user.getReputationPoint(7).timestamp}, ${user.getReputationPoint(7).repvalue}]);
-   	d1.push([${user.getReputationPoint(8).timestamp}, ${user.getReputationPoint(8).repvalue}]);
-   	d1.push([${user.getReputationPoint(9).timestamp}, ${user.getReputationPoint(9).repvalue}]);
-   	d1.push([${user.getReputationPoint(10).timestamp}, ${user.getReputationPoint(10).repvalue}]);
-   	d1.push([${user.getReputationPoint(11).timestamp}, ${user.getReputationPoint(11).repvalue}]);
-   	d1.push([${user.getReputationPoint(12).timestamp}, ${user.getReputationPoint(12).repvalue}]);
-   	d1.push([${user.getReputationPoint(13).timestamp}, ${user.getReputationPoint(13).repvalue}]);
-   	d1.push([${user.getReputationPoint(14).timestamp}, ${user.getReputationPoint(14).repvalue}]);
-   	d1.push([${user.getReputationPoint(15).timestamp}, ${user.getReputationPoint(15).repvalue}]);
-   	d1.push([${user.getReputationPoint(16).timestamp}, ${user.getReputationPoint(16).repvalue}]);
-   	d1.push([${user.getReputationPoint(17).timestamp}, ${user.getReputationPoint(17).repvalue}]);
-   	d1.push([${user.getReputationPoint(18).timestamp}, ${user.getReputationPoint(18).repvalue}]);
-    d1.push([${user.getReputationPoint(19).timestamp}, ${user.getReputationPoint(19).repvalue}]);
-    d1.push([${user.getReputationPoint(20).timestamp}, ${user.getReputationPoint(20).repvalue}]);
-    d1.push([${user.getReputationPoint(21).timestamp}, ${user.getReputationPoint(21).repvalue}]);
-    d1.push([${user.getReputationPoint(22).timestamp}, ${user.getReputationPoint(22).repvalue}]);
-    d1.push([${user.getReputationPoint(23).timestamp}, ${user.getReputationPoint(23).repvalue}]);
-    d1.push([${user.getReputationPoint(24).timestamp}, ${user.getReputationPoint(24).repvalue}]);
-    d1.push([${user.getReputationPoint(25).timestamp}, ${user.getReputationPoint(25).repvalue}]);
-    d1.push([${user.getReputationPoint(26).timestamp}, ${user.getReputationPoint(26).repvalue}]);
-    d1.push([${user.getReputationPoint(27).timestamp}, ${user.getReputationPoint(27).repvalue}]);
-    d1.push([${user.getReputationPoint(28).timestamp}, ${user.getReputationPoint(28).repvalue}]);
-    d1.push([${user.getReputationPoint(29).timestamp}, ${user.getReputationPoint(29).repvalue}]);
-    d1.push([${user.getReputationPoint(30).timestamp}, ${user.getReputationPoint(30).repvalue}]);
-    d1.push([${user.getReputationPoint(31).timestamp}, ${user.getReputationPoint(31).repvalue}]);
-    
-    $.plot($("#graphcanvas"), [ d1]);
-});
-</script>
+
 
 #{if flash.success}
 <br>
