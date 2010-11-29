@@ -54,9 +54,21 @@ public class TagTest extends UnitTest {
 		assertEquals(1, Post.findTaggedWith("Red").size());
 		assertEquals(1, Post.findTaggedWith("Blue").size());
 		assertEquals(0, Post.findTaggedWith("Green").size());
-		// assertEquals(0, Post.findTaggedWith("Green", "Red").size());
 		assertEquals(0, yellow.compareTo(yellowCopy));
 		assertTrue(0 < yellow.compareTo(red));
+
+	}
+
+	@Test
+	public void testSimilarPosts() {
+		bobQuestion1.tagItWith("Red").tagItWith("Blue").save();
+		jeffQuestion2.tagItWith("Red").tagItWith("Yellow").save();
+
+		assertEquals(1, bobQuestion1.getSimilarPosts(1).size());
+		assertEquals(0, bobQuestion1.getSimilarPosts(2).size());
+
+		jeffQuestion2.tagItWith("Blue").save();
+		assertEquals(1, bobQuestion1.getSimilarPosts(2).size());
 	}
 
 }

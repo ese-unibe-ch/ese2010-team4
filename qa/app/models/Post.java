@@ -124,15 +124,6 @@ public abstract class Post extends Model {
 	}
 
 	/**
-	 * Add a new History to the post
-	 * 
-	 * @param title
-	 *            necessary if is an question
-	 * @param content
-	 *            of the post
-	 */
-
-	/**
 	 * Count the positive and negative votes
 	 * 
 	 * @return votestatus
@@ -173,7 +164,7 @@ public abstract class Post extends Model {
 	/**
 	 * used in Application.java for display tagged.html
 	 * 
-	 * @return all questions witch matches one tag of this post
+	 * @return all questions witch matches one of the specified tags
 	 */
 	public static List<Post> findTaggedWith(String... tags) {
 		List<Post> hits = new ArrayList<Post>();
@@ -182,6 +173,39 @@ public abstract class Post extends Model {
 						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
 		return hits;
+	}
+
+	/**
+	 * @param specifies
+	 *            the numbers of equal tags (minimum)
+	 * @return all questions or answers with enough equal tags
+	 */
+	public List<Post> getSimilarPosts(int minimum) {
+		List<Post> posts = new ArrayList<Post>();
+		int[] hits = new int[50];
+		for (Tag tag : this.tags) {
+			List<Post> temphits = Post.findTaggedWith(tag.name);
+
+			for (Post question : temphits) {
+				if (!posts.contains(question) && posts.size() < hits.length) {
+					posts.add(question);
+					hits[posts.indexOf(question)] = 1;
+				}
+
+				else {
+					hits[posts.indexOf(question)] += 1;
+				}
+			}
+		}
+
+		List<Post> results = new ArrayList<Post>();
+		for (int i = 0; i < posts.size(); i++) {
+			if (hits[i] >= minimum && !this.equals(posts.get(i))) {
+				results.add(posts.get(i));
+			}
+		}
+
+		return results;
 	}
 
 	public boolean checkInstance() {
