@@ -170,26 +170,18 @@ public abstract class Post extends Model {
 		return this;
 	}
 
+	/**
+	 * used in Application.java for display tagged.html
+	 * 
+	 * @return all questions witch matches one tag of this post
+	 */
 	public static List<Post> findTaggedWith(String... tags) {
-		return Question
-				.find("select distinct p from Question p join p.tags as t where t.name in (:tags)")
+		List<Post> hits = new ArrayList<Post>();
+		hits = Question
+				.find(
+						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
-	}
-
-	public List<Post> similarPosts() {
-		List<Post> list = new ArrayList<Post>();
-		if (!this.tags.isEmpty()) {
-			for (Tag tag : tags) {
-				List<Post> temp = findTaggedWith(tag.name);
-				for (Post post : temp) {
-					if (!list.contains(post)) {
-						list.add(post);
-					}
-				}
-			}
-		}
-		list.remove(this);
-		return list;
+		return hits;
 	}
 
 	public boolean checkInstance() {
