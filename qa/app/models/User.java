@@ -252,8 +252,7 @@ public class User extends Model {
 		// add the reputation
 		newUser.rating = new Reputation().save();
 		newUser.save();
-		String message = username + "<br> welcome on A4Q, please log in";
-
+		String message = username + "<br> &{register.subtitle}";
 		return message;
 	}
 

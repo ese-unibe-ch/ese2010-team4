@@ -3,35 +3,65 @@
 # General
 author=Auteur
 content=Contenu
-timestamp=Ecrit le
+title=Title
+timestamp=Écrit le
 question=Questions similaires
+yourQuestion=Ta question
+yourAnswer=Ta réponse
+tags=Vos tags, séparé avec virgules
+submitQ=Pose ta question
+submitA=Pose ta réponse
+name=Nom
 email=Email
 password=Mot de passe
 username=Nom de client
+fullname=Nom
+birthday=Anniversaire
+age=Âge
+website=Site web
+work=Travail
+about=Sur moi
+programmingLanguages=Langages de programmation
 isAdmin=Etre administrateur
+dbTitle=Tous les questions à A4Q
+view=Avis de la question
 
 # Secure messages
-secure.title=Einloggen
-secure.username=Dein Benutzername:
-secure.password=Dein Passwort:
-secure.signin=Jetzt einloggen
-secure.remember=Erinnern
-secure.error=Oops, unbekannter Benutzername oder Passwort.
-secure.success=Willkommen auf A4Q.
-secure.logout=Du wurdest ausgeloggt.
-secure.login=Willkommen zurück %s
+secure.title=Se loguer
+secure.username=Ton nom de client:
+secure.password=Ton mot de passe:
+secure.signin=Se loguer
+secure.remember=Rappeler
+secure.error=Oops, nom de client ou mot de passe inconnu.
+secure.success=Bienvenue à A4Q.
+secure.logout=Vous avez été delogué.
+secure.login=Bienvenue à A4Q %s
 
 # Register messages
-register.title=Registrieren
-register.subtitle=fill the formular and get knowledge
-register.username=Benutzername
+register.title=Enregistrer
+register.subtitle=Bienvenue à A4Q, loguez-vous s'il vous plaît.
+register.username=Nom de client
 register.email=Email
-register.password1=Passwort
-register.password2=Passwort bestätigen
+register.password1=Mot de passe
+register.password2=Affirmer le mot de passe 
 
 # Link messages
 profile=Mon profile
 logout=Se déloguer
+lastActivity=Dernière activité
 home=Home
 newQuestion=Nouveau question
 addAnswer=Ecrit une réponse
+follow=Suivre
+unfollow=Ne pas suivre
+edit=Éditer
+comment=Commenter
+quote=Citer
+bestA=Meilleure réponse
+bestAText=C'est la meilleure réponse.
+activities=Activités
+repGraph=Reputations Grafik
+myQuestions=Mes questions
+myAnswers=Mes réponses
+myFollows=Je suis
+search=Chercher

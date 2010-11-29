@@ -140,7 +140,7 @@
 								<div class="buttons" id="question-buttons">
 									#{secure.check 'user'}
 										#{if answer.isBestAnswer}
-											This is the best answer!
+											&{'bestAText'}
 										#{/if}
 										#{ifnot question.hasBestAnswer}
 											#{if hasTimeToChange}
@@ -149,7 +149,7 @@
 													<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 												#{/if}
 												#{if question.isOwnPost() && !answer.isBestAnswer}
-													<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">best answer</a>
+													<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">&{'bestA'}</a>
 												#{/if}
 												<a class="button" href="@{Users.quote(answer.id)}">&{'quote'}</a>
 											#{/if}

@@ -4,17 +4,17 @@
 #{secure.check 'user'}
 <div class="form" id="userForm">
 #{form @Users.changeProfile()}
-	<label for="author">Username: </label>
+	<label for="author">&{'username'}: </label>
 	<div class="userInfo">
 		<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
     </div>
 
-	<label for="author">Email: </label>
+	<label for="author">&{'email'}: </label>
 	<div class="userInfo">
 		<input type="text" fullname="author" id="user-inp" value="${user.email}" readonly/>
 	</div>
 	
-	<label for="author">Fullname: </label>
+	<label for="author">&{'fullname'}: </label>
 	<div class="userInfo">
 		#{field 'fullname'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.fullname}" />
@@ -22,7 +22,7 @@
 		#{/field}
 	</div>
    
-    <label for="author">Birthday: </label>
+    <label for="author">&{'birthday'}: </label>
 	<div class="userInfo">
 		#{field 'birthday'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.getBirthday()}" />
@@ -30,12 +30,12 @@
 		#{/field}
 	</div>
 	
-	<label for="author">Age: </label>
+	<label for="author">&{'age'}: </label>
 	<div class="userInfo">
 		<input type="text" fullname="author" id="user-inp" value="${user.calculateAge()}" readonly/>
 	</div>
 	
-	<label for="author">Website: </label>
+	<label for="author">&{'website'}: </label>
 	<div class="userInfo">
 		#{field 'website'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.website}" />
@@ -43,7 +43,7 @@
 		#{/field}
 	</div>
 
-	<label for="author">Work: </label>
+	<label for="author">&{'work'}: </label>
 	<div class="userInfo">
 		#{field 'work'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.work}" />
@@ -51,7 +51,7 @@
 		#{/field}
 	</div>
 	
-	<label for="author">Programming Languages: </label>
+	<label for="author">&{'programmingLanguages'}: </label>
 	<div class="userInfo">
 		#{field 'languages'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.favoriteLanguages}" />
@@ -59,7 +59,7 @@
 		#{/field}
 	</div>
 	
-	<label for="aboutMe">About Me: </label>
+	<label for="aboutMe">&{'about'}: </label>
 	<div class="userInfo">
 		#{field 'aboutMe'}
 			<br>
