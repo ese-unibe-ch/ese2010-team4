@@ -25,6 +25,10 @@ programmingLanguages=Programmiersprachen
 isAdmin=User ist Administrator
 dbTitle=Alle Fragen bei A4Q
 view=Ansicht der Frage
+nrAnswers=Anzahl Antworten
+nrComments=Anzahl Kommentare
+uploadAvatar=Avatar heraufladen
+upload=Heraufladen
 
 # Secure messages
 secure.title=Einloggen
@@ -39,6 +43,8 @@ secure.login=Willkommen zurück %s
 
 # Register messages
 register.title=Registrieren
+register.newUser=Neuer Benutzer
+register.reputation=Reputation
 register.subtitle=Willkommen bei A4Q, bitte melden sie sich an.
 register.username=Benutzername
 register.email=Email
@@ -65,3 +71,5 @@ myQuestions=Meine Fragen
 myAnswers=Meine Antworten
 myFollows=Ich folge
 search=Suchen
+update=Aktualisieren
+submit=Absenden

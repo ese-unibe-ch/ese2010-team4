@@ -25,8 +25,8 @@
 	    		#{if user}
 				<div id="user">
 					<div id="userImg"> <img src="${user.avatarPath}"/></div>
-					<div>User: ${user.username}</div>
-					<div>Reputation: ${user.rating}</div>
+					<div>&{'register.username'}: ${user.username}</div>
+					<div>&{'register.reputation'}: ${user.rating}</div>
 					<a class="button" href="@{Users.myProfile(user.id)}">&{'profile'}</a>
 					<a class="button" id="log" href="@{Secure.logout()}">&{'logout'}</a>
 				</div>
@@ -61,7 +61,7 @@
 							</div>
 						#{/form}			
 						<div id="pulldownBackground">		
-							#{pulldown label:'New User'}
+							#{pulldown}
     							#{form @Application.addUser()}
     							
     							<ul>

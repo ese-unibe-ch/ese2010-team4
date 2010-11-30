@@ -527,9 +527,8 @@ textarea
 	border-width: 1px;
 	border-style: solid;
 	border-color: #ccc #888 #555 #bbb;
-	margin: 5px 0px 0px 85px;
+	margin: 5px 20px 5px 20px;
 	padding: 2px 3px;
-	width: 6em;
 }                                                                                                            
 
 #dropDownMenu

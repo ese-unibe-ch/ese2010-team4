@@ -69,7 +69,7 @@
 	</div>
 
 	<div>
-		<input type="submit" value="Update"/>
+		<input type="submit" value=&{'update'} />
 	</div>
 	
 </div>
@@ -78,11 +78,11 @@
 <hr>
 
 <div id="userProfile">
-	<label> Upload an Avatar:
+	<label> &{'uploadAvatar'}:
 	<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
 		<table style="padding-left: 60px">
 		<input type="file" id="avatar" name="avatar" />
-		<input type="submit" value="Upload" />
+		<input type="submit" value=&{'upload'} />
 		</table>
 	</form> 
 
@@ -93,7 +93,7 @@
 			<label for="author">or enter an URL:
 			<input type="text" name="${field.name}" email="author" id="user-inp"/>
 			<label for="content">
-			<input type="submit" value="Submit" />
+			<input type="submit" value=&{'submit'} />
 		#{/field}
 	#{/form}
 </div>
@@ -115,8 +115,6 @@
     
 
 	<h3>&{'repGraph'}</h3>
-
-	<h3>Reputation Graph</h3>
 	
 	<script type="text/javascript">
 		var userid = ${user.id};

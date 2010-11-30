@@ -25,6 +25,10 @@ programmingLanguages=Programming languages
 isAdmin=User is admin
 dbTitle=All questions on A4Q
 view=View question
+nrAnswers=Number of Answers
+nrComments=Number of Comments
+uploadAvatar=Upload an Avatar
+upload=Upload
 
 # Secure messages
 secure.title=Log in
@@ -39,6 +43,8 @@ secure.login=Welcome back %s
 
 # Register messages
 register.title=Register
+register.newUser=New User
+register.reputation=Reputation
 register.subtitle=Welcome on A4Q, please log in.
 register.username=Username
 register.email=Email
@@ -65,3 +71,5 @@ myQuestions=My questions
 myAnswers=My answers
 myFollows=My follows
 search=Search
+update=Update
+submit=Submit

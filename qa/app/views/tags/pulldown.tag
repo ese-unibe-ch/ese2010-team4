@@ -24,7 +24,7 @@ var toShow = true;
 </script>
 
 <div class="pulldown">
-	<a href="#" onclick="show()">${_label}&nbsp</a>
+	<a href="#" onclick="show()">&{'register.newUser'}&nbsp</a>
 	<div id="dropDownMenu">
 		<menu>
 			#{doBody /}
