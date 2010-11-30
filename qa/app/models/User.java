@@ -240,7 +240,7 @@ public class User extends Model {
 				bestAnswer = answer;
 
 				if (!question.hasBestAnswer) {
-					answer.author.rating.bestAnswer();
+					answer.author.rating.bestAnswer(answer);
 					answer.author.rating.save();
 					answer.author.save();
 					answer.save();

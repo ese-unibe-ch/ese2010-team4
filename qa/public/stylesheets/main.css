@@ -220,6 +220,44 @@ pre
 	white-space: pre-wrap;
 }
 
+/** Badges **/
+.badge-bronze
+{
+	margin: 5px 0px 5px 0px;
+}
+
+.badge-bronze .button
+{
+	background: #CF843A;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 0px 4px;
+}
+
+.badge-silver
+{
+	margin: 5px 0px 5px 0px;
+}
+
+.badge-silver .button
+{
+	background: #C0C0C0;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 0px 4px;
+}
+
+.badge-gold
+{
+	margin: 10px 0px 5px 0px;
+}
+
+.badge-gold .button
+{
+	background: #FFD700;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 0px 4px;
+}
+
+
 /** Tags **/
 .question-tag 
 {

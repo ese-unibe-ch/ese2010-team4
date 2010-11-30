@@ -100,7 +100,7 @@ public class Question extends Post {
 
 		else {
 
-			this.author.rating.voteDown();
+			this.author.rating.voteDown(this);
 			this.author.rating.save();
 			this.author.save();
 			user.rating.penalty();

@@ -42,23 +42,24 @@ public class Answer extends Post {
 	public Post vote(User user, boolean result) {
 		Vote vote = new Vote(user, this, result).save();
 		votes.add(vote);
+		
 
-		if (result) {
-			author.rating.voteUPAnswer();
+		if (result) {			
+			author.rating.voteUPAnswer(this);			
 			author.rating.save();
 			author.save();
 		} else {
-			author.rating.voteDown();
+			author.rating.voteDown(this);
 			author.rating.save();
 			author.save();
 			user.rating.penalty();
 			user.rating.save();
 			user.save();
 		}
-
 		voting();
 		save();
 
+		
 		return this;
 	}
 }

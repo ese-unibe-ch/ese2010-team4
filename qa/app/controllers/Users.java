@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Answer;
+import models.Badge;
 import models.Comment;
 import models.Post;
 import models.Question;
@@ -332,10 +333,12 @@ public class Users extends CRUD {
 	 */
 	public static void myProfile(Long userid) throws IOException {
 		User user = User.findById(userid);
+		List<Badge> badges = Badge.find("byReputation", user.rating).fetch();
+		System.out.println(badges.size());
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Post> activities = user.activities();
 		int size = user.rating.totalRepPoint.size();
-		render("Users/myProfile.html", activities, user, size, lastActivity);
+		render("Users/myProfile.html", activities, user, size, lastActivity, badges);
 	}
 
 	public static void showProfile(Long authorid) throws IOException {
@@ -346,7 +349,8 @@ public class Users extends CRUD {
 		} else {
 			List<Post> activities = userToShow.activities();
 			Post lastActivity = Post.find("order by timestamp desc").first();
-			render(userToShow, activities, lastActivity);
+			List<Badge> badges = Badge.find("byReputation", userToShow.rating).fetch();
+			render(userToShow, activities, lastActivity, badges);
 		}
 	}
 

@@ -82,5 +82,32 @@
 	<div id="graph">
 		<div id="graphcanvas" style="width:600px;height:300px"></div>
 	</div>
+<div id="userProfile">
+	
+	<h3>Hall of honor</h3>
+	
+	#{list items:badges, as:'badge'}	
+		
+		#{if badge.bronze}
+			<div class="badge-bronze">
+				<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
+			</div>
+		#{/if}		
+		#{if badge.silver}
+			<div class="badge-silver">
+				<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
+			</div>
+		#{/if}
+		#{if badge.gold}
+			<div class="badge-gold">
+				<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
+			</div>
+		#{/if}
+	#{/list}
 </div>
+	
+
+</div>
+
+
 #{/ secure.check}
