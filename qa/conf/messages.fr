@@ -27,8 +27,13 @@ dbTitle=Tous les questions à A4Q
 view=Avis de la question
 nrAnswers=les nombre des résponses
 nrComments=les nombre des commentaires
-uploadAvater=télécharger un avatar
+uploadAvatar=Télécharger un avatar
 upload=Télécharger
+
+followQuestion=
+followUser=
+followNoQuestion=
+followNoUser=
 
 # Secure messages
 secure.title=Se loguer
@@ -66,8 +71,10 @@ quote=Citer
 bestA=Meilleure réponse
 bestAText=C'est la meilleure réponse.
 activities=Activités
-repGraph=Reputations Grafik
+repGraph=Graphique de la réputation	
 myQuestions=Mes questions
 myAnswers=Mes réponses
 myFollows=Je suis
 search=Chercher
+
+avatar.url=ou déclarer une URL

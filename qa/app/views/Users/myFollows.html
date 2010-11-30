@@ -6,7 +6,7 @@
 
 	<div class="questionfollows">
 		#{if !followQ.isEmpty()}
-			you are following this questions:
+			&{'followQuestion'}:
 		#{list items:followQ, as:'question'}
     	<div class="answers">
             <div class="answer">
@@ -24,7 +24,7 @@
 		#{/if}
 	
 		#{else}
-			you don't follow a question
+			&{'followNoQuestion'}
 		#{/else}
 	</div>
 
@@ -32,11 +32,11 @@
 
 	<div class="userfollows">
 		#{if !followU.isEmpty()}
-			you are following this users:
+			&{'followUser'}:
 		#{list items:followU, as:'user'}
     	<div class="answers">
         	<div class="answer">
-        		<a href="@{Users.showProfile(user.id)}">${user.fullname}</a>
+        		<a href="@{Users.showProfile(user.id)}">${user.username}</a>
         			<div class="answer-author" class"author">
         				<div class="buttons" id="question-buttons">
         					<a class="button" href="@{Users.unfollowUser(user.id)}">
@@ -50,7 +50,7 @@
 		#{/if}
 	
 		#{else}
-			you don't follow a user
+			&{'followNoUser'}
 		#{/else}
 	</div>
 	

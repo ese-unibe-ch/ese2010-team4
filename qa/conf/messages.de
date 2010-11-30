@@ -29,6 +29,10 @@ nrAnswers=Anzahl Antworten
 nrComments=Anzahl Kommentare
 uploadAvatar=Avatar heraufladen
 upload=Heraufladen
+followQuestion=Du folgst diesen Fragen
+followUser=Du folgst diesen Usern
+followNoQuestion=Du folgst keinen Fragen
+followNoUser=Du folgst keinem Benutzer
 
 # Secure messages
 secure.title=Einloggen
@@ -73,3 +77,5 @@ myFollows=Ich folge
 search=Suchen
 update=Aktualisieren
 submit=Absenden
+
+avatar.url=oder gib eine URL an

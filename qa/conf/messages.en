@@ -29,6 +29,10 @@ nrAnswers=Number of Answers
 nrComments=Number of Comments
 uploadAvatar=Upload an Avatar
 upload=Upload
+followQuestion=you are following this questions
+followUser=you are following this users
+followNoQuestion=you don't follow a question
+followNoUser=you don't follow a user
 
 # Secure messages
 secure.title=Log in
@@ -73,3 +77,5 @@ myFollows=My follows
 search=Search
 update=Update
 submit=Submit
+
+avatar.url=or enter an URL
