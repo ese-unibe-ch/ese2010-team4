@@ -21,20 +21,25 @@ html, body
 
 #main-left 
 {
+	float: left;
 	background: #9CF;
     width: 850px;
 	min-height: 100%;
 	padding: 0;
     text-align: left;
-	overflow: hidden;
 }
 
 #main-right 
 {
-	float:right;
-	height:99px;
-	right:360px;
+	float: right;
+}
 
+/** Banner **/
+#banner img
+{
+	width: 850px;
+	height: 100px;
+	border: 0;
 }
 
 /** Menu **/
@@ -56,7 +61,7 @@ html, body
 	background: #69F;
 	float: right;
 	padding: 10px;
-    margin: 20px;
+    margin: 20px 0px;
 	width: 250px;
 	-webkit-border-radius: 16px;
     -moz-border-radius: 16px;
@@ -92,7 +97,7 @@ html, body
 {
 	background: #9CF;
 	padding: 10px;
-    margin: 20px;
+    margin: 20px 0px;
 	width: 250px;
 	-webkit-border-radius: 16px;
     -moz-border-radius: 16px;	
@@ -470,7 +475,7 @@ textarea
 	width: 250px;
 	max-height: 90px;
 	background: #69F;
-	margin: 20px;
+	margin: 20px 0px;
 	padding: 10px;
 	-webkit-border-radius: 16px;
 	-moz-border-radius: 16px;
@@ -488,7 +493,7 @@ textarea
 	width: 250px;
 	float: right;
 	padding: 10px;
-	margin: 20px;
+	margin: 20px 0px;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
@@ -500,7 +505,7 @@ textarea
 	width: 250px;
 	float: right;
 	padding: 10px;
-	margin: 20px;
+	margin: 20px 0px;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 }
