@@ -8,9 +8,11 @@ timestamp=Posted at
 question=Related question
 yourQuestion=Your question
 yourAnswer=Your answer
+yourComment=Your Comment
 tags=Your tags, separated by commas
 submitQ=Submit your question
 submitA=Submit your answer
+submitC=Submit your comment
 name=Common name
 email=Email
 password=Password
@@ -29,10 +31,12 @@ nrAnswers=Number of Answers
 nrComments=Number of Comments
 uploadAvatar=Upload an Avatar
 upload=Upload
+noAnswer=There are no Answers currently
 followQuestion=you are following this questions
 followUser=you are following this users
 followNoQuestion=you don't follow a question
 followNoUser=you don't follow a user
+writtenBy=Written by %s
 
 # Secure messages
 secure.title=Log in
@@ -79,3 +83,4 @@ update=Update
 submit=Submit
 
 avatar.url=or enter an URL
+post.voting=Voting: %s

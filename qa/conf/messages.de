@@ -8,9 +8,11 @@ timestamp=Geschrieben am
 question=Ähnliche Fragen
 yourQuestion=Deine Frage
 yourAnswer=Deine Antwort
+yourComment=Dein Kommentar
 tags=Deine Tags, getrennt durch Kommas
 submitQ=Stelle deine Frage
 submitA=Antworten
+submitC=Kommentieren
 name=Name
 email=Email
 password=Passwort
@@ -29,10 +31,12 @@ nrAnswers=Anzahl Antworten
 nrComments=Anzahl Kommentare
 uploadAvatar=Avatar heraufladen
 upload=Heraufladen
+noAnswer=Es gibt noch keine Antworten
 followQuestion=Du folgst diesen Fragen
 followUser=Du folgst diesen Usern
 followNoQuestion=Du folgst keinen Fragen
 followNoUser=Du folgst keinem Benutzer
+writtenBy=Geschrieben von %s
 
 # Secure messages
 secure.title=Einloggen
@@ -79,3 +83,4 @@ update=Aktualisieren
 submit=Absenden
 
 avatar.url=oder gib eine URL an
+post.voting=Bewertung: %s

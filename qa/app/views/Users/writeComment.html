@@ -5,11 +5,10 @@
 
 
 <div class="post">
-	Post:
     <div class="metadata">
-        <span class="post-author">by ${post.author.username}</span>
+        <span class="post-author">&{'writtenBy', post.author.username}</span>
         <span class="post-date">${post.timestamp}</span>
-        <span class="post-voting"> Voting: ${post.voting}</span>
+        <span class="post-voting"> &{'post.voting', post.voting}</span>
     </div>
     <div class="content">
     	<br>
@@ -32,12 +31,12 @@
 					<input type="hidden" name="author" id="user" value="${user.username}" readonly/>
 			</p>
     		<p>
-        		<label for="content">Your comment: </label>
+        		<label for="content">&{'yourComment'}: </label>
         		<br>
         		<textarea name="content" id="content"></textarea>
     		</p>
     		<p>
-        		<input type="submit" value="Submit your comment" />
+        		<input type="submit" value=&{'submitC'} />
     		</p>
 	#{/form}
 </div>

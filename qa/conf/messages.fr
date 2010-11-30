@@ -8,9 +8,11 @@ timestamp=Écrit le
 question=Questions similaires
 yourQuestion=Ta question
 yourAnswer=Ta réponse
+yourComment=Ta commentaire
 tags=Vos tags, séparé avec virgules
 submitQ=Pose ta question
 submitA=Pose ta réponse
+submitC=Pose ta commentaire
 name=Nom
 email=Email
 password=Mot de passe
@@ -29,11 +31,13 @@ nrAnswers=les nombre des résponses
 nrComments=les nombre des commentaires
 uploadAvatar=Télécharger un avatar
 upload=Télécharger
+noAnswer=
 
 followQuestion=
 followUser=
 followNoQuestion=
 followNoUser=
+writtenBy=
 
 # Secure messages
 secure.title=Se loguer
@@ -78,3 +82,4 @@ myFollows=Je suis
 search=Chercher
 
 avatar.url=ou déclarer une URL
+post.voting=
