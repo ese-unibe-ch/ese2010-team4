@@ -180,10 +180,10 @@ public abstract class Post extends Model {
 	 *            the numbers of equal tags (minimum)
 	 * @return all questions or answers with enough equal tags
 	 */
-	public List<Post> getSimilarPosts(int minimum) {
+	public static List<Post> getSimilarPosts(int minimum, Set<Tag> tags) {
 		List<Post> posts = new ArrayList<Post>();
 		int[] hits = new int[50];
-		for (Tag tag : this.tags) {
+		for (Tag tag : tags) {
 			List<Post> temphits = Post.findTaggedWith(tag.name);
 
 			for (Post question : temphits) {
@@ -200,7 +200,7 @@ public abstract class Post extends Model {
 
 		List<Post> results = new ArrayList<Post>();
 		for (int i = 0; i < posts.size(); i++) {
-			if (hits[i] >= minimum && !this.equals(posts.get(i))) {
+			if (hits[i] >= minimum) {
 				results.add(posts.get(i));
 			}
 		}
