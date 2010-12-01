@@ -23,6 +23,7 @@ public class UserTest extends UnitTest {
 		firstQuestion = new Question(hans, "brightliy?",
 				"What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
+		firstAnswer.tagItWith("Java").tagItWith("Html").save();
 
 	}
 
@@ -111,6 +112,19 @@ public class UserTest extends UnitTest {
 		assertEquals(question1.author, question2.author);
 		assertEquals(question1.title, question2.title);
 		assertEquals(question1.content, question2.content);
+	}
+
+	@Test
+	public void addBadge() {
+
+		this.firstAnswer.vote(hans, true);
+		firstAnswer.save();
+		this.firstAnswer.vote(hans, true);
+		firstAnswer.save();
+		this.firstAnswer.vote(hans, true);
+		firstAnswer.save();
+		assertEquals("Java", hans.badgetags.first());
+		assertEquals(2, hans.badgetags.size());
 	}
 
 }
