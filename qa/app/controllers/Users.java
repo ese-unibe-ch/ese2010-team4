@@ -219,16 +219,27 @@ public class Users extends CRUD {
 	 */
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
+		
+		//JW find solution against hard coding
+		int placeholder = 2;
+		Post lastActivity = Post.find("order by timestamp desc").first();
 		Question question = Question.findById(questionId);
-		// check if the content only contains of control characters
+		User user = User.find("byUsername", author).first();
+		Answer answer = new Answer(question, user, content).save();
+		ArrayList<Post> sameQuestions = question.getNotAnsweredSimilarPosts(placeholder, user.badgetags, user);
+		
+		boolean abletovote = user.isAbleToVote(questionId);
+		boolean hasTimeToChange = user.hasTimeToChange(questionId);
+		boolean isfollowing = user.isFollowing(question);
+		
+		
 		String test = content.replaceAll("[^a-zA-Z]", "");
 		if (test.isEmpty()) {
 			validation.keep();
 			Application.show(questionId);
 			return;
 		}
-		User user = User.find("byUsername", author).first();
-		Answer answer = new Answer(question, user, content).save();
+
 		if (validation.hasErrors()) {
 			render("Application/show.html", question);
 		}
@@ -240,7 +251,7 @@ public class Users extends CRUD {
 		}
 		question.addNewAnswer(answer).save();
 		flash.success("Thanks for writing the answer %s!", author);
-		Application.show(questionId);
+		render("Application/show.html", question, sameQuestions, lastActivity, abletovote, hasTimeToChange, isfollowing);
 	}
 
 	/**

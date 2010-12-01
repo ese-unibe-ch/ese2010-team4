@@ -71,7 +71,7 @@ public class QuestionTest extends UnitTest {
 		
 		assertEquals(true, firstQuestion.hasChosen());
 	}
-
+	
 
 	
 }

@@ -23,6 +23,10 @@ public class Tag extends Model implements Comparable<Tag> {
 	public int compareTo(Tag otherTag) {
 		return name.compareTo(otherTag.name);
 	}
+	/*
+	public boolean equals(Tag otherTag){
+		return name.equals(otherTag.name);
+	}*/
 
 	public static Tag findOrCreateByName(String name) {
 		Tag tag = Tag.find("byName", name).first();

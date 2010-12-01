@@ -174,20 +174,51 @@ public abstract class Post extends Model {
 				.bind("tags", tags).fetch();
 		return hits;
 	}
+	
+	
+	/**
+	 * Gets the similar questions.
+	 *
+	 * @param minimumtags specifies the numbers of equal tags
+	 * @param all badgeTags form the user which wrote the answer
+	 * @param user the user which wrote the answer
+	 * @return the similar questions
+	 */
+	public ArrayList<Post> getNotAnsweredSimilarPosts(int minimumtags, Set<Tag> tags, User user){
+		Set<Post> posts = this.getSimilarPosts(minimumtags, tags);
+		ArrayList<Post> removeposts = new ArrayList<Post>();
+		if(posts.size()>0){	
+			for(Post post: posts){
+				
+				
+				Answer answer = Answer.find("byQuestionAndAuthor", ((Question)post), user).first();
+				if(answer!=null){
+					posts.add(answer);
+				}
+	
+			}
+		posts.removeAll(removeposts);
+		}
+	
+		return new ArrayList<Post>(posts);
+	}
+	
+	
 
 	/**
 	 * @param specifies
 	 *            the numbers of equal tags (minimum)
 	 * @return all questions or answers with enough equal tags
 	 */
-	public List<Post> getSimilarPosts(int minimumtags, Set<Tag> tags) {
+	
+	public Set<Post> getSimilarPosts(int minimumtags, Set<Tag> tags) {
 		Set<Post> set = new HashSet<Post>();
 		for (Tag tag : tags) {
 			set.addAll(Question.findTaggedWith(tag.name));
 		}
-		
 		List<Post> posts = new ArrayList<Post>();
 		for(Post post: set){
+			
 			int counter = 0;
 			for(Tag tag: tags){
 				
@@ -200,9 +231,8 @@ public abstract class Post extends Model {
 			}
 		}
 		set.removeAll(posts);
-		
 		set.remove(this);
-		return new ArrayList<Post>(set);
+		return set;
 	}
 
 	public boolean checkInstance() {
@@ -297,12 +327,5 @@ public abstract class Post extends Model {
 	public boolean userLikePost(User user) {
 		return likers.contains(user);
 	}
-
-	/**
-	 * Clear the list of users who like the post.
-	 */
-	// public void clearLikers() {
-	// likers.clear();
-	// }
 
 }

@@ -23,23 +23,32 @@
     	<div id="main">
 	    	<div id="main-right">
 	    		#{if user}
-				<div id="user">
-					<div id="userImg"> <img src="${user.avatarPath}"/></div>
-					<div>&{'register.username'}: ${user.username}</div>
-					<div>&{'register.reputation'}: ${user.rating}</div>
-					<a class="button" href="@{Users.myProfile(user.id)}">&{'profile'}</a>
-					<a class="button" id="log" href="@{Secure.logout()}">&{'logout'}</a>
-				</div>
-				
-				<div id="userActivity">
-					<h4>&{'lastActivity'}</h4>
-				
-					#{if lastActivity}					
-					<div class="activity">
-						#{activity activity:lastActivity /}
+					<div id="user">
+						<div id="userImg"> <img src="${user.avatarPath}"/></div>
+						<div>&{'register.username'}: ${user.username}</div>
+						<div>&{'register.reputation'}: ${user.rating}</div>
+						<a class="button" href="@{Users.myProfile(user.id)}">&{'profile'}</a>
+						<a class="button" id="log" href="@{Secure.logout()}">&{'logout'}</a>
+					</div>
+					
+					<div id="userActivity">
+						<h4>&{'lastActivity'}</h4>
+					
+						#{if lastActivity}					
+						<div class="activity">
+							#{activity activity:lastActivity /}
+						</div>
+						#{/if}
+					</div>
+					
+					#{if sameQuestions}
+					<div id="proposals">
+						<h4>&{'proposals'}</h4>
+							#{list items:sameQuestions, as:'samequests'}
+								<p><a href="@{Application.show(samequests.id)}">${samequests.title}</a></p>
+							#{/list}	
 					</div>
 					#{/if}
-				</div>
 				#{/if}
 	
 				#{ifnot user}

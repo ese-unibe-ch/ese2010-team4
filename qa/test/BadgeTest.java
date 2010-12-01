@@ -35,7 +35,7 @@ public class BadgeTest extends UnitTest {
 	    firstQuestion = new Question(hans, "brightliy?", "What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
 		secondAnswer = new Answer(firstQuestion, sepp, "yeah this is a test").save();
-		tag1 = Tag.findOrCreateByName("java").save();
+		tag1 = Tag.findOrCreateByName("Java").save();
 		tag2 = Tag.findOrCreateByName("test").save();
 		tag3 = Tag.findOrCreateByName("Html").save();
 		firstQuestion.tags.add(tag1);
@@ -47,7 +47,7 @@ public class BadgeTest extends UnitTest {
     }
     
     @Test
-    public void shouldChooseTheRightBadge(){
+    public void chooseTheRightBadge(){
     	
 		this.firstAnswer.vote(sepp, true);
 		firstAnswer.save();
@@ -60,7 +60,7 @@ public class BadgeTest extends UnitTest {
     
     
     @Test
-    public void shouldBeABronzeSilverGoldBadge(){
+    public void beABronzeSilverGoldBadge(){
     	
     	for(int i=0;i<10;i++){	
     		this.firstAnswer.vote(sepp, true);
@@ -95,13 +95,38 @@ public class BadgeTest extends UnitTest {
     	assertEquals("Html", badge.toString());
     	
     }
-   
     
-
-
-	
-
-
-	
+    @Test
+    public void addBadgeTagsToUser(){
+    	
+    	firstAnswer.vote(sepp, true).save();
+    	assertEquals(0, hans.badgetags.size());
+    	
+    	for(int i=0;i<10;i++){
+    		this.firstAnswer.vote(sepp, true);
+    	}
+    	
+    	assertEquals(3, hans.badgetags.size());
+    	
+    }
+    
+    
+    @Test
+    public void findSimilarQuestions(){
+    	
+    	Question question1 = new Question(hans, "hallo", "velo").save();
+    	Question question2 = new Question(sepp, "hallo", "velo").save();
+    	question1.tagItWith("Java").tagItWith("Html").save();
+    	question2.tagItWith("Html").save();
+    	
+     	for(int i=0;i<10;i++){
+    		this.firstAnswer.vote(sepp, true);
+    	}
+     	
+     	assertEquals(3, hans.badgetags.size());
+     	assertEquals(1, firstAnswer.question.getSimilarPosts(2, hans.badgetags).size());
+     	assertEquals(0, firstAnswer.question.getSimilarPosts(3, hans.badgetags).size());
+     	assertEquals(2, firstAnswer.question.getSimilarPosts(1, hans.badgetags).size());	
+    }
 }
 

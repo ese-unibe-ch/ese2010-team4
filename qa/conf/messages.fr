@@ -91,4 +91,5 @@ myQuestions=Mes questions
 myAnswers=Mes réponses
 myFollows=Je suis
 search=Chercher
+proposals=Cette questions vous pouvez aussi réponse
 

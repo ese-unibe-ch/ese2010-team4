@@ -114,17 +114,4 @@ public class UserTest extends UnitTest {
 		assertEquals(question1.content, question2.content);
 	}
 
-	@Test
-	public void addBadge() {
-
-		this.firstAnswer.vote(hans, true);
-		firstAnswer.save();
-		this.firstAnswer.vote(hans, true);
-		firstAnswer.save();
-		this.firstAnswer.vote(hans, true);
-		firstAnswer.save();
-		assertEquals("Java", hans.badgetags.first());
-		assertEquals(2, hans.badgetags.size());
-	}
-
 }

@@ -103,6 +103,16 @@ html, body
     -moz-border-radius: 16px;	
 }
 
+#proposals 
+{
+	background: #9CF;
+	padding: 10px;
+    margin: 20px 0px;
+	width: 250px;
+	-webkit-border-radius: 16px;
+    -moz-border-radius: 16px;	
+}
+
 /** Search **/
 #search 
 {
