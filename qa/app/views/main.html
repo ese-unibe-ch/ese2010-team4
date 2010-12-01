@@ -116,12 +116,23 @@
 						<a class="button" href="@{Admin.index()}">Admin</a>
 					#{/secure.check}
 						
+						<div id="language">
+							<form action="@{Application.selectLanguage()}" method="POST" >
+							<select name=langId onchange="this.form.submit();">
+							 	<option>&{'chooseLanguage'}</option>
+								<option value="en">English</option>
+								<option value="de">German</option>
+								<option value="fr">French</option>	
+							</select><noscript><INPUT type="submit" value="Go" name="&{'changeLang'}"></noscript>
+							</form>
+						</div>
+						
 						<div id="search">
 							#{form @Users.searchResults()}
 								<input type="text" name="toSearch" id="toSearch"/>
 								<input type="submit" value="&{'search'}" />
 							#{/form}
-						</div>
+						</div>	
 				</div>
 	
 				<div id="content">

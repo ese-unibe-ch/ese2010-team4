@@ -10,7 +10,7 @@
 		<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
     </div>
 
-	<label for="author">&{'email'}: </label>
+	<label for="author">&{'profile.email'}: </label>
 	<div class="userInfo">
 		<input type="text" fullname="author" id="user-inp" value="${user.email}" readonly/>
 	</div>
@@ -23,7 +23,7 @@
 		#{/field}
 	</div>
    
-    <label for="author">&{'birthday'}: </label>
+    <label for="author">&{'profile.birthday'}: </label>
 	<div class="userInfo">
 		#{field 'birthday'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.getBirthday()}" />
@@ -31,12 +31,12 @@
 		#{/field}
 	</div>
 	
-	<label for="author">&{'age'}: </label>
+	<label for="author">&{'profile.age'}: </label>
 	<div class="userInfo">
 		<input type="text" fullname="author" id="user-inp" value="${user.calculateAge()}" readonly/>
 	</div>
 	
-	<label for="author">&{'website'}: </label>
+	<label for="author">&{'profile.website'}: </label>
 	<div class="userInfo">
 		#{field 'website'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.website}" />
@@ -44,7 +44,7 @@
 		#{/field}
 	</div>
 
-	<label for="author">&{'work'}: </label>
+	<label for="author">&{'profile.work'}: </label>
 	<div class="userInfo">
 		#{field 'work'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.work}" />
@@ -52,7 +52,7 @@
 		#{/field}
 	</div>
 	
-	<label for="author">&{'programmingLanguages'}: </label>
+	<label for="author">&{'profile.programmingLanguages'}: </label>
 	<div class="userInfo">
 		#{field 'languages'}
 			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.favoriteLanguages}" />
@@ -60,7 +60,7 @@
 		#{/field}
 	</div>
 	
-	<label for="aboutMe">&{'about'}: </label>
+	<label for="aboutMe">&{'profile.about'}: </label>
 	<div class="userInfo">
 		#{field 'aboutMe'}
 			<br>
@@ -78,7 +78,7 @@
 <hr>
 
 <div id="userProfile">
-	<label> &{'uploadAvatar'}:
+	<label> &{'profile.uploadAvatar'}:
 	<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
 		<table style="padding-left: 60px">
 		<input type="file" id="avatar" name="avatar" />
@@ -90,7 +90,7 @@
 	
 	#{form @Users.updateAvatarPath()}
 		#{field 'URL'}
-			<label for="author">&{'avatar.url'}:
+			<label for="author">&{'profile.avatar.url'}:
 			<input type="text" name="${field.name}" email="author" id="user-inp"/>
 			<label for="content">
 			<input type="submit" value=&{'submit'} />
@@ -114,7 +114,7 @@
      #{/list}
     
 
-	<h3>&{'repGraph'}</h3>
+	<h3>&{'profile.repGraph'}</h3>
 	
 	<script type="text/javascript">
 		var userid = ${user.id};
@@ -129,7 +129,7 @@
 
 <div id="userProfile">
 	
-	<h3>Hall of honor</h3>
+	<h3>&{'profile.hoh'}</h3>
 	
 	#{list items:badges, as:'badge'}	
 		

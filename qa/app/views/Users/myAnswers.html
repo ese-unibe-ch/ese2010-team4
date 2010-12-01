@@ -6,7 +6,7 @@
 	<div class="answers">
 		
 		<div>
-				Answer to the question <a href="@{Application.show(answer.getQuestion().getId())}">${answer.getQuestion().getTitle()}</a> :
+				<label>&{'myAnswer.answer'}</label> <a href="@{Application.show(answer.getQuestion().getId())}">${answer.getQuestion().getTitle()}</a> :
 		</div>
 		
 		<div class="answer">
@@ -28,7 +28,7 @@
 				<div id="question-buttons">
 					#{secure.check 'user'}
 						#{if answer.findQuestion().author.hasTimeToChange(answer.findQuestion().id)}
-							<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">edit</a>
+							<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 						#{/if}
 						#{if answer.isBestAnswer}
 							This is the best answer!
@@ -57,7 +57,7 @@
 			</div>
 			
 			<div class="question-metadata">
-				(Number of comments: ${answer.comments.size()})
+				(&{'nrComments'}: ${answer.comments.size()})
 			</div>
 		</div>
 	</div>

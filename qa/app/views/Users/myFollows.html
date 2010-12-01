@@ -6,7 +6,7 @@
 
 	<div class="questionfollows">
 		#{if !followQ.isEmpty()}
-			&{'followQuestion'}:
+			&{'follow.Question'}:
 		#{list items:followQ, as:'question'}
     	<div class="answers">
             <div class="answer">
@@ -24,7 +24,7 @@
 		#{/if}
 	
 		#{else}
-			&{'followNoQuestion'}
+			&{'follow.NoQuestion'}
 		#{/else}
 	</div>
 
@@ -32,7 +32,7 @@
 
 	<div class="userfollows">
 		#{if !followU.isEmpty()}
-			&{'followUser'}:
+			&{'follow.User'}:
 		#{list items:followU, as:'user'}
     	<div class="answers">
         	<div class="answer">
@@ -50,7 +50,7 @@
 		#{/if}
 	
 		#{else}
-			&{'followNoUser'}
+			&{'follow.NoUser'}
 		#{/else}
 	</div>
 	

@@ -8,6 +8,7 @@ import models.Tag;
 import models.User;
 import models.helper.ValidationHelper;
 import play.data.validation.Required;
+import play.i18n.Lang;
 import play.mvc.Before;
 import play.mvc.Controller;
 
@@ -114,6 +115,21 @@ public class Application extends Controller {
 	public static void userExists(String username) {
 		User user = User.find("byUsername", username).first();
 		renderJSON(user != null);
+	}
+
+	public static void selectLanguage(@Required String langId) {
+		if (langId != null) {
+			Lang.change(langId);
+			if (!Lang.get().equals(langId))
+				flash.error("Unknown language %s!", langId);
+		} else
+			flash.error("No language choosen");
+		try {
+			Secure.redirectToOriginalURL();
+		} catch (Throwable e) {
+			System.out.println("could not redirect back to original URL");
+			e.printStackTrace();
+		}
 	}
 
 }
