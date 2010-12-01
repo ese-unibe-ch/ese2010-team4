@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -100,12 +102,15 @@ public class User extends Model {
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
 
+	public TreeSet<Tag> badgetags;
+
 	/**
 	 * Instantiates a new user.
 	 */
 	public User() {
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
+		this.badgetags = new TreeSet<Tag>();
 		this.isAdmin = false;
 		lastLogOff = new Date(System.currentTimeMillis());
 		this.followQ = new ArrayList<Question>();
@@ -127,6 +132,7 @@ public class User extends Model {
 	public User(String username, String email, String password) {
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
+		this.badgetags = new TreeSet<Tag>();
 		this.username = username;
 		this.email = email;
 		this.password = password;

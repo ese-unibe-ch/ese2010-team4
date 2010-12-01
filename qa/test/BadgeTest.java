@@ -72,7 +72,7 @@ public class BadgeTest extends UnitTest {
     	assertEquals(true, badge.bronze);
     	assertEquals(false, badge.silver);
     	assertEquals(false, badge.gold);
-    	assertEquals("bronze Html", badge.toString());
+    	assertEquals("Html", badge.toString());
     	
     	for(int i=0;i<20;i++){	
     		this.firstAnswer.vote(sepp, true);
@@ -82,7 +82,7 @@ public class BadgeTest extends UnitTest {
     	assertEquals(true, badge.bronze);
     	assertEquals(true, badge.silver);
     	assertEquals(false, badge.gold);
-    	assertEquals("silver Html", badge.toString());
+    	assertEquals("Html", badge.toString());
     	
     	for(int i=0;i<200;i++){	
     		this.firstAnswer.vote(sepp, true);
@@ -92,7 +92,7 @@ public class BadgeTest extends UnitTest {
     	assertEquals(true, badge.bronze);
     	assertEquals(true, badge.silver);
     	assertEquals(true, badge.gold);
-    	assertEquals("gold Html", badge.toString());
+    	assertEquals("Html", badge.toString());
     	
     }
    

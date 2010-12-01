@@ -180,32 +180,29 @@ public abstract class Post extends Model {
 	 *            the numbers of equal tags (minimum)
 	 * @return all questions or answers with enough equal tags
 	 */
-	public static List<Post> getSimilarPosts(int minimum, Set<Tag> tags) {
-		List<Post> posts = new ArrayList<Post>();
-		int[] hits = new int[50];
+	public List<Post> getSimilarPosts(int minimumtags, Set<Tag> tags) {
+		Set<Post> set = new HashSet<Post>();
 		for (Tag tag : tags) {
-			List<Post> temphits = Post.findTaggedWith(tag.name);
-
-			for (Post question : temphits) {
-				if (!posts.contains(question) && posts.size() < hits.length) {
-					posts.add(question);
-					hits[posts.indexOf(question)] = 1;
-				}
-
-				else {
-					hits[posts.indexOf(question)] += 1;
+			set.addAll(Question.findTaggedWith(tag.name));
+		}
+		
+		List<Post> posts = new ArrayList<Post>();
+		for(Post post: set){
+			int counter = 0;
+			for(Tag tag: tags){
+				
+				if(post.tags.contains(tag)){
+					counter++;
 				}
 			}
-		}
-
-		List<Post> results = new ArrayList<Post>();
-		for (int i = 0; i < posts.size(); i++) {
-			if (hits[i] >= minimum) {
-				results.add(posts.get(i));
+			if(counter<minimumtags){
+				posts.add(post);
 			}
 		}
-
-		return results;
+		set.removeAll(posts);
+		
+		set.remove(this);
+		return new ArrayList<Post>(set);
 	}
 
 	public boolean checkInstance() {

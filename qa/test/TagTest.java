@@ -61,14 +61,17 @@ public class TagTest extends UnitTest {
 
 	@Test
 	public void testSimilarPosts() {
+		
+		Question bobQuestion2 = new Question(bob, "bla", "blaaa").save();
+		bobQuestion2.tagItWith("Red").tagItWith("Blue").save();
 		bobQuestion1.tagItWith("Red").tagItWith("Blue").save();
 		jeffQuestion2.tagItWith("Red").tagItWith("Yellow").save();
 
-		assertEquals(2, Post.getSimilarPosts(1, bobQuestion1.tags).size());
-		assertEquals(1, Post.getSimilarPosts(2, bobQuestion1.tags).size());
+		assertEquals(2, bobQuestion1.getSimilarPosts(1, bobQuestion1.tags).size());
+		assertEquals(1, bobQuestion1.getSimilarPosts(2, bobQuestion1.tags).size());
 
 		jeffQuestion2.tagItWith("Blue").save();
-		assertEquals(2, Post.getSimilarPosts(2, jeffQuestion2.tags).size());
+		assertEquals(2, jeffQuestion2.getSimilarPosts(2, jeffQuestion2.tags).size());
 	}
 
 }

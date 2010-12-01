@@ -29,6 +29,13 @@ public class Badge extends Model implements Comparable<Badge>{
 		this.gold = false;
 		this.rating = 0;
 		this.kind = "";
+		addTagToUser();
+	}
+
+	private void addTagToUser() {
+		User user = User.find("byRating", this.reputation).first();
+		user.badgetags.add(this.tag);
+		user.save();
 	}
 
 	/**
