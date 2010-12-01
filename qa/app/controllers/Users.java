@@ -219,7 +219,6 @@ public class Users extends CRUD {
 	 */
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
-		System.out.println("geht hier durch");
 		//JW find solution against hard coding
 		int placeholder = 2;
 		Post lastActivity = Post.find("order by timestamp desc").first();
@@ -507,8 +506,9 @@ public class Users extends CRUD {
 
 	// JW: trivial user search
 	public static void searchResults(String toSearch) {
-
-		boolean found = false;
+		String searched = toSearch;
+		toSearch = toSearch.toLowerCase();
+		boolean found = false;	
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<User> users = User.find("byUsernameLike", "%" + toSearch + "%")
 				.fetch();
@@ -517,7 +517,8 @@ public class Users extends CRUD {
 		List<Post> poststitl = Post.find("byTitleLike", "%" + toSearch + "%")
 				.fetch();
 		List<Tag> tags = Tag.find("byNameLike", "%" + toSearch + "%").fetch();
-
+		
+		toSearch = searched;
 		if (users.size() == 0 && postscont.size() == 0 && poststitl.size() == 0
 				&& tags.isEmpty()) {
 			String message = "no user found";
