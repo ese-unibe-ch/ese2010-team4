@@ -18,6 +18,9 @@ GET     /user/myanswers                        Users.myAnswers
 GET		/user/searchresults/{toSearch}		   Users.searchResults
 GET		/user/showprofile/{authorid}		   Users.showProfile
 *       /user                                  module:crud
+GET    	/setlang/{langId}						Application.selectLanguage
+
+
 
 # Administration
 POST  	/admin/importXML						Admin.importXML

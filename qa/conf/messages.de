@@ -14,29 +14,42 @@ submitQ=Stelle deine Frage
 submitA=Antworten
 submitC=Kommentieren
 name=Name
-email=Email
 password=Passwort
 username=Benutzername
 fullname=Name
-birthday=Geburtstag
-age=Alter
-website=Internetseite
-work=Arbeit
-about=Über mich
-programmingLanguages=Programmiersprachen
 isAdmin=User ist Administrator
 dbTitle=Alle Fragen bei A4Q
 view=Ansicht der Frage
 nrAnswers=Anzahl Antworten
 nrComments=Anzahl Kommentare
-uploadAvatar=Avatar heraufladen
 upload=Heraufladen
 noAnswer=Es gibt noch keine Antworten
-followQuestion=Du folgst diesen Fragen
-followUser=Du folgst diesen Usern
-followNoQuestion=Du folgst keinen Fragen
-followNoUser=Du folgst keinem Benutzer
 writtenBy=Geschrieben von %s
+changeLang=Sprache ändern
+chooseLanguage=Sprache
+post.voting=Bewertung: %s
+
+myAnswer.answer=Antwort zur Frage: 
+
+# Following
+
+follow.Question=Du folgst diesen Fragen
+follow.User=Du folgst diesen Usern
+follow.NoQuestion=Du folgst keinen Fragen
+follow.NoUser=Du folgst keinem Benutzer
+
+# Profile
+profile.email=Email
+profile.birthday=Geburtstag
+profile.age=Alter
+profile.website=Internetseite
+profile.work=Arbeit
+profile.about=Über mich
+profile.programmingLanguages=Programmiersprachen
+profile.uploadAvatar=Avatar heraufladen
+profile.avatar.url=oder gib eine URL an
+profile.hoh=Ruhmeshalle
+profile.repGraph=Reputations Grafik
 
 # Secure messages
 secure.title=Einloggen
@@ -74,7 +87,6 @@ quote=Zitieren
 bestA=Beste Antwort
 bestAText=Dies ist die beste Antwort.
 activities=Aktivitäten
-repGraph=Reputations Grafik
 myQuestions=Meine Fragen
 myAnswers=Meine Antworten
 myFollows=Ich folge
@@ -82,5 +94,3 @@ search=Suchen
 update=Aktualisieren
 submit=Absenden
 
-avatar.url=oder gib eine URL an
-post.voting=Bewertung: %s

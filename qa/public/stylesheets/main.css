@@ -110,6 +110,13 @@ html, body
 	float: right;
 }
 
+/** Language Drop Down **/
+#language 
+{
+	margin: 0px;
+	float: right;
+}
+
 
 /** Content **/
 

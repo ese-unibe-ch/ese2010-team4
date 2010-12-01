@@ -1,6 +1,8 @@
 # Messages (english)
 
 # General
+
+post.voting=Voting: %s
 author=Author
 content=Content
 title=Title
@@ -14,29 +16,41 @@ submitQ=Submit your question
 submitA=Submit your answer
 submitC=Submit your comment
 name=Common name
-email=Email
 password=Password
 username=Username
 fullname=Name
-birthday=Birthday
-age=Age
-website=Website
-work=Work
-about=About me
-programmingLanguages=Programming languages
+upload=Upload
+noAnswer=There are no Answers currently
+writtenBy=Written by %s
+changeLang=Change language
+chooseLanguage=Language
 isAdmin=User is admin
 dbTitle=All questions on A4Q
 view=View question
 nrAnswers=Number of Answers
 nrComments=Number of Comments
-uploadAvatar=Upload an Avatar
-upload=Upload
-noAnswer=There are no Answers currently
-followQuestion=you are following this questions
-followUser=you are following this users
-followNoQuestion=you don't follow a question
-followNoUser=you don't follow a user
-writtenBy=Written by %s
+
+myAnswer.answer=Answer to the question:
+
+# Following
+
+follow.Question=you are following this questions
+follow.User=you are following this users
+follow.NoQuestion=you don't follow a question
+follow.NoUser=you don't follow a user
+
+# Profile
+profile.email=Email
+profile.birthday=Birthday
+profile.age=Age
+profile.website=Website
+profile.work=Work
+profile.about=About me
+profile.programmingLanguages=Programming languages
+profile.uploadAvatar=Upload an Avatar
+profile.avatar.url=or enter an URL
+profile.hoh=Hall of Honor
+profile.repGraph=Reputation Graph
 
 # Secure messages
 secure.title=Log in
@@ -74,7 +88,6 @@ quote=Quote
 bestA=Best answer
 bestAText=This is the best answer.
 activities=Activities
-repGraph=Reputation Graph
 myQuestions=My questions
 myAnswers=My answers
 myFollows=My follows
@@ -82,5 +95,3 @@ search=Search
 update=Update
 submit=Submit
 
-avatar.url=or enter an URL
-post.voting=Voting: %s

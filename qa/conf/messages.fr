@@ -14,30 +14,42 @@ submitQ=Pose ta question
 submitA=Pose ta réponse
 submitC=Pose ta commentaire
 name=Nom
-email=Email
 password=Mot de passe
 username=Nom de client
 fullname=Nom
-birthday=Anniversaire
-age=Âge
-website=Site web
-work=Travail
-about=Sur moi
-programmingLanguages=Langages de programmation
 isAdmin=Etre administrateur
 dbTitle=Tous les questions à A4Q
 view=Avis de la question
 nrAnswers=les nombre des résponses
 nrComments=les nombre des commentaires
-uploadAvatar=Télécharger un avatar
 upload=Télécharger
 noAnswer=
-
-followQuestion=
-followUser=
-followNoQuestion=
-followNoUser=
 writtenBy=
+changeLang=
+chooseLanguage=Langage
+post.voting=
+
+myAnswer.answer=
+
+# Following
+
+follow.Question=
+follow.User=
+follow.NoQuestion=
+follow.NoUser=
+
+# Profile
+profile.email=Email
+profile.birthday=Anniversaire
+profile.age=Âge
+profile.website=Site web
+profile.work=Travail
+profile.about=Sur moi
+profile.programmingLanguages=Langages de programmation
+profile.uploadAvatar=Télécharger un avatar
+profile.avatar.url=ou déclarer une URL
+profile.hoh=
+profile.repGraph=Graphique de la réputation	
 
 # Secure messages
 secure.title=Se loguer
@@ -75,11 +87,8 @@ quote=Citer
 bestA=Meilleure réponse
 bestAText=C'est la meilleure réponse.
 activities=Activités
-repGraph=Graphique de la réputation	
 myQuestions=Mes questions
 myAnswers=Mes réponses
 myFollows=Je suis
 search=Chercher
 
-avatar.url=ou déclarer une URL
-post.voting=
