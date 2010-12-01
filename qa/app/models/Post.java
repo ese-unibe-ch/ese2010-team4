@@ -187,19 +187,14 @@ public abstract class Post extends Model {
 	public ArrayList<Post> getNotAnsweredSimilarPosts(int minimumtags, Set<Tag> tags, User user){
 		Set<Post> posts = this.getSimilarPosts(minimumtags, tags);
 		ArrayList<Post> removeposts = new ArrayList<Post>();
-		if(posts.size()>0){	
-			for(Post post: posts){
-				
-				
-				Answer answer = Answer.find("byQuestionAndAuthor", ((Question)post), user).first();
-				if(answer!=null){
-					posts.add(answer);
+		for(Post post: posts){
+			for(Answer answer: ((Question)post).answers){
+				if(answer.author.equals(user)){
+					removeposts.add(post);
 				}
-	
 			}
-		posts.removeAll(removeposts);
 		}
-	
+		posts.removeAll(removeposts);
 		return new ArrayList<Post>(posts);
 	}
 	
