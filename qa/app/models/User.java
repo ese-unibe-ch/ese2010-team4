@@ -215,7 +215,6 @@ public class User extends Model {
 	 */
 	public boolean hasTimeToChange(Long id) {
 		Question question = Question.findById(id);
-		// changes actual date to date in milisec
 		long milidate = new Date().getTime();
 
 		if (question.validity == 0 || milidate < question.validity) {
@@ -365,7 +364,6 @@ public class User extends Model {
 			String password, String password2) {
 
 		User newUser = new User(username, email, password).save();
-		// add the reputation
 		newUser.rating = new Reputation().save();
 		newUser.save();
 		String message = username + "<br> &{register.subtitle}";

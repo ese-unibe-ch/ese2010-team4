@@ -42,7 +42,6 @@ public class Badge extends Model implements Comparable<Badge>{
 			bronze = true;
 			silver = false;
 			kind = ("bronze");
-			System.out.println("Art des Badges: " + kind);
 		}
 		
 		if(rating>200){
