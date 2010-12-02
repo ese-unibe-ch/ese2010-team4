@@ -12,15 +12,15 @@ POST    /posts/{postId}/comments                Application.postComment
 
 POST	/user/uploadAvatar						Users.uploadAvatar
 
-GET     /user/?                                Users.index
-GET     /user/myquestions                      Users.myQuestions
-GET     /user/myanswers                        Users.myAnswers
-GET		/user/searchresults/{toSearch}		   Users.searchResults
-GET		/user/showprofile/{authorid}		   Users.showProfile
-*       /user                                  module:crud
+GET     /user/?                                	Users.index
+GET     /user/myquestions                      	Users.myQuestions
+GET     /user/myanswers                        	Users.myAnswers
+GET		/user/searchresults/{toSearch}		   	Users.searchResults
+GET		/user/showprofile/{authorid}		  	Users.showProfile
+*       /user                                  	module:crud
 GET    	/setlang/{langId}						Application.selectLanguage
 
-
+GET     /captcha                                Application.captcha
 
 # Administration
 POST  	/admin/importXML						Admin.importXML

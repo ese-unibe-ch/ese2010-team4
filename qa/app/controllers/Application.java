@@ -7,7 +7,10 @@ import models.Question;
 import models.Tag;
 import models.User;
 import models.helper.ValidationHelper;
+import play.cache.Cache;
 import play.data.validation.Required;
+import play.libs.Codec;
+import play.libs.Images;
 import play.mvc.Before;
 import play.mvc.Controller;
 
@@ -32,6 +35,7 @@ public class Application extends Controller {
 	 * Index.
 	 */
 	public static void index() {
+		String randomID = Codec.UUID();
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
@@ -39,7 +43,7 @@ public class Application extends Controller {
 		boolean isconnected = Secure.Security.isConnected();
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		render(lastActivity, questions, lastAnswer, isconnected, user);
+		render(lastActivity, questions, lastAnswer, isconnected, user, randomID);
 	}
 
 	/**
@@ -83,14 +87,27 @@ public class Application extends Controller {
 	 *            the password
 	 * @param password2
 	 *            the password2
+	 * @throws Throwable
 	 */
 	public static void addUser(@Required String newusername,
 			@Required String email, @Required String password,
-			@Required String password2) {
-		validation.isTrue(helper.ckeck(newusername, "Username"));
-		validation.isTrue(helper.ckeck(email, "Email"));
-		validation.equals(password, password2);
-		validation.isTrue(password.length() > 6);
+			@Required String password2, @Required String code, String randomID)
+			throws Throwable {
+
+		// They do not work imo
+		validation.isTrue(helper.ckeck(newusername, "Username")).message(
+				"Username already excists");
+
+		validation.isTrue(helper.ckeck(email, "Email")).message(
+				"Email not valid");
+		validation.equals(password, password2).message("Password not equals");
+		validation.isTrue(password.length() >= 6).message("Password to short");
+		validation.equals(code, Cache.get(randomID)).message(
+				"Invalid code. Please type it again");
+		if (validation.hasErrors()) {
+			flash.error(validation.errors().get(0).message());
+			Secure.redirectToOriginalURL();
+		}
 
 		String message = User.createUser(newusername, email, password,
 				password2);
@@ -114,6 +131,13 @@ public class Application extends Controller {
 	public static void userExists(String username) {
 		User user = User.find("byUsername", username).first();
 		renderJSON(user != null);
+	}
+
+	public static void captcha(String id) {
+		Images.Captcha captcha = Images.captcha();
+		String code = captcha.getText("#E4EAFD");
+		Cache.set(id, code, "10mn");
+		renderBinary(captcha);
 	}
 
 }

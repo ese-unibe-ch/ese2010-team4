@@ -23,6 +23,6 @@ public class ValidationHelper {
 	}
 
 	private boolean checkEmail(String data) {
-		return !data.matches("\\S+@(?:[A-Za-z0-9-]+\\.)+\\w{2,4}");
+		return data.matches("\\S+@(?:[A-Za-z0-9-]+\\.)+\\w{2,4}");
 	}
 }
