@@ -7,6 +7,7 @@ import java.util.List;
 import models.User;
 import play.Play;
 import play.data.validation.Required;
+import play.i18n.Lang;
 import play.libs.Crypto;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -46,17 +47,24 @@ public class Secure extends Controller {
 	public static void login(String message) throws Throwable {
 		Http.Cookie remember = request.cookies.get("rememberme");
 		if (remember != null && remember.value.indexOf("-") > 0) {
-			String sign = remember.value.substring(0,
-					remember.value.indexOf("-"));
+			String sign = remember.value.substring(0, remember.value
+					.indexOf("-"));
 			String username = remember.value.substring(remember.value
 					.indexOf("-") + 1);
 			if (Crypto.sign(username).equals(sign)) {
 				session.put("username", username);
+				changeLanguage();
 				redirectToOriginalURL();
 			}
 		}
 		flash.keep("url");
 		redirectToOriginalURL();
+	}
+
+	private static void changeLanguage() {
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		Lang.change(user.language);
 	}
 
 	public static void authenticate(@Required String username, String password,

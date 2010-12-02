@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
@@ -104,6 +103,8 @@ public class User extends Model {
 
 	public TreeSet<Tag> badgetags;
 
+	public String language = "en";
+
 	/**
 	 * Instantiates a new user.
 	 */
@@ -157,7 +158,6 @@ public class User extends Model {
 		return find("byUsernameAndPassword", username, password).first();
 	}
 
-
 	/**
 	 * (non-Javadoc)
 	 * 
@@ -189,7 +189,8 @@ public class User extends Model {
 	/**
 	 * checks whether the user can vote.
 	 * 
-	 * @param id the id
+	 * @param id
+	 *            the id
 	 * @return true if he is able to vote
 	 */
 	public boolean isAbleToVote(Long id) {
@@ -201,8 +202,9 @@ public class User extends Model {
 	/**
 	 * checks whether the user already likes the comment.
 	 * 
-	 * @param id   The ID of the comment.
-
+	 * @param id
+	 *            The ID of the comment.
+	 * 
 	 * @return true if he is able to like the comment
 	 */
 	public boolean alreadyLikesComment(Long id) {
@@ -215,9 +217,9 @@ public class User extends Model {
 	/**
 	 * Check if the validation time form a question is not over.
 	 * 
-	 * @param id the ID of the question to check.
+	 * @param id
+	 *            the ID of the question to check.
 	 * @return true if the user can change the question.
-
 	 */
 	public boolean hasTimeToChange(Long id) {
 		Question question = Question.findById(id);
@@ -563,7 +565,6 @@ public class User extends Model {
 	public List<ReputationPoint> getReputationPoints() {
 		return rating.totalRepPoint;
 	}
-
 
 	/**
 	 * Generates the graph data for the JSON output.

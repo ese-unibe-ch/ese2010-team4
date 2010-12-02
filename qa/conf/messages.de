@@ -1,11 +1,11 @@
 # Messages (Deutsch)
 
 # General
+
 author=Author
 content=Inhalt
 title=Titel
 timestamp=Geschrieben am
-question=Ähnliche Fragen
 yourQuestion=Deine Frage
 yourAnswer=Deine Antwort
 yourComment=Dein Kommentar
@@ -13,6 +13,7 @@ tags=Deine Tags, getrennt durch Kommas
 submitQ=Stelle deine Frage
 submitA=Antworten
 submitC=Kommentieren
+question=Frage
 name=Name
 password=Passwort
 username=Benutzername
@@ -27,9 +28,22 @@ noAnswer=Es gibt noch keine Antworten
 writtenBy=Geschrieben von %s
 changeLang=Sprache ändern
 chooseLanguage=Sprache
+
 post.voting=Bewertung: %s
+post.saveEdits=Editierung speichern
+post.delete=Post löschen
+
+voted=Vielen Dank für die Bewertung %s!
+newQuestionPosted=Vielen Dank für das Stellen dieser Frage %s!
+newAnswerPosted=Vielen Dank für das Beantworten dieser Frage %s!
 
 myAnswer.answer=Antwort zur Frage: 
+
+# Activity
+
+activity.newQuestion=Eine neue Frage wurde gestellt
+activity.newAnswer=Eine neue Antwort zu folgender Frage wurde geschrieben
+activity.newComment=Ein neuer Kommentar wurde in folgender Frage geschrieben
 
 # Following
 

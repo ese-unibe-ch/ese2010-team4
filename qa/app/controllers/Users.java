@@ -15,6 +15,8 @@ import models.Question;
 import models.Tag;
 import models.User;
 import play.data.validation.Required;
+import play.i18n.Lang;
+import play.i18n.Messages;
 import play.mvc.Before;
 import play.mvc.With;
 
@@ -156,7 +158,7 @@ public class Users extends CRUD {
 					"question" + question.id).substring(2);
 			question.save();
 		}
-		flash.success("Thanks for ask a new question %s!", author);
+		flash.success(Messages.get("newQuestionPosted", author));
 		Application.show(question.getId());
 	}
 
@@ -219,19 +221,19 @@ public class Users extends CRUD {
 	 */
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
-		//JW find solution against hard coding
+		// JW find solution against hard coding
 		int placeholder = 2;
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		Question question = Question.findById(questionId);
 		User user = User.find("byUsername", author).first();
 		Answer answer = new Answer(question, user, content).save();
-		ArrayList<Post> sameQuestions = question.getNotAnsweredSimilarPosts(placeholder, user.badgetags, user);
-		
+		ArrayList<Post> sameQuestions = question.getNotAnsweredSimilarPosts(
+				placeholder, user.badgetags, user);
+
 		boolean abletovote = user.isAbleToVote(questionId);
 		boolean hasTimeToChange = user.hasTimeToChange(questionId);
 		boolean isfollowing = user.isFollowing(question);
-		
-		
+
 		String test = content.replaceAll("[^a-zA-Z]", "");
 		if (test.isEmpty()) {
 			validation.keep();
@@ -249,8 +251,9 @@ public class Users extends CRUD {
 			answer.save();
 		}
 		question.addNewAnswer(answer).save();
-		flash.success("Thanks for writing the answer %s!", author);
-		render("Application/show.html", question, sameQuestions, lastActivity, abletovote, hasTimeToChange, isfollowing);
+		flash.success(Messages.get("newAnswerPosted", author));
+		render("Application/show.html", question, sameQuestions, lastActivity,
+				abletovote, hasTimeToChange, isfollowing);
 	}
 
 	/**
@@ -286,7 +289,7 @@ public class Users extends CRUD {
 		Question question = Question.findById(questionId);
 
 		question.vote(user, vote);
-		flash.success("Thanks for vote %s!", user.username);
+		flash.success(Messages.get("voted", user.username));
 
 		Application.show(questionId);
 
@@ -311,7 +314,7 @@ public class Users extends CRUD {
 
 		answer.vote(user, vote);
 
-		flash.success("Thanks for vote %s!", user.username);
+		flash.success(Messages.get("voted", user.username));
 		Application.show(questionId);
 
 	}
@@ -348,18 +351,20 @@ public class Users extends CRUD {
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Post> activities = user.activities();
 		int size = user.rating.totalRepPoint.size();
-		render("Users/myProfile.html", activities, user, size, lastActivity, badges);
+		render("Users/myProfile.html", activities, user, size, lastActivity,
+				badges);
 	}
 
 	public static void showProfile(Long authorid) throws IOException {
 		User userToShow = User.findById(authorid);
 		if (userToShow.equals(User.find("byUsername",
-			Secure.Security.connected()).first())) {
+				Secure.Security.connected()).first())) {
 			myProfile(authorid);
 		} else {
 			List<Post> activities = userToShow.activities();
 			Post lastActivity = Post.find("order by timestamp desc").first();
-			List<Badge> badges = Badge.find("byReputation", userToShow.rating).fetch();
+			List<Badge> badges = Badge.find("byReputation", userToShow.rating)
+					.fetch();
 			render(userToShow, activities, lastActivity, badges);
 		}
 	}
@@ -508,7 +513,7 @@ public class Users extends CRUD {
 	public static void searchResults(String toSearch) {
 		String searched = toSearch;
 		toSearch = toSearch.toLowerCase();
-		boolean found = false;	
+		boolean found = false;
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<User> users = User.find("byUsernameLike", "%" + toSearch + "%")
 				.fetch();
@@ -517,7 +522,7 @@ public class Users extends CRUD {
 		List<Post> poststitl = Post.find("byTitleLike", "%" + toSearch + "%")
 				.fetch();
 		List<Tag> tags = Tag.find("byNameLike", "%" + toSearch + "%").fetch();
-		
+
 		toSearch = searched;
 		if (users.size() == 0 && postscont.size() == 0 && poststitl.size() == 0
 				&& tags.isEmpty()) {
@@ -638,5 +643,23 @@ public class Users extends CRUD {
 
 		renderJSON(user.graphData());
 
+	}
+
+	public static void selectLanguage(@Required String langId) {
+		if (langId != null) {
+			User user = User.find("byUsername", Secure.Security.connected())
+					.first();
+			Lang.change(langId);
+			user.language = langId;
+			if (!Lang.get().equals(langId))
+				flash.error("Unknown language %s!", langId);
+		} else
+			flash.error("No language choosen");
+		try {
+			Secure.redirectToOriginalURL();
+		} catch (Throwable e) {
+			System.out.println("could not redirect back to original URL");
+			e.printStackTrace();
+		}
 	}
 }

@@ -2,12 +2,10 @@
 
 # General
 
-post.voting=Voting: %s
 author=Author
 content=Content
 title=Title
 timestamp=Posted at
-question=Related question
 yourQuestion=Your question
 yourAnswer=Your answer
 yourComment=Your Comment
@@ -15,6 +13,7 @@ tags=Your tags, separated by commas
 submitQ=Submit your question
 submitA=Submit your answer
 submitC=Submit your comment
+question=question
 name=Common name
 password=Password
 username=Username
@@ -30,7 +29,15 @@ view=View question
 nrAnswers=Number of Answers
 nrComments=Number of Comments
 
+voted=Thanks for the vote %s!
+newQuestionPosted=Thank you for asking a new question %s!
+newAnswerPosted=Thank you for answering this question %s!
+
 myAnswer.answer=Answer to the question:
+
+post.voting=Voting: %s
+post.saveEdits=save edits
+post.delete=delete post
 
 # Following
 
@@ -38,6 +45,12 @@ follow.Question=you are following this questions
 follow.User=you are following this users
 follow.NoQuestion=you don't follow a question
 follow.NoUser=you don't follow a user
+
+# Activity
+
+activity.newQuestion=A new question was asked
+activity.newAnswer=A new answer was added to the question
+activity.newComment=A new comment was added to the question
 
 # Profile
 profile.email=Email

@@ -13,25 +13,25 @@
 		</div>
 		<tr>
 		
-			<td><input type="submit" value="save edits"/></td>
+			<td><input type="submit" value="&{'post.saveEdits'}"/></td>
 		
 	#{/form}
 	
 			<td>
 				#{form @Users.deletePost(post.id)}
-					<input type="submit" value="delete post"/>
+					<input type="submit" value="&{'post.delete'}"/>
 				#{/form}
 			</td>
 
 			<td>
 				#{form @Users.previousEdition(post.id, editionIndex)}
-					<input type="submit" value="<<"/>
+					<input type="submit" value="&lt;&lt;"/>
 				#{/form}
 			</td>
 		
 			<td>
 				#{form @Users.nextEdition(post.id, editionIndex)}
-					<input type="submit" value=">>"/>
+					<input type="submit" value="&gt;&gt;"/>
 				#{/form}
 			</td>
 		</tr>

@@ -5,7 +5,6 @@ author=Auteur
 content=Contenu
 title=Title
 timestamp=Écrit le
-question=Questions similaires
 yourQuestion=Ta question
 yourAnswer=Ta réponse
 yourComment=Ta commentaire
@@ -13,6 +12,7 @@ tags=Vos tags, séparé avec virgules
 submitQ=Pose ta question
 submitA=Pose ta réponse
 submitC=Pose ta commentaire
+question=question
 name=Nom
 password=Mot de passe
 username=Nom de client
@@ -28,8 +28,20 @@ writtenBy=
 changeLang=
 chooseLanguage=Langage
 post.voting=
+post.saveEdits=
+post.delete=
+
+voted=
+newQuestionPosted=
+newAnswerPosted=
 
 myAnswer.answer=
+
+# Activity
+
+activity.newQuestion=
+activity.newAnswer=
+activity.newComment=
 
 # Following
 
