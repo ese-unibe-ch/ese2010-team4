@@ -42,6 +42,7 @@ public class XMLParser extends DefaultHandler {
 		parser.parse(inputSource, this);
 	}
 
+	@Override
 	public void startElement(String uri, String localName, String qname,
 			Attributes atts) {
 		buf.setLength(0);
@@ -66,6 +67,7 @@ public class XMLParser extends DefaultHandler {
 
 	}
 
+	@Override
 	public void endElement(String uri, String localName, String qname) {
 		if (qname.equals("user")) {
 			userCounter++;
@@ -147,9 +149,7 @@ public class XMLParser extends DefaultHandler {
 		}
 
 		if (qname.equals("QA")) {
-			System.out.println(userCounter + " users, " + questionCounter
-					+ " questions and " + answerCounter
-					+ " answers have been added");
+			System.out.println(info());
 		}
 	}
 
@@ -162,6 +162,7 @@ public class XMLParser extends DefaultHandler {
 		return report.toString();
 	}
 
+	@Override
 	public void characters(char[] chars, int start, int length) {
 		buf.append(chars, start, length);
 	}

@@ -222,17 +222,7 @@ public class Users extends CRUD {
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
 		// JW find solution against hard coding
-		int placeholder = 2;
-		Post lastActivity = Post.find("order by timestamp desc").first();
 		Question question = Question.findById(questionId);
-		User user = User.find("byUsername", author).first();
-		Answer answer = new Answer(question, user, content).save();
-		ArrayList<Post> sameQuestions = question.getNotAnsweredSimilarPosts(
-				placeholder, user.badgetags, user);
-
-		boolean abletovote = user.isAbleToVote(questionId);
-		boolean hasTimeToChange = user.hasTimeToChange(questionId);
-		boolean isfollowing = user.isFollowing(question);
 
 		String test = content.replaceAll("[^a-zA-Z]", "");
 		if (test.isEmpty()) {
@@ -244,6 +234,17 @@ public class Users extends CRUD {
 		if (validation.hasErrors()) {
 			render("Application/show.html", question);
 		}
+
+		int placeholder = 2;
+		Post lastActivity = Post.find("order by timestamp desc").first();
+		User user = User.find("byUsername", author).first();
+		Answer answer = new Answer(question, user, content).save();
+		ArrayList<Post> sameQuestions = question.getNotAnsweredSimilarPosts(
+				placeholder, user.badgetags, user);
+
+		boolean abletovote = user.isAbleToVote(questionId);
+		boolean hasTimeToChange = user.hasTimeToChange(questionId);
+		boolean isfollowing = user.isFollowing(question);
 
 		if (attachment != null) {
 			answer.attachmentPath = uploader.upload(attachment,
