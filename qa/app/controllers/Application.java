@@ -36,16 +36,17 @@ public class Application extends Controller {
 
 	@Before
 	static void getSameQuestions() {
-
-		Random rnd = new Random();
-		List<Question> questions = Question.find("order by voting desc")
-				.fetch();
-		int value = rnd.nextInt(questions.size());
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		List<Post> sameQuestions = questions.get(value)
-				.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags, user);
-		renderArgs.put("sameQuestions", sameQuestions);
+		if(user != null){
+			Random rnd = new Random();
+			List<Question> questions = Question.find("order by voting desc")
+					.fetch();
+			int value = rnd.nextInt(questions.size());
+			List<Post> sameQuestions = questions.get(value)
+					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags, user);
+			renderArgs.put("sameQuestions", sameQuestions);
+		}
 	}
 
 	/**
