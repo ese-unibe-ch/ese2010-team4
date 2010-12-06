@@ -1,6 +1,8 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import models.Post;
 import models.Question;
@@ -21,6 +23,7 @@ import play.mvc.Controller;
 public class Application extends Controller {
 
 	private static ValidationHelper helper = new ValidationHelper();
+	private final static int MINIMUM_TAGS = 1;
 
 	@Before
 	static void setConnectedUser() {
@@ -31,6 +34,20 @@ public class Application extends Controller {
 		}
 	}
 
+	@Before
+	static void getSameQuestions() {
+
+		Random rnd = new Random();
+		List<Question> questions = Question.find("order by voting desc")
+				.fetch();
+		int value = rnd.nextInt(questions.size());
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		List<Post> sameQuestions = questions.get(value)
+				.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags, user);
+		renderArgs.put("sameQuestions", sameQuestions);
+	}
+
 	/**
 	 * Index.
 	 */
@@ -39,10 +56,12 @@ public class Application extends Controller {
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
+
 		String lastAnswer = "";
 		boolean isconnected = Secure.Security.isConnected();
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
+
 		render(lastActivity, questions, lastAnswer, isconnected, user, randomID);
 	}
 
@@ -70,9 +89,12 @@ public class Application extends Controller {
 			abletovote = user.isAbleToVote(id);
 			hasTimeToChange = user.hasTimeToChange(id);
 			isfollowing = user.isFollowing(question);
+			ArrayList<Post> sameAnswerQuestions = question
+					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
+							user);
 
 			render(question, hasTimeToChange, abletovote, isfollowing,
-					lastActivity);
+					lastActivity, sameAnswerQuestions);
 		}
 	}
 

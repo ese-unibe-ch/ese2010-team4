@@ -40,15 +40,24 @@
 						</div>
 						#{/if}
 					</div>
-					
-					#{if sameQuestions}
-					<div id="proposals">
-						<h4>&{'proposals'}</h4>
-							#{list items:sameQuestions, as:'samequests'}
-								<p><a href="@{Application.show(samequests.id)}">${samequests.title}</a></p>
-							#{/list}	
-					</div>
+					#{if sameAnswerQuestions}
+						<div id="proposals">
+							<h4>&{'proposals'}</h4>
+								#{list items:sameAnswerQuestions, as:'samequests'}
+									<p><a href="@{Application.show(samequests.id)}">${samequests.title}</a></p>
+								#{/list}	
+						</div>
 					#{/if}
+					#{else}
+						#{if sameQuestions}
+						<div id="proposals">
+							<h4>&{'proposals'}</h4>
+								#{list items:sameQuestions, as:'samequests'}
+									<p><a href="@{Application.show(samequests.id)}">${samequests.title}</a></p>
+								#{/list}	
+						</div>
+						#{/if}
+					#{/else}
 				#{/if}
 	
 				#{ifnot user}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -27,6 +28,7 @@ import controllers.Secure;
 @Entity
 public abstract class Post extends Model {
 
+	private final int TOBIS_MOTHER = 3;
 	public Date timestamp;
 	public String fullname;
 	public int voting;
@@ -174,54 +176,94 @@ public abstract class Post extends Model {
 				.bind("tags", tags).fetch();
 		return hits;
 	}
-	
-	
+
 	/**
-	 * Gets the similar questions.
-	 *
-	 * @param minimumtags specifies the numbers of equal tags
-	 * @param all badgeTags form the user which wrote the answer
-	 * @param user the user which wrote the answer
-	 * @return the similar questions
+	 * Gets similar questions. For a specific number of tags.
+	 * 
+	 * @param minimumtags
+	 *            specifies the numbers of equal tags
+	 * @param all
+	 *            badgeTags form the user which wrote the answer
+	 * @param user
+	 *            the user which wrote the answer
+	 * @return the random number of similar questions
 	 */
-	public ArrayList<Post> getNotAnsweredSimilarPosts(int minimumtags, Set<Tag> tags, User user){
+	public ArrayList<Post> getNotAnsweredSimilarPosts(int minimumtags,
+			Set<Tag> tags, User user) {
+
 		Set<Post> posts = this.getSimilarPosts(minimumtags, tags);
 		ArrayList<Post> removeposts = new ArrayList<Post>();
-		for(Post post: posts){
-			for(Answer answer: ((Question)post).answers){
-				if(answer.author.equals(user)){
+		for (Post post : posts) {
+			for (Answer answer : ((Question) post).answers) {
+				if (answer.author.equals(user)) {
 					removeposts.add(post);
 				}
 			}
 		}
 		posts.removeAll(removeposts);
-		return new ArrayList<Post>(posts);
+		ArrayList<Integer> randoms = this.getRandom(posts.size(),
+				this.TOBIS_MOTHER, posts);
+
+		ArrayList<Post> oldposts = new ArrayList<Post>(posts);
+		ArrayList<Post> newposts = new ArrayList<Post>();
+
+		for (int i : randoms) {
+			newposts.add(oldposts.get(i));
+		}
+
+		return newposts;
 	}
-	
-	
+
+	/**
+	 * Gets the several random numbers in a array.
+	 * 
+	 * @param randscope
+	 *            the area of the random number
+	 * @param number
+	 *            how many numbers you wish
+	 * @param posts
+	 *            the posts
+	 * @return array of randoms
+	 */
+	private ArrayList<Integer> getRandom(int randscope, int number,
+			Set<Post> posts) {
+
+		Set<Integer> randnumb = new HashSet();
+		Random rand = new Random();
+
+		if (randscope < number) {
+			number = randscope;
+		}
+
+		while (randnumb.size() < number) {
+			randnumb.add(rand.nextInt(randscope));
+		}
+
+		return new ArrayList<Integer>(randnumb);
+	}
 
 	/**
 	 * @param specifies
 	 *            the numbers of equal tags (minimum)
 	 * @return all questions or answers with enough equal tags
 	 */
-	
+
 	public Set<Post> getSimilarPosts(int minimumtags, Set<Tag> tags) {
 		Set<Post> set = new HashSet<Post>();
 		for (Tag tag : tags) {
 			set.addAll(Question.findTaggedWith(tag.name));
 		}
 		List<Post> posts = new ArrayList<Post>();
-		for(Post post: set){
-			
+		for (Post post : set) {
+
 			int counter = 0;
-			for(Tag tag: tags){
-				
-				if(post.tags.contains(tag)){
+			for (Tag tag : tags) {
+
+				if (post.tags.contains(tag)) {
 					counter++;
 				}
 			}
-			if(counter<minimumtags){
+			if (counter < minimumtags) {
 				posts.add(post);
 			}
 		}

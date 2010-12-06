@@ -28,6 +28,7 @@ import play.mvc.With;
 public class Users extends CRUD {
 
 	private static Uploader uploader = new Uploader("qa/public/uploads/");
+	private final static int MINIMUM_TAGS = 1;
 
 	@Before
 	static void setConnectedUser() {
@@ -36,6 +37,11 @@ public class Users extends CRUD {
 					.first();
 			renderArgs.put("user", user);
 		}
+	}
+
+	@Before
+	static void getSameQuestions() {
+		Application.getSameQuestions();
 	}
 
 	/**
@@ -221,7 +227,7 @@ public class Users extends CRUD {
 	 */
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
-		// JW find solution against hard coding
+
 		Question question = Question.findById(questionId);
 
 		String test = content.replaceAll("[^a-zA-Z]", "");
@@ -235,12 +241,11 @@ public class Users extends CRUD {
 			render("Application/show.html", question);
 		}
 
-		int placeholder = 2;
 		Post lastActivity = Post.find("order by timestamp desc").first();
 		User user = User.find("byUsername", author).first();
 		Answer answer = new Answer(question, user, content).save();
-		ArrayList<Post> sameQuestions = question.getNotAnsweredSimilarPosts(
-				placeholder, user.badgetags, user);
+		ArrayList<Post> sameAnswerQuestions = question
+				.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags, user);
 
 		boolean abletovote = user.isAbleToVote(questionId);
 		boolean hasTimeToChange = user.hasTimeToChange(questionId);
@@ -253,8 +258,8 @@ public class Users extends CRUD {
 		}
 		question.addNewAnswer(answer).save();
 		flash.success(Messages.get("newAnswerPosted", author));
-		render("Application/show.html", question, sameQuestions, lastActivity,
-				abletovote, hasTimeToChange, isfollowing);
+		render("Application/show.html", question, sameAnswerQuestions,
+				lastActivity, abletovote, hasTimeToChange, isfollowing);
 	}
 
 	/**
