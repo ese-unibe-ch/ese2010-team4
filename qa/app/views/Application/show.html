@@ -37,6 +37,9 @@
 						#{if question.isOwnPost()}
 							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">&{'edit'}</a>
 						#{/if}
+						#{if !question.isOwnPost()}
+							<a class="button" href="@{Users.isSpam(question.id)}">&{'spam'}</a>
+						#{/if}
 						<a class="button" href="@{Users.quote(question.id)}">&{'quote'}</a>
 					#{/ifnot}
 				#{/secure.check}
@@ -149,7 +152,10 @@
 													<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 												#{/if}
 												#{if question.isOwnPost() && !answer.isBestAnswer}
-													<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">&{'bestA'}</a>
+													<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">&{'bestA'}</a>													
+												#{/if}
+												#{if !answer.isOwnPost()}
+													<a class="button" href="@{Users.isSpam(answer.id)}">&{'spam'}</a>
 												#{/if}
 												<a class="button" href="@{Users.quote(answer.id)}">&{'quote'}</a>
 											#{/if}
@@ -221,7 +227,7 @@
 </div>
 
 #{secure.check 'user'}
-	#{if hasTimeToChange}
+	#{if hasTimeToChange && !isSpam}
 		<div class="form" id="answerForm">
 			<form action="@{Users.answerQuestion(question.id)}" method="POST" enctype="multipart/form-data">
 				<table style="padding-left: 60px">

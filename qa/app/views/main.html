@@ -40,7 +40,7 @@
 						</div>
 						#{/if}
 					</div>
-					#{if sameAnswerQuestions}
+					#{if sameAnswerQuestions && !isSpam}
 						<div id="proposals">
 							<h4>&{'proposals'}</h4>
 								#{list items:sameAnswerQuestions, as:'samequests'}
@@ -58,6 +58,12 @@
 						</div>
 						#{/if}
 					#{/else}
+					#{if isSpam}
+						<div id="proposals">
+							<h1><blink>&{'spamer'}</blink></h1>
+						</div>
+					
+					#{/if}
 				#{/if}
 	
 				#{ifnot user}
@@ -127,7 +133,9 @@
 				<div id="menu">
 					<a class="button" href="@{Application.index()}">&{'home'}</a>
 					#{secure.check 'user'}
-						<a class="button" href="@{Users.index()}">&{'newQuestion'}</a>
+						#{if !isSpam}
+							<a class="button" href="@{Users.index()}">&{'newQuestion'}</a>
+						#{/if}
 					#{/secure.check}
 					
 					#{if get_permalink == questions}

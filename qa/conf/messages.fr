@@ -104,4 +104,5 @@ myAnswers=Mes réponses
 myFollows=Je suis
 search=Chercher
 proposals=Cette questions vous pouvez aussi réponse
-
+spamer=Spamer, tu est une piece de la merde! Allez a ta maison!
+spam=spam

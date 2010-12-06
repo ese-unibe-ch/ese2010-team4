@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import controllers.Secure.Security;
+
 import models.Answer;
 import models.Badge;
 import models.Comment;
@@ -666,6 +668,19 @@ public class Users extends CRUD {
 		} catch (Throwable e) {
 			System.out.println("could not redirect back to original URL");
 			e.printStackTrace();
+		}
+	}
+	
+	public static void isSpam(long id){
+		Post post = Post.findById(id);
+		User user = User.find("byUsername", Security.connected()).first();
+		post.author.spam(user);
+		post.author.save();
+		if(post instanceof Question){
+			Application.show(id);
+		}
+		else{
+			Application.show(((Answer)post).question.id);
 		}
 	}
 }

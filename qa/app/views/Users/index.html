@@ -2,6 +2,7 @@
 #{set title:'User administration' /}
 
 #{secure.check 'user'}
+
 <div class="form" id="questionForm">
 	<form action="@{Users.createQuestion()}" method="POST" enctype="multipart/form-data">
 		<table style="padding-left: 60px">
@@ -32,4 +33,5 @@
 	</table>
 	</form> 
 </div>
+
 #{/ secure.check}

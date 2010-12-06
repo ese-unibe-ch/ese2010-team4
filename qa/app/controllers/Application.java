@@ -36,9 +36,10 @@ public class Application extends Controller {
 
 	@Before
 	static void getSameQuestions() {
-		User user = User.find("byUsername", Secure.Security.connected())
+		
+		if(Secure.Security.isConnected()){	
+			User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		if(user != null){
 			Random rnd = new Random();
 			List<Question> questions = Question.find("order by voting desc")
 					.fetch();
@@ -46,6 +47,18 @@ public class Application extends Controller {
 			List<Post> sameQuestions = questions.get(value)
 					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags, user);
 			renderArgs.put("sameQuestions", sameQuestions);
+		}
+	}
+	
+	@Before
+	static void isSpam(){
+		
+		if(Secure.Security.isConnected()){
+						
+			User user = User.find("byUsername", Secure.Security.connected())
+			.first();
+			renderArgs.put("isSpam", user.isSpam());
+			
 		}
 	}
 

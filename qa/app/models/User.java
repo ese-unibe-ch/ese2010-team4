@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
@@ -25,6 +27,10 @@ import play.db.jpa.Model;
 @Entity
 public class User extends Model {
 
+	
+	private static final int SPAM_REPORT = 2;
+	public HashSet<User> spamreport;
+	
 	/** The counter. */
 	public int counter;
 
@@ -109,6 +115,7 @@ public class User extends Model {
 	 * Instantiates a new user.
 	 */
 	public User() {
+		this.spamreport = new HashSet<User>();
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
 		this.badgetags = new TreeSet<Tag>();
@@ -622,5 +629,13 @@ public class User extends Model {
 		quotedContent = "";
 		save();
 		return content;
+	}
+	
+	public void spam(User user){
+		this.spamreport.add(user);
+	}
+	
+	public boolean isSpam(){
+		return this.spamreport.size()>=SPAM_REPORT;
 	}
 }
