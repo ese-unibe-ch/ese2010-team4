@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
@@ -33,9 +34,6 @@ public class User extends Model {
 	private static final int POST_DELAY = 30000;
 
 	private static final int SEARCH_DELAY = 10000;
-
-	/** The spamreport. */
-	public HashSet<User> spamreport;
 
 	/** The postdate. */
 	public long postdate;
@@ -118,6 +116,11 @@ public class User extends Model {
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
 
+	/** The spamreport. */
+	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	public Set<Post> spamreport;
+
 	/** The badgetags. */
 	public TreeSet<Tag> badgetags;
 
@@ -128,7 +131,7 @@ public class User extends Model {
 	 * Instantiates a new user.
 	 */
 	public User() {
-		this.spamreport = new HashSet<User>();
+		this.spamreport = new HashSet<Post>();
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
 		this.badgetags = new TreeSet<Tag>();
@@ -153,6 +156,7 @@ public class User extends Model {
 	 *            the password
 	 */
 	public User(String username, String email, String password) {
+		this.spamreport = new HashSet<Post>();
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
 		this.badgetags = new TreeSet<Tag>();
@@ -658,11 +662,12 @@ public class User extends Model {
 	/**
 	 * Spam.
 	 * 
-	 * @param user
-	 *            the user
+	 * @param post
+	 *            spam post
 	 */
-	public void spam(User user) {
-		this.spamreport.add(user);
+	public void spam(Post post) {
+		this.spamreport.add(post);
+		this.save();
 	}
 
 	/**

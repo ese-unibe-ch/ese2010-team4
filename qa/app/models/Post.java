@@ -28,7 +28,9 @@ import controllers.Secure;
 @Entity
 public abstract class Post extends Model {
 
-	private final int TOBIS_MOTHER = 3;
+	private static final int SPAM_VALUE = 1;
+	private final int RAND_NUMBER = 3;
+	public HashSet<User> spamreport;
 	public Date timestamp;
 	public String fullname;
 	public int voting;
@@ -83,6 +85,7 @@ public abstract class Post extends Model {
 		this.timestamp = new Date();
 		this.voting = 0;
 		likers = new HashSet();
+		this.spamreport = new HashSet<User>();
 	}
 
 	/**
@@ -202,7 +205,7 @@ public abstract class Post extends Model {
 		}
 		posts.removeAll(removeposts);
 		ArrayList<Integer> randoms = this.getRandom(posts.size(),
-				this.TOBIS_MOTHER, posts);
+				this.RAND_NUMBER, posts);
 
 		ArrayList<Post> oldposts = new ArrayList<Post>(posts);
 		ArrayList<Post> newposts = new ArrayList<Post>();
@@ -363,6 +366,29 @@ public abstract class Post extends Model {
 	 */
 	public boolean userLikePost(User user) {
 		return likers.contains(user);
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param
+	 */
+	// JW javadoc
+	public void spam(User user) {
+		this.spamreport.add(user);
+		if (this.isSpam()) {
+			this.author.spam(this);
+		}
+		this.save();
+	}
+
+	/**
+	 * Checks if is spam.
+	 * 
+	 * @return true, if is spam
+	 */
+	public boolean isSpam() {
+		return this.spamreport.size() > SPAM_VALUE;
 	}
 
 }

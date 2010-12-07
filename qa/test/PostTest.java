@@ -73,4 +73,16 @@ public class PostTest extends UnitTest {
 		assertEquals(1, firstQuestion.numberOfLikers());
 	}
 
+	@Test
+	public void isSpam() {
+		firstQuestion.spam(hans);
+
+		assertFalse(firstQuestion.isSpam());
+		assertEquals(1, firstQuestion.spamreport.size());
+
+		firstQuestion.spam(sepp);
+		assertTrue(firstQuestion.isSpam());
+		assertEquals(2, firstQuestion.spamreport.size());
+	}
+
 }

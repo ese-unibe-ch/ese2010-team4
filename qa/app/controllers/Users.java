@@ -691,7 +691,7 @@ public class Users extends CRUD {
 	public static void isSpam(long id) {
 		Post post = Post.findById(id);
 		User user = User.find("byUsername", Security.connected()).first();
-		post.author.spam(user);
+		post.spam(user);
 		post.author.save();
 		if (post instanceof Question) {
 			Application.show(id);

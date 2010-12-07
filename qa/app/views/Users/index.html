@@ -32,7 +32,11 @@
         		<input type="submit" value="&{'submitQ'}" />
 			#{/if}
 			#{if !canPost}
+				
 				&{'wait'} ${user.timeToNextPost()} s
+				<script type="text/javascript">	
+					$('span.countdown').countdown({seconds: 30});
+				</script>
 			#{/if}
     	</p>
 	</table>
