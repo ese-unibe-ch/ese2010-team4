@@ -28,7 +28,12 @@
 		<p>
 			<input type="file" id="attachment" name="attachment" />
     	<p>
-        	<input type="submit" value="&{'submitQ'}" />
+    		#{if canPost}		
+        		<input type="submit" value="&{'submitQ'}" />
+			#{/if}
+			#{if !canPost}
+				&{'wait'} ${user.timeToNextPost()} s
+			#{/if}
     	</p>
 	</table>
 	</form> 

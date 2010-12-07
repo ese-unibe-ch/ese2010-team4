@@ -13,7 +13,7 @@ public class Comment extends Post {
 		super(author, content);
 		this.post = post;
 		post.addComment(this);
-		author.addComment(this);
+		author.addPost(this);
 	}
 
 	@Override

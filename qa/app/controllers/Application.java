@@ -36,30 +36,42 @@ public class Application extends Controller {
 
 	@Before
 	static void getSameQuestions() {
-		
-		if(Secure.Security.isConnected()){	
+
+		if (Secure.Security.isConnected()) {
 			User user = User.find("byUsername", Secure.Security.connected())
-				.first();
+					.first();
 			Random rnd = new Random();
 			List<Question> questions = Question.find("order by voting desc")
 					.fetch();
 			int value = rnd.nextInt(questions.size());
 			List<Post> sameQuestions = questions.get(value)
-					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags, user);
+					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
+							user);
 			renderArgs.put("sameQuestions", sameQuestions);
 		}
 	}
-	
+
 	@Before
-	static void isSpam(){
-		
-		if(Secure.Security.isConnected()){
-						
+	static void isSpam() {
+
+		if (Secure.Security.isConnected()) {
+
 			User user = User.find("byUsername", Secure.Security.connected())
-			.first();
+					.first();
 			renderArgs.put("isSpam", user.isSpam());
-			
+
 		}
+	}
+
+	@Before
+	static void canPost() {
+
+		if (Secure.Security.isConnected()) {
+			User user = User.find("byUsername", Secure.Security.connected())
+					.first();
+			renderArgs.put("canPost", user.canPost());
+		}
+
 	}
 
 	/**

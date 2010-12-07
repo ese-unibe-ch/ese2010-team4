@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
@@ -27,10 +26,22 @@ import play.db.jpa.Model;
 @Entity
 public class User extends Model {
 
-	
+	/** The Constant SPAM_REPORT. */
 	private static final int SPAM_REPORT = 2;
+
+	/** The Constant POST_DELAY. */
+	private static final int POST_DELAY = 30000;
+
+	private static final int SEARCH_DELAY = 10000;
+
+	/** The spamreport. */
 	public HashSet<User> spamreport;
-	
+
+	/** The postdate. */
+	public long postdate;
+
+	public long searchdate;
+
 	/** The counter. */
 	public int counter;
 
@@ -107,8 +118,10 @@ public class User extends Model {
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
 
+	/** The badgetags. */
 	public TreeSet<Tag> badgetags;
 
+	/** The language. */
 	public String language = "en";
 
 	/**
@@ -125,6 +138,8 @@ public class User extends Model {
 		this.followU = new ArrayList<User>();
 		this.counter = 0;
 		this.timestamp = new Date();
+		this.postdate = 0;
+		this.searchdate = 0;
 	}
 
 	/**
@@ -166,8 +181,9 @@ public class User extends Model {
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * (non-Javadoc).
 	 * 
+	 * @return the string
 	 * @see play.db.jpa.JPASupport#toString()
 	 */
 	public String toString() {
@@ -348,7 +364,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Calculates the age of the <code>User</code> in years
+	 * Calculates the age of the <code>User</code> in years.
 	 * 
 	 * @return age of the <code>User</code>
 	 */
@@ -464,10 +480,33 @@ public class User extends Model {
 	 *            the answer
 	 * @return the user
 	 */
-	public User addAnswer(Answer answer) {
-		posts.add(answer);
-		save();
+	// JW refactor this, there are 3 addPost methods
+	public User addPost(Post post) {
+		if (this.canPost()) {
+			this.postdate = new Date().getTime() + POST_DELAY;
+			posts.add(post);
+			save();
+		}
 		return this;
+	}
+
+	/**
+	 * Checks if an user is able to post.
+	 * 
+	 * @return true if the last post + delay is elder then the actual date.
+	 */
+	public boolean canPost() {
+		if (this.postdate < (new Date().getTime()))
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canSearch() {
+		if (this.searchdate < (new Date().getTime()))
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -481,23 +520,8 @@ public class User extends Model {
 	 */
 	public Question addQuestion(String title, String content) {
 		Question newQuestion = new Question(this, title, content).save();
-		posts.add(newQuestion);
-		save();
+		this.addPost(newQuestion);
 		return newQuestion;
-	}
-
-	/**
-	 * Adds the comment.
-	 * 
-	 * @param comment
-	 *            the comment
-	 * @return the user
-	 */
-	public User addComment(Comment comment) {
-		posts.add(comment);
-		save();
-		return this;
-
 	}
 
 	/**
@@ -630,12 +654,61 @@ public class User extends Model {
 		save();
 		return content;
 	}
-	
-	public void spam(User user){
+
+	/**
+	 * Spam.
+	 * 
+	 * @param user
+	 *            the user
+	 */
+	public void spam(User user) {
 		this.spamreport.add(user);
 	}
-	
-	public boolean isSpam(){
-		return this.spamreport.size()>=SPAM_REPORT;
+
+	/**
+	 * Checks if is spam.
+	 * 
+	 * @return true, if is spam
+	 */
+	public boolean isSpam() {
+		return this.spamreport.size() >= SPAM_REPORT;
+	}
+
+	/**
+	 * Sets the up post time.
+	 * 
+	 * @param value
+	 *            the new up post time
+	 */
+	@ForTestingOnly
+	public void setUpPostTime(long value) {
+		this.postdate += value;
+		this.save();
+	}
+
+	/**
+	 * Sets the up search time.
+	 */
+	public void setUpSearchTime() {
+		this.searchdate = new Date().getTime() + this.SEARCH_DELAY;
+		this.save();
+	}
+
+	/**
+	 * Shows how long a user have to wait until he can post a new post.
+	 * 
+	 * @return time in seconds
+	 */
+	public int timeToNextSearch() {
+		return ((int) ((this.searchdate) - (new Date().getTime())) / 1000);
+	}
+
+	/**
+	 * Shows how long a user have to wait until he can starts a new search.
+	 * 
+	 * @return time in seconds
+	 */
+	public int timeToNextPost() {
+		return ((int) ((this.postdate) - (new Date().getTime())) / 1000);
 	}
 }

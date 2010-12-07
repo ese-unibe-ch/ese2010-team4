@@ -23,7 +23,7 @@ public class Answer extends Post {
 		this.question = question;
 		// DR this is to freaky slow part....
 		question.addNewAnswer(this);
-		author.addAnswer(this);
+		author.addPost(this);
 	}
 
 	@Override
@@ -42,10 +42,9 @@ public class Answer extends Post {
 	public Post vote(User user, boolean result) {
 		Vote vote = new Vote(user, this, result).save();
 		votes.add(vote);
-		
 
-		if (result) {			
-			author.rating.voteUPAnswer(this);			
+		if (result) {
+			author.rating.voteUPAnswer(this);
 			author.rating.save();
 			author.save();
 		} else {
@@ -59,7 +58,6 @@ public class Answer extends Post {
 		voting();
 		save();
 
-		
 		return this;
 	}
 }

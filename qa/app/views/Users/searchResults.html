@@ -3,9 +3,9 @@
 
 #{secure.check 'user'}
 <div class="question">
-	
-	<h4>you are looking for ${toSearch}</h4>
-	
+	#{if canSearch}
+		<h4>you are looking for ${toSearch}</h4>
+	#{/if}
 	<div class="answers">
         #{if found}
         	#{if !users.isEmpty()}
@@ -43,9 +43,12 @@
 			#{/if}
         #{/if}
         
-        #{if !found}
+        #{if !found && canSearch}
         	${message}
         #{/if}
+		#{if !canSearch}
+			<h4>&{'wait'} ${timeToNextSearch} s</h4>
+		#{/if}
     </div>
 </div>
 #{/ secure.check}

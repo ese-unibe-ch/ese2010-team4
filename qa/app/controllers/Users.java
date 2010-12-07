@@ -7,8 +7,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import controllers.Secure.Security;
-
 import models.Answer;
 import models.Badge;
 import models.Comment;
@@ -21,6 +19,7 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 import play.mvc.Before;
 import play.mvc.With;
+import controllers.Secure.Security;
 
 /**
  * A controller for the administration.
@@ -44,6 +43,13 @@ public class Users extends CRUD {
 	@Before
 	static void getSameQuestions() {
 		Application.getSameQuestions();
+	}
+
+	@Before
+	static void canPost() {
+
+		Application.canPost();
+
 	}
 
 	/**
@@ -517,32 +523,43 @@ public class Users extends CRUD {
 		render(post);
 	}
 
-	// JW: trivial user search
+	// JW: refactor
 	public static void searchResults(String toSearch) {
 		String searched = toSearch;
 		toSearch = toSearch.toLowerCase();
-		boolean found = false;
-		Post lastActivity = Post.find("order by timestamp desc").first();
-		List<User> users = User.find("byUsernameLike", "%" + toSearch + "%")
-				.fetch();
-		List<Post> postscont = Post.find("byContentLike", "%" + toSearch + "%")
-				.fetch();
-		List<Post> poststitl = Post.find("byTitleLike", "%" + toSearch + "%")
-				.fetch();
-		List<Tag> tags = Tag.find("byNameLike", "%" + toSearch + "%").fetch();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		boolean canSearch = user.canSearch();
 
-		toSearch = searched;
-		if (users.size() == 0 && postscont.size() == 0 && poststitl.size() == 0
-				&& tags.isEmpty()) {
-			String message = "no user found";
-			render(users, message, found, lastActivity, toSearch);
-		}
+		if (user.canSearch()) {
+			user.setUpSearchTime();
+			boolean found = false;
+			Post lastActivity = Post.find("order by timestamp desc").first();
+			List<User> users = User
+					.find("byUsernameLike", "%" + toSearch + "%").fetch();
+			List<Post> postscont = Post.find("byContentLike",
+					"%" + toSearch + "%").fetch();
+			List<Post> poststitl = Post.find("byTitleLike",
+					"%" + toSearch + "%").fetch();
+			List<Tag> tags = Tag.find("byNameLike", "%" + toSearch + "%")
+					.fetch();
 
-		else {
-			found = true;
-			render(users, postscont, poststitl, tags, found, lastActivity,
-					toSearch);
+			toSearch = searched;
+			if (users.size() == 0 && postscont.size() == 0
+					&& poststitl.size() == 0 && tags.isEmpty()) {
+				String message = "no user found";
+				render(users, message, found, lastActivity, toSearch, canSearch);
+			}
+
+			else {
+				found = true;
+				render(users, postscont, poststitl, tags, found, lastActivity,
+						toSearch, canSearch);
+			}
 		}
+		int timeToNextSearch = user.timeToNextSearch();
+		render(canSearch, timeToNextSearch);
+
 	}
 
 	public static void myFollows() {
@@ -670,17 +687,16 @@ public class Users extends CRUD {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void isSpam(long id){
+
+	public static void isSpam(long id) {
 		Post post = Post.findById(id);
 		User user = User.find("byUsername", Security.connected()).first();
 		post.author.spam(user);
 		post.author.save();
-		if(post instanceof Question){
+		if (post instanceof Question) {
 			Application.show(id);
-		}
-		else{
-			Application.show(((Answer)post).question.id);
+		} else {
+			Application.show(((Answer) post).question.id);
 		}
 	}
 }

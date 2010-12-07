@@ -106,3 +106,4 @@ search=Chercher
 proposals=Cette questions vous pouvez aussi réponse
 spamer=Spamer, tu est une piece de la merde! Allez a ta maison!
 spam=spam
+wait=e temps d'attente jusqu'à ce que la prochaine action:
