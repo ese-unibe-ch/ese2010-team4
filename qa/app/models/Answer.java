@@ -10,7 +10,7 @@ import play.data.validation.Required;
  * 
  */
 @Entity
-public class Answer extends Post {
+public class Answer extends VotablePost {
 
 	@Required
 	@ManyToOne
@@ -21,7 +21,6 @@ public class Answer extends Post {
 	public Answer(Question question, User author, String content) {
 		super(author, content);
 		this.question = question;
-		// DR this is to freaky slow part....
 		question.addNewAnswer(this);
 		author.addPost(this);
 	}

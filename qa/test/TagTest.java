@@ -1,5 +1,5 @@
 import models.Answer;
-import models.Post;
+import models.VotablePost;
 import models.Question;
 import models.Tag;
 import models.User;
@@ -51,9 +51,9 @@ public class TagTest extends UnitTest {
 		assertEquals("Yellow", yellow.name);
 		assertEquals(3, Tag.count());
 
-		assertEquals(1, Post.findTaggedWith("Red").size());
-		assertEquals(1, Post.findTaggedWith("Blue").size());
-		assertEquals(0, Post.findTaggedWith("Green").size());
+		assertEquals(1, VotablePost.findTaggedWith("Red").size());
+		assertEquals(1, VotablePost.findTaggedWith("Blue").size());
+		assertEquals(0, VotablePost.findTaggedWith("Green").size());
 		assertEquals(0, yellow.compareTo(yellowCopy));
 		assertTrue(0 < yellow.compareTo(red));
 

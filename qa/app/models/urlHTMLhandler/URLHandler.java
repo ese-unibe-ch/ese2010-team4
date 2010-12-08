@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import models.ForTestingOnly;
+import models.annotations.ForTestingOnly;
 
 /**
  * Finds ALL URLs in a given String and replace them either with a short form or

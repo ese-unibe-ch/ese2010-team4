@@ -16,6 +16,10 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import models.annotations.ForTestingOnly;
+import models.helper.DateFormatter;
+import models.helper.PostActivityComperator;
+
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -71,9 +75,6 @@ public class User extends Model {
 	@Required
 	public String avatarPath = "/public/uploads/standardAvatar.png";
 
-	/** The Constant DATE_FORMAT_de. */
-	public static final String DATE_FORMAT_de = "dd-MM-yyyy";
-
 	/** The last log off. */
 	public Date lastLogOff;
 
@@ -128,24 +129,6 @@ public class User extends Model {
 
 	/**
 	 * Instantiates a new user.
-	 */
-	public User() {
-		this.spamreport = new HashSet<Post>();
-		this.votes = new ArrayList<Vote>();
-		this.posts = new ArrayList<Post>();
-		this.badgetags = new TreeSet<Tag>();
-		this.isAdmin = false;
-		lastLogOff = new Date(System.currentTimeMillis());
-		this.followQ = new ArrayList<Question>();
-		this.followU = new ArrayList<User>();
-		this.counter = 0;
-		this.timestamp = new Date();
-		this.postdate = 0;
-		this.searchdate = 0;
-	}
-
-	/**
-	 * Instantiates a new user.
 	 * 
 	 * @param username
 	 *            the username
@@ -168,6 +151,29 @@ public class User extends Model {
 		this.followU = new ArrayList<User>();
 		this.counter = 0;
 		this.timestamp = new Date();
+	}
+	
+	/**
+	 * Creates a new user if all requirements are met.
+	 * 
+	 * @param username
+	 *            the username
+	 * @param email
+	 *            the email
+	 * @param password
+	 *            the password
+	 * @param password2
+	 *            the validation password
+	 * @return the message
+	 */
+	public static String createUser(String username, String email,
+			String password, String password2) {
+
+		User newUser = new User(username, email, password).save();
+		newUser.rating = new Reputation().save();
+		newUser.save();
+		String message = username + "<br> &{register.subtitle}";
+		return message;
 	}
 
 	/**
@@ -202,13 +208,10 @@ public class User extends Model {
 	 */
 
 	public boolean isAbleToChoose(Long id) {
-
 		Question question = Question.findById(id);
-
 		if (question.author.email.equals(this.email)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -221,7 +224,6 @@ public class User extends Model {
 	 */
 	public boolean isAbleToVote(Long id) {
 		Question question = Question.findById(id);
-
 		return (!question.hasVoted(this) && !question.isOwnPost(this));
 	}
 
@@ -235,9 +237,7 @@ public class User extends Model {
 	 */
 	public boolean alreadyLikesComment(Long id) {
 		Comment comment = Comment.findById(id);
-
 		return comment.userLikePost(this);
-
 	}
 
 	/**
@@ -281,7 +281,6 @@ public class User extends Model {
 				}
 			}
 		}
-
 		if (bestAnswer != null) {
 			question.answers.remove(bestAnswer);
 			question.answers.add(0, bestAnswer);
@@ -291,7 +290,6 @@ public class User extends Model {
 			save();
 		}
 	}
-
 	/**
 	 * Calculates the age of the <code>User</code> in years.
 	 * 
@@ -307,48 +305,12 @@ public class User extends Model {
 	}
 
 	/**
-	 * Turns the Date object d into a String using the format given in the
-	 * constant DATE_FORMAT_de.
-	 * 
-	 * @param d
-	 *            the d
-	 * @return the string
-	 */
-	private String dateToString(Date d) {
-		if (d != null) {
-			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
-			return fmt.format(d);
-		} else {
-			return "dd-mm-yyyy";
-		}
-	}
-
-	/**
-	 * Turns the String object s into a Date assuming the format given in the
-	 * constant DATE_FORMAT_de.
-	 * 
-	 * @param s
-	 *            the s
-	 * @return the date
-	 * @throws ParseException
-	 *             the parse exception
-	 */
-	private Date stringToDate(String s) throws ParseException {
-		if (s != null) {
-			SimpleDateFormat fmt = new SimpleDateFormat(DATE_FORMAT_de);
-			return fmt.parse(s);
-		} else {
-			return null;
-		}
-	}
-
-	/**
 	 * Gets the birthday.
 	 * 
 	 * @return the birthday
 	 */
 	public String getBirthday() {
-		return dateToString(birthday);
+		return DateFormatter.dateToString(birthday);
 	}
 
 	/**
@@ -359,10 +321,10 @@ public class User extends Model {
 	 */
 	public void setBirthday(String birthday) {
 		try {
-			this.birthday = stringToDate(birthday);
+			this.birthday = DateFormatter.stringToDate(birthday);
 		} catch (ParseException e) {
 			System.out
-					.println("Sorry wrong Date_Format it's " + DATE_FORMAT_de);
+					.println("Sorry wrong Date_Format it's " + DateFormatter.DATE_FORMAT_de);
 		}
 	}
 
@@ -379,29 +341,6 @@ public class User extends Model {
 		} else {
 			return 0;
 		}
-	}
-
-	/**
-	 * Creates a new user if all requirements are met.
-	 * 
-	 * @param username
-	 *            the username
-	 * @param email
-	 *            the email
-	 * @param password
-	 *            the password
-	 * @param password2
-	 *            the validation password
-	 * @return the message
-	 */
-	public static String createUser(String username, String email,
-			String password, String password2) {
-
-		User newUser = new User(username, email, password).save();
-		newUser.rating = new Reputation().save();
-		newUser.save();
-		String message = username + "<br> &{register.subtitle}";
-		return message;
 	}
 
 	/**
@@ -423,7 +362,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Delete follow q.
+	 * Delete follow question
 	 * 
 	 * @param question
 	 *            the question
@@ -435,7 +374,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Delete follow u.
+	 * Delete follow user
 	 * 
 	 * @param user
 	 *            the user
@@ -483,7 +422,7 @@ public class User extends Model {
 	 *            the answer
 	 * @return the user
 	 */
-	public User addPost(Post post) {
+	public User addPost(VotablePost post) {
 		if (this.canPost()) {
 			this.postdate = new Date().getTime() + POST_DELAY;
 			posts.add(post);
@@ -527,30 +466,12 @@ public class User extends Model {
 	}
 
 	/**
-	 * Count questions.
-	 * 
-	 * @return the int
-	 */
-	public int countQuestions() {
-		return Question.find("byAuthor", this).fetch().size();
-	}
-
-	/**
-	 * Count answers.
-	 * 
-	 * @return the int
-	 */
-	public int countAnswers() {
-		return Answer.find("byAuthor", this).fetch().size();
-	}
-
-	/**
 	 * Activities.
 	 * 
 	 * @return the list
 	 */
-	public List<Post> activities() {
-		return Post.find("author like ? order by timestamp desc", this).fetch();
+	public List<VotablePost> activities() {
+		return VotablePost.find("author like ? order by timestamp desc", this).fetch();
 	}
 
 	/**
@@ -560,21 +481,21 @@ public class User extends Model {
 	 *            the number
 	 * @return the list
 	 */
-	public List<Post> followAcitvities(int number) {
-		List<Post> activities = new ArrayList<Post>();
+	public List<VotablePost> followAcitvities(int number) {
+		List<VotablePost> activities = new ArrayList<VotablePost>();
 
 		for (User user : this.followU) {
-			List<Post> postList = Post.find(
+			List<VotablePost> postList = VotablePost.find(
 					"author like ? order by timestamp desc", user).fetch();
-			for (Post post : postList) {
+			for (VotablePost post : postList) {
 				activities.add(post);
 			}
 		}
 
 		for (Question question : this.followQ) {
-			List<Post> postList = Post.find(
+			List<VotablePost> postList = VotablePost.find(
 					"post like ? order by timestamp desc", question).fetch();
-			for (Post post : postList) {
+			for (VotablePost post : postList) {
 				activities.add(post);
 			}
 		}
@@ -662,7 +583,7 @@ public class User extends Model {
 	 *            spam post
 	 */
 	public void spam(Post post) {
-		this.spamreport.add(post);
+		this.spamreport.add((VotablePost) post);
 		this.save();
 	}
 

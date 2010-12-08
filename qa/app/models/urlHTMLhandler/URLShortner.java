@@ -1,6 +1,6 @@
 package models.urlHTMLhandler;
 
-import models.ForTestingOnly;
+import models.annotations.ForTestingOnly;
 
 /**
  * Shortens a URL if it's lenght is greater than <code>maxURLLenght</code>

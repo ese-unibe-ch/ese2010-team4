@@ -10,10 +10,11 @@ import java.util.List;
 import models.Answer;
 import models.Badge;
 import models.Comment;
-import models.Post;
+import models.VotablePost;
 import models.Question;
 import models.Tag;
 import models.User;
+import models.Post;
 import play.data.validation.Required;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -65,7 +66,7 @@ public class Users extends CRUD {
 	 * Index.
 	 */
 	public static void index() {
-		Post lastActivity = Post.find("order by timestamp desc").first();
+		Post lastActivity = VotablePost.find("order by timestamp desc").first();
 		render(lastActivity);
 	}
 
@@ -89,7 +90,7 @@ public class Users extends CRUD {
 	 */
 	public static void showEdit(Long questionId, int editionIndex) {
 
-		Post post = Post.findById(questionId);
+		VotablePost post = VotablePost.findById(questionId);
 		User user = post.author;
 
 		if (editionIndex < 0) {
@@ -195,8 +196,8 @@ public class Users extends CRUD {
 	 */
 	public static void writeComment(Long id, Long questionid) {
 
-		Post post = Post.find("byId", id).first();
-		Post lastActivity = Post.find("order by timestamp desc").first();
+		Post post = VotablePost.find("byId", id).first();
+		Post lastActivity = VotablePost.find("order by timestamp desc").first();
 
 		render(post, questionid, lastActivity);
 	}
@@ -225,7 +226,7 @@ public class Users extends CRUD {
 
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		Post post = Post.find("byId", postid).first();
+		VotablePost post = VotablePost.find("byId", postid).first();
 
 		new Comment(user, post, content).save();
 
@@ -258,10 +259,10 @@ public class Users extends CRUD {
 			render("Application/show.html", question);
 		}
 
-		Post lastActivity = Post.find("order by timestamp desc").first();
+		Post lastActivity = VotablePost.find("order by timestamp desc").first();
 		User user = User.find("byUsername", author).first();
 		Answer answer = new Answer(question, user, content).save();
-		ArrayList<Post> sameAnswerQuestions = question
+		ArrayList<VotablePost> sameAnswerQuestions = question
 				.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags, user);
 
 		boolean abletovote = user.isAbleToVote(questionId);
@@ -286,7 +287,7 @@ public class Users extends CRUD {
 	 *            the post id
 	 */
 	public static void quote(Long postId) {
-		Post post = Post.findById(postId);
+		VotablePost post = VotablePost.findById(postId);
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
 		user.quoteContent(post.content, post.author.email);
@@ -343,7 +344,7 @@ public class Users extends CRUD {
 	}
 	
 	public static void vote(long id, boolean vote){
-		Post post = Post.findById(id);
+		Post post = VotablePost.findById(id);
 		User user = User.find("byUsername", Secure.Security.connected())
 		.first();
 		
@@ -382,8 +383,8 @@ public class Users extends CRUD {
 		User user = User.findById(userid);
 		List<Badge> badges = Badge.find("byReputation", user.rating).fetch();
 		System.out.println(badges.size());
-		Post lastActivity = Post.find("order by timestamp desc").first();
-		List<Post> activities = user.activities();
+		Post lastActivity = VotablePost.find("order by timestamp desc").first();
+		List<VotablePost> activities = user.activities();
 		int size = user.rating.totalRepPoint.size();
 		render("Users/myProfile.html", activities, user, size, lastActivity,
 				badges);
@@ -395,8 +396,8 @@ public class Users extends CRUD {
 				Secure.Security.connected()).first())) {
 			myProfile(authorid);
 		} else {
-			List<Post> activities = userToShow.activities();
-			Post lastActivity = Post.find("order by timestamp desc").first();
+			List<VotablePost> activities = userToShow.activities();
+			Post lastActivity = VotablePost.find("order by timestamp desc").first();
 			List<Badge> badges = Badge.find("byReputation", userToShow.rating)
 					.fetch();
 			render(userToShow, activities, lastActivity, badges);
@@ -412,7 +413,7 @@ public class Users extends CRUD {
 	 *            the content
 	 */
 	public static void editPost(Long id, @Required String content) {
-		Post post = Post.findById(id);
+		VotablePost post = VotablePost.findById(id);
 
 		if (post instanceof Question) {
 			post.addHistory(post, ((Question) post).title, content);
@@ -443,7 +444,7 @@ public class Users extends CRUD {
 	 *            the id
 	 */
 	public static void deletePost(Long id) {
-		Post post = Post.findById(id);
+		Post post = VotablePost.findById(id);
 		post.delete();
 		if (post instanceof models.Question) {
 			Users.myQuestions();
@@ -477,7 +478,7 @@ public class Users extends CRUD {
 	 *            the index
 	 */
 	public static void nextEdition(Long id, int index) {
-		Post post = Post.findById(id);
+		VotablePost post = VotablePost.findById(id);
 		if (index < post.historys.size() - 1) {
 			index++;
 		}
@@ -537,7 +538,7 @@ public class Users extends CRUD {
 	public static void recentPosts() {
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		Post post = Post.find("byAutor", user).first();
+		Post post = VotablePost.find("byAutor", user).first();
 		render(post);
 	}
 
@@ -552,12 +553,12 @@ public class Users extends CRUD {
 		if (user.canSearch()) {
 			user.setUpSearchTime();
 			boolean found = false;
-			Post lastActivity = Post.find("order by timestamp desc").first();
+			Post lastActivity = VotablePost.find("order by timestamp desc").first();
 			List<User> users = User
 					.find("byUsernameLike", "%" + toSearch + "%").fetch();
-			List<Post> postscont = Post.find("byContentLike",
+			List<VotablePost> postscont = VotablePost.find("byContentLike",
 					"%" + toSearch + "%").fetch();
-			List<Post> poststitl = Post.find("byTitleLike",
+			List<VotablePost> poststitl = VotablePost.find("byTitleLike",
 					"%" + toSearch + "%").fetch();
 			List<Tag> tags = Tag.find("byNameLike", "%" + toSearch + "%")
 					.fetch();
@@ -584,12 +585,12 @@ public class Users extends CRUD {
 
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		Post lastActivity = Post.find("order by timestamp desc").first();
+		Post lastActivity = VotablePost.find("order by timestamp desc").first();
 		user.removeNull();
 		user.save();
 
 		List<Question> followQ = user.followQ;
-		List<Post> activities = user.followAcitvities(10);
+		List<VotablePost> activities = user.followAcitvities(10);
 		Long userId = user.id;
 		List<User> followU = user.followU;
 
@@ -599,7 +600,7 @@ public class Users extends CRUD {
 	public static void followQuestion(Long id) {
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		Question question = Post.findById(id);
+		Question question = VotablePost.findById(id);
 		if (!user.followQ.contains(question)) {
 			user.followQ.add(question);
 			user.save();
@@ -707,7 +708,7 @@ public class Users extends CRUD {
 	}
 
 	public static void isSpam(long id) {
-		Post post = Post.findById(id);
+		VotablePost post = VotablePost.findById(id);
 		User user = User.find("byUsername", Security.connected()).first();
 		post.spam(user);
 		post.author.save();

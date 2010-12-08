@@ -18,37 +18,40 @@ public class PostTest extends UnitTest {
 	Comment firstComment;
 
 	@Before
-	public void setup() throws Exception {
+	public void setup() {
 		Fixtures.deleteAll();
-		hans = new User("Muster Hans", "hans@gmail.com", "keyword").save();
-		sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
+		User.createUser("Muster Hans", "hans@gmail.com", "keyword","");
+		User.createUser("Sepp", "sepp@sepp.ch", "hallo","");
+		hans = User.find("byUsername", "Muster Hans").first();
+		sepp = User.find("byUsername", "Sepp").first();
 		firstQuestion = new Question(hans, "brightliy?",
 				"What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
+		firstComment = new Comment(hans, firstQuestion, "bla").save();
 	}
 
 	@Test
 	public void AddUserToLikers() {
-		assertTrue(firstAnswer.likers.isEmpty());
-		firstAnswer.addLiker(hans);
-		assertEquals(hans, firstAnswer.likers.toArray()[0]);
+		assertTrue(firstComment.likers.isEmpty());
+		firstComment.addLiker(hans);
+		assertEquals(hans, firstComment.likers.toArray()[0]);
 	}
 
 	@Test
 	public void RemoveUserFromLikers() {
-		firstAnswer.addLiker(hans);
-		assertEquals(1, firstAnswer.likers.size());
-		firstAnswer.removeLiker(hans);
-		assertTrue(firstAnswer.likers.isEmpty());
+		firstComment.addLiker(hans);
+		assertEquals(1, firstComment.likers.size());
+		firstComment.removeLiker(hans);
+		assertTrue(firstComment.likers.isEmpty());
 	}
 
 	@Test
 	public void ClearLikersList() {
-		firstAnswer.addLiker(hans);
-		firstAnswer.addLiker(sepp);
-		assertTrue(firstAnswer.likers.size() > 0);
-		firstAnswer.likers.clear();
-		assertTrue(firstAnswer.likers.isEmpty());
+		firstComment.addLiker(hans);
+		firstComment.addLiker(sepp);
+		assertTrue(firstComment.likers.size() > 0);
+		firstComment.likers.clear();
+		assertTrue(firstComment.likers.isEmpty());
 	}
 
 	@Test
@@ -60,17 +63,10 @@ public class PostTest extends UnitTest {
 	}
 
 	@Test
-	public void CountLikersInAnswers() {
-		assertEquals(0, firstAnswer.numberOfLikers());
-		firstAnswer.addLiker(hans);
-		assertEquals(1, firstAnswer.numberOfLikers());
-	}
-
-	@Test
-	public void CountLikersInQuestions() {
-		assertEquals(0, firstQuestion.numberOfLikers());
-		firstQuestion.addLiker(hans);
-		assertEquals(1, firstQuestion.numberOfLikers());
+	public void CountLikers() {
+		assertEquals(0, firstComment.numberOfLikers());
+		firstComment.addLiker(hans);
+		assertEquals(1, firstComment.numberOfLikers());
 	}
 
 	@Test
