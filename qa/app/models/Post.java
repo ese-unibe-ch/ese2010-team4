@@ -160,6 +160,7 @@ public abstract class Post extends Model {
 
 	public Post tagItWith(String name) {
 		if (!(name.equals("") || name.isEmpty() || name.equals(null))) {
+			name = name.trim();
 			tags.add(Tag.findOrCreateByName(name));
 		}
 		return this;
@@ -370,7 +371,8 @@ public abstract class Post extends Model {
 	/**
 	 * Reports this post as spam
 	 * 
-	 * @param user which has reported
+	 * @param user
+	 *            which has reported
 	 */
 	public void spam(User user) {
 		this.spamreport.add(user);
@@ -388,11 +390,14 @@ public abstract class Post extends Model {
 	public boolean isSpam() {
 		return (this.spamreport.size() >= SPAM_VALUE);
 	}
+
 	/**
 	 * Vote a Post up or Down
 	 * 
-	 * @param user the user which has voted
-	 * @param result down is false up is true
+	 * @param user
+	 *            the user which has voted
+	 * @param result
+	 *            down is false up is true
 	 * @return the voted Post
 	 */
 	public Post vote(User user, boolean result) {
