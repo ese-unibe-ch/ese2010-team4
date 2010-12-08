@@ -251,7 +251,7 @@ public class User extends Model {
 		Question question = Question.findById(id);
 		long milidate = new Date().getTime();
 
-		if (question.validity == 0 || milidate < question.validity) {
+		if (question.getValidity() == 0 || milidate < question.getValidity()) {
 			return true;
 		} else {
 			bestAnswer(question);

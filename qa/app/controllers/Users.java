@@ -341,6 +341,17 @@ public class Users extends CRUD {
 		Application.show(questionId);
 
 	}
+	
+	public static void vote(long id, boolean vote){
+		Post post = Post.findById(id);
+		User user = User.find("byUsername", Secure.Security.connected())
+		.first();
+		
+		if(post instanceof Answer){
+			
+		}
+		
+	}
 
 	/**
 	 * Likes/Unlikes a comment.

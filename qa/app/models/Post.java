@@ -28,7 +28,7 @@ import controllers.Secure;
 @Entity
 public abstract class Post extends Model {
 
-	private static final int SPAM_VALUE = 1;
+	private static final int SPAM_VALUE = 2;
 	private final int RAND_NUMBER = 3;
 	public HashSet<User> spamreport;
 	public Date timestamp;
@@ -72,7 +72,6 @@ public abstract class Post extends Model {
 	 * @param result
 	 * @return the voted post
 	 */
-	public abstract Post vote(User user, boolean result);
 
 	public Post(User author, String content) {
 
@@ -388,6 +387,36 @@ public abstract class Post extends Model {
 	 */
 	public boolean isSpam() {
 		return (this.spamreport.size() >= SPAM_VALUE);
+	}
+	/**
+	 * Vote a Post up or Down
+	 * 
+	 * @param user the user which has voted
+	 * @param result down is false up is true
+	 * @return the voted Post
+	 */
+	public Post vote(User user, boolean result) {
+		Vote vote = new Vote(user, this, result).save();
+		this.votes.add(vote);
+
+		if (result) {
+			this.author.rating.voteUP(this);
+			this.author.rating.save();
+			this.author.save();
+		}
+
+		else {
+
+			this.author.rating.voteDown(this);
+			this.author.rating.save();
+			this.author.save();
+			user.rating.penalty();
+			user.rating.save();
+			user.save();
+		}
+		this.voting();
+		this.save();
+		return this;
 	}
 
 }

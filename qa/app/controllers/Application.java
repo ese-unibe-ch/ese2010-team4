@@ -114,7 +114,6 @@ public class Application extends Controller {
 			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
 			abletovote = user.isAbleToVote(id);
-			System.out.println("Frage datum und hatbesteAntwort"+question.validity +" " +question.hasBestAnswer);
 			hasTimeToChange = user.hasTimeToChange(id);
 			System.out.println("wert: "+hasTimeToChange);
 			isfollowing = user.isFollowing(question);

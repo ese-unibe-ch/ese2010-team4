@@ -90,30 +90,6 @@ public class Question extends Post {
 		return this;
 	}
 
-	public Post vote(User user, boolean result) {
-		Vote vote = new Vote(user, this, result).save();
-		this.votes.add(vote);
-
-		if (result) {
-			this.author.rating.votedUPQuestion();
-			this.author.rating.save();
-			this.author.save();
-		}
-
-		else {
-
-			this.author.rating.voteDown(this);
-			this.author.rating.save();
-			this.author.save();
-			user.rating.penalty();
-			user.rating.save();
-			user.save();
-		}
-		this.voting();
-		this.save();
-		return this;
-	}
-
 	public Question bestAnswer(Answer answer) {
 
 		// necessary if user change his mind
@@ -126,10 +102,8 @@ public class Question extends Post {
 	}
 
 	public Question hasNotBestAnswer() {
-		long bisnull = 0;
 		this.hasBestAnswer = false;
 		this.validity = 0;
-		System.out.println("es muess 0 si" +validity);
 		this.save();
 		return this;
 	}

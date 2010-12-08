@@ -7,6 +7,8 @@ import models.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import controllers.Users;
+
 import play.test.Fixtures;
 import play.test.UnitTest;
 
@@ -70,6 +72,18 @@ public class QuestionTest extends UnitTest {
 		assertEquals(true, firstQuestion.answers.get(1).isBestAnswer);
 		
 		assertEquals(true, firstQuestion.hasChosen());
+	}
+	
+	@Test
+	public void resetBestAnswer(){
+		firstQuestion.addAnswer(sepp, "it's the moon");
+		Answer secondAnswer = Answer.find("byContent", "it's the moon").first();
+		
+		firstQuestion.bestAnswer(secondAnswer);
+		firstQuestion.save();
+		firstQuestion.hasNotBestAnswer();
+		firstQuestion.save();
+		assertEquals(0, firstQuestion.getValidity());
 	}
 	
 
