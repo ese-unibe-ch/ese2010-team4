@@ -110,6 +110,7 @@ submit=Submit
 proposals=You may wan't answer to these questions
 spamer=You are a fucking spamer! Go home!
 spam=spam
-wait=wait time to until the next action:
+waitsearch=wait time for the next search:
+waitpost=wait time for the next post:
 notbestA=not best answer
 

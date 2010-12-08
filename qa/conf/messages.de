@@ -110,5 +110,6 @@ submit=Absenden
 proposals=Diese Fragen kannst Du vielleicht auch noch beantworten
 spamer=Du bist ein scheiss Spamer! Geh nach Hause!
 spam=Spam
-wait=Wartezeit bis zur nächsten Aktion:
+waitsearch=Wartezeit bis zur nächsten Suche:
+waitpost=Wartezeit bis zum nächsten Post:
 notbestA=nicht beste Antwort

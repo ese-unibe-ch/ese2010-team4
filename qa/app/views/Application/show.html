@@ -152,7 +152,7 @@
 													#{if answer.isOwnPost()}
 														<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 													#{/if}
-													#{if question.isOwnPost() && !answer.isBestAnswer}
+													#{if question.isOwnPost() && !answer.isBestAnswer && !answer.isOwnPost()}
 														<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">&{'bestA'}</a>													
 													#{/if}
 													#{if !answer.isOwnPost()}
