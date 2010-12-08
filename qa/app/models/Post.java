@@ -1,9 +1,11 @@
 package models;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -174,8 +176,7 @@ public abstract class Post extends Model {
 	public static List<Post> findTaggedWith(String... tags) {
 		List<Post> hits = new ArrayList<Post>();
 		hits = Question
-				.find(
-						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
+				.find("select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
 		return hits;
 	}
@@ -316,10 +317,21 @@ public abstract class Post extends Model {
 			return (Question) ((Comment) this).post;
 	}
 
-	@SuppressWarnings("deprecation")
 	public String getDate() {
-		return this.timestamp.toLocaleString();
-
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		DateFormat formater;
+		if (user.language.equalsIgnoreCase("fr")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.FRANCE);
+		} else if (user.language.equalsIgnoreCase("de")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.GERMAN);
+		} else {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.ENGLISH);
+		}
+		return formater.format(timestamp);
 	}
 
 	/**

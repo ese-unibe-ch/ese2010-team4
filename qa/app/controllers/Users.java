@@ -55,9 +55,9 @@ public class Users extends CRUD {
 		}
 
 	}
-	
+
 	@Before
-	static void spam(){
+	static void spam() {
 		Application.spam();
 	}
 
@@ -340,16 +340,16 @@ public class Users extends CRUD {
 		Application.show(questionId);
 
 	}
-	
-	public static void vote(long id, boolean vote){
+
+	public static void vote(long id, boolean vote) {
 		Post post = Post.findById(id);
 		User user = User.find("byUsername", Secure.Security.connected())
-		.first();
-		
-		if(post instanceof Answer){
-			
+				.first();
+
+		if (post instanceof Answer) {
+
 		}
-		
+
 	}
 
 	/**
@@ -693,6 +693,7 @@ public class Users extends CRUD {
 					.first();
 			Lang.change(langId);
 			user.language = langId;
+			user.save();
 			if (!Lang.get().equals(langId))
 				flash.error("Unknown language %s!", langId);
 		} else
@@ -716,17 +717,20 @@ public class Users extends CRUD {
 			Application.show(((Answer) post).question.id);
 		}
 	}
+
 	/**
 	 * Change the answer to not best answer, if it was an best answer.
-	 * @param id of the answer
+	 * 
+	 * @param id
+	 *            of the answer
 	 */
-	public static void notBestAnswer(long id){
+	public static void notBestAnswer(long id) {
 		Question question = Question.findById(id);
 		question.setAllAnswersFalse();
 		question.hasNotBestAnswer();
 		question.save();
-		System.out.println("validität: "+question.getValidity());
+		System.out.println("validität: " + question.getValidity());
 		Application.show(id);
-		
+
 	}
 }
