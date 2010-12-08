@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -22,6 +21,7 @@ import models.urlHTMLhandler.URLHandler;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import play.i18n.Lang;
 import controllers.Secure;
 
 /**
@@ -318,19 +318,8 @@ public abstract class Post extends Model {
 	}
 
 	public String getDate() {
-		User user = User.find("byUsername", Secure.Security.connected())
-				.first();
-		DateFormat formater;
-		if (user.language.equalsIgnoreCase("fr")) {
-			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-					DateFormat.MEDIUM, Locale.FRANCE);
-		} else if (user.language.equalsIgnoreCase("de")) {
-			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-					DateFormat.MEDIUM, Locale.GERMAN);
-		} else {
-			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-					DateFormat.MEDIUM, Locale.ENGLISH);
-		}
+		DateFormat formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+				DateFormat.MEDIUM, Lang.getLocale());
 		return formater.format(timestamp);
 	}
 
