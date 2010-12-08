@@ -152,16 +152,18 @@
 							<input type="submit" value="&{'search'}" />
 						#{/form}
 					</div>
-					<div id="language">
-						<form action="@{Users.selectLanguage()}" method="POST" >
-							<select name=langId onchange="this.form.submit();">
-								<option>&{'chooseLanguage'}</option>
-								<option value="en">English</option>
-								<option value="de">German</option>
-								<option value="fr">French</option>	
-							</select><noscript><INPUT type="submit" value="Go" name="&{'changeLang'}"></noscript>
-						</form>
-					</div>
+					#{secure.check 'user'}
+						<div id="language">
+							<form action="@{Users.selectLanguage()}" method="POST" >
+								<select name=langId onchange="this.form.submit();">
+									<option>&{'chooseLanguage'}</option>
+									<option value="en">English</option>
+									<option value="de">German</option>
+									<option value="fr">French</option>	
+								</select><noscript><INPUT type="submit" value="Go" name="&{'changeLang'}"></noscript>
+							</form>
+						</div>
+					#{/secure.check}
 				</div>
 	
 				<div id="content">

@@ -1,9 +1,11 @@
 package models;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -173,8 +175,7 @@ public abstract class Post extends Model {
 	public static List<Post> findTaggedWith(String... tags) {
 		List<Post> hits = new ArrayList<Post>();
 		hits = Question
-				.find(
-						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
+				.find("select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
 		return hits;
 	}
@@ -315,10 +316,16 @@ public abstract class Post extends Model {
 			return (Question) ((Comment) this).post;
 	}
 
-	@SuppressWarnings("deprecation")
 	public String getDate() {
-		return this.timestamp.toLocaleString();
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		DateFormat formater;
+		if (user.language.equalsIgnoreCase("fr")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.FRANCE);
+		}
 
+		return formater.format(timestamp);
 	}
 
 	/**
@@ -370,7 +377,8 @@ public abstract class Post extends Model {
 	/**
 	 * Reports this post as spam
 	 * 
-	 * @param user which has reported
+	 * @param user
+	 *            which has reported
 	 */
 	public void spam(User user) {
 		this.spamreport.add(user);
@@ -388,11 +396,14 @@ public abstract class Post extends Model {
 	public boolean isSpam() {
 		return (this.spamreport.size() >= SPAM_VALUE);
 	}
+
 	/**
 	 * Vote a Post up or Down
 	 * 
-	 * @param user the user which has voted
-	 * @param result down is false up is true
+	 * @param user
+	 *            the user which has voted
+	 * @param result
+	 *            down is false up is true
 	 * @return the voted Post
 	 */
 	public Post vote(User user, boolean result) {
