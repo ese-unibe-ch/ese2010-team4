@@ -48,8 +48,17 @@ public class Users extends CRUD {
 	@Before
 	static void canPost() {
 
-		Application.canPost();
+		if (Secure.Security.isConnected()) {
+			User user = User.find("byUsername", Secure.Security.connected())
+					.first();
+			renderArgs.put("canPost", user.canPost());
+		}
 
+	}
+	
+	@Before
+	static void spam(){
+		Application.spam();
 	}
 
 	/**
@@ -472,8 +481,6 @@ public class Users extends CRUD {
 	 */
 	public static void chooseBestAnswer(Long answerid) {
 
-		// delay in milisec
-
 		Answer answer = Answer.findById(answerid);
 		Question question = answer.question;
 		question.bestAnswer(answer);
@@ -698,5 +705,18 @@ public class Users extends CRUD {
 		} else {
 			Application.show(((Answer) post).question.id);
 		}
+	}
+	/**
+	 * Change the answer to not best answer, if it was an best answer.
+	 * @param id of the answer
+	 */
+	public static void notBestAnswer(long id){
+		Question question = Question.findById(id);
+		question.setAllAnswersFalse();
+		question.hasNotBestAnswer();
+		question.save();
+		System.out.println("validität: "+question.getValidity());
+		Application.show(id);
+		
 	}
 }

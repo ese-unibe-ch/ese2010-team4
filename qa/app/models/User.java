@@ -117,9 +117,8 @@ public class User extends Model {
 	public List<Post> posts;
 
 	/** The spamreport. */
-	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
-			CascadeType.REMOVE, CascadeType.REFRESH })
-	public Set<Post> spamreport;
+
+	public HashSet<Post> spamreport;
 
 	/** The badgetags. */
 	public TreeSet<Tag> badgetags;
@@ -484,7 +483,6 @@ public class User extends Model {
 	 *            the answer
 	 * @return the user
 	 */
-	// JW refactor this, there are 3 addPost methods
 	public User addPost(Post post) {
 		if (this.canPost()) {
 			this.postdate = new Date().getTime() + POST_DELAY;
@@ -640,9 +638,7 @@ public class User extends Model {
 	 *            the quoted
 	 */
 	public void quoteContent(String content, String quoted) {
-		// Deleting first <p> and last </p>
-		// String qContent = content.substring(3, content.lastIndexOf("</p>") -
-		// 1);
+
 		quotedContent = "" + "\n\n\n\n\n<br>" + "Quoted: " + quoted
 				+ "<blockquote>" + content + "</blockquote>";
 	}
@@ -676,7 +672,7 @@ public class User extends Model {
 	 * @return true, if is spam
 	 */
 	public boolean isSpam() {
-		return this.spamreport.size() >= SPAM_REPORT;
+		return (this.spamreport.size() >= SPAM_REPORT);
 	}
 
 	/**

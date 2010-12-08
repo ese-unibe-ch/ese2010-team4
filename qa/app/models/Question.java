@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * A question with content, timestamp, owner and voting.
@@ -15,7 +16,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Question extends Post {
-
+	public static final int DELAY = 10000;
 	public long validity;
 	public String title;
 	public boolean hasBestAnswer;
@@ -115,13 +116,26 @@ public class Question extends Post {
 
 	public Question bestAnswer(Answer answer) {
 
-		long delay = 10000;
 		// necessary if user change his mind
 		this.setAllAnswersFalse();
 		answer.isBestAnswer = true;
 		answer.save();
-		this.setValidity(delay);
+		this.setValidity(DELAY);
 		this.save();
 		return this;
 	}
+
+	public Question hasNotBestAnswer() {
+		long bisnull = 0;
+		this.hasBestAnswer = false;
+		this.validity = 0;
+		System.out.println("es muess 0 si" +validity);
+		this.save();
+		return this;
+	}
+
+	public long getValidity() {
+		return this.validity;
+	}
+
 }

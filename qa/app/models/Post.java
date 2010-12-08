@@ -369,11 +369,10 @@ public abstract class Post extends Model {
 	}
 
 	/**
+	 * Reports this post as spam
 	 * 
-	 * 
-	 * @param
+	 * @param user which has reported
 	 */
-	// JW javadoc
 	public void spam(User user) {
 		this.spamreport.add(user);
 		if (this.isSpam()) {
@@ -388,7 +387,7 @@ public abstract class Post extends Model {
 	 * @return true, if is spam
 	 */
 	public boolean isSpam() {
-		return this.spamreport.size() > SPAM_VALUE;
+		return (this.spamreport.size() >= SPAM_VALUE);
 	}
 
 }

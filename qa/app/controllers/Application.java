@@ -52,13 +52,14 @@ public class Application extends Controller {
 	}
 
 	@Before
-	static void isSpam() {
+	static void spam() {
 
 		if (Secure.Security.isConnected()) {
 
 			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
-			renderArgs.put("isSpam", user.isSpam());
+			boolean isSpam = user.isSpam();
+			renderArgs.put("isSpam", isSpam);
 
 		}
 	}
@@ -113,7 +114,9 @@ public class Application extends Controller {
 			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
 			abletovote = user.isAbleToVote(id);
+			System.out.println("Frage datum und hatbesteAntwort"+question.validity +" " +question.hasBestAnswer);
 			hasTimeToChange = user.hasTimeToChange(id);
+			System.out.println("wert: "+hasTimeToChange);
 			isfollowing = user.isFollowing(question);
 			ArrayList<Post> sameAnswerQuestions = question
 					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
