@@ -162,6 +162,7 @@ public abstract class Post extends Model {
 
 	public Post tagItWith(String name) {
 		if (!(name.equals("") || name.isEmpty() || name.equals(null))) {
+			name = name.trim();
 			tags.add(Tag.findOrCreateByName(name));
 		}
 		return this;
