@@ -3,6 +3,15 @@
 #{script 'userprofile.js' /}
 
 #{secure.check 'user'}
+
+<div id="tabMenu">
+	<a class="button" id="tab" href="#userInfo">&{'profile.userInfo'}</a>
+	<a class="button" id="tab" href="#userAvatar">&{'profile.userAvatar'}</a>
+	<a class="button" id="tab" href="#userActivities">&{'profile.userActivities'}</a>
+	<a class="button" id="tab" href="#userBadges">&{'profile.userBadges'}</a>
+</div>
+
+<span id="userInfo"></span>
 <div class="form" id="userForm">
 #{form @Users.changeProfile()}
 	<label for="author">&{'username'}: </label>
@@ -77,6 +86,7 @@
 
 <hr>
 
+<span id="userAvatar"></span>
 <div id="userProfile">
 	<label> &{'profile.uploadAvatar'}:
 	<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
@@ -102,7 +112,7 @@
 
 <hr>
 
-
+<span id="userActivities"></span>
 <div id="userProfile">
 
 	<h3>&{'activities'}</h3>
@@ -127,6 +137,7 @@
 	</div>
 </div>
 
+<span id="userBadges"></span>
 <div id="userProfile">
 	
 	<h3>&{'profile.hoh'}</h3>

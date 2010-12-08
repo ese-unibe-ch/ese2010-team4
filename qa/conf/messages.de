@@ -64,6 +64,11 @@ profile.uploadAvatar=Avatar heraufladen
 profile.avatar.url=oder gib eine URL an
 profile.hoh=Ruhmeshalle
 profile.repGraph=Reputations Grafik
+profile.userInfo=Info
+profile.userAvatar=Avatar
+profile.userActivities=Aktivitäten
+profile.userBadges=Auszeichnungen
+
 
 # Secure messages
 secure.title=Einloggen

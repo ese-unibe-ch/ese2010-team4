@@ -64,6 +64,10 @@ profile.uploadAvatar=Upload an Avatar
 profile.avatar.url=or enter an URL
 profile.hoh=Hall of Honor
 profile.repGraph=Reputation Graph
+profile.userInfo=Info
+profile.userAvatar=Avatar
+profile.userActivities=Activities
+profile.userBadges=Badges
 
 # Secure messages
 secure.title=Log in
