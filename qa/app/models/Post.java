@@ -324,8 +324,13 @@ public abstract class Post extends Model {
 		if (user.language.equalsIgnoreCase("fr")) {
 			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
 					DateFormat.MEDIUM, Locale.FRANCE);
+		} else if (user.language.equalsIgnoreCase("de")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.GERMAN);
+		} else {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.ENGLISH);
 		}
-
 		return formater.format(timestamp);
 	}
 

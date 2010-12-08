@@ -694,6 +694,7 @@ public class Users extends CRUD {
 					.first();
 			Lang.change(langId);
 			user.language = langId;
+			user.save();
 			if (!Lang.get().equals(langId))
 				flash.error("Unknown language %s!", langId);
 		} else
