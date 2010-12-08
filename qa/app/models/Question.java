@@ -11,13 +11,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
- * A question with content, timestamp, owner and voting.
+ * A question with content, timestamp, ownertests and voting.
  * 
  */
 @Entity
 public class Question extends Post {
 	public static final int DELAY = 10000;
-	public long validity;
+	private long validity;
 	public String title;
 	public boolean hasBestAnswer;
 

@@ -275,8 +275,7 @@ public class Users extends CRUD {
 		}
 		question.addNewAnswer(answer).save();
 		flash.success(Messages.get("newAnswerPosted", author));
-		render("Application/show.html", question, sameAnswerQuestions,
-				lastActivity, abletovote, hasTimeToChange, isfollowing);
+		Application.show(questionId);
 	}
 
 	/**
