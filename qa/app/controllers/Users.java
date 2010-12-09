@@ -48,8 +48,17 @@ public class Users extends CRUD {
 	@Before
 	static void canPost() {
 
-		Application.canPost();
+		if (Secure.Security.isConnected()) {
+			User user = User.find("byUsername", Secure.Security.connected())
+					.first();
+			renderArgs.put("canPost", user.canPost());
+		}
 
+	}
+
+	@Before
+	static void spam() {
+		Application.spam();
 	}
 
 	/**
@@ -266,8 +275,7 @@ public class Users extends CRUD {
 		}
 		question.addNewAnswer(answer).save();
 		flash.success(Messages.get("newAnswerPosted", author));
-		render("Application/show.html", question, sameAnswerQuestions,
-				lastActivity, abletovote, hasTimeToChange, isfollowing);
+		Application.show(questionId);
 	}
 
 	/**
@@ -330,6 +338,17 @@ public class Users extends CRUD {
 
 		flash.success(Messages.get("voted", user.username));
 		Application.show(questionId);
+
+	}
+
+	public static void vote(long id, boolean vote) {
+		Post post = Post.findById(id);
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+
+		if (post instanceof Answer) {
+
+		}
 
 	}
 
@@ -471,8 +490,6 @@ public class Users extends CRUD {
 	 *            the answerid
 	 */
 	public static void chooseBestAnswer(Long answerid) {
-
-		// delay in milisec
 
 		Answer answer = Answer.findById(answerid);
 		Question question = answer.question;
@@ -676,15 +693,17 @@ public class Users extends CRUD {
 					.first();
 			Lang.change(langId);
 			user.language = langId;
-			if (!Lang.get().equals(langId))
+			user.save();
+			if (!Lang.get().equals(langId)) {
 				flash.error("Unknown language %s!", langId);
-		} else
+			}
+			try {
+				myProfile(user.id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
 			flash.error("No language choosen");
-		try {
-			Secure.redirectToOriginalURL();
-		} catch (Throwable e) {
-			System.out.println("could not redirect back to original URL");
-			e.printStackTrace();
 		}
 	}
 
@@ -698,5 +717,21 @@ public class Users extends CRUD {
 		} else {
 			Application.show(((Answer) post).question.id);
 		}
+	}
+
+	/**
+	 * Change the answer to not best answer, if it was an best answer.
+	 * 
+	 * @param id
+	 *            of the answer
+	 */
+	public static void notBestAnswer(long id) {
+		Question question = Question.findById(id);
+		question.setAllAnswersFalse();
+		question.hasNotBestAnswer();
+		question.save();
+		System.out.println("validität: " + question.getValidity());
+		Application.show(id);
+
 	}
 }

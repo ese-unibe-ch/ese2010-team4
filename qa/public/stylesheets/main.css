@@ -116,17 +116,9 @@ html, body
 /** Search **/
 #search 
 {
-	margin: 0px;
+	margin: 0;
 	float: right;
 }
-
-/** Language Drop Down **/
-#language 
-{
-	margin: 0px;
-	float: right;
-}
-
 
 /** Content **/
 
@@ -327,6 +319,11 @@ pre
     -moz-border-radius: 16px;
 }
 
+.answer .spam
+{
+	background: #808080;
+}
+
 .answer .content 
 {
 	background: #FFF;
@@ -456,7 +453,7 @@ pre
 #tabMenu 
 {
     padding: 20px;
-    margin: 0;
+    margin: 0px 0px 20px 0px;
     background: #69F;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
@@ -471,7 +468,14 @@ pre
 	border: 1px;
 	border-style: solid;
 	border-color: #000000;
-}	
+}
+
+/** Language Drop Down **/
+#language 
+{
+	margin: 0 10px;
+	float: right;
+}
 
 /** Follows **/
 .follows 
@@ -484,10 +488,6 @@ pre
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 	
-}
-
-.activity {
-		
 }
 
 /** Formulars **/

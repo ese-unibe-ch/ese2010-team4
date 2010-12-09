@@ -47,8 +47,8 @@ public class Secure extends Controller {
 	public static void login(String message) throws Throwable {
 		Http.Cookie remember = request.cookies.get("rememberme");
 		if (remember != null && remember.value.indexOf("-") > 0) {
-			String sign = remember.value.substring(0, remember.value
-					.indexOf("-"));
+			String sign = remember.value.substring(0,
+					remember.value.indexOf("-"));
 			String username = remember.value.substring(remember.value
 					.indexOf("-") + 1);
 			if (Crypto.sign(username).equals(sign)) {
@@ -144,7 +144,13 @@ public class Secure extends Controller {
 		 * @return true if the authentication process succeeded
 		 */
 		static boolean authenticate(String username, String password) {
-			return User.login(username, password) != null;
+			User user = User.login(username, password);
+			if (user != null) {
+				Lang.change(user.language);
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		/**

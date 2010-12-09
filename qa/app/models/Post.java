@@ -1,9 +1,11 @@
 package models;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -20,6 +22,7 @@ import models.urlHTMLhandler.URLHandler;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import play.i18n.Lang;
 import controllers.Secure;
 
 /**
@@ -28,7 +31,7 @@ import controllers.Secure;
 @Entity
 public abstract class Post extends Model {
 
-	private static final int SPAM_VALUE = 1;
+	private static final int SPAM_VALUE = 2;
 	private final int RAND_NUMBER = 3;
 	public HashSet<User> spamreport;
 	public Date timestamp;
@@ -72,7 +75,6 @@ public abstract class Post extends Model {
 	 * @param result
 	 * @return the voted post
 	 */
-	public abstract Post vote(User user, boolean result);
 
 	public Post(User author, String content) {
 
@@ -161,6 +163,7 @@ public abstract class Post extends Model {
 
 	public Post tagItWith(String name) {
 		if (!(name.equals("") || name.isEmpty() || name.equals(null))) {
+			name = name.trim();
 			tags.add(Tag.findOrCreateByName(name));
 		}
 		return this;
@@ -174,8 +177,7 @@ public abstract class Post extends Model {
 	public static List<Post> findTaggedWith(String... tags) {
 		List<Post> hits = new ArrayList<Post>();
 		hits = Question
-				.find(
-						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
+				.find("select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
 		return hits;
 	}
@@ -316,10 +318,19 @@ public abstract class Post extends Model {
 			return (Question) ((Comment) this).post;
 	}
 
-	@SuppressWarnings("deprecation")
 	public String getDate() {
-		return this.timestamp.toLocaleString();
-
+		DateFormat formater;
+		if (Lang.get().equalsIgnoreCase("fr")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.FRANCE);
+		} else if (Lang.get().equalsIgnoreCase("de")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.GERMAN);
+		} else {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.ENGLISH);
+		}
+		return formater.format(timestamp);
 	}
 
 	/**
@@ -369,11 +380,11 @@ public abstract class Post extends Model {
 	}
 
 	/**
+	 * Reports this post as spam
 	 * 
-	 * 
-	 * @param
+	 * @param user
+	 *            which has reported
 	 */
-	// JW javadoc
 	public void spam(User user) {
 		this.spamreport.add(user);
 		if (this.isSpam()) {
@@ -388,7 +399,40 @@ public abstract class Post extends Model {
 	 * @return true, if is spam
 	 */
 	public boolean isSpam() {
-		return this.spamreport.size() > SPAM_VALUE;
+		return (this.spamreport.size() >= SPAM_VALUE);
+	}
+
+	/**
+	 * Vote a Post up or Down
+	 * 
+	 * @param user
+	 *            the user which has voted
+	 * @param result
+	 *            down is false up is true
+	 * @return the voted Post
+	 */
+	public Post vote(User user, boolean result) {
+		Vote vote = new Vote(user, this, result).save();
+		this.votes.add(vote);
+
+		if (result) {
+			this.author.rating.voteUP(this);
+			this.author.rating.save();
+			this.author.save();
+		}
+
+		else {
+
+			this.author.rating.voteDown(this);
+			this.author.rating.save();
+			this.author.save();
+			user.rating.penalty();
+			user.rating.save();
+			user.save();
+		}
+		this.voting();
+		this.save();
+		return this;
 	}
 
 }

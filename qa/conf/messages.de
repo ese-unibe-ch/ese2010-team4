@@ -64,6 +64,11 @@ profile.uploadAvatar=Avatar heraufladen
 profile.avatar.url=oder gib eine URL an
 profile.hoh=Ruhmeshalle
 profile.repGraph=Reputations Grafik
+profile.userInfo=Info
+profile.userAvatar=Avatar
+profile.userActivities=Aktivitäten
+profile.userBadges=Auszeichnungen
+
 
 # Secure messages
 secure.title=Einloggen
@@ -110,4 +115,6 @@ submit=Absenden
 proposals=Diese Fragen kannst Du vielleicht auch noch beantworten
 spamer=Du bist ein scheiss Spamer! Geh nach Hause!
 spam=Spam
-wait=Wartezeit bis zur nächsten Aktion:
+waitsearch=Wartezeit bis zur nächsten Suche:
+waitpost=Wartezeit bis zum nächsten Post:
+notbestA=nicht beste Antwort

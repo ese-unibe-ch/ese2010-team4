@@ -8,15 +8,16 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
- * A question with content, timestamp, owner and voting.
+ * A question with content, timestamp, ownertests and voting.
  * 
  */
 @Entity
 public class Question extends Post {
-
-	public long validity;
+	public static final int DELAY = 10000;
+	private long validity;
 	public String title;
 	public boolean hasBestAnswer;
 
@@ -89,39 +90,26 @@ public class Question extends Post {
 		return this;
 	}
 
-	public Post vote(User user, boolean result) {
-		Vote vote = new Vote(user, this, result).save();
-		this.votes.add(vote);
-
-		if (result) {
-			this.author.rating.votedUPQuestion();
-			this.author.rating.save();
-			this.author.save();
-		}
-
-		else {
-
-			this.author.rating.voteDown(this);
-			this.author.rating.save();
-			this.author.save();
-			user.rating.penalty();
-			user.rating.save();
-			user.save();
-		}
-		this.voting();
-		this.save();
-		return this;
-	}
-
 	public Question bestAnswer(Answer answer) {
 
-		long delay = 10000;
 		// necessary if user change his mind
 		this.setAllAnswersFalse();
 		answer.isBestAnswer = true;
 		answer.save();
-		this.setValidity(delay);
+		this.setValidity(DELAY);
 		this.save();
 		return this;
 	}
+
+	public Question hasNotBestAnswer() {
+		this.hasBestAnswer = false;
+		this.validity = 0;
+		this.save();
+		return this;
+	}
+
+	public long getValidity() {
+		return this.validity;
+	}
+
 }

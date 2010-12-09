@@ -38,26 +38,4 @@ public class Answer extends Post {
 	public boolean isAbleToVoteAnswer(User user) {
 		return (!hasVoted(user) && !isOwnPost(user));
 	}
-
-	public Post vote(User user, boolean result) {
-		Vote vote = new Vote(user, this, result).save();
-		votes.add(vote);
-
-		if (result) {
-			author.rating.voteUPAnswer(this);
-			author.rating.save();
-			author.save();
-		} else {
-			author.rating.voteDown(this);
-			author.rating.save();
-			author.save();
-			user.rating.penalty();
-			user.rating.save();
-			user.save();
-		}
-		voting();
-		save();
-
-		return this;
-	}
 }

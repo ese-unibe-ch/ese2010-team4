@@ -10,7 +10,7 @@
 	        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>	     
 	        <script src="@{'/public/javascripts/flot/jquery.flot.js'}" type="text/javascript" charset="utf-8"></script>
 	        <script src="@{'/public/javascripts/scroll.js'}" type="text/javascript"></script>
-	        <script src="@{'/public/javascripts/jquery.countdown.js'}" type="text/javascript"></script>
+	        <script src="@{'/public/javascripts/jquery.jCountr.1.2.js'}" type="text/javascript"></script>
 			#{script 'validationScript.js' /}
 	       	#{script 'jquery.highlightRegex.js' /}
 	       	
@@ -41,6 +41,34 @@
 						</div>
 						#{/if}
 					</div>
+					#{if !user.canPost()}
+						<div id="userActivity">
+							<h4>&{'waitpost'}</h4>
+								<div class="activity">							
+									<script type="text/javascript">
+											$(function() {
+												var countdown = ${user.timeToNextPost()};
+												$("#counter").counter({min:"0",sec:countdown});
+											});
+									</script> 
+									<span id="counter"></span>
+								</div>
+						</div>
+					#{/if}
+					#{if !user.canSearch()}
+						<div id="userActivity">
+							<h4>&{'waitsearch'}</h4>
+								<div class="activity">							
+									<script type="text/javascript">
+											$(function() {
+												var countdown = ${user.timeToNextSearch()};
+												$("#counter2").counter({min:"00",sec:countdown});
+											});
+									</script> 
+									<span id="counter2"></span>
+								</div>
+						</div>
+					#{/if}						
 					#{if sameAnswerQuestions && !isSpam}
 						<div id="proposals">
 							<h4>&{'proposals'}</h4>
@@ -145,13 +173,13 @@
 					#{secure.check 'admin'}
 						<a class="button" href="@{Admin.index()}">Admin</a>
 					#{/secure.check}
-						
-						<div id="search">
-							#{form @Users.searchResults()}
-								<input type="text" name="toSearch" id="toSearch"/>
-								<input type="submit" value="&{'search'}" />
-							#{/form}
-						</div>	
+					
+					<div id="search">
+						#{form @Users.searchResults()}
+							<input type="text" name="toSearch" id="toSearch"/>
+							<input type="submit" value="&{'search'}" />
+						#{/form}
+					</div>
 				</div>
 	
 				<div id="content">
