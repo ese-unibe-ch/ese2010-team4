@@ -25,6 +25,7 @@ bin/
 # e.g. nasty editor backup files and OS X FS information
 *~
 .DS_Store
+.log
 
 
 # all the eclipse stuff

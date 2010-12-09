@@ -1,14 +1,4 @@
-#{extends 'main.html' /}
-#{set title:'Home' /}
-
-#{if lastActivity}
-   
-	#{if questions.size() > 0}
-		<div class="questions"> 
-			<h3>&{'dbTitle'}</h3>
-			
-			#{list items:questions, as:'question'}
-			 	<div class="question">
+<div class="question">
 	<div class="voting">
 		<div class="vote-curr">${question.voting()}
 		</div>
@@ -57,14 +47,3 @@
 			</div>
 		</div>
 	</div>
-			 #{/list}
-	#{/if}
-#{/if}
- 
-#{else}
-    <div class="empty">
-        There is currently nothing to answer here.
-    </div>
-#{/else}
-
-
