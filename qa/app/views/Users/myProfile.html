@@ -13,19 +13,18 @@
 
 <span id="userInfo"></span>
 <div class="form" id="userForm">
-#{form @Users.changeProfile()}
-
 	<div id="language">
 		<form action="@{Users.selectLanguage()}" method="POST" >
-		<select name=langId onchange="this.form.submit();">
-		<option>&{'chooseLanguage'}</option>
-		<option value="en">English</option>
-		<option value="de">German</option>
-		<option value="fr">French</option>	
-		</select><noscript><INPUT type="submit" value="Go" name="&{'changeLang'}"></noscript>
+			<select name=langId onchange="this.form.submit();">
+				<option>&{'chooseLanguage'}</option>
+				<option value="en">English</option>
+				<option value="de">German</option>
+				<option value="fr">French</option>	
+			</select><noscript><INPUT type="submit" value="Go" name="&{'changeLang'}"></noscript>
 		</form>
 	</div>
-	<label for="author">&{'username'}: </label>
+#{form @Users.changeProfile()}
+<label for="author">&{'username'}: </label>
 	<div class="userInfo">
 		<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
     </div>

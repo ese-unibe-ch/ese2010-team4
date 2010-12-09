@@ -694,15 +694,16 @@ public class Users extends CRUD {
 			Lang.change(langId);
 			user.language = langId;
 			user.save();
-			if (!Lang.get().equals(langId))
+			if (!Lang.get().equals(langId)) {
 				flash.error("Unknown language %s!", langId);
-		} else
+			}
+			try {
+				myProfile(user.id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
 			flash.error("No language choosen");
-		try {
-			Secure.redirectToOriginalURL();
-		} catch (Throwable e) {
-			System.out.println("could not redirect back to original URL");
-			e.printStackTrace();
 		}
 	}
 
