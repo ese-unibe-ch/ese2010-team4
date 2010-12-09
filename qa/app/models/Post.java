@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -21,6 +22,7 @@ import models.urlHTMLhandler.URLHandler;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import play.i18n.Lang;
 import controllers.Secure;
 
 /**
@@ -175,8 +177,7 @@ public abstract class Post extends Model {
 	public static List<Post> findTaggedWith(String... tags) {
 		List<Post> hits = new ArrayList<Post>();
 		hits = Question
-				.find(
-						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
+				.find("select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
 		return hits;
 	}
@@ -318,8 +319,17 @@ public abstract class Post extends Model {
 	}
 
 	public String getDate() {
-		DateFormat formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-				DateFormat.MEDIUM);
+		DateFormat formater;
+		if (Lang.get().equalsIgnoreCase("fr")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.FRANCE);
+		} else if (Lang.get().equalsIgnoreCase("de")) {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Locale.GERMAN);
+		} else {
+			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+					DateFormat.MEDIUM, Lang.getLocale());
+		}
 		return formater.format(timestamp);
 	}
 

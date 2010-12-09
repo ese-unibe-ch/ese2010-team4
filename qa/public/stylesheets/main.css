@@ -327,6 +327,11 @@ pre
     -moz-border-radius: 16px;
 }
 
+.answer .spam
+{
+	background: #808080;
+}
+
 .answer .content 
 {
 	background: #FFF;

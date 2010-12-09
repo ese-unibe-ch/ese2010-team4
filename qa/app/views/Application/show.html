@@ -117,9 +117,11 @@
 				#{/if}
 				#{else}
 					<div class="answers">
-					#{list items:question.answers, as:'answer'}
-						#{if !answer.isSpam()}
+						#{list items:question.answers, as:'answer'}
 							<div class="answer">
+								#{if answer.isSpam()}
+									<div class="spam">
+								#{/if}
 								<div class="voting">
 									#{if answer.isBestAnswer}
 										<div class="vote-curr-best">
@@ -221,8 +223,10 @@
 									#{/list}
 								</div>
 							#{/if}
+							#{if answer.isSpam()}
+								</div>
+							#{/if}
 						</div>
-					#{/if}
 				#{/list}
 			</div>
 		#{/else}
