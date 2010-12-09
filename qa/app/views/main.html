@@ -177,9 +177,7 @@
 					<div id="search">
 						#{form @Users.searchResults()}
 							<input type="text" name="toSearch" id="toSearch"/>
-							#{if user.canSearch()}
-								<input type="submit" value="&{'search'}" />
-							#{/if}
+							<input type="submit" value="&{'search'}" />
 						#{/form}
 					</div>
 					#{secure.check 'user'}
