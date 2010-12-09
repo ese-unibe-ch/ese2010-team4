@@ -116,17 +116,9 @@ html, body
 /** Search **/
 #search 
 {
-	margin: 0px;
+	margin: 0;
 	float: right;
 }
-
-/** Language Drop Down **/
-#language 
-{
-	margin: 0 10px;
-	float: right;
-}
-
 
 /** Content **/
 
@@ -476,7 +468,14 @@ pre
 	border: 1px;
 	border-style: solid;
 	border-color: #000000;
-}	
+}
+
+/** Language Drop Down **/
+#language 
+{
+	margin: 0 10px;
+	float: right;
+}
 
 /** Follows **/
 .follows 
@@ -489,10 +488,6 @@ pre
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
 	
-}
-
-.activity {
-		
 }
 
 /** Formulars **/
