@@ -328,7 +328,7 @@ public abstract class Post extends Model {
 					DateFormat.MEDIUM, Locale.GERMAN);
 		} else {
 			formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-					DateFormat.MEDIUM, Lang.getLocale());
+					DateFormat.MEDIUM, Locale.ENGLISH);
 		}
 		return formater.format(timestamp);
 	}
