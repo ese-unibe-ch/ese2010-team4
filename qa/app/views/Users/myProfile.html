@@ -2,97 +2,103 @@
 #{set title:'User Profile' /}
 #{script 'userprofile.js' /}
 
+<script type="text/javascript">
+		var userid = ${user.id};
+		var graphData = #{jsAction @Users.getGraphData(':id') /};
+</script>
+
 #{secure.check 'user'}
 
 <div id="tabMenu">
-	<a class="button" id="tab" href="#userInfo">&{'profile.userInfo'}</a>
-	<a class="button" id="tab" href="#userAvatar">&{'profile.userAvatar'}</a>
-	<a class="button" id="tab" href="#userActivities">&{'profile.userActivities'}</a>
-	<a class="button" id="tab" href="#userBadges">&{'profile.userBadges'}</a>
+	<a class="button" rel="tab" id="tab" href="#userInfo">&{'profile.userInfo'}</a>
+	<a class="button" rel="tab" id="tab" href="#userAvatar">&{'profile.userAvatar'}</a>
+	<a class="button" rel="tab" id="tab" href="#userActivities">&{'profile.userActivities'}</a>
+	<a class="button" rel="tab" id="tab" href="#userBadges">&{'profile.userBadges'}</a>
 </div>
 
-<span id="userInfo"></span>
-<div class="form" id="userForm">
-#{form @Users.changeProfile()}
-	<label for="author">&{'username'}: </label>
-	<div class="userInfo">
-		<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
-    </div>
-
-	<label for="author">&{'profile.email'}: </label>
-	<div class="userInfo">
-		<input type="text" fullname="author" id="user-inp" value="${user.email}" readonly/>
-	</div>
+<div id="userInfo" class="profileTab">
+	<span id="userInfo"></span>
+	<div class="form" id="userForm">
+	#{form @Users.changeProfile()}
+		<label for="author">&{'username'}: </label>
+		<div class="userInfo">
+			<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
+	    </div>
 	
-	<label for="author">&{'fullname'}: </label>
-	<div class="userInfo">
-		#{field 'fullname'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.fullname}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
-   
-    <label for="author">&{'profile.birthday'}: </label>
-	<div class="userInfo">
-		#{field 'birthday'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.getBirthday()}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
+		<label for="author">&{'profile.email'}: </label>
+		<div class="userInfo">
+			<input type="text" fullname="author" id="user-inp" value="${user.email}" readonly/>
+		</div>
+		
+		<label for="author">&{'fullname'}: </label>
+		<div class="userInfo">
+			#{field 'fullname'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.fullname}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
+	   
+	    <label for="author">&{'profile.birthday'}: </label>
+		<div class="userInfo">
+			#{field 'birthday'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.getBirthday()}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
+		
+		<label for="author">&{'profile.age'}: </label>
+		<div class="userInfo">
+			<input type="text" fullname="author" id="user-inp" value="${user.calculateAge()}" readonly/>
+		</div>
+		
+		<label for="author">&{'profile.website'}: </label>
+		<div class="userInfo">
+			#{field 'website'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.website}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
 	
-	<label for="author">&{'profile.age'}: </label>
-	<div class="userInfo">
-		<input type="text" fullname="author" id="user-inp" value="${user.calculateAge()}" readonly/>
-	</div>
+		<label for="author">&{'profile.work'}: </label>
+		<div class="userInfo">
+			#{field 'work'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.work}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
+		
+		<label for="author">&{'profile.programmingLanguages'}: </label>
+		<div class="userInfo">
+			#{field 'languages'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.favoriteLanguages}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
+		
+		<label for="aboutMe">&{'profile.about'}: </label>
+		<div class="userInfo">
+			#{field 'aboutMe'}
+				<br>
+				<textarea name="${field.name}">${user.aboutMe}</textarea>
+			#{/field}
+		</div>
 	
-	<label for="author">&{'profile.website'}: </label>
-	<div class="userInfo">
-		#{field 'website'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.website}" />
-			<label for="content"></label>
-		#{/field}
+		<div>
+			<input type="submit" value=&{'update'} />
+		</div>
+		
 	</div>
-
-	<label for="author">&{'profile.work'}: </label>
-	<div class="userInfo">
-		#{field 'work'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.work}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
-	
-	<label for="author">&{'profile.programmingLanguages'}: </label>
-	<div class="userInfo">
-		#{field 'languages'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.favoriteLanguages}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
-	
-	<label for="aboutMe">&{'profile.about'}: </label>
-	<div class="userInfo">
-		#{field 'aboutMe'}
-			<br>
-			<textarea name="${field.name}">${user.aboutMe}</textarea>
-		#{/field}
-	</div>
-
-	<div>
-		<input type="submit" value=&{'update'} />
-	</div>
-	
+	#{/form}
 </div>
-#{/form}
 
-<hr>
-
+<div id="userAvatar" class="profileTab">
 <span id="userAvatar"></span>
 <div id="userProfile">
 	<label> &{'profile.uploadAvatar'}:
 	<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
 		<table style="padding-left: 60px">
 		<input type="file" id="avatar" name="avatar" />
-		<input type="submit" value=&{'upload'} />
+		<input type="submit" value="&{'upload'}" />
 		</table>
 	</form> 
 
@@ -109,9 +115,10 @@
 </div>
 
 #{/ secure.check}
+</div>
 
 <hr>
-
+<div id="userActivities" class="profileTab">
 <span id="userActivities"></span>
 <div id="userProfile">
 
@@ -125,41 +132,38 @@
     
 
 	<h3>&{'profile.repGraph'}</h3>
-	
-	<script type="text/javascript">
-		var userid = ${user.id};
-		var graphData = #{jsAction @Users.getGraphData(':id') /};
-	</script>
-
 
 	<div id="graph">
 		<div id="graphcanvas" style="width:600px;height:300px"></div>
 	</div>
 </div>
+</div>
 
-<span id="userBadges"></span>
-<div id="userProfile">
-	
-	<h3>&{'profile.hoh'}</h3>
-	
-	#{list items:badges, as:'badge'}	
+<div id="userBadges" class="profileTab">
+	<span id="userBadges"></span>
+	<div id="userProfile">
 		
-		#{if badge.bronze}
-			<div class="badge-bronze">
-				<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
-			</div>
-		#{/if}		
-		#{if badge.silver}
-			<div class="badge-silver">
-				<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
-			</div>
-		#{/if}
-		#{if badge.gold}
-			<div class="badge-gold">
-				<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
-			</div>
-		#{/if}
-	#{/list}
+		<h3>&{'profile.hoh'}</h3>
+		
+		#{list items:badges, as:'badge'}	
+			
+			#{if badge.bronze}
+				<div class="badge-bronze">
+					<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
+				</div>
+			#{/if}		
+			#{if badge.silver}
+				<div class="badge-silver">
+					<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
+				</div>
+			#{/if}
+			#{if badge.gold}
+				<div class="badge-gold">
+					<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
+				</div>
+			#{/if}
+		#{/list}
+		</div>
 	</div>
 </div>
 

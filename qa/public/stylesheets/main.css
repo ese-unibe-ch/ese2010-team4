@@ -699,3 +699,7 @@ input
 {
 	border: 1px solid black;
 }
+
+.active {
+	text-decoration: underline;
+}
