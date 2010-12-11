@@ -113,8 +113,8 @@ update=Update
 submit=Submit
 proposals=You may wan't answer to these questions
 spamer=You are a fucking spamer! Go home!
-spam=spam
-waitsearch=wait time for the next search:
-waitpost=wait time for the next post:
-notbestA=not best answer
+spam=Spam
+waitsearch=Wait time for the next search:
+waitpost=Wait time for the next post:
+notbestA=Not best answer
 
