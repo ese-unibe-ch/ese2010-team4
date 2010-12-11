@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}" lang="${lang}">
+    <head>
+        <title>#{get 'title' /}</title>		
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/crud.css'}" />
+    </head>
+    <body id="crud">
+		
+		<div id="crudHeader">
+			<h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
+		</div>
+		
+		
+		<br>this questions are spamed:<br>
+		
+		#{list items:spamQuestion, as:'question'}
+		
+			<div class="spam">
+				${question.getTitle()}
+	   		</div>
+		
+		#{/list}
+		
+		this answers are spamed:
+		
+		<br><a class="button" href="@{Admin.index()}">Back to adminpage</a>
+				
+	</body>
+</html>

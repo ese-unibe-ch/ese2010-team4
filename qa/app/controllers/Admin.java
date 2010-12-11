@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import models.Answer;
+import models.Question;
 import models.User;
 import models.importer.XMLParser;
 import play.mvc.Before;
@@ -44,6 +48,18 @@ public class Admin extends Controller {
 		flash.success(parser.info());
 		render(report);
 
+	}
+
+	public static void showSpams() {
+		List<Question> spamQuestion = new ArrayList<Question>();
+		List<Answer> spamAnswer = new ArrayList<Answer>();
+		spamQuestion = Question.all().fetch();
+		for (Question p : spamQuestion) {
+			if (!p.isSpam()) {
+				spamQuestion.remove(p);
+			}
+		}
+		render(spamQuestion);
 	}
 
 	public static void index() {
