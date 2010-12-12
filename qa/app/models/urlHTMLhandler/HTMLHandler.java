@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import models.ForTestingOnly;
+import models.annotations.ForTestingOnly;
 
 /**
  * Searches all HTML-Anchors in a given String and replace them only with the

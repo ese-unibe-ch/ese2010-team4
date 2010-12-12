@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 import models.Answer;
+import models.Comment;
 import models.Question;
 import models.User;
 
@@ -16,16 +17,20 @@ public class ReputationTest extends UnitTest {
 	User jeff;
 	Question firstQuestion;
 	Answer firstAnswer;
+	Answer secondAnswer;
 
 	@Before
 	public void setup() throws Exception {
 		Fixtures.deleteAll();
-		Fixtures.load("data.yml");
-		bob = User.find("byEmail", "bob@bob.ch").first();
-		jeff = User.find("byEmail", "jeff@jeff.ch").first();
-
-		firstQuestion = (Question) bob.posts.get(0);
-		firstAnswer = firstQuestion.answers.get(0);
+		User.createUser("Bob", "bob@gmail.com", "keyword","");
+		User.createUser("Jeff", "jeff@jeff.ch", "hallo","");
+		bob = User.find("byUsername", "Bob").first();
+		jeff = User.find("byUsername", "Jeff").first();
+		firstQuestion = new Question(bob, "brightliy?",
+		"What is hot and shines brightly?").save();
+		firstAnswer = new Answer(firstQuestion, jeff, "It is the sun.").save();
+		secondAnswer = new Answer(firstQuestion, bob, "blabla").save();
+;
 
 	}
 
@@ -118,8 +123,7 @@ public class ReputationTest extends UnitTest {
 	@Test
 	public void shouldIcreaseReputation() {
 
-		Answer secondAnswer = Answer.find("byContent",
-				"answer to question number 2.").first();
+	
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
 		secondAnswer.isBestAnswer = true;
@@ -134,8 +138,7 @@ public class ReputationTest extends UnitTest {
 	@Test
 	public void shouldNoTBeEmpty() {
 
-		Answer secondAnswer = Answer.find("byContent",
-				"answer to question number 2.").first();
+		
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
 		secondAnswer.isBestAnswer = true;
@@ -152,8 +155,7 @@ public class ReputationTest extends UnitTest {
 	@Test
 	public void shouldRetrunTheRightString() throws IOException {
 
-		Answer secondAnswer = Answer.find("byContent",
-				"answer to question number 2.").first();
+	
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
 		secondAnswer.isBestAnswer = true;

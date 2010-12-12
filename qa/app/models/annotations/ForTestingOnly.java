@@ -1,4 +1,4 @@
-package models;
+package models.annotations;
 
 public @interface ForTestingOnly {
 	/**

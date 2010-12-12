@@ -1,6 +1,6 @@
 import models.Answer;
 import models.Badge;
-import models.Post;
+import models.VotablePost;
 import models.Question;
 import models.Tag;
 import models.User;

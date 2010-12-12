@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import models.Post;
+import models.VotablePost;
 import models.Question;
 import models.Tag;
 import models.User;
+import models.Post;
 import models.helper.ValidationHelper;
 import play.cache.Cache;
 import play.data.validation.Required;
@@ -44,7 +45,7 @@ public class Application extends Controller {
 			List<Question> questions = Question.find("order by voting desc")
 					.fetch();
 			int value = rnd.nextInt(questions.size());
-			List<Post> sameQuestions = questions.get(value)
+			List<VotablePost> sameQuestions = questions.get(value)
 					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
 							user);
 			renderArgs.put("sameQuestions", sameQuestions);
@@ -80,7 +81,7 @@ public class Application extends Controller {
 	 */
 	public static void index() {
 		String randomID = Codec.UUID();
-		Post lastActivity = Post.find("order by timestamp desc").first();
+		Post lastActivity = VotablePost.find("order by timestamp desc").first();
 		List<Question> questions = Question.find("order by voting desc")
 				.fetch();
 
@@ -101,7 +102,7 @@ public class Application extends Controller {
 	public static void show(Long id) {
 
 		Question question = Question.find("byId", id).first();
-		Post lastActivity = Post.find("order by timestamp desc").first();
+		Post lastActivity = VotablePost.find("order by timestamp desc").first();
 		boolean abletovote = false;
 		boolean hasTimeToChange = false;
 		boolean isfollowing = false;
@@ -115,9 +116,8 @@ public class Application extends Controller {
 					.first();
 			abletovote = user.isAbleToVote(id);
 			hasTimeToChange = user.hasTimeToChange(id);
-			System.out.println("wert: "+hasTimeToChange);
 			isfollowing = user.isFollowing(question);
-			ArrayList<Post> sameAnswerQuestions = question
+			ArrayList<VotablePost> sameAnswerQuestions = question
 					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
 							user);
 
@@ -174,7 +174,7 @@ public class Application extends Controller {
 		boolean isconnected = !Secure.Security.isConnected();
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
-		List<Post> taggedPosts = Post.findTaggedWith(tag.name);
+		List<VotablePost> taggedPosts = VotablePost.findTaggedWith(tag.name);
 		render(taggedPosts, isconnected, user);
 	}
 

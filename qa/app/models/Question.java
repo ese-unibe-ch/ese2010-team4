@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
-public class Question extends Post {
+public class Question extends VotablePost {
 	public static final int DELAY = 10000;
 	private long validity;
 	public String title;
@@ -81,7 +81,6 @@ public class Question extends Post {
 		this.save();
 	}
 
-	@Override
 	public Post addHistory(Post post, String title, String content) {
 		History history = new History(this, title, content).save();
 		int index = historys.size();
@@ -111,5 +110,6 @@ public class Question extends Post {
 	public long getValidity() {
 		return this.validity;
 	}
+
 
 }
