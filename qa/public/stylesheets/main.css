@@ -232,6 +232,7 @@ pre
 /** Badges **/
 .badge-bronze
 {
+	display: inline;
 	margin: 5px 0px 5px 0px;
 }
 
@@ -244,6 +245,7 @@ pre
 
 .badge-silver
 {
+	display: inline;
 	margin: 5px 0px 5px 0px;
 }
 
@@ -256,6 +258,7 @@ pre
 
 .badge-gold
 {
+	display: inline;
 	margin: 10px 0px 5px 0px;
 }
 

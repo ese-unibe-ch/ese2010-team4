@@ -1,0 +1,26 @@
+.tab-box { 
+	margin:10px 0px 0px 0px;
+  	border-bottom: 1px solid #DDD;
+  	padding-bottom:5px;
+}
+
+.tab-box a {
+  	border:1px solid #CCC;
+  	color:#666;
+  	padding: 5px 15px;
+  	text-decoration:none;
+  	background-color: #DDD;
+}
+
+.tab-box a.activeLink { 
+ 	background-color: #fff; 
+ 	border-bottom: 0; 
+  	padding: 6px 15px;
+}
+
+.tabcontent { 
+}
+
+.hide { 
+	display: none;
+}

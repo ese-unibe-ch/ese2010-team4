@@ -2,18 +2,37 @@
 #{set title:'User Profile' /}
 #{script 'userprofile.js' /}
 
+<link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/tabMenu.css'}">
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".tabLink").each(function(){
+      $(this).click(function(){
+        tabeId = $(this).attr('id');
+        $(".tabLink").removeClass("activeLink");
+        $(this).addClass("activeLink");
+        $(".tabcontent").addClass("hide");
+        $("#"+tabeId+"-1").removeClass("hide")   
+        return false;	  
+      });
+    });  
+  });
+</script>
+
+
 #{secure.check 'user'}
 
-<div id="tabMenu">
-	<a class="button" id="tab" href="#userInfo">&{'profile.userInfo'}</a>
-	<a class="button" id="tab" href="#userAvatar">&{'profile.userAvatar'}</a>
-	<a class="button" id="tab" href="#userActivities">&{'profile.userActivities'}</a>
-	<a class="button" id="tab" href="#userBadges">&{'profile.userBadges'}</a>
+<div class="tab-box"> 
+	<a href="javascript:;" class="tabLink activeLink" id="cont-3">&{'profile.userActivities'}</a>
+    <a href="javascript:;" class="tabLink " id="cont-1">&{'profile.userInfo'}</a> 
+    <a href="javascript:;" class="tabLink " id="cont-2">&{'profile.userAvatar'}</a> 
+    <a href="javascript:;" class="tabLink " id="cont-4">&{'profile.userBadges'}</a> 
 </div>
 
-<span id="userInfo"></span>
-<div class="form" id="userForm">
-	<div id="language">
+	
+	<div class="tabcontent paddingAll hide" id="cont-1-1">
+	
+	<div class="form" id="userForm">
+		<div id="language">
 		<form action="@{Users.selectLanguage()}" method="POST" >
 			<select name=langId onchange="this.form.submit();">
 				<option>&{'chooseLanguage'}</option>
@@ -22,136 +41,140 @@
 				<option value="fr">French</option>	
 			</select><noscript><INPUT type="submit" value="Go" name="&{'changeLang'}"></noscript>
 		</form>
-	</div>
-#{form @Users.changeProfile()}
-<label for="author">&{'username'}: </label>
-	<div class="userInfo">
-		<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
-    </div>
+		</div>
+		
+		#{form @Users.changeProfile()}
+		<label for="author">&{'username'}: </label>
+		<div class="userInfo">
+			<input type="text" username="author" id="user-inp" value="${user.username}" readonly/>
+ 	  	</div>
 
-	<label for="author">&{'profile.email'}: </label>
-	<div class="userInfo">
-		<input type="text" fullname="author" id="user-inp" value="${user.email}" readonly/>
-	</div>
+		<label for="author">&{'profile.email'}: </label>
+		<div class="userInfo">
+			<input type="text" fullname="author" id="user-inp" value="${user.email}" readonly/>
+		</div>
 	
-	<label for="author">&{'fullname'}: </label>
-	<div class="userInfo">
-		#{field 'fullname'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.fullname}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
+		<label for="author">&{'fullname'}: </label>
+		<div class="userInfo">
+			#{field 'fullname'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.fullname}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
    
-    <label for="author">&{'profile.birthday'}: </label>
-	<div class="userInfo">
-		#{field 'birthday'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.getBirthday()}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
+   		<label for="author">&{'profile.birthday'}: </label>
+		<div class="userInfo">
+			#{field 'birthday'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.getBirthday()}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
 	
-	<label for="author">&{'profile.age'}: </label>
-	<div class="userInfo">
-		<input type="text" fullname="author" id="user-inp" value="${user.calculateAge()}" readonly/>
-	</div>
+		<label for="author">&{'profile.age'}: </label>
+		<div class="userInfo">
+			<input type="text" fullname="author" id="user-inp" value="${user.calculateAge()}" readonly/>
+		</div>
 	
-	<label for="author">&{'profile.website'}: </label>
-	<div class="userInfo">
-		#{field 'website'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.website}" />
-			<label for="content"></label>
-		#{/field}
+		<label for="author">&{'profile.website'}: </label>
+		<div class="userInfo">
+			#{field 'website'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.website}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
+
+		<label for="author">&{'profile.work'}: </label>
+		<div class="userInfo">
+			#{field 'work'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.work}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
+	
+		<label for="author">&{'profile.programmingLanguages'}: </label>
+		<div class="userInfo">
+			#{field 'languages'}
+				<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.favoriteLanguages}" />
+				<label for="content"></label>
+			#{/field}
+		</div>
+	
+		<label for="aboutMe">&{'profile.about'}: </label>
+		<div class="userInfo">
+			#{field 'aboutMe'}
+				<br>
+				<textarea name="${field.name}">${user.aboutMe}</textarea>
+			#{/field}
+		</div>
+
+		<div>
+			<input type="submit" value=&{'update'} />
+		</div>
+		
+		#{/form}
+	</div>
 	</div>
 
-	<label for="author">&{'profile.work'}: </label>
-	<div class="userInfo">
-		#{field 'work'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.work}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
-	
-	<label for="author">&{'profile.programmingLanguages'}: </label>
-	<div class="userInfo">
-		#{field 'languages'}
-			<input type="text" name="${field.name}" email="author" id="user-inp" value="${user.favoriteLanguages}" />
-			<label for="content"></label>
-		#{/field}
-	</div>
-	
-	<label for="aboutMe">&{'profile.about'}: </label>
-	<div class="userInfo">
-		#{field 'aboutMe'}
-			<br>
-			<textarea name="${field.name}">${user.aboutMe}</textarea>
-		#{/field}
-	</div>
 
-	<div>
-		<input type="submit" value=&{'update'} />
-	</div>
+	<div class="tabcontent paddingAll hide" id="cont-2-1">
+
+	<div id="userProfile">
+		<label> &{'profile.uploadAvatar'}:
+		<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
+			<table style="padding-left: 60px">
+			<input type="file" id="avatar" name="avatar" />
+			<input type="submit" value=&{'upload'} />
+			</table>
+		</form> 
+
+		<br></br>
 	
-</div>
-#{/form}
-
-<hr>
-
-<span id="userAvatar"></span>
-<div id="userProfile">
-	<label> &{'profile.uploadAvatar'}:
-	<form action="@{Users.uploadAvatar()}" method="POST" enctype="multipart/form-data">
-		<table style="padding-left: 60px">
-		<input type="file" id="avatar" name="avatar" />
-		<input type="submit" value=&{'upload'} />
-		</table>
-	</form> 
-
-	<br></br>
-	
-	#{form @Users.updateAvatarPath()}
-		#{field 'URL'}
+		#{form @Users.updateAvatarPath()}
+			#{field 'URL'}
 			<label for="author">&{'profile.avatar.url'}:
 			<input type="text" name="${field.name}" email="author" id="user-inp"/>
 			<label for="content">
 			<input type="submit" value=&{'submit'} />
-		#{/field}
-	#{/form}
-</div>
+			#{/field}
+		#{/form}
+	</div>
+	</div>
 
-#{/ secure.check}
+	#{/ secure.check}
 
-<hr>
 
-<span id="userActivities"></span>
-<div id="userProfile">
+	<div class="tabcontent paddingAll" id="cont-3-1">
+	
+	<div id="userProfile">
 
-	<h3>&{'activities'}</h3>
-	#{list items:activities, as:'activity'}
+		<h3>&{'activities'}</h3>
+		#{list items:activities, as:'activity'}
 			<div class="activity">
 				#{activity activity:activity /}
 			</div>
-     #{/list}
+     	#{/list}
     
 
-	<h3>&{'profile.repGraph'}</h3>
-	
-	<script type="text/javascript">
-		var userid = ${user.id};
-		var graphData = #{jsAction @Users.getGraphData(':id') /};
-	</script>
+		<h3>&{'profile.repGraph'}</h3>
+		
+		<script type="text/javascript">
+			var userid = ${user.id};
+			var graphData = #{jsAction @Users.getGraphData(':id') /};
+		</script>
 
-
-	<div id="graph">
-		<div id="graphcanvas" style="width:600px;height:300px"></div>
+		<div id="graph">
+			<div id="graphcanvas" style="width:600px;height:300px"></div>
+		</div>
 	</div>
-</div>
+	</div>
 
-<span id="userBadges"></span>
-<div id="userProfile">
+	<div class="tabcontent paddingAll hide" id="cont-4-1">
+
+	<div id="userProfile">
 	
-	<h3>&{'profile.hoh'}</h3>
+		<h3>&{'profile.hoh'}</h3>
 	
-	#{list items:badges, as:'badge'}	
+		#{list items:badges, as:'badge'}	
 		
 		#{if badge.bronze}
 			<div class="badge-bronze">
@@ -168,13 +191,12 @@
 				<a class="button" href="@{Application.tagged(badge.tag)}">${badge}</a>
 			</div>
 		#{/if}
-	#{/list}
+		#{/list}
+		</div>
 	</div>
-</div>
 
 
 #{if flash.success}
 <br>
-	<p class="success">${flash.success}</p>
+<p class="success">${flash.success}</p>
 #{/if}
-
