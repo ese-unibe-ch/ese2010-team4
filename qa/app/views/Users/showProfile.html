@@ -2,8 +2,33 @@
 #{set title:'show profile' /}
 #{script 'userprofile.js' /}
 
+<link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/tabMenu.css'}">
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".tabLink").each(function(){
+      $(this).click(function(){
+        tabeId = $(this).attr('id');
+        $(".tabLink").removeClass("activeLink");
+        $(this).addClass("activeLink");
+        $(".tabcontent").addClass("hide");
+        $("#"+tabeId+"-1").removeClass("hide")   
+        return false;	  
+      });
+    });  
+  });
+</script>
+
+
 #{secure.check 'user'}
 
+<div class="tab-box">
+	<a href="javascript:;" class="tabLink activeLink" id="cont-2">&{'profile.userActivities'}</a>  
+    <a href="javascript:;" class="tabLink " id="cont-1">&{'profile.userInfo'}</a> 
+    <a href="javascript:;" class="tabLink " id="cont-3">&{'profile.userBadges'}</a> 
+</div>
+
+
+<div class="tabcontent paddingAll hide" id="cont-1-1">
 <div id="userProfile">
 	<div id="userImg">
     	<img src="${userToShow.avatarPath}"/>
@@ -65,6 +90,12 @@
 		</div>
 	</div>
 	
+</div>
+</div>
+
+<div class="tabcontent paddingAll" id="cont-2-1">
+<div id="userProfile">
+
 	<h3>&{'activities'}</h3>
 			#{list items:activities, as:'activity'}
 				<div class="activity">
@@ -82,6 +113,11 @@
 	<div id="graph">
 		<div id="graphcanvas" style="width:600px;height:300px"></div>
 	</div>
+	
+</div>	
+</div>	
+	
+<div class="tabcontent paddingAll hide" id="cont-3-1">
 <div id="userProfile">
 	
 	<h3>Hall of honor</h3>
@@ -105,8 +141,6 @@
 		#{/if}
 	#{/list}
 </div>
-	
-
 </div>
 
 
