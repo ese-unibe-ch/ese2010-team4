@@ -34,32 +34,7 @@ public class Users extends CRUD {
 
 	@Before
 	static void setConnectedUser() {
-		if (Secure.Security.isConnected()) {
-			User user = User.find("byUsername", Secure.Security.connected())
-					.first();
-			renderArgs.put("user", user);
-		}
-	}
-
-	@Before
-	static void getSameQuestions() {
-		Application.getSameQuestions();
-	}
-
-	@Before
-	static void canPost() {
-
-		if (Secure.Security.isConnected()) {
-			User user = User.find("byUsername", Secure.Security.connected())
-					.first();
-			renderArgs.put("canPost", user.canPost());
-		}
-
-	}
-
-	@Before
-	static void spam() {
-		Application.spam();
+		Application.setup();
 	}
 
 	/**
@@ -296,52 +271,6 @@ public class Users extends CRUD {
 		else
 			Application.show(postId);
 	}
-
-	/**
-	 * Vote for question.
-	 * 
-	 * @param questionId
-	 *            the question id
-	 * @param vote
-	 *            the vote
-	 */
-	public static void voteForQuestion(Long questionId, boolean vote) {
-
-		User user = User.find("byUsername", Secure.Security.connected())
-				.first();
-		Question question = Question.findById(questionId);
-
-		question.vote(user, vote);
-		flash.success(Messages.get("voted", user.username));
-
-		Application.show(questionId);
-
-	}
-
-	/**
-	 * Vote for answer.
-	 * 
-	 * @param questionId
-	 *            the question id
-	 * @param answerId
-	 *            the answer id
-	 * @param vote
-	 *            the vote
-	 */
-	public static void voteForAnswer(Long questionId, Long answerId,
-			boolean vote) {
-
-		User user = User.find("byUsername", Secure.Security.connected())
-				.first();
-		Answer answer = Answer.find("byId", answerId).first();
-
-		answer.vote(user, vote);
-
-		flash.success(Messages.get("voted", user.username));
-		Application.show(questionId);
-
-	}
-
 	
 	public static void vote(long id, boolean vote){
 		VotablePost post = VotablePost.findById(id);
@@ -349,6 +278,10 @@ public class Users extends CRUD {
 				.first();
 		post.vote(user, vote);
 		post.save();
+		if(post instanceof Answer)
+			Application.show(((Answer)post).question.id);
+		if(post instanceof Question)
+			Application.show(id);
 
 	}
 

@@ -60,7 +60,7 @@ public class BadgeTest extends UnitTest {
     
     
     @Test
-    public void beABronzeSilverGoldBadge(){
+    public void beABronzeAndNotSilverGoldBadge(){
     	
     	for(int i=0;i<10;i++){	
     		this.firstAnswer.vote(sepp, true);
@@ -72,26 +72,6 @@ public class BadgeTest extends UnitTest {
     	assertEquals(true, badge.bronze);
     	assertEquals(false, badge.silver);
     	assertEquals(false, badge.gold);
-    	assertEquals("Html", badge.toString());
-    	
-    	for(int i=0;i<20;i++){	
-    		this.firstAnswer.vote(sepp, true);
-    		firstAnswer.save();
-    	}
-    	
-    	assertEquals(true, badge.bronze);
-    	assertEquals(true, badge.silver);
-    	assertEquals(false, badge.gold);
-    	assertEquals("Html", badge.toString());
-    	
-    	for(int i=0;i<200;i++){	
-    		this.firstAnswer.vote(sepp, true);
-    		firstAnswer.save();
-    	}
-    	
-    	assertEquals(true, badge.bronze);
-    	assertEquals(true, badge.silver);
-    	assertEquals(true, badge.gold);
     	assertEquals("Html", badge.toString());
     	
     }

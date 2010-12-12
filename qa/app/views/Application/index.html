@@ -17,8 +17,8 @@
 							#{secure.check 'user'}
 								#{if user.isAbleToVote(question.id) && user.hasTimeToChange(question.id) && false}
 									<div class="vote-up-down">
-										<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
-										<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
+										<a class="vote-up" href="@{Users.vote(question.id, true)}"></a>
+										<a class="vote-down" href="@{Users.vote(question.id, false)}"></a>
 									</div>
 								#{/if}
 							#{/secure.check}

@@ -1,10 +1,12 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -15,7 +17,9 @@ import play.db.jpa.Model;
  */
 @Entity
 public class Reputation extends Model {
-
+	
+	private static final double MAX_PUSH_SIZE = 0.2;
+	private static final int START_CHECK_ARPC = 100;
 	private static final int ANSWER_REP = 10;	
 	private static final int VOTE_DOWN_REP = -2;
 	private static final int QUESTION_REP = 5;
@@ -27,11 +31,15 @@ public class Reputation extends Model {
 	public int bestAnswerRep;
 	public int totalRep;
 	public int penalty;
+	
+	@OneToMany
+	public List<ReputationfromUser> reputationfromUser;
 
 	@OneToMany
 	public List<ReputationPoint> totalRepPoint;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "reputation", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH})
 	public Set<Badge> badges;
 
 	public Reputation() {
@@ -42,6 +50,7 @@ public class Reputation extends Model {
 		this.bestAnswerRep = 0;
 		this.totalRep = 0;
 		this.penalty = 0;
+		this.reputationfromUser = new ArrayList<ReputationfromUser>();
 	}
 
 	/**
@@ -67,25 +76,38 @@ public class Reputation extends Model {
 	 * Vote up an post notify the badges
 	 * @param post the voted post
 	 */
-	public void voteUP(Post post){
-		if(post instanceof Answer){
-			this.answerRep += ANSWER_REP;
-			totalRep();
-			addToBadge((Answer)post, ANSWER_REP);
+	public void voteUP(Post post, User user){
+		
+		
+		if(!this.hasVoted(user)){
+			this.createReputationByUser(user);
 		}
-		else{
-			this.questionRep += QUESTION_REP;
-			totalRep();
+		
+		ReputationfromUser repbyuser = this.findReputationfromUser(user);		
+		if(this.isNotOverPushSize(repbyuser)){		
+				if(post instanceof Answer){						
+					this.answerRep += ANSWER_REP;				
+					repbyuser.reputation += ANSWER_REP;
+					totalRep();
+					addToBadge((Answer)post, ANSWER_REP);
+				}		
+				else{
+					this.questionRep += QUESTION_REP;
+					repbyuser.reputation += QUESTION_REP;
+					totalRep();
+				}				
+				repbyuser.save();
 		}
 		this.save();
 	}
+
 
 	/**
 	 * Vote down an post.
 	 *
 	 * @param post the voted post
 	 */
-	public void voteDown(Post post) {
+	public void voteDown(Post post, User user) {
 		
 		if(post instanceof Answer){
 			addToBadge((Answer)post, VOTE_DOWN_REP);
@@ -96,6 +118,7 @@ public class Reputation extends Model {
 			this.questionRep += VOTE_DOWN_REP;
 			totalRep();
 		}
+		this.save();
 	}
 
 	/**
@@ -103,10 +126,23 @@ public class Reputation extends Model {
 	 *
 	 * @param post the best answer
 	 */
-	public void bestAnswer(Answer answer) {
-		this.bestAnswerRep += BEST_ANSWER_REP;
-		totalRep();
-		addToBadge(answer, BEST_ANSWER_REP);
+	public void bestAnswer(Answer answer, User user) {
+		
+		if(!this.hasVoted(user)){
+			this.createReputationByUser(user);
+		}
+		ReputationfromUser repbyuser = this.findReputationfromUser(user);		
+
+		
+		if(this.isNotOverPushSize(repbyuser)){		
+			this.bestAnswerRep += BEST_ANSWER_REP;
+			repbyuser.reputation +=BEST_ANSWER_REP;
+			totalRep();
+			addToBadge(answer, BEST_ANSWER_REP);
+			repbyuser.save();
+			this.save();
+		}
+		this.save();		
 	}
 
 	/**
@@ -115,6 +151,31 @@ public class Reputation extends Model {
 	public void penalty() {
 		this.penalty += PENALTY;
 		totalRep();
+	}
+	
+	/**
+	 * Checks whether the "anti reputation push convetions (arpc)" are met.
+	 * 
+	 * @param repbyuser the reputation of a single user.
+	 * @return true if the conventions are met.
+	 */
+	private boolean isNotOverPushSize(ReputationfromUser repbyuser) {
+		System.out.println("total rep point: " +this.totalRep);
+		System.out.println("totalrep<START_CHECK_ARPC: "+(this.totalRep<START_CHECK_ARPC));
+		System.out.println("durchschnitt "+ ((double)(repbyuser.reputation))/((double)this.totalRep));
+		if(this.totalRep < START_CHECK_ARPC || ((double)(repbyuser.reputation))/((double)this.totalRep)<MAX_PUSH_SIZE){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Creates a new reputation by user
+	 * @param user which has voted.
+	 */
+	private void createReputationByUser(User user) {
+		ReputationfromUser repbyuser = new ReputationfromUser(user).save();
+		this.reputationfromUser.add(repbyuser);		
 	}
 	
 	/**
@@ -143,9 +204,32 @@ public class Reputation extends Model {
 		}		
 	}
 	
+	/**
+	 * Checks if an user has already voted for this user
+	 * @param user which has voted
+	 * @return true if user has voted this user.
+	 */
+	public boolean hasVoted(User user){
+		for(ReputationfromUser repbyuser: this.reputationfromUser){
+			if(repbyuser.equals(user)){
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * finds the reputation which gave a specific user to this.
+	 * 
+	 * @param the user which gave the reputation
+	 * @return the reputation of the specific user
+	 */
+	public ReputationfromUser findReputationfromUser(User user){
+		return ReputationfromUser.find("byUser", user).first();
+	}
+	
 	public String toString() {
 		return Integer.toString(totalRep);
 	}
-	
 
+	
 }

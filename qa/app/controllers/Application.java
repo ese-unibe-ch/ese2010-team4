@@ -27,53 +27,25 @@ public class Application extends Controller {
 	private final static int MINIMUM_TAGS = 1;
 
 	@Before
-	static void setConnectedUser() {
+	static void setup() {
 		if (Secure.Security.isConnected()) {
-			User user = User.find("byUsername", Secure.Security.connected())
-					.first();
-			renderArgs.put("user", user);
-		}
-	}
-
-	@Before
-	static void getSameQuestions() {
-
-		if (Secure.Security.isConnected()) {
-			User user = User.find("byUsername", Secure.Security.connected())
-					.first();
+			
+			User user = User.find("byUsername", Secure.Security.connected()).first();
+			List<Question> questions = Question.find("order by voting desc").fetch();
+			
 			Random rnd = new Random();
-			List<Question> questions = Question.find("order by voting desc")
-					.fetch();
-			int value = rnd.nextInt(questions.size());
+			boolean isSpam = user.isSpam();
+			int value = rnd.nextInt(questions.size());				
+			
 			List<VotablePost> sameQuestions = questions.get(value)
 					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
 							user);
+			
+			renderArgs.put("user", user);
 			renderArgs.put("sameQuestions", sameQuestions);
-		}
-	}
-
-	@Before
-	static void spam() {
-
-		if (Secure.Security.isConnected()) {
-
-			User user = User.find("byUsername", Secure.Security.connected())
-					.first();
-			boolean isSpam = user.isSpam();
 			renderArgs.put("isSpam", isSpam);
-
-		}
-	}
-
-	@Before
-	static void canPost() {
-
-		if (Secure.Security.isConnected()) {
-			User user = User.find("byUsername", Secure.Security.connected())
-					.first();
 			renderArgs.put("canPost", user.canPost());
 		}
-
 	}
 
 	/**

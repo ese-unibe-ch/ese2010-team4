@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import controllers.Secure.Security;
+
 import models.annotations.ForTestingOnly;
 import models.helper.DateFormatter;
 import models.helper.PostActivityComperator;
@@ -273,7 +275,7 @@ public class User extends Model {
 				bestAnswer = answer;
 
 				if (!question.hasBestAnswer) {
-					answer.author.rating.bestAnswer(answer);
+					answer.author.rating.bestAnswer(answer, question.author);
 					answer.author.rating.save();
 					answer.author.save();
 					answer.save();

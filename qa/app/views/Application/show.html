@@ -11,8 +11,8 @@
 			#{secure.check 'user'}    
 				#{if abletovote && hasTimeToChange}
 					<div class="vote-up-down">
-						<a class="vote-up" href="@{Users.voteForQuestion(question.id, true)}"></a>
-						<a class="vote-down" href="@{Users.voteForQuestion(question.id, false)}"></a>
+						<a class="vote-up" href="@{Users.vote(question.id, true)}"></a>
+						<a class="vote-down" href="@{Users.vote(question.id, false)}"></a>
 					</div>
 				#{/if}
 			#{/secure.check}
@@ -136,8 +136,8 @@
 									#{secure.check 'user'}    
 										#{if hasTimeToChange && answer.isAbleToVoteAnswer(user)}
 						         			<div class="vote-up-down">
-												<a class="vote-up" href="@{Users.voteForAnswer(question.id, answer.id, true)}"></a>
-												<a class="vote-down" href="@{Users.voteForAnswer(question.id, answer.id, false)}"></a>
+												<a class="vote-up" href="@{Users.vote(answer.id, true)}"></a>
+												<a class="vote-down" href="@{Users.vote(answer.id, false)}"></a>
 											</div>
 										#{/if}
 									#{/secure.check}

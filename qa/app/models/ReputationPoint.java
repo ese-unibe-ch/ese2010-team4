@@ -8,6 +8,7 @@ import play.db.jpa.Model;
 
 @Entity
 public class ReputationPoint extends Model {
+	
 	public long timestamp;
 	public int repvalue;
 

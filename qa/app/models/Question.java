@@ -75,7 +75,7 @@ public class Question extends VotablePost {
 		}
 	}
 
-	public void setValidity(long delay) {
+	public void addValidity(long delay) {
 		Date date = new Date();
 		this.validity = date.getTime() + delay;
 		this.save();
@@ -95,7 +95,7 @@ public class Question extends VotablePost {
 		this.setAllAnswersFalse();
 		answer.isBestAnswer = true;
 		answer.save();
-		this.setValidity(DELAY);
+		this.addValidity(DELAY);
 		this.save();
 		return this;
 	}

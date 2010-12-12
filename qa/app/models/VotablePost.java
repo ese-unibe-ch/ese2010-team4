@@ -81,14 +81,27 @@ public abstract class VotablePost extends Post {
 		return status;
 
 	}
-
+	
+	
+	/**
+	 * Adds comments to posts
+	 * 
+	 * @param the coment which has to be added
+	 * @return the post with the added comment.
+	 */
 	public VotablePost addComment(Comment comment) {
 		this.comments.add(comment);
 		this.save();
 		return this;
 
 	}
-
+	
+	/**
+	 * Adds tags to the posts
+	 * 
+	 * @param list of tags
+	 * @return the tagged post
+	 */
 	public VotablePost tagItWith(String name) {
 		if (!(name.equals("") || name.isEmpty() || name.equals(null))) {
 			tags.add(Tag.findOrCreateByName(name));
@@ -236,14 +249,14 @@ public abstract class VotablePost extends Post {
 		this.votes.add(vote);
 
 		if (result) {
-			this.author.rating.voteUP(this);
+			this.author.rating.voteUP(this, user);
 			this.author.rating.save();
 			this.author.save();
 		}
 
 		else {
 
-			this.author.rating.voteDown(this);
+			this.author.rating.voteDown(this, user);
 			this.author.rating.save();
 			this.author.save();
 			user.rating.penalty();
