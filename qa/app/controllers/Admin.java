@@ -54,12 +54,21 @@ public class Admin extends Controller {
 		List<Question> spamQuestion = new ArrayList<Question>();
 		List<Answer> spamAnswer = new ArrayList<Answer>();
 		spamQuestion = Question.all().fetch();
-		for (Question p : spamQuestion) {
-			if (!p.isSpam()) {
-				spamQuestion.remove(p);
-			}
-		}
-		render(spamQuestion);
+		spamAnswer = Answer.all().fetch();
+
+		/**
+		 * for (Question p : spamQuestion) { if (!p.isSpam()) {
+		 * spamQuestion.remove(p); } }
+		 * 
+		 * for (Answer a : spamAnswer) { if (!a.isSpam()) {
+		 * spamAnswer.remove(a); } }
+		 */
+
+		render(spamQuestion, spamAnswer);
+	}
+
+	public static void unspamPost(Long id) {
+		Admin.showSpams();
 	}
 
 	public static void index() {

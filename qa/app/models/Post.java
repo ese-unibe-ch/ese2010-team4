@@ -6,10 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
-
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -19,13 +15,11 @@ import javax.persistence.OneToMany;
 
 import models.urlHTMLhandler.HTMLHandler;
 import models.urlHTMLhandler.URLHandler;
-import controllers.Secure;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.i18n.Lang;
 import controllers.Secure;
-
 
 @Entity
 public abstract class Post extends Model {
@@ -41,29 +35,35 @@ public abstract class Post extends Model {
 	@Required
 	@MaxSize(10000)
 	public String content;
-	
+
 	@Required
 	@ManyToOne
 	public User author;
-	
+
 	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<History> historys;
 
 	public Post(User author, String content) {
-		
+
 		this.author = author;
 		this.content = uHandler.check(hHandler.check(content));
 		this.historys = new ArrayList<History>();
 		this.spamreport = new HashSet<User>();
 		this.timestamp = new Date();
-	
+
 	}
+
 	/**
-	 * Adds an history to every post. With this history user can get older versions of their posts.
-	 * @param post the one who needs a history
-	 * @param title of the post
-	 * @param content of the post
+	 * Adds an history to every post. With this history user can get older
+	 * versions of their posts.
+	 * 
+	 * @param post
+	 *            the one who needs a history
+	 * @param title
+	 *            of the post
+	 * @param content
+	 *            of the post
 	 * @return old post
 	 */
 	public abstract Post addHistory(Post post, String title, String content);
@@ -91,12 +91,11 @@ public abstract class Post extends Model {
 			if (connectedUser != null) {
 				return isOwnPost(connectedUser);
 			}
-	
+
 		}
-	
+
 		return false;
 	}
-
 
 	public boolean isCommentAnswer() {
 		if (this instanceof Comment) {
@@ -131,8 +130,6 @@ public abstract class Post extends Model {
 		return formater.format(timestamp);
 	}
 
-	
-
 	/**
 	 * Reports this post as spam
 	 * 
@@ -154,6 +151,6 @@ public abstract class Post extends Model {
 	 */
 	public boolean isSpam() {
 		return (this.spamreport.size() >= SPAM_VALUE);
-	}	
+	}
 
 }
