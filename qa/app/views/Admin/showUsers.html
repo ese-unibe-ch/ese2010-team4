@@ -12,14 +12,21 @@
 			<h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
 		</div>
 		
+		<style type="text/css">
+			.spam { background: gold;}
+		</style> 
+		
 		<div id="allUsers">
-			<h2>All users from A4Q:</h2>
+			<h2>All users from A4Q (spamer are highlighted in gold):</h2>
 			#{list items:userList, as:'user'}
-				<div class="spam">
-					<a href="@{Users.showProfile(user.id)}">${user.username}</a><br>
+				<div class="user"><br>			
 					#{if user.isSpam()}
+						<a class="spam" href="@{Users.showProfile(user.id)}">${user.username}</a><br>
 						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam]</a>
 					#{/if}
+					#{else}
+						<a href="@{Users.showProfile(user.id)}">${user.username}</a><br>
+					#{/else}
 					<a class="button" href="@{Admin.clearReputation(user.id)}">[clear reputation]</a>
 					<a class="button" href="@{Admin.deleteUser(user.id)}">[delete]</a>
 	   			</div>

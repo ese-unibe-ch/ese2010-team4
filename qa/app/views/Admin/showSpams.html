@@ -12,24 +12,39 @@
 			<h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
 		</div>
 		
-		<div id="spamQuestion">
-			<h2>this questions are spamed:</h2>
+		<style type="text/css">
+			.spam { background: gold;}
+		</style> 
+
+		<div id="allQuestions">
+			<h2>All questions from A4Q (spams are highlighted in gold):</h2>
 			#{list items:spamQuestion, as:'question'}
-				<div class="spam">
-					<a href="@{Application.show(question.id)}">${question.getTitle()}</a><br>
-					<a class="button" href="@{Admin.unspamPost(question.id)}">[unspam]</a>
+				<div class="question"><br>
+					#{if question.isSpam()}
+						<a class="spam" href="@{Application.show(question.id)}">${question.getTitle()}</a><br>
+						<a class="button" href="@{Admin.unspamPost(question.id)}">[unspam]</a>
+					#{/if}
+					#{else}
+						<a href="@{Application.show(question.id)}">${question.getTitle()}</a><br>
+					#{/else}
 					<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">[edit]</a>
 	   			</div>
 			#{/list}
 		</div>
 		
-		<div id="spamAnswer">
-			<h2>this answers are spamed:</h2>
+		<div id="allAnswers">
+			<h2>All answers from A4Q (spams are highlighted in gold):</h2>
 			#{list items:spamAnswer, as:'answer'}
-				<div class="spam">
-					${answer.getTitle()}<br>
-					<a class="button" href="@{Admin.unspamPost(answer.id)}">[unspam]</a>
+				<div class="answer"><br>
+					#{if answer.isSpam()}
+						<a class="spam">${answer.getTitle()}</a><br>
+						<a class="button" href="@{Admin.unspamPost(answer.id)}">[unspam]</a>
+					#{/if}
+					#{else}
+						<a>${answer.getTitle()}</a><br>
+					#{/else}
 					<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">[edit]</a>
+					<a class="button" href="@{Application.show(answer.getQuestion().getId())}">[show context]</a>
 	   			</div>
 			#{/list}
 		</div>

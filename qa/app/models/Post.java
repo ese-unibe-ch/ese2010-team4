@@ -24,7 +24,7 @@ import controllers.Secure;
 @Entity
 public abstract class Post extends Model {
 
-	private static final int SPAM_VALUE = 2;
+	private static final int SPAM_VALUE = 1;
 	protected final int RAND_NUMBER = 3;
 	public HashSet<User> spamreport;
 	public Date timestamp;
