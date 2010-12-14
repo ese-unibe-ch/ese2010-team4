@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}" lang="${lang}">
+    <head>
+        <title>#{get 'title' /}</title>		
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/crud.css'}" />
+    </head>
+    <body id="crud">
+		
+		<div id="crudHeader">
+			<h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
+		</div>
+		
+		<div id="allUsers">
+			<h2>All users from A4Q:</h2>
+			#{list items:userList, as:'user'}
+				<div class="spam">
+					<a href="@{Users.showProfile(user.id)}">${user.username}</a><br>
+					#{if user.isSpam()}
+						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam]</a>
+					#{/if}
+					<a class="button" href="@{Admin.clearReputation(user.id)}">[clear reputation]</a>
+					<a class="button" href="@{Admin.deleteUser(user.id)}">[delete]</a>
+	   			</div>
+			#{/list}
+		</div>
+		
+		<br><a class="button" href="@{Admin.index()}">Back to adminpage</a>
+
+	</body>
+</html>

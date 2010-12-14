@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Answer;
+import models.Post;
 import models.Question;
 import models.User;
 import models.importer.XMLParser;
@@ -68,7 +69,32 @@ public class Admin extends Controller {
 	}
 
 	public static void unspamPost(Long id) {
+		Post post = Post.findById(id);
+		post.spamreport.clear();
 		Admin.showSpams();
+	}
+
+	public static void showUsers() {
+		List<User> userList = new ArrayList<User>();
+		userList = User.all().fetch();
+		render(userList);
+	}
+
+	public static void unspamUser(Long id) {
+		User user = User.findById(id);
+		user.spamreport.clear();
+		Admin.showUsers();
+	}
+
+	public static void clearReputation(Long id) {
+		Admin.showUsers();
+	}
+
+	public static void deleteUser(Long id) {
+		User user = User.findById(id);
+		// user.delete();
+		// user.deleteAll();
+		Admin.showUsers();
 	}
 
 	public static void index() {

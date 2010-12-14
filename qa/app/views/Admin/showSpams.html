@@ -16,8 +16,9 @@
 			<h2>this questions are spamed:</h2>
 			#{list items:spamQuestion, as:'question'}
 				<div class="spam">
-					${question.getTitle()}
+					<a href="@{Application.show(question.id)}">${question.getTitle()}</a><br>
 					<a class="button" href="@{Admin.unspamPost(question.id)}">[unspam]</a>
+					<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">[edit]</a>
 	   			</div>
 			#{/list}
 		</div>
@@ -26,8 +27,9 @@
 			<h2>this answers are spamed:</h2>
 			#{list items:spamAnswer, as:'answer'}
 				<div class="spam">
-					${answer.getTitle()}
+					${answer.getTitle()}<br>
 					<a class="button" href="@{Admin.unspamPost(answer.id)}">[unspam]</a>
+					<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">[edit]</a>
 	   			</div>
 			#{/list}
 		</div>
