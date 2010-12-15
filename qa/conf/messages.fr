@@ -96,19 +96,29 @@ unfollow=Ne pas suivre
 edit=Éditer
 comment=Commenter
 quote=Citer
-bestA=Meilleure réponse
-bestAText=C'est la meilleure réponse.
 activities=Activités
 myQuestions=Mes questions
 myAnswers=Mes réponses
 myFollows=Je suis
 search=Chercher
 proposals=Cette questions vous pouvez aussi réponse
+
+
+
 spamer=Spamer, tu est une piece de la merde! Allez a ta maison!
 spam=Spam
+spamQue=Cette question a été marqué comme spam. Vous ne sera pas affichée tant que l'administrateur a décidé à ce sujet!
+
+# Timer
+
 waittime=Temps d'attente
 waitsearch=jusqu'à ce que la prochaine recherche:
 waitsearchfin=Tu peux effectuer une nouvelle recherche!
 waitpost=jusqu'à ce que la prochaine contribution:
 waitpostfin=Tu peux faire un autre post!
+
+# Best answer
+
+bestA=Meilleure réponse
+bestAText=C'est la meilleure réponse.
 notbestA=Pas le meilleur rèponse
