@@ -52,30 +52,20 @@ public class Admin extends Controller {
 	}
 
 	public static void showSpams() {
-		List<Question> spamQuestion = new ArrayList<Question>();
-		List<Answer> spamAnswer = new ArrayList<Answer>();
-		spamQuestion = Question.all().fetch();
-		spamAnswer = Answer.all().fetch();
-
-		/**
-		 * for (Question p : spamQuestion) { if (!p.isSpam()) {
-		 * spamQuestion.remove(p); } }
-		 * 
-		 * for (Answer a : spamAnswer) { if (!a.isSpam()) {
-		 * spamAnswer.remove(a); } }
-		 */
-
+		List<Question> spamQuestion = Question.find("isSpam is true").fetch();
+		List<Answer> spamAnswer = Answer.find("isSpam is true").fetch();
 		render(spamQuestion, spamAnswer);
 	}
 
 	public static void unspamPost(Long id) {
 		Post post = Post.findById(id);
 		post.spamreport.clear();
+		post.isSpam = false;
 		post.save();
 		Admin.showSpams();
 	}
 
-	public static void showUsers() {
+	public static void showSpamer() {
 		List<User> userList = new ArrayList<User>();
 		userList = User.all().fetch();
 		render(userList);
@@ -85,18 +75,18 @@ public class Admin extends Controller {
 		User user = User.findById(id);
 		user.spamreport.clear();
 		user.save();
-		Admin.showUsers();
+		Admin.showSpamer();
 	}
 
 	public static void clearReputation(Long id) {
-		Admin.showUsers();
+		Admin.showSpamer();
 	}
 
 	public static void deleteUser(Long id) {
 		User user = User.findById(id);
 		// user.delete();
 		// user.deleteAll();
-		Admin.showUsers();
+		Admin.showSpamer();
 	}
 
 	public static void index() {
