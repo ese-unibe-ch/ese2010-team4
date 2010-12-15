@@ -27,6 +27,7 @@ public abstract class Post extends Model {
 	private static final int SPAM_VALUE = 1;
 	protected final int RAND_NUMBER = 3;
 	public HashSet<User> spamreport;
+	public boolean isSpam;
 	public Date timestamp;
 	public static URLHandler uHandler = new URLHandler();
 	public static HTMLHandler hHandler = new HTMLHandler();
@@ -50,6 +51,7 @@ public abstract class Post extends Model {
 		this.content = uHandler.check(hHandler.check(content));
 		this.historys = new ArrayList<History>();
 		this.spamreport = new HashSet<User>();
+		this.isSpam = false;
 		this.timestamp = new Date();
 
 	}
@@ -150,7 +152,10 @@ public abstract class Post extends Model {
 	 * @return true, if is spam
 	 */
 	public boolean isSpam() {
-		return (this.spamreport.size() >= SPAM_VALUE);
+		if (this.spamreport.size() >= SPAM_VALUE) {
+			isSpam = true;
+		}
+		return isSpam;
 	}
 
 }

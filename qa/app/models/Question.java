@@ -3,12 +3,10 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * A question with content, timestamp, ownertests and voting.
@@ -17,7 +15,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Question extends VotablePost {
 	public static final int DELAY = 10000;
-	private long validity;
+	public long validity;
 	public String title;
 	public boolean hasBestAnswer;
 
@@ -107,9 +105,8 @@ public class Question extends VotablePost {
 		return this;
 	}
 
-	public long getValidity() {
+	public long giveValidity() {
 		return this.validity;
 	}
-
 
 }

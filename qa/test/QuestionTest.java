@@ -7,8 +7,6 @@ import models.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import controllers.Users;
-
 import play.test.Fixtures;
 import play.test.UnitTest;
 
@@ -18,75 +16,67 @@ public class QuestionTest extends UnitTest {
 	User sepp;
 	Question firstQuestion;
 	Answer firstAnswer;
-	
-	
 
-    @Before
-    public void setup() throws Exception {
-    	Fixtures.deleteAll();
-	    hans = new User("Muster Hans", "hans@gmail.com", "keyword").save();
-	    sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
-	    firstQuestion = new Question(hans, "brightliy?", "What is hot and shines brightly?").save();
+	@Before
+	public void setup() throws Exception {
+		Fixtures.deleteAll();
+		hans = new User("Muster Hans", "hans@gmail.com", "keyword").save();
+		sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
+		firstQuestion = new Question(hans, "brightliy?",
+				"What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
-		
-    }
-    
+
+	}
+
 	@Test
 	public void shouldCreateAndRetrieveQuestion() {
-	    assertEquals(1, Question.count());	    
-	    // Retrieve all questions created by Hans
-	    List<Question> hansQuestions = Question.find("byAuthor", hans).fetch();
+		assertEquals(1, Question.count());
+		// Retrieve all questions created by Hans
+		List<Question> hansQuestions = Question.find("byAuthor", hans).fetch();
 
-	    assertEquals(1, hansQuestions.size());
-	    firstQuestion= hansQuestions.get(0);
-	    assertNotNull(firstQuestion);
-	    assertEquals(hans, firstQuestion.author);
-	    assertEquals("What is hot and shines brightly?", firstQuestion.content);
-	    assertNotNull(firstQuestion.timestamp);
-	    assertEquals("It is the sun.", firstQuestion.answers.get(0).content);
+		assertEquals(1, hansQuestions.size());
+		firstQuestion = hansQuestions.get(0);
+		assertNotNull(firstQuestion);
+		assertEquals(hans, firstQuestion.author);
+		assertEquals("What is hot and shines brightly?", firstQuestion.content);
+		assertNotNull(firstQuestion.timestamp);
+		assertEquals("It is the sun.", firstQuestion.answers.get(0).content);
 	}
-	
-	
+
 	@Test
-	public void shouldSetAllAnswerFalse(){
-		
+	public void shouldSetAllAnswerFalse() {
+
 		firstAnswer.isBestAnswer = true;
 		firstAnswer.save();
-		Answer secondAnswer = new Answer(firstQuestion, sepp, "this is the moon").save();
+		Answer secondAnswer = new Answer(firstQuestion, sepp,
+				"this is the moon").save();
 		secondAnswer.isBestAnswer = true;
-		
+
 		firstQuestion.setAllAnswersFalse();
-		
+
 		assertFalse(firstQuestion.hasChosen());
-		
+
 	}
-	
+
 	@Test
-	public void shouldHaveBestAnser(){
-		
+	public void shouldHaveBestAnser() {
+
 		firstQuestion.addAnswer(sepp, "it's the moon");
 		Answer secondAnswer = Answer.find("byContent", "it's the moon").first();
 		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
-		
+
 		assertEquals(true, firstQuestion.answers.get(1).isBestAnswer);
-		
+
 		assertEquals(true, firstQuestion.hasChosen());
 	}
-	
+
 	@Test
-	public void resetBestAnswer(){
+	public void resetBestAnswer() {
 		firstQuestion.addAnswer(sepp, "it's the moon");
 		Answer secondAnswer = Answer.find("byContent", "it's the moon").first();
-		
-		firstQuestion.bestAnswer(secondAnswer);
-		firstQuestion.save();
-		firstQuestion.hasNotBestAnswer();
-		firstQuestion.save();
-		assertEquals(0, firstQuestion.getValidity());
+		firstQuestion.bestAnswer(secondAnswer).save();
+		firstQuestion.hasNotBestAnswer().save();
+		assertEquals(0, firstQuestion.giveValidity());
 	}
-	
-
-	
 }
-

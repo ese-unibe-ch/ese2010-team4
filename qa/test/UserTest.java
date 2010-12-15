@@ -18,8 +18,8 @@ public class UserTest extends UnitTest {
 	@Before
 	public void setup() throws Exception {
 		Fixtures.deleteAll();
-		User.createUser("Muster Hans", "hans@gmail.com", "keyword","");
-		User.createUser("Sepp", "sepp@sepp.ch", "hallo","");
+		User.createUser("Muster Hans", "hans@gmail.com", "keyword", "");
+		User.createUser("Sepp", "sepp@sepp.ch", "hallo", "");
 		hans = User.find("byUsername", "Muster Hans").first();
 		sepp = User.find("byUsername", "Sepp").first();
 		firstQuestion = new Question(hans, "brightliy?",
@@ -27,6 +27,13 @@ public class UserTest extends UnitTest {
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
 		firstAnswer.tagItWith("Java").tagItWith("Html").save();
 
+	}
+
+	// @Test
+	public void deleteUser() {
+		hans.delete();
+		hans.save();
+		assertEquals(null, hans);
 	}
 
 	@Test
