@@ -25,7 +25,7 @@
 				#{list items:userList, as:'user'}
 					<div class="user"><br>			
 						<a class="spam" href="@{Users.showProfile(user.id)}">${user.username}</a><br>
-						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam user and all his posts]</a>
+						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam user, but not his posts]</a>
 						<a class="button" href="@{Admin.clearReputation(user.id)}">[clear reputation]</a>
 						<a class="button" href="@{Admin.deleteUser(user.id)}">[delete]</a>
 		   			</div>

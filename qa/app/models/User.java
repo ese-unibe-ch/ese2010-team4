@@ -641,4 +641,14 @@ public class User extends Model {
 	public int timeToNextPost() {
 		return ((int) ((this.postdate) - (new Date().getTime())) / 1000);
 	}
+
+	public void clearHoleReputation() {
+		this.rating.answerRep = 0;
+		this.rating.bestAnswerRep = 0;
+		this.rating.penalty = 0;
+		this.rating.questionRep = 0;
+		this.rating.totalRep = 0;
+		this.rating.save();
+		this.save();
+	}
 }
