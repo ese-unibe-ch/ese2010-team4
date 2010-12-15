@@ -154,6 +154,8 @@ public abstract class Post extends Model {
 	public boolean isSpam() {
 		if (this.spamreport.size() >= SPAM_VALUE) {
 			this.isSpam = true;
+		} else {
+			this.isSpam = false;
 		}
 		this.save();
 		return isSpam;

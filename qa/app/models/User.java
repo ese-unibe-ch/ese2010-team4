@@ -599,6 +599,8 @@ public class User extends Model {
 	public boolean isSpam() {
 		if (this.spamreport.size() >= SPAM_REPORT) {
 			this.isSpam = true;
+		} else {
+			this.isSpam = false;
 		}
 		this.save();
 		return isSpam;
