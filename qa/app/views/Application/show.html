@@ -172,7 +172,7 @@
 														<a class="button" href="@{Users.quote(answer.id)}">&{'quote'}</a>
 													#{/if}
 												#{/ifnot}
-												#{if question.isOwnPost() && (answer.isBestAnswer || question.hasBestAnswer)}
+												#{if question.isOwnPost() && answer.isBestAnswer && !question.hasBestAnswer}
 															<a class="button" href="@{Users.notBestAnswer(question.id)}">&{'notbestA'}</a>													
 												#{/if}
 											#{/secure.check}

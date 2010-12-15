@@ -78,13 +78,13 @@ public class Reputation extends Model {
 	 */
 	public void voteUP(Post post, User user){
 		
-		
+		boolean hasvoted = this.hasVoted(user);
 		if(!this.hasVoted(user)){
 			this.createReputationByUser(user);
 		}
 		
 		ReputationfromUser repbyuser = this.findReputationfromUser(user);		
-		if(this.isNotOverPushSize(repbyuser)){		
+		if(this.isNotOverPushSize(repbyuser, hasvoted)){		
 				if(post instanceof Answer){						
 					this.answerRep += ANSWER_REP;				
 					repbyuser.reputation += ANSWER_REP;
@@ -127,14 +127,15 @@ public class Reputation extends Model {
 	 * @param post the best answer
 	 */
 	public void bestAnswer(Answer answer, User user) {
-		
+		boolean hasvoted = this.hasVoted(user);
 		if(!this.hasVoted(user)){
 			this.createReputationByUser(user);
+			this.save();
 		}
 		ReputationfromUser repbyuser = this.findReputationfromUser(user);		
 
 		
-		if(this.isNotOverPushSize(repbyuser)){		
+		if(this.isNotOverPushSize(repbyuser, hasvoted)){		
 			this.bestAnswerRep += BEST_ANSWER_REP;
 			repbyuser.reputation +=BEST_ANSWER_REP;
 			totalRep();
@@ -159,11 +160,9 @@ public class Reputation extends Model {
 	 * @param repbyuser the reputation of a single user.
 	 * @return true if the conventions are met.
 	 */
-	private boolean isNotOverPushSize(ReputationfromUser repbyuser) {
-		System.out.println("total rep point: " +this.totalRep);
-		System.out.println("totalrep<START_CHECK_ARPC: "+(this.totalRep<START_CHECK_ARPC));
-		System.out.println("durchschnitt "+ ((double)(repbyuser.reputation))/((double)this.totalRep));
-		if(this.totalRep < START_CHECK_ARPC || ((double)(repbyuser.reputation))/((double)this.totalRep)<MAX_PUSH_SIZE){
+	private boolean isNotOverPushSize(ReputationfromUser repbyuser, boolean hasvoted) {
+
+		if(this.totalRep < START_CHECK_ARPC || ((double)(repbyuser.reputation))/((double)this.totalRep)<MAX_PUSH_SIZE || !hasvoted){
 			return true;
 		}
 		return false;
@@ -175,7 +174,8 @@ public class Reputation extends Model {
 	 */
 	private void createReputationByUser(User user) {
 		ReputationfromUser repbyuser = new ReputationfromUser(user).save();
-		this.reputationfromUser.add(repbyuser);		
+		this.reputationfromUser.add(repbyuser);
+		this.save();
 	}
 	
 	/**
@@ -211,7 +211,7 @@ public class Reputation extends Model {
 	 */
 	public boolean hasVoted(User user){
 		for(ReputationfromUser repbyuser: this.reputationfromUser){
-			if(repbyuser.equals(user)){
+			if(repbyuser.user.equals(user)){
 				return true;
 			}
 		}
