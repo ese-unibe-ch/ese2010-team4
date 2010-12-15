@@ -9,7 +9,7 @@
     <body id="crud">
 		
 		<div id="crudHeader">
-			<h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
+			<h1><a href="@{CRUD.index()}">Spamer</a></h1>
 		</div>
 		
 		<style type="text/css">
@@ -17,20 +17,20 @@
 		</style> 
 		
 		<div id="allUsers">
-			<h2>All users from A4Q (spamer are highlighted in gold):</h2>
-			#{list items:userList, as:'user'}
-				<div class="user"><br>			
-					#{if user.isSpam()}
+			<h2>All spamer in A4Q:</h2>
+			#{if userList.isEmpty()}
+				<label>No user marked as spamer</label><br>
+			#{/if}
+			#{else}
+				#{list items:userList, as:'user'}
+					<div class="user"><br>			
 						<a class="spam" href="@{Users.showProfile(user.id)}">${user.username}</a><br>
-						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam]</a>
-					#{/if}
-					#{else}
-						<a href="@{Users.showProfile(user.id)}">${user.username}</a><br>
-					#{/else}
-					<a class="button" href="@{Admin.clearReputation(user.id)}">[clear reputation]</a>
-					<a class="button" href="@{Admin.deleteUser(user.id)}">[delete]</a>
-	   			</div>
-			#{/list}
+						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam user and all his posts]</a>
+						<a class="button" href="@{Admin.clearReputation(user.id)}">[clear reputation]</a>
+						<a class="button" href="@{Admin.deleteUser(user.id)}">[delete]</a>
+		   			</div>
+				#{/list}
+			#{/else}
 		</div>
 		
 		<br><a class="button" href="@{Admin.index()}">Back to adminpage</a>

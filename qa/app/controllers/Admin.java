@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import models.Answer;
@@ -59,20 +58,28 @@ public class Admin extends Controller {
 
 	public static void unspamPost(Long id) {
 		Post post = Post.findById(id);
+		User user = post.author;
 		post.spamreport.clear();
 		post.isSpam = false;
 		post.save();
+		user.spamreport.remove(post);
+		user.isSpam();
+		user.save();
 		Admin.showSpams();
 	}
 
 	public static void showSpamer() {
-		List<User> userList = new ArrayList<User>();
-		userList = User.all().fetch();
+		List<User> userList = User.find("isSpam is true").fetch();
 		render(userList);
 	}
 
 	public static void unspamUser(Long id) {
 		User user = User.findById(id);
+		for (Post post : user.spamreport) {
+			post.spamreport.clear();
+			post.isSpam = false;
+			post.save();
+		}
 		user.spamreport.clear();
 		user.save();
 		Admin.showSpamer();

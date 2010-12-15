@@ -587,6 +587,7 @@ public class User extends Model {
 	 */
 	public void spam(Post post) {
 		this.spamreport.add((VotablePost) post);
+		this.isSpam();
 		this.save();
 	}
 
@@ -597,8 +598,9 @@ public class User extends Model {
 	 */
 	public boolean isSpam() {
 		if (this.spamreport.size() >= SPAM_REPORT) {
-			isSpam = true;
+			this.isSpam = true;
 		}
+		this.save();
 		return isSpam;
 	}
 
