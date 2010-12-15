@@ -35,7 +35,7 @@
 						#{if hasTimeToChange}
 							<a class="button" href="@{Users.writeComment(question.id, question.id)}">&{'comment'}</a>
 						#{/if}
-						#{if question.isOwnPost()}
+						#{if question.isOwnPost() || user.isAdmin}
 							<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">&{'edit'}</a>
 						#{/if}
 						#{if !question.isOwnPost()}
@@ -160,7 +160,7 @@
 												#{ifnot question.hasBestAnswer}
 													#{if hasTimeToChange}
 														<a class="button" href="@{Users.writeComment(answer.id, question.id)}">&{'comment'}</a>
-														#{if answer.isOwnPost()}
+														#{if answer.isOwnPost() || user.isAdmin}
 															<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 														#{/if}
 														#{if question.isOwnPost() && !answer.isBestAnswer && !answer.isOwnPost()}

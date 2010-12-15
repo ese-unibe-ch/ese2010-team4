@@ -33,7 +33,7 @@
 									<span>unfollow</span>
 								</a>
 							#{/else}
-							#{if question.isOwnPost()}
+							#{if question.isOwnPost() || user.isAdmin}
 								<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">edit</a>
 							#{/if}
 						#{/ifnot}
