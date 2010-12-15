@@ -94,6 +94,9 @@
 									#{else}
 										${comment.numberOfLikers()} users like this comment.
 									#{/else}
+									#{if !comment.isOwnPost()}
+										<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+									#{/if}
 								</span>
 								#{secure.check 'user'}
 									#{if !comment.isOwnPost()}
@@ -208,6 +211,9 @@
 													#{else}
 														${comment.numberOfLikers()} users like this comment.
 													#{/else}
+													#{if !comment.isOwnPost()}
+														<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+													#{/if}
 												</span>
 												#{secure.check 'user'}
 													#{if !comment.isOwnPost()}

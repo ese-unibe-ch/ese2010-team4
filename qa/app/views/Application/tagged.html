@@ -4,6 +4,7 @@
 <div class="questions"> 
 	this questions have the same tag: <br>
 	#{list items:taggedPosts, as:'question'}
+		#{if !question.isSpam()}
 		<div class="question">
 			<div class="voting">
 				<div class="vote-curr">
@@ -71,5 +72,15 @@
 				</div>
 			</div>
 		</div>
+		#{/if}
+		#{else}
+			<div class="question">
+				<div class="question-main">
+					<div class="question-spam">
+						&{'spamQue'}
+					</div>
+				</div>
+			</div>
+		#{/else}
 	#{/list}
 </div>
