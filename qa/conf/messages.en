@@ -102,8 +102,6 @@ unfollow=Unfollow
 edit=Edit
 comment=Comment
 quote=Quote
-bestA=Best answer
-bestAText=This is the best answer.
 activities=Activities
 myQuestions=My questions
 myAnswers=My answers
@@ -112,12 +110,23 @@ search=Search
 update=Update
 submit=Submit
 proposals=You may wan't answer to these questions
+
+# Spam
+
 spamer=You are a fucking spamer! Go home!
 spam=Spam
+spamQue=This question has been marked as spam. It will not be displayed until the administrator has decided about it!
+
+# Timer
+
 waittime=Waiting time
 waitsearch=for the next search:
 waitsearchfin=You can search again!
 waitpost=for the next post:
 waitpostfin=You can make another post!
-notbestA=Not best answer
 
+# Best answer
+
+bestA=Best answer
+bestAText=This is the best answer.
+notbestA=Not best answer

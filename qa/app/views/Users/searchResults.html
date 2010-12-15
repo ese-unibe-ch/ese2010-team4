@@ -18,20 +18,27 @@
         	#{/if}
         	#{ifnot postscont.isEmpty() && poststitl.isEmpty()}
         		#{list items:postscont, as:'post'}
+        				#{if !post.isSpam()}
         					#{if post.isQuestion()}
-								<div class="answer">in question <a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</div>
+								<div class="answer">In question <a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</div>
 							#{/if}
 							#{if post.isAnswer()}
-								<div class="answer">in answer to the<a class="button" href = "@{Application.show(post.findQuestion().id)}">question</a> ${post.findQuestion().title} (${post.getDate()}).</div>
+								#{if !post.findQuestion().isSpam()}
+									<div class="answer">In answer to the question <a class="button" href = "@{Application.show(post.findQuestion().id)}">${post.findQuestion().title}</a> (${post.getDate()}).</div>
+								#{/if}
 							#{/if}
 							#{if post.isCommentAnswer()}
-								<div class="answer">in the comment to the <a class="button" href = "@{Application.show(post.post.findQuestion().id)}">question</a> ${post.post.findQuestion().title}  (${post.getDate()}).</div>
-									
+								#{if !post.post.findQuestion().isSpam()}
+									<div class="answer">In a comment to an answer for the question <a class="button" href = "@{Application.show(post.post.findQuestion().id)}">${post.post.findQuestion().title}</a> (${post.getDate()}).</div>
+								#{/if}
 							#{/if}
 							#{if post.isCommentQuestion()}
-								<div class="answer">in a comment to an answer for the <a class="button" href = "@{Application.show(post.post.id)}">question</a> ${post.post.title} (${post.getDate()}).</div>
+								#{if !post.post.isSpam()}
+									<div class="answer">In the comment to the question <a class="button" href = "@{Application.show(post.post.id)}">${post.post.title}</a> (${post.getDate()}).</div>
+								#{/if}
 							#{/if}
-        		#{/list}
+						#{/if}
+				#{/list}
         	#{/ifnot}
         	#{if !tags.isEmpty()}
         		found by tags

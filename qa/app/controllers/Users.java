@@ -10,11 +10,11 @@ import java.util.List;
 import models.Answer;
 import models.Badge;
 import models.Comment;
-import models.VotablePost;
+import models.Post;
 import models.Question;
 import models.Tag;
 import models.User;
-import models.Post;
+import models.VotablePost;
 import play.data.validation.Required;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -271,16 +271,16 @@ public class Users extends CRUD {
 		else
 			Application.show(postId);
 	}
-	
-	public static void vote(long id, boolean vote){
+
+	public static void vote(long id, boolean vote) {
 		VotablePost post = VotablePost.findById(id);
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
 		post.vote(user, vote);
 		post.save();
-		if(post instanceof Answer)
-			Application.show(((Answer)post).question.id);
-		if(post instanceof Question)
+		if (post instanceof Answer)
+			Application.show(((Answer) post).question.id);
+		if (post instanceof Question)
 			Application.show(id);
 
 	}
@@ -327,7 +327,8 @@ public class Users extends CRUD {
 			myProfile(authorid);
 		} else {
 			List<VotablePost> activities = userToShow.activities();
-			Post lastActivity = VotablePost.find("order by timestamp desc").first();
+			Post lastActivity = VotablePost.find("order by timestamp desc")
+					.first();
 			List<Badge> badges = Badge.find("byReputation", userToShow.rating)
 					.fetch();
 			render(userToShow, activities, lastActivity, badges);
@@ -483,7 +484,8 @@ public class Users extends CRUD {
 		if (user.canSearch()) {
 			user.setUpSearchTime();
 			boolean found = false;
-			Post lastActivity = VotablePost.find("order by timestamp desc").first();
+			Post lastActivity = VotablePost.find("order by timestamp desc")
+					.first();
 			List<User> users = User
 					.find("byUsernameLike", "%" + toSearch + "%").fetch();
 			List<VotablePost> postscont = VotablePost.find("byContentLike",
@@ -494,20 +496,17 @@ public class Users extends CRUD {
 					.fetch();
 
 			toSearch = searched;
-			if (users.size() == 0 && postscont.size() == 0
-					&& poststitl.size() == 0 && tags.isEmpty()) {
+			if (users.isEmpty() && postscont.isEmpty() && poststitl.isEmpty()
+					&& tags.isEmpty()) {
 				String message = "no user found";
 				render(users, message, found, lastActivity, toSearch, canSearch);
-			}
-
-			else {
+			} else {
 				found = true;
 				render(users, postscont, poststitl, tags, found, lastActivity,
 						toSearch, canSearch);
 			}
 		}
-		int timeToNextSearch = user.timeToNextSearch();
-		render(canSearch, timeToNextSearch);
+		render(canSearch, user.timeToNextSearch());
 
 	}
 
@@ -644,10 +643,14 @@ public class Users extends CRUD {
 		User user = User.find("byUsername", Security.connected()).first();
 		post.spam(user);
 		post.author.save();
-		if (post instanceof Question) {
+		if (post.isQuestion()) {
 			Application.show(id);
-		} else {
-			Application.show(((Answer) post).question.id);
+		} else if (post.isAnswer()) {
+			Application.show(post.findQuestion().id);
+		} else if (post.isCommentQuestion()) {
+			Application.show(((Comment) post).post.id);
+		} else if (post.isCommentAnswer()) {
+			Application.show(((Comment) post).post.findQuestion().id);
 		}
 	}
 

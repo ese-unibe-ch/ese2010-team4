@@ -7,20 +7,22 @@
 	<div class="questionfollows">
 		#{if !followQ.isEmpty()}
 			&{'follow.Question'}:
-		#{list items:followQ, as:'question'}
-    	<div class="answers">
-            <div class="answer">
-				<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-					<div id="answer-author" class="author">
-						<div class="buttons" id="question-buttons">
-        					<a class="button" href="@{Users.unfollowQuestion(question.id)}">
-								<span>&{'unfollow'}</span>
-							</a>
-        				</div>
-					</div>
-           	</div>
-    	</div>
-    	#{/list}
+			#{list items:followQ, as:'question'}
+		    	#{if !question.isSpam()}
+			    	<div class="answers">
+			            <div class="answer">
+							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
+								<div id="answer-author" class="author">
+									<div class="buttons" id="question-buttons">
+			        					<a class="button" href="@{Users.unfollowQuestion(question.id)}">
+											<span>&{'unfollow'}</span>
+										</a>
+			        				</div>
+								</div>
+			           	</div>
+			    	</div>
+		    	#{/if}
+			#{/list}
 		#{/if}
 	
 		#{else}

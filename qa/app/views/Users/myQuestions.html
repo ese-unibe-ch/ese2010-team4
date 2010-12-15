@@ -3,6 +3,11 @@
 
 #{list items:questions, as:'question'}
 	<div class="question">
+		#{if question.isSpam()}
+    		<div class="question-spam">
+				&{'spamQue'}
+			</div>
+    	#{/if}
 		<div class="voting">
 			<div class="vote-curr">
 				${question.voting()}

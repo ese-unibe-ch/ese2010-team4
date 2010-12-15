@@ -103,8 +103,6 @@ unfollow=Nicht folgen
 edit=Editieren
 comment=Kommentieren
 quote=Zitieren
-bestA=Beste Antwort
-bestAText=Dies ist die beste Antwort.
 activities=Aktivitäten
 myQuestions=Meine Fragen
 myAnswers=Meine Antworten
@@ -113,11 +111,23 @@ search=Suchen
 update=Aktualisieren
 submit=Absenden
 proposals=Diese Fragen kannst Du vielleicht auch noch beantworten
+
+# Spam
+
 spamer=Du bist ein scheiss Spamer! Geh nach Hause!
 spam=Spam
+spamQue=Diese Frage wurde als Spam markiert. Sie wird nicht mehr angezeigt, bis der Administrator darüber entschieden hat!
+
+# Timer
+
 waittime=Wartezeit
 waitsearch=bis zur nächsten Suche:
 waitsearchfin=Du kannst wieder suchen!
 waitpost=bis zum nächsten Post:
 waitpostfin=Du kannst etwas neues posten!
+
+# Best answer
+
+bestA=Beste Antwort
+bestAText=Dies ist die beste Antwort.
 notbestA=Nicht beste Antwort

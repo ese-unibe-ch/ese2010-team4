@@ -1,6 +1,7 @@
 #{extends 'main.html' /} 
 #{set title:'Show question' /} 
 
+#{if !question.isSpam()}
 <div>
 	<h3>&{'view'}</h3>
 	<div class="question">
@@ -93,6 +94,9 @@
 									#{else}
 										${comment.numberOfLikers()} users like this comment.
 									#{/else}
+									#{if !comment.isOwnPost()}
+										<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+									#{/if}
 								</span>
 								#{secure.check 'user'}
 									#{if !comment.isOwnPost()}
@@ -207,6 +211,9 @@
 													#{else}
 														${comment.numberOfLikers()} users like this comment.
 													#{/else}
+													#{if !comment.isOwnPost()}
+														<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+													#{/if}
 												</span>
 												#{secure.check 'user'}
 													#{if !comment.isOwnPost()}
@@ -267,3 +274,18 @@
 		</div>
 	#{/if}
 #{/ secure.check}
+
+#{/if}
+
+#{else}
+<div>
+	<h3>&{'view'}</h3>
+	<div class="question">
+		<div class="question-main">
+			<div class="question-spam">
+				&{'spamQue'}
+			</div>
+		</div>
+	</div>
+</div>
+#{/else}
