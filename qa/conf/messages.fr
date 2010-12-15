@@ -1,6 +1,7 @@
 # Messages (français)
 
 # General
+
 author=Auteur
 content=Contenu
 title=Title
@@ -23,32 +24,32 @@ view=Avis de la question
 nrAnswers=les nombre des résponses
 nrComments=les nombre des commentaires
 upload=Télécharger
-noAnswer=
-writtenBy=
-changeLang=
+noAnswer=Il n'y a pas de réponses.
+writtenBy=Écrit par %s
+changeLang=Change la langage
 chooseLanguage=Langage
-post.voting=
-post.saveEdits=
-post.delete=
+post.voting=Votation : %s
+post.saveEdits=Mémoriser modification
+post.delete=Effacer cette entrée
 
-voted=
-newQuestionPosted=
-newAnswerPosted=
+voted=Merci pour le voté, %s!
+newQuestionPosted=Merci pour demander une nouvelle question %s!
+newAnswerPosted=Merci pour répondre cette question %s!
 
-myAnswer.answer=
+myAnswer.answer=Réponse pour cette question:
 
 # Activity
 
-activity.newQuestion=
-activity.newAnswer=
-activity.newComment=
+activity.newQuestion=Une nouvelle question a été demander
+activity.newAnswer=Une nouvelle réponse a été écrit à la question
+activity.newComment=Un nouveau commentaire a été écrit à la question
 
 # Following
 
-follow.Question=
-follow.User=
-follow.NoQuestion=
-follow.NoUser=
+follow.Question=Tu suis cettes questions
+follow.User=Tu suis ces clients
+follow.NoQuestion=Tu ne suis pas des questions
+follow.NoUser=Tu ne suis pas des clients
 
 # Profile
 profile.email=Email
@@ -60,8 +61,12 @@ profile.about=Sur moi
 profile.programmingLanguages=Langages de programmation
 profile.uploadAvatar=Télécharger un avatar
 profile.avatar.url=ou déclarer une URL
-profile.hoh=
-profile.repGraph=Graphique de la réputation	
+profile.hoh=Hall de la gloire
+profile.repGraph=Graphique de la réputation
+profile.userInfo=Info
+profile.userAvatar=Avatar
+profile.userActivities=Activités
+profile.userBadges=Badge
 
 # Secure messages
 secure.title=Se loguer
