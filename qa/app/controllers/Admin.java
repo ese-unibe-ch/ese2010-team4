@@ -75,24 +75,20 @@ public class Admin extends Controller {
 
 	public static void unspamUser(Long id) {
 		User user = User.findById(id);
-		for (Post post : user.spamreport) {
-			post.spamreport.clear();
-			post.isSpam = false;
-			post.save();
-		}
 		user.spamreport.clear();
+		user.isSpam = false;
 		user.save();
 		Admin.showSpamer();
 	}
 
 	public static void clearReputation(Long id) {
+		User user = User.findById(id);
+		user.clearHoleReputation();
 		Admin.showSpamer();
 	}
 
 	public static void deleteUser(Long id) {
 		User user = User.findById(id);
-		// user.delete();
-		// user.deleteAll();
 		Admin.showSpamer();
 	}
 
