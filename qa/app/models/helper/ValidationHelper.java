@@ -1,6 +1,7 @@
 package models.helper;
 
 import models.User;
+import models.annotations.ForTestingOnly;
 
 public class ValidationHelper {
 
@@ -11,18 +12,19 @@ public class ValidationHelper {
 
 		} else if (string.equals("Email")) {
 			return checkEmail(data);
-		}
-
-		return false;
+		} else
+			return false;
 
 	}
 
-	private boolean checkUsername(String data) {
+	@ForTestingOnly
+	public boolean checkUsername(String data) {
 		User user = User.find("byUsername", data).first();
 		return user == null;
 	}
 
-	private boolean checkEmail(String data) {
+	@ForTestingOnly
+	public boolean checkEmail(String data) {
 		return data.matches("\\S+@(?:[A-Za-z0-9-]+\\.)+\\w{2,4}");
 	}
 }
