@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import models.VotablePost;
+import models.Post;
 import models.Question;
 import models.Tag;
 import models.User;
-import models.Post;
+import models.VotablePost;
 import models.helper.ValidationHelper;
 import play.cache.Cache;
 import play.data.validation.Required;
@@ -29,18 +29,20 @@ public class Application extends Controller {
 	@Before
 	static void setup() {
 		if (Secure.Security.isConnected()) {
-			
-			User user = User.find("byUsername", Secure.Security.connected()).first();
-			List<Question> questions = Question.find("order by voting desc").fetch();
-			
+
+			User user = User.find("byUsername", Secure.Security.connected())
+					.first();
+			List<Question> questions = Question.find("order by voting desc")
+					.fetch();
+
 			Random rnd = new Random();
 			boolean isSpam = user.isSpam();
-			int value = rnd.nextInt(questions.size());				
-			
+			int value = rnd.nextInt(questions.size());
+
 			List<VotablePost> sameQuestions = questions.get(value)
 					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
 							user);
-			
+
 			renderArgs.put("user", user);
 			renderArgs.put("sameQuestions", sameQuestions);
 			renderArgs.put("isSpam", isSpam);

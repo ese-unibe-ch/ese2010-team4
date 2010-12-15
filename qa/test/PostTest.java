@@ -20,8 +20,8 @@ public class PostTest extends UnitTest {
 	@Before
 	public void setup() {
 		Fixtures.deleteAll();
-		User.createUser("Muster Hans", "hans@gmail.com", "keyword","");
-		User.createUser("Sepp", "sepp@sepp.ch", "hallo","");
+		User.createUser("Muster Hans", "hans@gmail.com", "keyword", "");
+		User.createUser("Sepp", "sepp@sepp.ch", "hallo", "");
 		hans = User.find("byUsername", "Muster Hans").first();
 		sepp = User.find("byUsername", "Sepp").first();
 		firstQuestion = new Question(hans, "brightliy?",
@@ -73,7 +73,7 @@ public class PostTest extends UnitTest {
 	public void isSpam() {
 		firstQuestion.spam(hans);
 
-		assertFalse(firstQuestion.isSpam());
+		assertTrue(firstQuestion.isSpam());
 		assertEquals(1, firstQuestion.spamreport.size());
 
 		firstQuestion.spam(sepp);
