@@ -1,14 +1,12 @@
 package models;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
@@ -16,12 +14,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import controllers.Secure.Security;
-
 import models.annotations.ForTestingOnly;
 import models.helper.DateFormatter;
 import models.helper.PostActivityComperator;
-
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -123,6 +118,9 @@ public class User extends Model {
 
 	public HashSet<Post> spamreport;
 
+	/** The spamboolean */
+	public boolean isSpam;
+
 	/** The badgetags. */
 	public TreeSet<Tag> badgetags;
 
@@ -141,6 +139,7 @@ public class User extends Model {
 	 */
 	public User(String username, String email, String password) {
 		this.spamreport = new HashSet<Post>();
+		this.isSpam = false;
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
 		this.badgetags = new TreeSet<Tag>();
@@ -154,7 +153,7 @@ public class User extends Model {
 		this.counter = 0;
 		this.timestamp = new Date();
 	}
-	
+
 	/**
 	 * Creates a new user if all requirements are met.
 	 * 
@@ -292,6 +291,7 @@ public class User extends Model {
 			save();
 		}
 	}
+
 	/**
 	 * Calculates the age of the <code>User</code> in years.
 	 * 
@@ -325,8 +325,8 @@ public class User extends Model {
 		try {
 			this.birthday = DateFormatter.stringToDate(birthday);
 		} catch (ParseException e) {
-			System.out
-					.println("Sorry wrong Date_Format it's " + DateFormatter.DATE_FORMAT_de);
+			System.out.println("Sorry wrong Date_Format it's "
+					+ DateFormatter.DATE_FORMAT_de);
 		}
 	}
 
@@ -473,7 +473,8 @@ public class User extends Model {
 	 * @return the list
 	 */
 	public List<VotablePost> activities() {
-		return VotablePost.find("author like ? order by timestamp desc", this).fetch();
+		return VotablePost.find("author like ? order by timestamp desc", this)
+				.fetch();
 	}
 
 	/**
@@ -595,7 +596,10 @@ public class User extends Model {
 	 * @return true, if is spam
 	 */
 	public boolean isSpam() {
-		return (this.spamreport.size() >= SPAM_REPORT);
+		if (this.spamreport.size() >= SPAM_REPORT) {
+			isSpam = true;
+		}
+		return isSpam;
 	}
 
 	/**
