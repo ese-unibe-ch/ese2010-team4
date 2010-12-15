@@ -9,7 +9,7 @@
     <body id="crud">
 		
 		<div id="crudHeader">
-			<h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
+			<h1><a href="@{CRUD.index()}">All Spams</a></h1>
 		</div>
 		
 		<style type="text/css">
@@ -17,37 +17,41 @@
 		</style> 
 
 		<div id="allQuestions">
-			<h2>All questions from A4Q (spams are highlighted in gold):</h2>
-			#{list items:spamQuestion, as:'question'}
-				<div class="question"><br>
-					#{if question.isSpam()}
+			<h2>This questions are spams:</h2>
+			#{if spamQuestion.isEmpty()}
+				<label>No questions marked as spam</label><br>
+			#{/if}
+			#{else}
+				#{list items:spamQuestion, as:'question'}
+					<div class="question"><br>
 						<a class="spam" href="@{Application.show(question.id)}">${question.getTitle()}</a><br>
 						<a class="button" href="@{Admin.unspamPost(question.id)}">[unspam]</a>
-					#{/if}
-					#{else}
-						<a href="@{Application.show(question.id)}">${question.getTitle()}</a><br>
-					#{/else}
-					<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">[edit]</a>
-	   			</div>
-			#{/list}
+						<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">[edit]</a>
+		   			</div>
+				#{/list}
+			#{/else}
 		</div>
 		
+		<br>
+		
 		<div id="allAnswers">
-			<h2>All answers from A4Q (spams are highlighted in gold):</h2>
-			#{list items:spamAnswer, as:'answer'}
-				<div class="answer"><br>
-					#{if answer.isSpam()}
+			<h2>This answers are spams:</h2>
+			#{if spamAnswer.isEmpty()}
+				<label>No answers marked as spam</label><br>
+			#{/if}
+			#{else}
+				#{list items:spamAnswer, as:'answer'}
+					<div class="answer"><br>
 						<a class="spam">${answer.getTitle()}</a><br>
 						<a class="button" href="@{Admin.unspamPost(answer.id)}">[unspam]</a>
-					#{/if}
-					#{else}
-						<a>${answer.getTitle()}</a><br>
-					#{/else}
-					<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">[edit]</a>
-					<a class="button" href="@{Application.show(answer.getQuestion().getId())}">[show context]</a>
-	   			</div>
-			#{/list}
+						<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">[edit]</a>
+						<a class="button" href="@{Application.show(answer.getQuestion().getId())}">[show context]</a>
+	   				</div>
+				#{/list}
+			#{/else}
 		</div>
+		
+		<br>
 		
 		<br><a class="button" href="@{Admin.index()}">Back to adminpage</a>
 				

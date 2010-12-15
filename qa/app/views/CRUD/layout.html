@@ -43,9 +43,20 @@
 			</form> 
 		</div>
 		
-		<a class="button" href="@{Admin.showSpams()}">Show all Spams</a>
 		<br>
-		<a class="button" href="@{Admin.showUsers()}">Show all Users</a>
+		<div id="spams">
+			<label> Show all Spams:</label>
+			<table style="padding-left: 10px">
+				<a class="button" href="@{Admin.showSpams()}">Spams</a>
+			</table>
+		</div>
+		<br>
+		<div id="spamer">
+			<label> Show all Spamer:</label>
+			<table style="padding-left: 10px">
+				<a class="button" href="@{Admin.showSpamer()}">Spamer</a>
+			</table>
+		</div>
 		<br>
 		<a class="button" href="@{Application.index()}">Back to A4Q</a>
 		
