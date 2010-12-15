@@ -114,7 +114,10 @@ submit=Submit
 proposals=You may wan't answer to these questions
 spamer=You are a fucking spamer! Go home!
 spam=Spam
-waitsearch=Wait time for the next search:
-waitpost=Wait time for the next post:
+waittime=Waiting time
+waitsearch=for the next search:
+waitsearchfin=You can search again!
+waitpost=for the next post:
+waitpostfin=You can make another post!
 notbestA=Not best answer
 

@@ -10,7 +10,7 @@
 	        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>	     
 	        <script src="@{'/public/javascripts/flot/jquery.flot.js'}" type="text/javascript" charset="utf-8"></script>
 	        <script src="@{'/public/javascripts/scroll.js'}" type="text/javascript"></script>
-	        <script src="@{'/public/javascripts/jquery.jCountr.1.2.js'}" type="text/javascript"></script>
+	        <script src="@{'/public/javascripts/ownCounter.js'}" type="text/javascript"></script>
 			#{script 'validationScript.js' /}
 	       	#{script 'jquery.highlightRegex.js' /}
 	       	
@@ -41,34 +41,35 @@
 						</div>
 						#{/if}
 					</div>
-					#{if !user.canPost()}
+					#{if !user.canPost() || !user.canSearch()}
 						<div id="userActivity">
-							<h4>&{'waitpost'}</h4>
+							<h4>&{'waittime'}</h4>
+							#{if !user.canPost()}
 								<div class="activity">							
 									<script type="text/javascript">
 											$(function() {
-												var countdown = ${user.timeToNextPost()};
-												$("#counter").counter({min:"0",sec:countdown});
+												$("#counter").countDown({sec:${user.timeToNextPost()},
+													message:"- &{'waitpost'}",
+													finMessage:"- &{'waitpostfin'}"});
 											});
 									</script> 
 									<span id="counter"></span>
 								</div>
-						</div>
-					#{/if}
-					#{if !user.canSearch()}
-						<div id="userActivity">
-							<h4>&{'waitsearch'}</h4>
+							#{/if}
+							#{if !user.canSearch()}
 								<div class="activity">							
 									<script type="text/javascript">
 											$(function() {
-												var countdown = ${user.timeToNextSearch()};
-												$("#counter2").counter({min:"00",sec:countdown});
+												$("#counter2").countDown({sec:${user.timeToNextSearch()},
+													message:"- &{'waitsearch'}",
+													finMessage:"- &{'waitsearchfin'}"});
 											});
 									</script> 
 									<span id="counter2"></span>
 								</div>
+							#{/if}
 						</div>
-					#{/if}						
+					#{/if}
 					#{if sameAnswerQuestions && !isSpam}
 						<div id="proposals">
 							<h4>&{'proposals'}</h4>
