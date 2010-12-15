@@ -76,40 +76,47 @@
 			#{if question.comments.size()>0}
 				<div class="comments">
 					#{list items: question.comments, as:'comment'}
-						<div class="comment">
-							<div class="comment-author">
-								<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
-								<div class="comment-date">
-									${comment.getDate()}
+						#{if !comment.isSpam()}
+							<div class="comment">
+								<div class="comment-author">
+									<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+									<div class="comment-date">
+										${comment.getDate()}
+									</div>
 								</div>
-							</div>
-							<div class="comment-content">
-								${comment.content.raw()}
-							</div>
-							<div class="like-unlike">
-								<span>
-									#{if comment.numberOfLikers()==1}
-										${comment.numberOfLikers()} user likes this comment.
-									#{/if}
-									#{else}
-										${comment.numberOfLikers()} users like this comment.
-									#{/else}
-									#{if !comment.isOwnPost()}
-										<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
-									#{/if}
-								</span>
-								#{secure.check 'user'}
-									#{if !comment.isOwnPost()}
-										#{if !user.alreadyLikesComment(comment.id)}
-											<a class="like" href="@{Users.likeComment(comment.id, true)}"></a>
+								<div class="comment-content">
+									${comment.content.raw()}
+								</div>
+								<div class="like-unlike">
+									<span>
+										#{if comment.numberOfLikers()==1}
+											${comment.numberOfLikers()} user likes this comment.
 										#{/if}
 										#{else}
-											<a class="unlike" href="@{Users.likeComment(comment.id, false)}"></a>
+											${comment.numberOfLikers()} users like this comment.
 										#{/else}
-									#{/if}
-								#{/secure.check}
+										#{if !comment.isOwnPost()}
+											<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+										#{/if}
+									</span>
+									#{secure.check 'user'}
+										#{if !comment.isOwnPost()}
+											#{if !user.alreadyLikesComment(comment.id)}
+												<a class="like" href="@{Users.likeComment(comment.id, true)}"></a>
+											#{/if}
+											#{else}
+												<a class="unlike" href="@{Users.likeComment(comment.id, false)}"></a>
+											#{/else}
+										#{/if}
+									#{/secure.check}
+								</div>
 							</div>
-						</div>
+						#{/if}
+						#{else}
+							<div class="comment" id="comment-spam">
+								[Spam comment]
+							</div>
+						#{/else}
 					#{/list}
 				</div>
 			#{/if}
@@ -122,118 +129,126 @@
 				#{else}
 					<div class="answers">
 						#{list items:question.answers, as:'answer'}
-							<div class="answer">
-								#{if answer.isSpam()}
-									<div class="spam">
-								#{/if}
-								<div class="voting">
-									#{if answer.isBestAnswer}
-										<div class="vote-curr-best">
-											${answer.voting()}
-										</div>
-									#{/if}
-									#{else}
-										<div class="vote-curr">
-											${answer.voting()}
-										</div>
-									#{/else}
-									#{secure.check 'user'}    
-										#{if hasTimeToChange && answer.isAbleToVoteAnswer(user)}
-						         			<div class="vote-up-down">
-												<a class="vote-up" href="@{Users.vote(answer.id, true)}"></a>
-												<a class="vote-down" href="@{Users.vote(answer.id, false)}"></a>
+							#{if !answer.isSpam()}
+								<div class="answer">
+									<div class="voting">
+										#{if answer.isBestAnswer}
+											<div class="vote-curr-best">
+												${answer.voting()}
 											</div>
 										#{/if}
-									#{/secure.check}
-								</div>
-								<div id="answer-author" class="author">
-									<div class="buttons" id="question-buttons">
-										#{secure.check 'user'}
-											#{if answer.isBestAnswer}
-												&{'bestAText'}
-											#{/if}
-											#{ifnot question.hasBestAnswer}
-												#{if hasTimeToChange}
-													<a class="button" href="@{Users.writeComment(answer.id, question.id)}">&{'comment'}</a>
-													#{if answer.isOwnPost()}
-														<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
-													#{/if}
-													#{if question.isOwnPost() && !answer.isBestAnswer && !answer.isOwnPost()}
-														<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">&{'bestA'}</a>													
-													#{/if}
-													#{if !answer.isOwnPost()}
-														<a class="button" href="@{Users.isSpam(answer.id)}">&{'spam'}</a>
-													#{/if}
-													<a class="button" href="@{Users.quote(answer.id)}">&{'quote'}</a>
-												#{/if}
-											#{/ifnot}
-											#{if question.isOwnPost() && (answer.isBestAnswer || question.hasBestAnswer)}
-														<a class="button" href="@{Users.notBestAnswer(question.id)}">&{'notbestA'}</a>													
+										#{else}
+											<div class="vote-curr">
+												${answer.voting()}
+											</div>
+										#{/else}
+										#{secure.check 'user'}    
+											#{if hasTimeToChange && answer.isAbleToVoteAnswer(user)}
+							         			<div class="vote-up-down">
+													<a class="vote-up" href="@{Users.vote(answer.id, true)}"></a>
+													<a class="vote-down" href="@{Users.vote(answer.id, false)}"></a>
+												</div>
 											#{/if}
 										#{/secure.check}
 									</div>
-									<div class="answer-date">
-										${answer.getDate()}
-									</div>
-									<div id="userImg"><img src="${answer.author.avatarPath}"/></div>
-									<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.username} (${answer.author.rating})</a>
-								</div>
-								<div class="content" id="answer-content">
-						         	${answer.content.raw()}
-						    	</div>
-								<div class="attachment" id="answer-attachment">
-									#{if answer.attachmentPath != null}
-										<a class="button" href="${answer.attachmentPath}">
-											<img src="@{'/public/images/file.gif'}"/>
-											Attachment
-										</a>
-									#{/if}
-								</div>
-							#{if answer.comments.size()>0}
-								<div class="comments">
-									Comments to this answer:
-									#{list items: answer.comments, as:'comment'}
-										<div class="comment">
-											<div class="comment-author">
-												<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
-												<div class="comment-date">
-													${comment.getDate()}
-												</div>
-											</div>
-											<div class="comment-content">
-												${comment.content.raw()}
-											</div>
-											<div class="like-unlike">
-												<span>
-													#{if comment.numberOfLikers()==1}
-														${comment.numberOfLikers()} user likes this comment.
-													#{/if}
-													#{else}
-														${comment.numberOfLikers()} users like this comment.
-													#{/else}
-													#{if !comment.isOwnPost()}
-														<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
-													#{/if}
-												</span>
-												#{secure.check 'user'}
-													#{if !comment.isOwnPost()}
-														#{if !user.alreadyLikesComment(comment.id)}
-															<a class="like" href="@{Users.likeComment(comment.id, true)}"></a>
+									<div id="answer-author" class="author">
+										<div class="buttons" id="question-buttons">
+											#{secure.check 'user'}
+												#{if answer.isBestAnswer}
+													&{'bestAText'}
+												#{/if}
+												#{ifnot question.hasBestAnswer}
+													#{if hasTimeToChange}
+														<a class="button" href="@{Users.writeComment(answer.id, question.id)}">&{'comment'}</a>
+														#{if answer.isOwnPost()}
+															<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 														#{/if}
-														#{else}
-															<a class="unlike" href="@{Users.likeComment(comment.id, false)}"></a>
-														#{/else}
+														#{if question.isOwnPost() && !answer.isBestAnswer && !answer.isOwnPost()}
+															<a class="button" href="@{Users.chooseBestAnswer(answer.id)}">&{'bestA'}</a>													
+														#{/if}
+														#{if !answer.isOwnPost()}
+															<a class="button" href="@{Users.isSpam(answer.id)}">&{'spam'}</a>
+														#{/if}
+														<a class="button" href="@{Users.quote(answer.id)}">&{'quote'}</a>
 													#{/if}
-												#{/secure.check}
-											</div>
+												#{/ifnot}
+												#{if question.isOwnPost() && (answer.isBestAnswer || question.hasBestAnswer)}
+															<a class="button" href="@{Users.notBestAnswer(question.id)}">&{'notbestA'}</a>													
+												#{/if}
+											#{/secure.check}
 										</div>
-									#{/list}
-								</div>
-							#{/if}
-							#{if answer.isSpam()}
-								</div>
-							#{/if}
-						</div>
+										<div class="answer-date">
+											${answer.getDate()}
+										</div>
+										<div id="userImg"><img src="${answer.author.avatarPath}"/></div>
+										<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.username} (${answer.author.rating})</a>
+									</div>
+									<div class="content" id="answer-content">
+							         	${answer.content.raw()}
+							    	</div>
+									<div class="attachment" id="answer-attachment">
+										#{if answer.attachmentPath != null}
+											<a class="button" href="${answer.attachmentPath}">
+												<img src="@{'/public/images/file.gif'}"/>
+												Attachment
+											</a>
+										#{/if}
+									</div>
+								#{if answer.comments.size()>0}
+									<div class="comments">
+										Comments to this answer:
+										#{list items: answer.comments, as:'comment'}
+											#{if !comment.isSpam()}
+												<div class="comment">
+													<div class="comment-author">
+														<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+														<div class="comment-date">
+															${comment.getDate()}
+														</div>
+													</div>
+													<div class="comment-content">
+														${comment.content.raw()}
+													</div>
+													<div class="like-unlike">
+														<span>
+															#{if comment.numberOfLikers()==1}
+																${comment.numberOfLikers()} user likes this comment.
+															#{/if}
+															#{else}
+																${comment.numberOfLikers()} users like this comment.
+															#{/else}
+															#{if !comment.isOwnPost()}
+																<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+															#{/if}
+														</span>
+														#{secure.check 'user'}
+															#{if !comment.isOwnPost()}
+																#{if !user.alreadyLikesComment(comment.id)}
+																	<a class="like" href="@{Users.likeComment(comment.id, true)}"></a>
+																#{/if}
+																#{else}
+																	<a class="unlike" href="@{Users.likeComment(comment.id, false)}"></a>
+																#{/else}
+															#{/if}
+														#{/secure.check}
+													</div>
+												</div>
+											#{/if}
+											#{else}
+												<div class="comment" id="comment-spam">
+													[Spam comment]
+												</div>
+											#{/else}
+										#{/list}
+									</div>
+								#{/if}
+							</div>
+						#{/if}
+						#{else}
+							<div class="answer" id="answer-spam">
+								[Spam answer]
+							</div>
+						#{/else}
 				#{/list}
 			</div>
 		#{/else}

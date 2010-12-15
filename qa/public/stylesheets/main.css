@@ -331,9 +331,17 @@ pre
     -moz-border-radius: 16px;
 }
 
-.answer .spam
+.question #answer-spam
 {
-	background: #808080;
+	font-size: 12px;
+	background: #9CF;
+	padding: 10px 20px;
+	margin: 20px 0px;
+	clear: both;
+	overflow: hidden;
+	width: 400px;
+	-webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
 }
 
 .answer .content 
@@ -353,11 +361,28 @@ pre
 .comment 
 {
 	background: #FFF;
-	padding: 20px 20px 5px 20px;
+	padding: 10px 20px;
 	margin: 20px 0px 20px 0px;
 	clear: both;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
+}
+
+#comment-spam
+{
+	font-size: 12px;
+	background: #FFF;
+	padding: 10px 20px;
+	margin: 20px 0px;
+	clear: both;
+	width: 400px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+}
+
+.answer #comment-spam
+{
+	width: 380px;
 }
 
 .comment-author 
