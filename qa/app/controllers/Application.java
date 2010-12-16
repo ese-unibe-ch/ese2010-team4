@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -38,11 +39,18 @@ public class Application extends Controller {
 			Random rnd = new Random();
 			boolean isSpam = user.isSpam();
 			int value = rnd.nextInt(questions.size());
+			// JW refacor
+			HashSet<VotablePost> sQuests = new HashSet<VotablePost>();
 
-			List<VotablePost> sameQuestions = questions.get(value)
-					.getNotAnsweredSimilarPosts(MINIMUM_TAGS, user.badgetags,
-							user);
+			if (questions.size() > 0) {
+				for (int i = 0; i < questions.size(); i++) {
+					sQuests.addAll(questions.get(i).getNotAnsweredSimilarPosts(
+							MINIMUM_TAGS, user.badgetags, user));
+				}
+			}
 
+			ArrayList<VotablePost> sameQuestions = new ArrayList<VotablePost>(
+					sQuests);
 			renderArgs.put("user", user);
 			renderArgs.put("sameQuestions", sameQuestions);
 			renderArgs.put("isSpam", isSpam);
