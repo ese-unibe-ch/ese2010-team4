@@ -36,9 +36,21 @@
 		<form action="@{Users.selectLanguage()}" method="POST" >
 			<select name=langId onchange="this.form.submit();">
 				<option>&{'chooseLanguage'}</option>
-				<option value="en">English</option>
-				<option value="de">German</option>
-				<option value="fr">French</option>	
+				#{if user.language.equalsIgnoreCase("en")}
+					<option value="en" selected>English</option>
+					<option value="de">German</option>
+					<option value="fr">French</option>
+				#{/if}
+				#{elseif user.language.equalsIgnoreCase("de")}
+					<option value="en">English</option>
+					<option value="de" selected>German</option>
+					<option value="fr">French</option>
+				#{/elseif}
+				#{elseif user.language.equalsIgnoreCase("fr")}
+					<option value="en">English</option>
+					<option value="de">German</option>
+					<option value="fr" selected>French</option>
+				#{/elseif}
 			</select><noscript><INPUT type="submit" value="Go" name="&{'changeLang'}"></noscript>
 		</form>
 		</div>
