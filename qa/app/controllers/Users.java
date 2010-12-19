@@ -298,13 +298,12 @@ public class Users extends CRUD {
 		Comment comment = Comment.findById(commentId);
 		Post post = comment.post;
 		Question question;
-		if(post instanceof Question){
-			question = (Question)comment.post;
+		if (post instanceof Question) {
+			question = (Question) comment.post;
+		} else {
+			question = ((Answer) (comment.post)).question;
 		}
-		else{
-			question = ((Answer)(comment.post)).question;
-		}
-		
+
 		if (like) {
 			comment.addLiker(user);
 		} else {
@@ -527,7 +526,7 @@ public class Users extends CRUD {
 		user.save();
 
 		List<Question> followQ = user.followQ;
-		List<VotablePost> activities = user.followAcitvities(10);
+		List<Post> activities = user.followAcitvities(10);
 		Long userId = user.id;
 		List<User> followU = user.followU;
 
@@ -658,7 +657,7 @@ public class Users extends CRUD {
 		} else if (post instanceof Comment && post instanceof Question) {
 			Application.show(((Comment) post).post.id);
 		} else if (post instanceof Comment && post instanceof Answer) {
-			Application.show(((Answer)((Comment)post).post).question.id);
+			Application.show(((Answer) ((Comment) post).post).question.id);
 		}
 	}
 

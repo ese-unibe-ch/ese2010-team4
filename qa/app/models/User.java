@@ -2,7 +2,6 @@ package models;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,6 +19,7 @@ import models.helper.PostActivityComperator;
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -481,37 +481,41 @@ public class User extends Model {
 	 * Follow acitvities.
 	 * 
 	 * @param number
-	 *            the number
+	 *            the max number of matches for user and posts
 	 * @return the list
 	 */
-	public List<VotablePost> followAcitvities(int number) {
-		List<VotablePost> activities = new ArrayList<VotablePost>();
+	public List<Post> followAcitvities(int number) {
+		HashSet<Post> activities = new HashSet<Post>();
 
 		for (User user : this.followU) {
 			List<VotablePost> postList = VotablePost.find(
-					"author like ? order by timestamp desc", user).fetch();
-			for (VotablePost post : postList) {
-				activities.add(post);
-			}
+					"author like ? order by timestamp desc", user)
+					.fetch(number);
+			activities.addAll(postList);
 		}
 
 		for (Question question : this.followQ) {
-			List<VotablePost> postList = VotablePost.find(
-					"post like ? order by timestamp desc", question).fetch();
-			for (VotablePost post : postList) {
-				activities.add(post);
+			List<Answer> postList = Answer.find(
+					"question like ? order by timestamp desc", question).fetch(
+					number);
+			activities.addAll(postList);
+			for (Answer answer : postList) {
+				List<Post> commentList = Comment.find(
+						"post like ? order by timestamp desc", answer).fetch(
+						number);
+				activities.addAll(commentList);
 			}
+			List<Post> comments = Comment.find(
+					"post like ? order by timestamp desc", question).fetch(
+					number);
+			activities.addAll(comments);
 		}
 
+		ArrayList<Post> postList = new ArrayList<Post>(activities);
 		PostActivityComperator comp = new PostActivityComperator();
+		Collections.sort(postList, comp);
 
-		Collections.sort(activities, comp);
-
-		while (activities.size() > number) {
-			activities.remove(activities.size() - 1);
-		}
-
-		return activities;
+		return postList;
 	}
 
 	/**
