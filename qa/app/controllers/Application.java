@@ -157,6 +157,14 @@ public class Application extends Controller {
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
 		List<VotablePost> taggedPosts = VotablePost.findTaggedWith(tag.name);
+		int i = 0;
+		while (i < taggedPosts.size()) {
+			if (taggedPosts.get(0).isSpam) {
+				taggedPosts.remove(i);
+				i--;
+			}
+			i++;
+		}
 		render(taggedPosts, isconnected, user);
 	}
 

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import models.Answer;
@@ -490,26 +491,30 @@ public class Users extends CRUD {
 
 		if (user.canSearch()) {
 			user.setUpSearchTime();
+
 			boolean found = false;
 			Post lastActivity = VotablePost.find("order by timestamp desc")
 					.first();
 			List<User> users = User
 					.find("byUsernameLike", "%" + toSearch + "%").fetch();
-			List<VotablePost> postscont = VotablePost.find("byContentLike",
-					"%" + toSearch + "%").fetch();
-			List<VotablePost> poststitl = VotablePost.find("byTitleLike",
-					"%" + toSearch + "%").fetch();
+
+			HashSet<Post> foundposts = new HashSet<Post>();
+			foundposts.addAll((ArrayList) Post.find("byContentLike",
+					"%" + toSearch + "%").fetch());
+			foundposts.addAll((ArrayList) Post.find("byTitleLike",
+					"%" + toSearch + "%").fetch());
 			List<Tag> tags = Tag.find("byNameLike", "%" + toSearch + "%")
 					.fetch();
 
+			ArrayList foundedposts = new ArrayList<Post>(foundposts);
+
 			toSearch = searched;
-			if (users.isEmpty() && postscont.isEmpty() && poststitl.isEmpty()
-					&& tags.isEmpty()) {
-				String message = "no user found";
+			if (users.isEmpty() && foundedposts.isEmpty() && tags.isEmpty()) {
+				String message = "nothing found";
 				render(users, message, found, lastActivity, toSearch, canSearch);
 			} else {
 				found = true;
-				render(users, postscont, poststitl, tags, found, lastActivity,
+				render(users, foundedposts, tags, found, lastActivity,
 						toSearch, canSearch);
 			}
 		}

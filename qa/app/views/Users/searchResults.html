@@ -16,8 +16,8 @@
         			</div>
         		#{/list}
         	#{/if}
-        	#{ifnot postscont.isEmpty() && poststitl.isEmpty()}
-        		#{list items:postscont, as:'post'}
+        	#{ifnot foundedposts.isEmpty()}
+        		#{list items:foundedposts, as:'post'}
         				#{if !post.isSpam()}
         					#{if post instanceof models.Question}
 								<div class="answer">In question <a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</div>
