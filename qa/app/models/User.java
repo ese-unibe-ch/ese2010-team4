@@ -2,6 +2,7 @@ package models;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,7 +20,6 @@ import models.helper.PostActivityComperator;
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -511,9 +511,9 @@ public class User extends Model {
 			activities.addAll(comments);
 		}
 
-		ArrayList<Post> postList = new ArrayList<Post>(activities);
+		List<Post> postList = new ArrayList<Post>(activities);
 		PostActivityComperator comp = new PostActivityComperator();
-		Collections.sort(postList, comp);
+		Collections.sort((List) postList, comp);
 
 		return postList;
 	}
