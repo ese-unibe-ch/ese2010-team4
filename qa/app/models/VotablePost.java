@@ -218,25 +218,6 @@ public abstract class VotablePost extends Post {
 		return set;
 	}
 
-	public boolean isQuestion() {
-		return this instanceof Question;
-	}
-
-	public boolean isAnswer() {
-		return this instanceof Answer;
-	}
-
-	public Question findQuestion() {
-		if (this.isQuestion())
-			return (Question) this;
-		if (this.isAnswer())
-			return ((Answer) this).question;
-		if (this.isCommentAnswer())
-			return ((Answer) ((Comment) this).post).question;
-		else
-			return (Question) ((Comment) this).post;
-	}
-
 	/**
 	 * Vote a Post up or Down
 	 * 

@@ -27,7 +27,7 @@
 			<div class="author">
 				<div id="question-buttons">
 					#{secure.check 'user'}
-						#{if answer.findQuestion().author.hasTimeToChange(answer.findQuestion().id)}
+						#{if answer.giveQuestion().author.hasTimeToChange(answer.giveQuestion().id)}
 							<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">&{'edit'}</a>
 						#{/if}
 						#{if answer.isBestAnswer}

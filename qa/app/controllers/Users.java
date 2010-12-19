@@ -296,7 +296,15 @@ public class Users extends CRUD {
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
 		Comment comment = Comment.findById(commentId);
-		Question question = comment.findQuestion();
+		Post post = comment.post;
+		Question question;
+		if(post instanceof Question){
+			question = (Question)comment.post;
+		}
+		else{
+			question = ((Answer)(comment.post)).question;
+		}
+		
 		if (like) {
 			comment.addLiker(user);
 		} else {
@@ -643,14 +651,14 @@ public class Users extends CRUD {
 		User user = User.find("byUsername", Security.connected()).first();
 		post.spam(user);
 		post.author.save();
-		if (post.isQuestion()) {
+		if (post instanceof Question) {
 			Application.show(id);
-		} else if (post.isAnswer()) {
-			Application.show(post.findQuestion().id);
-		} else if (post.isCommentQuestion()) {
+		} else if (post instanceof Answer) {
+			Application.show(((Answer) post).question.id);
+		} else if (post instanceof Comment && post instanceof Question) {
 			Application.show(((Comment) post).post.id);
-		} else if (post.isCommentAnswer()) {
-			Application.show(((Comment) post).post.findQuestion().id);
+		} else if (post instanceof Comment && post instanceof Answer) {
+			Application.show(((Answer)((Comment)post).post).question.id);
 		}
 	}
 

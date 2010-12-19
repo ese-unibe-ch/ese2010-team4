@@ -99,24 +99,6 @@ public abstract class Post extends Model {
 		return false;
 	}
 
-	public boolean isCommentAnswer() {
-		if (this instanceof Comment) {
-			if (((Comment) this).post instanceof Answer) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean isCommentQuestion() {
-		if (this instanceof Comment) {
-			if (((Comment) this).post instanceof Question) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public String getDate() {
 		DateFormat formater;
 		if (Lang.get().equalsIgnoreCase("fr")) {

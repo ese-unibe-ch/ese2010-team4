@@ -37,7 +37,7 @@
 		</tr>
 		</table>
 
-	#{if post.isQuestion()}
+	#{if post instanceof models.Question}
 		#{form @Users.tagQuestion(post.id)}
 	
 			#{field 'name'}

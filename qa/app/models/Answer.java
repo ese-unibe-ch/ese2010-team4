@@ -48,4 +48,8 @@ public class Answer extends VotablePost {
 		}
 		return s;
 	}
+	
+	public Question giveQuestion(){
+		return this.question;
+	}
 }
