@@ -37,7 +37,7 @@ public abstract class VotablePost extends Post {
 	/**
 	 * Add an vote
 	 * 
-	 * @param user
+	 * @param data.user
 	 * @param result
 	 * @return the voted post
 	 */

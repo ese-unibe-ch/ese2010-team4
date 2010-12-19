@@ -51,28 +51,18 @@ public class ReputationTest extends UnitTest {
 	@Test
 	public void shouldHaveDefaultReputation() {
 
-		assertEquals(0, bob.rating.bestAnswerRep);
-		assertEquals(0, bob.rating.answerRep);
-		assertEquals(0, bob.rating.questionRep);
-		assertEquals(0, bob.rating.penalty);
-		assertEquals(0, bob.rating.totalRep);
 
-		assertEquals(0, jeff.rating.bestAnswerRep);
-		assertEquals(0, jeff.rating.answerRep);
-		assertEquals(0, jeff.rating.questionRep);
-		assertEquals(0, jeff.rating.penalty);
-		assertEquals(0, jeff.rating.totalRep);
+		assertEquals(0, bob.rating.reputation);
+		assertEquals(0, jeff.rating.reputation);
 	}
 
 	@Test
-	public void shouldIncreaseAnswerRep() {
+	public void shouldIncreaseAnswerReputation() {
 
 		firstAnswer.vote(bob, true);
 		firstAnswer.save();
 
-		assertEquals(10, jeff.rating.answerRep);
-		assertEquals(10, jeff.rating.totalRep);
-
+		assertEquals(10, jeff.rating.reputation);
 	}
 
 	@Test
@@ -81,18 +71,19 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.vote(jeff, true);
 		firstQuestion.save();
 
-		assertEquals(5, jeff.rating.questionRep);
-		assertEquals(5, jeff.rating.totalRep);
+		assertEquals(5, jeff.rating.reputation);
 	}
 
 	@Test
 	public void shouldDecreaseRatingBobJeff() {
 
+		firstAnswer.vote(bob, true);
+		thirdAnswer.vote(jeff, true);
 		firstAnswer.vote(bob, false);
 		firstAnswer.save();
 
-		assertEquals(-2, jeff.rating.answerRep);
-		assertEquals(-1, bob.rating.penalty);
+		assertEquals(8, jeff.rating.reputation);
+		assertEquals(9, bob.rating.reputation);
 	}
 
 	@Test
@@ -103,8 +94,7 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.addValidity(0);
 		jeff.hasTimeToChange(firstQuestion.id);
 		
-		assertEquals(50, jeff.rating.bestAnswerRep);
-		assertEquals(50, jeff.rating.totalRep);
+		assertEquals(50, jeff.rating.reputation);
 	}
 
 	@Test
@@ -113,8 +103,7 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.addValidity(0);
 		firstQuestion.save();
 		bob.hasTimeToChange(firstQuestion.id);
-		assertEquals(0, jeff.rating.bestAnswerRep);
-		assertEquals(0, jeff.rating.totalRep);
+		assertEquals(0, jeff.rating.reputation);
 	}
 
 	@Test
@@ -127,7 +116,7 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.addValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);
 
-		assertEquals(65, jeff.rating.totalRep);
+		assertEquals(65, jeff.rating.reputation);
 
 	}
 
@@ -171,7 +160,7 @@ public class ReputationTest extends UnitTest {
 		jeff.hasTimeToChange(firstQuestion.id);
 		firstQuestion.save();
 		
-		assertEquals(50, jeff.rating.totalRep);
+		assertEquals(50, jeff.rating.reputation);
 		
 		firstAnswer.isBestAnswer = true;
 		firstAnswer.save();
@@ -179,7 +168,7 @@ public class ReputationTest extends UnitTest {
 		jeff.hasTimeToChange(secondQuestion.id);
 		secondQuestion.save();
 		
-		assertEquals(100, jeff.rating.totalRep);
+		assertEquals(100, jeff.rating.reputation);
 		
 	}
 	
@@ -191,7 +180,7 @@ public class ReputationTest extends UnitTest {
 		jeff.hasTimeToChange(thirdQuestion.id);
 		thirdQuestion.save();
 		
-		assertEquals(50, bob.rating.totalRep);
+		assertEquals(50, bob.rating.reputation);
 		
 		fourthAnswer.isBestAnswer = true;
 		fourthAnswer.save();
@@ -199,16 +188,53 @@ public class ReputationTest extends UnitTest {
 		jeff.hasTimeToChange(fourthQuestion.id);
 		fourthQuestion.save();
 		
-		assertEquals(100, bob.rating.totalRep);
+		assertEquals(100, bob.rating.reputation);
 		
 		thirdAnswer.vote(jeff, true);
-		assertEquals(110, bob.rating.totalRep);
+		assertEquals(110, bob.rating.reputation);
 		fourthAnswer.vote(jeff,true);
-		assertEquals(120, bob.rating.totalRep);
+		assertEquals(120, bob.rating.reputation);
 		thirdQuestion.vote(jeff,true);
-		assertEquals(125, bob.rating.totalRep);
+		assertEquals(125, bob.rating.reputation);
 		thirdAnswer.vote(jeff, true);
-		assertEquals(125, bob.rating.totalRep);
+		assertEquals(125, bob.rating.reputation);
+	}
+	
+	@Test
+	public void shouldSaveAndAddTheVotes(){
+		thirdAnswer.isBestAnswer = true;
+		thirdAnswer.save();
+		thirdQuestion.addValidity(0);	
+		jeff.hasTimeToChange(thirdQuestion.id);
+		thirdQuestion.save();
+		
+		assertEquals(50, bob.rating.reputation);
+		
+		fourthAnswer.isBestAnswer = true;
+		fourthAnswer.save();
+		fourthQuestion.addValidity(0);	
+		jeff.hasTimeToChange(fourthQuestion.id);
+		fourthQuestion.save();
+		
+		assertEquals(100, bob.rating.reputation);
+		
+		thirdAnswer.vote(jeff, true);
+		assertEquals(110, bob.rating.reputation);
+		fourthAnswer.vote(jeff,true);
+		assertEquals(120, bob.rating.reputation);
+		thirdQuestion.vote(jeff,true);
+		assertEquals(125, bob.rating.reputation);
+		thirdAnswer.vote(jeff, true);
+		assertEquals(125, bob.rating.reputation);
+		thirdAnswer.vote(jeff, true);
+		assertEquals(125, bob.rating.reputation);
+		
+		bob.rating.reputation = 10000;
+		bob.rating.save();
+		bob.save();
+		thirdAnswer.vote(jeff, true);
+		assertEquals(10030, bob.rating.reputation);
+		
 	}
 
 }

@@ -645,11 +645,7 @@ public class User extends Model {
 	}
 
 	public void clearHoleReputation() {
-		this.rating.answerRep = 0;
-		this.rating.bestAnswerRep = 0;
-		this.rating.penalty = 0;
-		this.rating.questionRep = 0;
-		this.rating.totalRep = 0;
+		this.rating.reputation = 0;
 		this.rating.save();
 		this.save();
 	}

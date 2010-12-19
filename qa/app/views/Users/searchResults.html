@@ -24,15 +24,15 @@
 							#{/if}
 							#{if post instanceof models.Answer}
 								#{if !post.giveQuestion().isSpam()}
-									<div class="answer">In answer to the question <a class="button" href = "@{Application.show(post.findQuestion().id)}">${post.findQuestion().title}</a> (${post.getDate()}).</div>
+									<div class="answer">In answer to the question <a class="button" href = "@{Application.show(post.giveQuestion().id)}">${post.giveQuestion().title}</a> (${post.getDate()}).</div>
 								#{/if}
 							#{/if}
-							#{if post instanceof models.Comment && post instanceof models.Answer}
+							#{if post instanceof models.Comment && post.post instanceof models.Answer}
 								#{if !post.post.giveQuestion().isSpam()}
-									<div class="answer">In a comment to an answer for the question <a class="button" href = "@{Application.show(post.post.findQuestion().id)}">${post.post.findQuestion().title}</a> (${post.getDate()}).</div>
+									<div class="answer">In a comment to an answer for the question <a class="button" href = "@{Application.show(post.post.giveQuestion().id)}">${post.post.giveQuestion().title}</a> (${post.getDate()}).</div>
 								#{/if}
 							#{/if}
-							#{if post instanceof models.Comment && post instanceof models.Question}
+							#{if post instanceof models.Comment && post.post instanceof models.Question}
 								#{if !post.post.isSpam()}
 									<div class="answer">In the comment to the question <a class="button" href = "@{Application.show(post.post.id)}">${post.post.title}</a> (${post.getDate()}).</div>
 								#{/if}

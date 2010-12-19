@@ -26,11 +26,9 @@ public class Reputation extends Model {
 	private static final int PENALTY = -1;
 	private static final int BEST_ANSWER_REP = 50;
 	
-	public int questionRep;
-	public int answerRep;
-	public int bestAnswerRep;
-	public int totalRep;
-	public int penalty;
+
+	public int reputation;
+
 	
 	@OneToMany
 	public List<ReputationfromUser> reputationfromUser;
@@ -45,30 +43,24 @@ public class Reputation extends Model {
 	public Reputation() {
 		this.totalRepPoint = new ArrayList<ReputationPoint>();
 		this.badges = new TreeSet<Badge>();
-		this.questionRep = 0;
-		this.answerRep = 0;
-		this.bestAnswerRep = 0;
-		this.totalRep = 0;
-		this.penalty = 0;
+		this.reputation = 0;
 		this.reputationfromUser = new ArrayList<ReputationfromUser>();
 	}
 
 	/**
-	 * Calculates after every vote the new reputation for the given user.
+	 * Creates a repuationpoint for the reputationsgraph
 	 */
-	public void totalRep() {
+	public void createReputationPoint() {
 
-		totalRep = questionRep + answerRep + bestAnswerRep + penalty;
-
-		if (totalRep < 0) {
-			totalRep = 0;
+		if (reputation < 0) {
+			reputation = 0;
 		}
 
 		if (this.totalRepPoint.size() == 0) {
 			ReputationPoint p = new ReputationPoint(0).save();
 			this.totalRepPoint.add(p);
 		}
-		ReputationPoint p = new ReputationPoint(this.totalRep).save();
+		ReputationPoint p = new ReputationPoint(this.reputation).save();
 		this.totalRepPoint.add(p);
 	}
 
@@ -83,21 +75,38 @@ public class Reputation extends Model {
 			this.createReputationByUser(user);
 		}
 		
-		ReputationfromUser repbyuser = this.findReputationfromUser(user);		
-		if(this.isNotOverPushSize(repbyuser, hasvoted)){		
-				if(post instanceof Answer){						
-					this.answerRep += ANSWER_REP;				
-					repbyuser.reputation += ANSWER_REP;
-					totalRep();
-					addToBadge((Answer)post, ANSWER_REP);
-				}		
-				else{
-					this.questionRep += QUESTION_REP;
-					repbyuser.reputation += QUESTION_REP;
-					totalRep();
-				}				
-				repbyuser.save();
+		ReputationfromUser repbyuser = this.findReputationfromUser(user);
+		
+		if(post instanceof Answer){
+			repbyuser.createPostReputation(post, ANSWER_REP);
+			while(this.isNotOverPushSize(repbyuser, hasvoted) && repbyuser.indepentReputation.size()>0){
+				handleReputation(repbyuser);
+				addToBadge((Answer)repbyuser.indepentReputation.get(0).post, repbyuser.indepentReputation.get(0).reputation);
+				repbyuser.indepentReputation.remove(0);
+				this.save();
+			}
+			repbyuser.save();
 		}
+		else{			
+			repbyuser.createPostReputation(post, QUESTION_REP);
+			
+			while(this.isNotOverPushSize(repbyuser, hasvoted) && repbyuser.indepentReputation.size()>0){				
+				handleReputation(repbyuser);
+				repbyuser.indepentReputation.remove(0);
+			}
+			repbyuser.save();
+		}
+		this.save();
+	}
+	
+	/**
+	 * Adds the reputation to the user
+	 * @param repbyuser total reputation of an specific user
+	 */
+	private void handleReputation(ReputationfromUser repbyuser) {
+		this.reputation += repbyuser.indepentReputation.get(0).reputation;
+		repbyuser.reputation += repbyuser.indepentReputation.get(0).reputation;				
+		createReputationPoint();
 		this.save();
 	}
 
@@ -111,12 +120,12 @@ public class Reputation extends Model {
 		
 		if(post instanceof Answer){
 			addToBadge((Answer)post, VOTE_DOWN_REP);
-			this.answerRep += VOTE_DOWN_REP;
-			totalRep();
+			this.reputation += VOTE_DOWN_REP;
+			createReputationPoint();
 		}
 		else{
-			this.questionRep += VOTE_DOWN_REP;
-			totalRep();
+			this.reputation += VOTE_DOWN_REP;
+			createReputationPoint();
 		}
 		this.save();
 	}
@@ -128,20 +137,23 @@ public class Reputation extends Model {
 	 */
 	public void bestAnswer(Answer answer, User user) {
 		boolean hasvoted = this.hasVoted(user);
+		
 		if(!this.hasVoted(user)){
 			this.createReputationByUser(user);
 			this.save();
 		}
-		ReputationfromUser repbyuser = this.findReputationfromUser(user);		
-
 		
-		if(this.isNotOverPushSize(repbyuser, hasvoted)){		
-			this.bestAnswerRep += BEST_ANSWER_REP;
-			repbyuser.reputation +=BEST_ANSWER_REP;
-			totalRep();
-			addToBadge(answer, BEST_ANSWER_REP);
+		ReputationfromUser repbyuser = this.findReputationfromUser(user);		
+		repbyuser.createPostReputation(answer, BEST_ANSWER_REP);
+		
+		while(this.isNotOverPushSize(repbyuser, hasvoted)&& repbyuser.indepentReputation.size()>0){
+			handleReputation(repbyuser);
+			if(repbyuser.indepentReputation.get(0).post instanceof Answer){
+				addToBadge((Answer)repbyuser.indepentReputation.get(0).post, repbyuser.indepentReputation.get(0).reputation);
+			}
+			repbyuser.indepentReputation.remove(0);
 			repbyuser.save();
-			this.save();
+			this.save();			
 		}
 		this.save();		
 	}
@@ -150,8 +162,8 @@ public class Reputation extends Model {
 	 * Penalty for vote down.
 	 */
 	public void penalty() {
-		this.penalty += PENALTY;
-		totalRep();
+		this.reputation += PENALTY;
+		createReputationPoint();
 	}
 	
 	/**
@@ -162,7 +174,7 @@ public class Reputation extends Model {
 	 */
 	private boolean isNotOverPushSize(ReputationfromUser repbyuser, boolean hasvoted) {
 
-		if(this.totalRep < START_CHECK_ARPC || ((double)(repbyuser.reputation))/((double)this.totalRep)<MAX_PUSH_SIZE || !hasvoted){
+		if(this.reputation < START_CHECK_ARPC || ((double)(repbyuser.reputation))/((double)this.reputation)<MAX_PUSH_SIZE || !hasvoted){
 			return true;
 		}
 		return false;
@@ -228,8 +240,6 @@ public class Reputation extends Model {
 	}
 	
 	public String toString() {
-		return Integer.toString(totalRep);
+		return Integer.toString(reputation);
 	}
-
-	
 }
