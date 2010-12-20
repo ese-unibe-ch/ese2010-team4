@@ -22,6 +22,7 @@
 			<div class="buttons" id="question-buttons">
 				#{secure.check 'user'}
 					#{ifnot question.hasBestAnswer}
+						<a class="button" href="#answerForm">&{'addAnswer'}</a>
 						#{if !isfollowing}
 							<a class="button" href="@{Users.followQuestion(question.id)}">
 								<span>&{'follow'}</span>
