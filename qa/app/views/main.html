@@ -168,19 +168,19 @@
 						#{/if}
 					#{/secure.check}
 					
-					#{if get_permalink == questions}
-						<a class="button" href="#answerForm">&{'addAnswer'}</a>
-					#{/if}	
 					#{secure.check 'admin'}
 						<a class="button" href="@{Admin.index()}">Admin</a>
 					#{/secure.check}
 					
-					<div id="search">
-						#{form @Users.searchResults()}
-							<input type="text" name="toSearch" id="toSearch"/>
-							<input type="submit" value="&{'search'}" />
-						#{/form}
-					</div>
+					#{secure.check 'user'}
+						<div id="search">
+							#{form @Users.searchResults()}
+								<input type="text" name="toSearch" id="toSearch"/>
+								<input type="submit" value="&{'search'}" />
+							#{/form}
+						</div>
+					#{/secure.check}
+					
 				</div>
 	
 				<div id="content">
