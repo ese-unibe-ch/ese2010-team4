@@ -1,4 +1,7 @@
+import java.util.Date;
+
 import models.Answer;
+import models.Comment;
 import models.Question;
 import models.User;
 
@@ -58,40 +61,14 @@ public class UserTest extends UnitTest {
 
 		assertEquals(2, User.count());
 		assertEquals("Rüedu", user.username);
-
 		// Login successfully
 		assertNotNull(User.login("ruedi@ruedi.ch", "test"));
-
 		// wrong pw
 		assertNull(User.login("ruedi@ruedi.ch", "testing"));
 		// name instead of email
 		assertNull(User.login("Rüedu", "test"));
 
 	}
-
-	/*
-	 * @Test public void shouldReturnTheRightCreateUserMessages() {
-	 * 
-	 * String message = User.createUser("Ruedi", "ruedi@ruedi.ch", "testing",
-	 * "testing"); User user = User.find("byUsername", "Ruedi").first();
-	 * 
-	 * assertEquals(message, user.username +
-	 * "<br> welcome on A4Q, please log in");
-	 * 
-	 * // not everything was filled message = User.createUser("Ruedi", "", "",
-	 * ""); assertEquals(message, "you forgot one or more gap's");
-	 * 
-	 * // invalid email message = User.createUser("Ruedi", "rüedu@rüedu.ch",
-	 * "test", "tets"); assertEquals(message,
-	 * "you entered a invalid email address");
-	 * 
-	 * // wrong password message = User.createUser("Ruedi", "ruedi@ruedi.ch",
-	 * "test", "tets"); assertEquals(message, "the password's aren't the same");
-	 * 
-	 * // to short password message = User.createUser("Ruedi", "ruedi@ruedi.ch",
-	 * "test", "test"); assertEquals(message,
-	 * "your password must be 6 singns or longer"); }
-	 */
 
 	@Test
 	public void shouldBeAbleToVote() {
@@ -104,9 +81,36 @@ public class UserTest extends UnitTest {
 	}
 
 	@Test
+	public void hansIsAbleToChoose() {
+		assertEquals(true, hans.isAbleToChoose(firstQuestion.id));
+	}
+
+	@Test
+	public void seppIsNotAbleToChoose() {
+		assertEquals(false, sepp.isAbleToChoose(firstQuestion.id));
+	}
+
+	@Test
+	public void hansNotAlreadyLikesComment() {
+		new Comment(hans, firstAnswer, "this is a comment").save();
+		Comment comment = firstAnswer.comments.get(0);
+
+		assertEquals(false, hans.alreadyLikesComment(comment.id));
+	}
+
+	@Test
+	public void hansLikesComment() {
+		new Comment(hans, firstAnswer, "this is a comment").save();
+		Comment comment = firstAnswer.comments.get(0);
+		comment.addLiker(hans);
+		assertEquals(true, hans.alreadyLikesComment(comment.id));
+	}
+
+	@Test
 	public void calculateAge() {
 		hans.setBirthday("03-03-1990");
 		assertEquals(hans.calculateAge(), 20);
+		assertEquals("03-03-1990", hans.getBirthday());
 	}
 
 	@Test
@@ -126,5 +130,67 @@ public class UserTest extends UnitTest {
 		assertFalse(hans.canPost());
 		hans.setUpPostTime(-40000);
 		assertTrue(hans.canPost());
+	}
+
+	@Test
+	public void IsFollowingAndUnfollowHansAndFirstQuestion() {
+		sepp.followU.add(hans);
+		sepp.followQ.add(firstQuestion);
+		sepp.save();
+		assertEquals(true, sepp.isFollowing(hans));
+		assertEquals(true, sepp.isFollowing(firstQuestion));
+	}
+
+	@Test
+	public void FollowAndUnfollowHansAndFirstQuestion() {
+		sepp.followU.add(hans);
+		sepp.followQ.add(firstQuestion);
+		sepp.save();
+		assertEquals(1, sepp.followQ.size());
+		assertEquals(1, sepp.followU.size());
+		sepp.deleteFollowQ(firstQuestion);
+		assertEquals(0, sepp.followQ.size());
+		sepp.deleteFollowU(hans);
+		assertEquals(0, sepp.followU.size());
+	}
+
+	@Test
+	public void graphDataForHansNotNull() {
+		firstAnswer.vote(sepp, true);
+		firstAnswer.vote(sepp, false);
+		firstAnswer.save();
+		assertNotNull(hans.graphData());
+	}
+
+	@Test
+	public void unSpamHans() {
+		hans.spamreport.add(firstAnswer);
+		hans.spamreport.add(firstQuestion);
+		hans.isSpam = true;
+		hans.save();
+		assertEquals(true, hans.isSpam());
+		assertEquals(2, hans.spamreport.size());
+		hans.unspamUser();
+		hans.save();
+		assertEquals(false, hans.isSpam);
+		assertEquals(0, hans.spamreport.size());
+	}
+
+	@Test
+	public void HanstimeToNextSearchAndPost() {
+
+		hans.searchdate = new Date().getTime() + 10000;
+		hans.postdate = new Date().getTime() + 10000;
+		assertEquals(10, hans.timeToNextSearch());
+		assertEquals(10, hans.timeToNextPost());
+	}
+
+	@Test
+	public void deleteHansReputation() {
+		firstQuestion.vote(hans, true);
+		firstQuestion.save();
+		assertEquals(5, hans.rating.reputation);
+		hans.clearWholeReputation();
+		assertEquals(0, hans.rating.reputation);
 	}
 }

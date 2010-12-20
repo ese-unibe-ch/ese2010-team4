@@ -26,7 +26,7 @@ public class Answer extends VotablePost {
 
 	@Override
 	public Post addHistory(Post post, String title, String content) {
-		History history = new History(this, "", content).save();
+		History history = new History(this, title, content).save();
 		int index = historys.size();
 		historys.add(index, history);
 		save();
@@ -41,16 +41,6 @@ public class Answer extends VotablePost {
 	 */
 	public boolean isAbleToVoteAnswer(User user) {
 		return (!hasVoted(user) && !isOwnPost(user));
-	}
-
-	public String getTitle() {
-		String s = "";
-		if (this.content.length() < 15) {
-			s = this.content;
-		} else {
-			s = this.content.substring(0, 15);
-		}
-		return s;
 	}
 
 	/**

@@ -243,20 +243,6 @@ public class User extends Model {
 	}
 
 	/**
-	 * Calculates the age of the <code>User</code> in years.
-	 * 
-	 * @return age of the <code>User</code>
-	 */
-	private int age() {
-		Date now = new Date();
-		if (birthday != null) {
-			long age = now.getTime() - birthday.getTime();
-			return (int) (age / ((long) 1000 * 3600 * 24 * 365));
-		} else
-			return (0);
-	}
-
-	/**
 	 * Gets the birthday from the user.
 	 * 
 	 * @return the birthday
@@ -472,7 +458,7 @@ public class User extends Model {
 	 * @return the points for the Reputation graph
 	 */
 	public List<ReputationPoint> getReputationPoints() {
-		return rating.totalRepPoint;
+		return rating.reputationPoints;
 	}
 
 	/**

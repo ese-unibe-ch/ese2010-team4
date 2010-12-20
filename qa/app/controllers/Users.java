@@ -327,7 +327,7 @@ public class Users extends CRUD {
 		List<Badge> badges = Badge.find("byReputation", user.rating).fetch();
 		Post lastActivity = VotablePost.find("order by timestamp desc").first();
 		List<VotablePost> activities = user.activities();
-		int size = user.rating.totalRepPoint.size();
+		int size = user.rating.reputationPoints.size();
 		render("Users/myProfile.html", activities, user, size, lastActivity,
 				badges);
 	}

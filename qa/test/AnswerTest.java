@@ -14,42 +14,57 @@ public class AnswerTest extends UnitTest {
 	User sepp;
 	Question firstQuestion;
 	Answer firstAnswer;
-	
-	
 
-    @Before
-    public void setup() throws Exception {
-    	Fixtures.deleteAll();
-	    hans = new User("Muster Hans", "hans@gmail.com", "keyword").save();
-	    sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
-	    firstQuestion = new Question(hans, "brightliy?", "What is hot and shines brightly?").save();
+	@Before
+	public void setup() throws Exception {
+		Fixtures.deleteAll();
+		hans = new User("Muster Hans", "hans@gmail.com", "keyword").save();
+		sepp = new User("Sepp", "sepp@sepp.ch", "hallo").save();
+		firstQuestion = new Question(hans, "brightliy?",
+				"What is hot and shines brightly?").save();
 		firstAnswer = new Answer(firstQuestion, hans, "It is the sun.").save();
-		
-    }
-    
+
+	}
 
 	@Test
 	public void shouldAnswerAQuestion() {
 		assertNotNull(firstAnswer);
-	    assertEquals(hans, firstAnswer.author);
-	    assertEquals("It is the sun.", firstAnswer.content);
-	    assertNotNull(firstAnswer.timestamp);
+		assertEquals(hans, firstAnswer.author);
+		assertEquals("It is the sun.", firstAnswer.content);
+		assertNotNull(firstAnswer.timestamp);
 	}
 
 	@Test
 	public void shouldCreateAnQuestionWithAddAnswerMethod() {
-	    assertEquals(2, User.count());
-	    assertEquals(1, Question.count());
-	    assertEquals(1, Answer.count());
-	    assertNotNull(firstQuestion.answers);
-	    assertEquals(hans, firstQuestion.answers.get(0).author);
-	   
-	    firstQuestion.addAnswer(hans, "It is the moon.");
-	    assertEquals("It is the moon.", firstQuestion.answers.get(1).content);
-	   
+		assertEquals(2, User.count());
+		assertEquals(1, Question.count());
+		assertEquals(1, Answer.count());
+		assertNotNull(firstQuestion.answers);
+		assertEquals(hans, firstQuestion.answers.get(0).author);
+
+		firstQuestion.addAnswer(hans, "It is the moon.");
+		assertEquals("It is the moon.", firstQuestion.answers.get(1).content);
 	}
 
+	@Test
+	public void addANewHistoryTofirstAnswer() {
+		firstAnswer.addHistory(firstAnswer, null, firstAnswer.content);
+		assertEquals(firstAnswer.content, firstAnswer.historys.get(0).content);
+	}
 
-	
+	@Test
+	public void HansisNotAbleToVoteAnswer() {
+		assertEquals(false, firstAnswer.isAbleToVoteAnswer(hans));
+	}
+
+	@Test
+	public void SeppIsAbleToVoteAnswer() {
+		assertEquals(true, firstAnswer.isAbleToVoteAnswer(sepp));
+	}
+
+	@Test
+	public void giveQuestion() {
+		assertEquals(firstQuestion, firstAnswer.giveQuestion());
+	}
+
 }
-

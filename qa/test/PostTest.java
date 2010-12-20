@@ -81,4 +81,41 @@ public class PostTest extends UnitTest {
 		assertEquals(2, firstQuestion.spamreport.size());
 	}
 
+	@Test
+	public void getNotAnsweredSimilarQuestionsforHans() {
+
+		Question secondQuestion = new Question(sepp, "bla", "blablabla").save();
+		Question thirdQuestion = new Question(sepp, "bla2", "blablabla2")
+				.save();
+		firstQuestion.tagItWith("Linux").tagItWith("Hallo").save();
+		secondQuestion.tagItWith("Linux").tagItWith("Hallo").save();
+		thirdQuestion.tagItWith("Linux").tagItWith("Hallo").save();
+
+		assertEquals(2, firstQuestion.getNotAnsweredSimilarPosts(2,
+				firstQuestion.tags, hans).size());
+		secondQuestion.addAnswer(hans, "bliblablo").save();
+		assertEquals(1, firstQuestion.getNotAnsweredSimilarPosts(2,
+				firstQuestion.tags, hans).size());
+
+	}
+
+	@Test
+	public void isHansesPost() {
+		assertEquals(true, firstQuestion.isOwnPost(hans));
+	}
+
+	@Test
+	public void unspamFirstQuestion() {
+		firstQuestion.spamreport.add(hans);
+		firstQuestion.spamreport.add(sepp);
+		firstQuestion.save();
+		assertEquals(2, firstQuestion.spamreport.size());
+		firstQuestion.isSpam = true;
+		firstQuestion.save();
+		assertEquals(true, firstQuestion.isSpam());
+		firstQuestion.unspamPost();
+		assertEquals(0, firstQuestion.spamreport.size());
+		assertEquals(false, firstQuestion.isSpam());
+	}
+
 }

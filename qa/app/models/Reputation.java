@@ -31,14 +31,14 @@ public class Reputation extends Model {
 	public List<ReputationfromUser> reputationfromUser;
 
 	@OneToMany
-	public List<ReputationPoint> totalRepPoint;
+	public List<ReputationPoint> reputationPoints;
 
 	@OneToMany(mappedBy = "reputation", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public Set<Badge> badges;
 
 	public Reputation() {
-		this.totalRepPoint = new ArrayList<ReputationPoint>();
+		this.reputationPoints = new ArrayList<ReputationPoint>();
 		this.badges = new TreeSet<Badge>();
 		this.reputation = 0;
 		this.reputationfromUser = new ArrayList<ReputationfromUser>();
@@ -53,12 +53,12 @@ public class Reputation extends Model {
 			reputation = 0;
 		}
 
-		if (this.totalRepPoint.size() == 0) {
+		if (this.reputationPoints.size() == 0) {
 			ReputationPoint p = new ReputationPoint(0).save();
-			this.totalRepPoint.add(p);
+			this.reputationPoints.add(p);
 		}
 		ReputationPoint p = new ReputationPoint(this.reputation).save();
-		this.totalRepPoint.add(p);
+		this.reputationPoints.add(p);
 	}
 
 	/**

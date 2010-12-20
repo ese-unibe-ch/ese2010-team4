@@ -1,8 +1,6 @@
-import java.io.IOException;
-
 import models.Answer;
-import models.Comment;
 import models.Question;
+import models.ReputationPoint;
 import models.User;
 
 import org.junit.Before;
@@ -24,33 +22,30 @@ public class ReputationTest extends UnitTest {
 	Answer thirdAnswer;
 	Answer fourthAnswer;
 
-	
-
 	@Before
 	public void setup() throws Exception {
 		Fixtures.deleteAll();
-		User.createUser("Bob", "bob@gmail.com", "keyword","");
-		User.createUser("Jeff", "jeff@jeff.ch", "hallo","");
+		User.createUser("Bob", "bob@gmail.com", "keyword", "");
+		User.createUser("Jeff", "jeff@jeff.ch", "hallo", "");
 		bob = User.find("byUsername", "Bob").first();
 		jeff = User.find("byUsername", "Jeff").first();
 		firstQuestion = new Question(jeff, "brightliy?",
-		"What is hot and shines brightly?").save();
-		secondQuestion = new Question(jeff, "yeah?",
-		"it's because it is good").save();
+				"What is hot and shines brightly?").save();
+		secondQuestion = new Question(jeff, "yeah?", "it's because it is good")
+				.save();
 		thirdQuestion = new Question(bob, "blubediblupp?",
-		"it's because it is good").save();
-		fourthQuestion = new Question(bob, "blub?",
-		"it's because it is good").save();
+				"it's because it is good").save();
+		fourthQuestion = new Question(bob, "blub?", "it's because it is good")
+				.save();
 		firstAnswer = new Answer(secondQuestion, jeff, "It is the sun.").save();
 		secondAnswer = new Answer(firstQuestion, jeff, "blabla").save();
 		thirdAnswer = new Answer(thirdQuestion, bob, "blubediblup").save();
 		fourthAnswer = new Answer(fourthQuestion, bob, "schwupedidup").save();
 
 	}
-	
+
 	@Test
 	public void shouldHaveDefaultReputation() {
-
 
 		assertEquals(0, bob.rating.reputation);
 		assertEquals(0, jeff.rating.reputation);
@@ -88,12 +83,12 @@ public class ReputationTest extends UnitTest {
 
 	@Test
 	public void shouldBeBestAnswer() {
-		
+
 		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
 		firstQuestion.addValidity(0);
 		jeff.hasTimeToChange(firstQuestion.id);
-		
+
 		assertEquals(50, jeff.rating.reputation);
 	}
 
@@ -108,7 +103,7 @@ public class ReputationTest extends UnitTest {
 
 	@Test
 	public void shouldIcreaseReputation() {
-		
+
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
 		secondAnswer.isBestAnswer = true;
@@ -122,7 +117,7 @@ public class ReputationTest extends UnitTest {
 
 	@Test
 	public void shouldNoTBeEmpty() {
-		
+
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
 		secondAnswer.isBestAnswer = true;
@@ -130,111 +125,117 @@ public class ReputationTest extends UnitTest {
 		firstQuestion.addValidity(0);
 		bob.hasTimeToChange(firstQuestion.id);
 
-		assertEquals(4, jeff.rating.totalRepPoint.size());
-		assertEquals(0, jeff.rating.totalRepPoint.get(0).repvalue);
-		assertEquals(5, jeff.rating.totalRepPoint.get(1).repvalue);
-		assertEquals(65, jeff.rating.totalRepPoint.get(3).repvalue);
+		assertEquals(4, jeff.rating.reputationPoints.size());
+		assertEquals(0, jeff.rating.reputationPoints.get(0).repvalue);
+		assertEquals(5, jeff.rating.reputationPoints.get(1).repvalue);
+		assertEquals(65, jeff.rating.reputationPoints.get(3).repvalue);
 	}
 
 	@Test
-	public void shouldRetrunTheRightString(){
+	public void shouldRetrunTheRightString() {
 
-	
 		firstQuestion.vote(jeff, true);
 		secondAnswer.vote(jeff, true);
 		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
 		firstQuestion.addValidity(0);
 		jeff.hasTimeToChange(firstQuestion.id);
-		
+
 		assertEquals(false, jeff.hasTimeToChange(firstQuestion.id));
 
 	}
-	
+
 	@Test
-	public void shouldNotVoteUPUserReputation(){
-		
+	public void shouldNotVoteUPUserReputation() {
+
 		secondAnswer.isBestAnswer = true;
 		secondAnswer.save();
-		firstQuestion.addValidity(0);	
+		firstQuestion.addValidity(0);
 		jeff.hasTimeToChange(firstQuestion.id);
 		firstQuestion.save();
-		
+
 		assertEquals(50, jeff.rating.reputation);
-		
+
 		firstAnswer.isBestAnswer = true;
 		firstAnswer.save();
-		secondQuestion.addValidity(0);	
+		secondQuestion.addValidity(0);
 		jeff.hasTimeToChange(secondQuestion.id);
 		secondQuestion.save();
-		
+
 		assertEquals(100, jeff.rating.reputation);
-		
+
 	}
-	
+
 	@Test
-	public void shouldNotVoteOverASPC(){
+	public void shouldNotVoteOverASPC() {
 		thirdAnswer.isBestAnswer = true;
 		thirdAnswer.save();
-		thirdQuestion.addValidity(0);	
+		thirdQuestion.addValidity(0);
 		jeff.hasTimeToChange(thirdQuestion.id);
 		thirdQuestion.save();
-		
+
 		assertEquals(50, bob.rating.reputation);
-		
+
 		fourthAnswer.isBestAnswer = true;
 		fourthAnswer.save();
-		fourthQuestion.addValidity(0);	
+		fourthQuestion.addValidity(0);
 		jeff.hasTimeToChange(fourthQuestion.id);
 		fourthQuestion.save();
-		
+
 		assertEquals(100, bob.rating.reputation);
-		
+
 		thirdAnswer.vote(jeff, true);
 		assertEquals(110, bob.rating.reputation);
-		fourthAnswer.vote(jeff,true);
+		fourthAnswer.vote(jeff, true);
 		assertEquals(120, bob.rating.reputation);
-		thirdQuestion.vote(jeff,true);
+		thirdQuestion.vote(jeff, true);
 		assertEquals(125, bob.rating.reputation);
 		thirdAnswer.vote(jeff, true);
 		assertEquals(125, bob.rating.reputation);
 	}
-	
+
 	@Test
-	public void shouldSaveAndAddTheVotes(){
+	public void shouldSaveAndAddTheVotes() {
 		thirdAnswer.isBestAnswer = true;
 		thirdAnswer.save();
-		thirdQuestion.addValidity(0);	
+		thirdQuestion.addValidity(0);
 		jeff.hasTimeToChange(thirdQuestion.id);
 		thirdQuestion.save();
-		
+
 		assertEquals(50, bob.rating.reputation);
-		
+
 		fourthAnswer.isBestAnswer = true;
 		fourthAnswer.save();
-		fourthQuestion.addValidity(0);	
+		fourthQuestion.addValidity(0);
 		jeff.hasTimeToChange(fourthQuestion.id);
 		fourthQuestion.save();
-		
+
 		assertEquals(100, bob.rating.reputation);
-		
+
 		thirdAnswer.vote(jeff, true);
 		assertEquals(110, bob.rating.reputation);
-		fourthAnswer.vote(jeff,true);
+		fourthAnswer.vote(jeff, true);
 		assertEquals(120, bob.rating.reputation);
-		thirdQuestion.vote(jeff,true);
+		thirdQuestion.vote(jeff, true);
 		assertEquals(125, bob.rating.reputation);
 		thirdAnswer.vote(jeff, true);
 		assertEquals(125, bob.rating.reputation);
 		thirdAnswer.vote(jeff, true);
 		assertEquals(125, bob.rating.reputation);
-		
+
 		bob.rating.reputation = 10000;
 		bob.rating.save();
 		bob.save();
 		thirdAnswer.vote(jeff, true);
 		assertEquals(10030, bob.rating.reputation);
-		
+
+	}
+
+	@Test
+	public void createNewReputationPoint() {
+		ReputationPoint point = new ReputationPoint(10, 100000);
+		assertEquals(10, point.repvalue);
+		assertEquals(100000, point.timestamp);
 	}
 
 }
