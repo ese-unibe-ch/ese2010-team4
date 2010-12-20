@@ -77,6 +77,6 @@ public class QuestionTest extends UnitTest {
 		Answer secondAnswer = Answer.find("byContent", "it's the moon").first();
 		firstQuestion.bestAnswer(secondAnswer).save();
 		firstQuestion.hasNotBestAnswer().save();
-		assertEquals(0, firstQuestion.giveValidity());
+		assertEquals(0, firstQuestion.validity);
 	}
 }

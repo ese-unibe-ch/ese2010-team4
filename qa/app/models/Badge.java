@@ -10,7 +10,7 @@ import play.db.jpa.Model;
  * maintained in this class.
  */
 @Entity
-public class Badge extends Model {
+public class Badge extends Model implements Comparable<Badge> {
 
 	public static final int BRONZE = 50;
 	public static final int SILVER = 200;
@@ -71,6 +71,10 @@ public class Badge extends Model {
 			kind = "gold";
 		}
 
+	}
+
+	public int compareTo(Badge o) {
+		return this.tag.name.compareTo(o.tag.name);
 	}
 
 	public String toString() {

@@ -21,111 +21,67 @@ import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
-// TODO: Auto-generated Javadoc
 /**
  * A user with name and first-name. Question
  */
 @Entity
 public class User extends Model {
 
-	/** The Constant SPAM_REPORT. */
 	private static final int SPAM_REPORT = 2;
-
-	/** The Constant POST_DELAY. */
 	private static final int POST_DELAY = 30000;
-
 	private static final int SEARCH_DELAY = 10000;
 
-	/** The postdate. */
 	public long postdate;
-
 	public long searchdate;
-
-	/** The counter. */
 	public int counter;
-
-	/** The birthday. */
 	protected Date birthday;
-
-	/** The fullname. */
 	public String fullname = "";
-
-	/** The website. */
 	public String website = "";
-
-	/** The work. */
 	public String work = "";
-
-	/** The about me. */
 	public String aboutMe = "";
-
-	/** The favorite languages. */
 	public String favoriteLanguages;
-
-	/** The quoted content. */
 	public String quotedContent = "";
-
-	/** The timestamp. */
 	public Date timestamp;
 
-	/** The avatar path. */
+	public HashSet<Post> spamreport;
+	public boolean isSpam;
+	public TreeSet<Tag> badgetags;
+	public String language = "en";
+
 	@Required
 	public String avatarPath = "/public/uploads/standardAvatar.png";
 
-	/** The last log off. */
 	public Date lastLogOff;
 
-	/** The rating. */
 	@OneToOne
 	public Reputation rating;
 
-	/** The email. */
 	@Email
 	@Required
 	public String email;
 
-	/** The password. */
 	@Required
 	public String password;
 
-	/** The username. */
 	@Required
 	public String username;
 
-	/** The is admin. */
 	@Required
 	public boolean isAdmin;
 
-	/** The follow q. */
 	@OneToMany
 	public List<Question> followQ;
 
-	/** The follow u. */
 	@OneToMany
 	public List<User> followU;
 
-	/** The votes. */
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Vote> votes;
 
-	/** The posts. */
 	@OneToMany(mappedBy = "author", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Post> posts;
-
-	/** The spamreport. */
-
-	public HashSet<Post> spamreport;
-
-	/** The spamboolean */
-	public boolean isSpam;
-
-	/** The badgetags. */
-	public TreeSet<Tag> badgetags;
-
-	/** The language. */
-	public String language = "en";
 
 	/**
 	 * Instantiates a new user.
@@ -178,7 +134,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Login.
+	 * Login to A4Q.
 	 * 
 	 * @param username
 	 *            the username
@@ -190,22 +146,16 @@ public class User extends Model {
 		return find("byUsernameAndPassword", username, password).first();
 	}
 
-	/**
-	 * (non-Javadoc).
-	 * 
-	 * @return the string
-	 * @see play.db.jpa.JPASupport#toString()
-	 */
 	public String toString() {
 		return email;
 	}
 
 	/**
-	 * checks whether the user can choose the best answer for an question.
+	 * Checks whether the user can choose the best answer for an question.
 	 * 
 	 * @param id
 	 *            the id
-	 * @return true if he is able
+	 * @return true if the user is able to choose
 	 */
 
 	public boolean isAbleToChoose(Long id) {
@@ -217,11 +167,11 @@ public class User extends Model {
 	}
 
 	/**
-	 * checks whether the user can vote.
+	 * Checks whether the user can vote.
 	 * 
 	 * @param id
 	 *            the id
-	 * @return true if he is able to vote
+	 * @return true if the user is able to vote
 	 */
 	public boolean isAbleToVote(Long id) {
 		Question question = Question.findById(id);
@@ -229,12 +179,12 @@ public class User extends Model {
 	}
 
 	/**
-	 * checks whether the user already likes the comment.
+	 * Checks whether the user already likes the comment.
 	 * 
 	 * @param id
 	 *            The ID of the comment.
 	 * 
-	 * @return true if he is able to like the comment
+	 * @return true if the user is able to like the comment
 	 */
 	public boolean alreadyLikesComment(Long id) {
 		Comment comment = Comment.findById(id);
@@ -252,7 +202,7 @@ public class User extends Model {
 		Question question = Question.findById(id);
 		long milidate = new Date().getTime();
 
-		if (question.giveValidity() == 0 || milidate < question.giveValidity()) {
+		if (question.validity == 0 || milidate < question.validity) {
 			return true;
 		} else {
 			bestAnswer(question);
@@ -307,7 +257,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Gets the birthday.
+	 * Gets the birthday from the user.
 	 * 
 	 * @return the birthday
 	 */
@@ -364,26 +314,24 @@ public class User extends Model {
 	}
 
 	/**
-	 * Delete follow question
+	 * Deletes the specified question from the follows.
 	 * 
 	 * @param question
-	 *            the question
+	 *            the question which has to be deleted
 	 */
 	public void deleteFollowQ(Question question) {
-		int index = this.followQ.indexOf(question);
-		this.followQ.remove(index);
+		this.followQ.remove(question);
 		this.save();
 	}
 
 	/**
-	 * Delete follow user
+	 * Deletes the specified user from the follows.
 	 * 
 	 * @param user
-	 *            the user
+	 *            the user which has to be deleted
 	 */
 	public void deleteFollowU(User user) {
-		int index = this.followU.indexOf(user);
-		this.followU.remove(index);
+		this.followU.remove(user);
 		this.save();
 	}
 
@@ -405,11 +353,11 @@ public class User extends Model {
 	}
 
 	/**
-	 * Adds the vote.
+	 * Adds a vote which the user has given.
 	 * 
 	 * @param vote
-	 *            the vote
-	 * @return the user
+	 *            the vote which has to be added.
+	 * @return the updated user
 	 */
 	public User addVote(Vote vote) {
 		votes.add(vote);
@@ -418,7 +366,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Adds the answer.
+	 * Adds a post which the user has written.
 	 * 
 	 * @param answer
 	 *            the answer
@@ -453,7 +401,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Adds the question.
+	 * Adds the question which the user has posted.
 	 * 
 	 * @param title
 	 *            the title
@@ -468,9 +416,9 @@ public class User extends Model {
 	}
 
 	/**
-	 * Activities.
+	 * Searches the activities form this user.
 	 * 
-	 * @return the list
+	 * @return a list of his activities.
 	 */
 	public List<VotablePost> activities() {
 		return VotablePost.find("author like ? order by timestamp desc", this)
@@ -478,7 +426,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Follow acitvities.
+	 * Searches the activities form the follows which the user have.
 	 * 
 	 * @param number
 	 *            the max number of matches for user and posts
@@ -541,7 +489,6 @@ public class User extends Model {
 		points.add(0, new ReputationPoint(0, this.timestamp.getTime()));
 		points.add(new ReputationPoint(points.get(points.size() - 1).repvalue,
 				new Date().getTime()));
-		Iterator<ReputationPoint> it = points.iterator();
 
 		for (Iterator<ReputationPoint> itr = points.iterator(); itr.hasNext();) {
 			ReputationPoint point = itr.next();
@@ -558,7 +505,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Quote content.
+	 * Formatted the quoted content.
 	 * 
 	 * @param content
 	 *            the content
@@ -584,10 +531,11 @@ public class User extends Model {
 	}
 
 	/**
-	 * Spam.
+	 * Increase the Spamrating of an user. For every post which has been
+	 * reported as spam, the user gets a penaltypoint.
 	 * 
 	 * @param post
-	 *            spam post
+	 *            which is reported as spam
 	 */
 	public void spam(Post post) {
 		this.spamreport.add((VotablePost) post);
@@ -602,7 +550,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * Checks if is spam.
+	 * Checks if a user has enough penaltypoints for reported as spam.
 	 * 
 	 * @return true, if is spam
 	 */
@@ -654,7 +602,10 @@ public class User extends Model {
 		return ((int) ((this.postdate) - (new Date().getTime())) / 1000);
 	}
 
-	public void clearHoleReputation() {
+	/**
+	 * Deletes the whole reputation of an user
+	 */
+	public void clearWholeReputation() {
 		this.rating.reputation = 0;
 		this.rating.save();
 		this.save();

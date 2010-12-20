@@ -122,7 +122,7 @@ public class UserTest extends UnitTest {
 
 	@Test
 	public void canPost() {
-		Answer answer = new Answer(firstQuestion, hans, "hallo").save();
+		new Answer(firstQuestion, hans, "hallo").save();
 		assertFalse(hans.canPost());
 		hans.setUpPostTime(-40000);
 		assertTrue(hans.canPost());

@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-
 /**
  * The Class Post.
  */
@@ -23,34 +21,41 @@ public abstract class VotablePost extends Post {
 	public String fullname;
 	public int voting;
 	public String attachmentPath;
-	
+
 	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Comment> comments;
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	public Set<Tag> tags;
-	
+
 	@OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE,
-			CascadeType.REMOVE, CascadeType.REFRESH })	
+			CascadeType.REMOVE, CascadeType.REFRESH })
 	public List<Vote> votes;
 
 	/**
 	 * Add an vote
 	 * 
-	 * @param data.user
+	 * @param data
+	 *            .user
 	 * @param result
 	 * @return the voted post
 	 */
 
 	public VotablePost(User author, String content) {
-		
+
 		super(author, content);
 		this.votes = new ArrayList<Vote>();
 		this.comments = new ArrayList<Comment>();
 		this.tags = new TreeSet<Tag>();
-		this.voting = 0;		
+		this.voting = 0;
 	}
 
+	/**
+	 * Checks if an user has already voted for this post.
+	 * 
+	 * @param comuser
+	 * @return true if the user has already voted
+	 */
 	public boolean hasVoted(User comuser) {
 
 		for (Vote vote : votes) {
@@ -64,7 +69,7 @@ public abstract class VotablePost extends Post {
 	/**
 	 * Count the positive and negative votes
 	 * 
-	 * @return votestatus
+	 * @return votestatus which displays how many votes the post has.
 	 */
 	public int voting() {
 
@@ -81,12 +86,12 @@ public abstract class VotablePost extends Post {
 		return status;
 
 	}
-	
-	
+
 	/**
 	 * Adds comments to posts
 	 * 
-	 * @param the coment which has to be added
+	 * @param the
+	 *            coment which has to be added
 	 * @return the post with the added comment.
 	 */
 	public VotablePost addComment(Comment comment) {
@@ -95,11 +100,12 @@ public abstract class VotablePost extends Post {
 		return this;
 
 	}
-	
+
 	/**
 	 * Adds tags to the posts
 	 * 
-	 * @param list of tags
+	 * @param list
+	 *            of tags
 	 * @return the tagged post
 	 */
 	public VotablePost tagItWith(String name) {
@@ -221,8 +227,10 @@ public abstract class VotablePost extends Post {
 	/**
 	 * Vote a Post up or Down
 	 * 
-	 * @param user the user which has voted
-	 * @param result down is false up is true
+	 * @param user
+	 *            the user which has voted
+	 * @param result
+	 *            down is false up is true
 	 * @return the voted Post
 	 */
 	public VotablePost vote(User user, boolean result) {

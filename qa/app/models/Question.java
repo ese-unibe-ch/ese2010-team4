@@ -39,7 +39,7 @@ public class Question extends VotablePost {
 	}
 
 	/**
-	 * Adds an answer to the specific question. Use this if you want to add a
+	 * Adds an answer to a specific question. Use this if you want to add a
 	 * Answer to a specific question.
 	 * 
 	 * @param author
@@ -55,23 +55,25 @@ public class Question extends VotablePost {
 		return this;
 	}
 
+	/**
+	 *Adds an new answer to a specific question. Use this method if an answer
+	 * already exists.
+	 * 
+	 * @param answer
+	 *            which must be added
+	 * @return the updated question
+	 */
 	public Question addNewAnswer(Answer answer) {
 		this.answers.add(answer);
 		this.save();
 		return this;
 	}
 
-	public Question previous() {
-		return Question
-				.find("timestamp < ? order by timestamp desc", timestamp)
-				.first();
-	}
-
-	public Question next() {
-		return Question.find("timestamp > ? order by timestamp asc", timestamp)
-				.first();
-	}
-
+	/**
+	 * Checks whether a best answer is selected.
+	 * 
+	 * @return true if a answer is selected as best answer.
+	 */
 	public boolean hasChosen() {
 		for (Answer answer : answers) {
 			if (answer.isBestAnswer) {
@@ -81,6 +83,11 @@ public class Question extends VotablePost {
 		return false;
 	}
 
+	/**
+	 * Helper method for change best answer. Sets for every answer of a question
+	 * the best answer flag to false.
+	 * 
+	 */
 	public void setAllAnswersFalse() {
 		for (Answer answer : answers) {
 			answer.isBestAnswer = false;
@@ -88,6 +95,13 @@ public class Question extends VotablePost {
 		}
 	}
 
+	/**
+	 * Sets a validity for a question. When the validity has expired, the
+	 * question has a fix bestAnswer.
+	 * 
+	 * @param delay
+	 *            time how long the user can change the best answer.
+	 */
 	public void addValidity(long delay) {
 		Date date = new Date();
 		this.validity = date.getTime() + delay;
@@ -102,9 +116,15 @@ public class Question extends VotablePost {
 		return this;
 	}
 
+	/**
+	 * Gives a bestAnswer to the question.
+	 * 
+	 * @param answer
+	 *            the answer which is best.
+	 * @return updated question
+	 */
 	public Question bestAnswer(Answer answer) {
 
-		// necessary if user change his mind
 		this.setAllAnswersFalse();
 		answer.isBestAnswer = true;
 		answer.save();
@@ -113,15 +133,15 @@ public class Question extends VotablePost {
 		return this;
 	}
 
+	/**
+	 * Stops the countdown for choose a best answer.
+	 * 
+	 * @return the updated question
+	 */
 	public Question hasNotBestAnswer() {
 		this.hasBestAnswer = false;
 		this.validity = 0;
 		this.save();
 		return this;
 	}
-
-	public long giveValidity() {
-		return this.validity;
-	}
-
 }

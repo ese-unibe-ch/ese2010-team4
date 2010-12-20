@@ -682,7 +682,6 @@ public class Users extends CRUD {
 		question.setAllAnswersFalse();
 		question.hasNotBestAnswer();
 		question.save();
-		System.out.println("validität: " + question.giveValidity());
 		Application.show(id);
 
 	}

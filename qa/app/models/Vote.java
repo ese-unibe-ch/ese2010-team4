@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import play.db.jpa.Model;
 
 @Entity
+/** An single vote for an post*/
 public class Vote extends Model {
 
 	boolean result;

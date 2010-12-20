@@ -80,7 +80,7 @@ public class Admin extends Controller {
 
 	public static void clearReputation(Long id) {
 		User user = User.findById(id);
-		user.clearHoleReputation();
+		user.clearWholeReputation();
 		Admin.showSpamer();
 	}
 

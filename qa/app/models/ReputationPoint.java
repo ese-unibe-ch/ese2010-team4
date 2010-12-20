@@ -7,8 +7,9 @@ import javax.persistence.Entity;
 import play.db.jpa.Model;
 
 @Entity
+/** Point for the reputationgraph.*/
 public class ReputationPoint extends Model {
-	
+
 	public long timestamp;
 	public int repvalue;
 
@@ -17,7 +18,6 @@ public class ReputationPoint extends Model {
 		this.timestamp = new Date().getTime();
 	}
 
-	// bla
 	public ReputationPoint(int i, long timestamp2) {
 		this.repvalue = i;
 		this.timestamp = timestamp2;
