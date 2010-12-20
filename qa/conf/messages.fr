@@ -35,12 +35,12 @@ post.delete=Effacer cette entrée
 #Search
 
 search.message=Tu as cherché %s 
-search.user=
-search.tags=
-search.commentToQuestion= 
-search.commentToAnswerToQuestion= 
-search.answerToQuestion=
-search.question=
+search.user=Trouvé par clients
+search.tags=Trouvé par tags
+search.commentToQuestion=Dans une commentaire à la question
+search.commentToAnswerToQuestion=Dans une commentaire à une réponse à la question
+search.answerToQuestion=Dans une réponse à la question
+search.question=Dans la question
 
 voted=Merci pour le voté, %s!
 newQuestionPosted=Merci pour demander une nouvelle question %s!
