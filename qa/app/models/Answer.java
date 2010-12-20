@@ -7,7 +7,6 @@ import play.data.validation.Required;
 
 /**
  * A answer with content, timestamp, owner and voting.
- * 
  */
 @Entity
 public class Answer extends VotablePost {
@@ -34,22 +33,32 @@ public class Answer extends VotablePost {
 		return this;
 	}
 
+	/**
+	 * Checks whether an user is allowed to vote an Answer.
+	 * 
+	 * @param user
+	 * @return ture if the user is allowed to vote
+	 */
 	public boolean isAbleToVoteAnswer(User user) {
 		return (!hasVoted(user) && !isOwnPost(user));
 	}
-	
+
 	public String getTitle() {
 		String s = "";
 		if (this.content.length() < 15) {
 			s = this.content;
-		}
-		else {
+		} else {
 			s = this.content.substring(0, 15);
 		}
 		return s;
 	}
-	
-	public Question giveQuestion(){
+
+	/**
+	 * Gives the question to the specific answer.
+	 * 
+	 * @return the question from the Answer
+	 */
+	public Question giveQuestion() {
 		return this.question;
 	}
 }

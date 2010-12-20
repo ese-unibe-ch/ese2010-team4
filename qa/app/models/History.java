@@ -5,6 +5,9 @@ import javax.persistence.ManyToOne;
 
 import play.db.jpa.Model;
 
+/**
+ * Generates a history entry for a Post.
+ */
 @Entity
 public class History extends Model {
 

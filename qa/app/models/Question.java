@@ -29,10 +29,25 @@ public class Question extends VotablePost {
 		this.title = title;
 	}
 
+	/**
+	 * Shows the title of a question.
+	 * 
+	 * @return tht tile.
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Adds an answer to the specific question. Use this if you want to add a
+	 * Answer to a specific question.
+	 * 
+	 * @param author
+	 *            form the answer
+	 * @param content
+	 *            from the answer
+	 * @return the updated question
+	 */
 	public Question addAnswer(User author, String content) {
 		Answer newAnswer = new Answer(this, author, content).save();
 		this.answers.add(newAnswer);

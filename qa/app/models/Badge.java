@@ -6,12 +6,15 @@ import javax.persistence.ManyToOne;
 import play.db.jpa.Model;
 
 /**
- * The Class Badge. For every tag the user can get a badge. The logic is
+ * The Class Badge. For every tag the user can get a badge. The Badge logic is
  * maintained in this class.
  */
 @Entity
-public class Badge extends Model implements Comparable<Badge> {
+public class Badge extends Model {
 
+	public static final int BRONZE = 50;
+	public static final int SILVER = 200;
+	public static final int GOLD = 2000;
 	public Tag tag;
 	public String kind;
 	public boolean bronze;
@@ -32,6 +35,9 @@ public class Badge extends Model implements Comparable<Badge> {
 		this.kind = "";
 	}
 
+	/**
+	 * Adds voted Tags to the specific user.
+	 */
 	private void addTagToUser() {
 		User user = User.find("byRating", this.reputation).first();
 		user.badgetags.add(this.tag);
@@ -47,28 +53,24 @@ public class Badge extends Model implements Comparable<Badge> {
 	 */
 	public void addReputation(int reward) {
 		this.rating += reward;
-		if (rating > 20) {
+		if (rating > BRONZE) {
 			bronze = true;
 			silver = false;
 			kind = ("bronze");
 			addTagToUser();
 		}
 
-		if (rating > 200) {
+		if (rating > SILVER) {
 			silver = true;
 			gold = false;
 			kind = "silver";
 		}
 
-		if (rating > 2000) {
+		if (rating > GOLD) {
 			gold = true;
 			kind = "gold";
 		}
 
-	}
-
-	public int compareTo(Badge o) {
-		return this.tag.name.compareTo(o.tag.name);
 	}
 
 	public String toString() {

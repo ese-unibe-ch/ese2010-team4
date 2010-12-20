@@ -21,11 +21,15 @@ import play.db.jpa.Model;
 import play.i18n.Lang;
 import controllers.Secure;
 
+/**
+ * The Class Post.
+ */
 @Entity
 public abstract class Post extends Model {
 
 	private static final int SPAM_VALUE = 1;
 	protected final int RAND_NUMBER = 3;
+	/** The spamreport. Shows all user which has voted a post as spam */
 	public HashSet<User> spamreport;
 	public boolean isSpam;
 	public Date timestamp;
@@ -99,6 +103,11 @@ public abstract class Post extends Model {
 		return false;
 	}
 
+	/**
+	 * Formats the Date to the given language.
+	 * 
+	 * @return the right formatted date.
+	 */
 	public String getDate() {
 		DateFormat formater;
 		if (Lang.get().equalsIgnoreCase("fr")) {
@@ -115,7 +124,7 @@ public abstract class Post extends Model {
 	}
 
 	/**
-	 * Reports this post as spam
+	 * Reports this post as spam.
 	 * 
 	 * @param user
 	 *            which has reported
@@ -128,6 +137,9 @@ public abstract class Post extends Model {
 		this.save();
 	}
 
+	/**
+	 * Unspams the given post.
+	 */
 	public void unspamPost() {
 		this.spamreport.clear();
 		this.isSpam();
@@ -138,7 +150,7 @@ public abstract class Post extends Model {
 	}
 
 	/**
-	 * Checks if is spam.
+	 * Checks if a post is marked as spam.
 	 * 
 	 * @return true, if is spam
 	 */
