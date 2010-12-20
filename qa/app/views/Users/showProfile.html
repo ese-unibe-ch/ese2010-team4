@@ -49,7 +49,7 @@
     		${userToShow.username}
 		</div>		
 		
-		<label for="author">&{'email'}: </label>
+		<label for="author">&{'profile.email'}: </label>
 		<div class="userInfo">
 			${userToShow.email}
    		</div>
@@ -59,32 +59,32 @@
     		${userToShow.fullname}
 		</div>		
    	
-   		<label for="author">&{'birthday'}: </label>
+   		<label for="author">&{'profile.birthday'}: </label>
    		<div class="userInfo">
 			${userToShow.getBirthday()}
     	</div>
     	
-    	<label for="author">&{'age'}: </label>
+    	<label for="author">&{'profile.age'}: </label>
     	<div class="userInfo">
     		${userToShow.calculateAge()}
 		</div>
 		
-		<label for="author">&{'website'}: </label>
+		<label for="author">&{'profile.website'}: </label>
 		<div class="userInfo">
 			${userToShow.website}
 		</div>
 		
-		<label for="author">&{'work'}: </label>
+		<label for="author">&{'profile.work'}: </label>
     	<div class="userInfo">	
 			${userToShow.work}	
    	 	</div>
    	 	
-		<label for="author">&{'programmingLanguages'}: </label>
+		<label for="author">&{'profile.programmingLanguages'}: </label>
 		<div class="userInfo">
 			${userToShow.favoriteLanguages}
 		</div>
 		
-		<label for="aboutMe">&{'about'}: </label>
+		<label for="aboutMe">&{'profile.about'}: </label>
 		<div class="userInfo">
 			${userToShow.aboutMe}
 		</div>
@@ -120,7 +120,7 @@
 <div class="tabcontent paddingAll hide" id="cont-3-1">
 <div id="userProfile">
 	
-	<h3>Hall of honor</h3>
+	<h3>&{'profile.hoh'}</h3>
 	
 	#{list items:badges, as:'badge'}	
 		
