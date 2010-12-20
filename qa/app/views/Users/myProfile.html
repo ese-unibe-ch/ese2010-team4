@@ -3,19 +3,56 @@
 #{script 'userprofile.js' /}
 
 <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/tabMenu.css'}">
+
 <script type="text/javascript">
   $(document).ready(function() {
     $(".tabLink").each(function(){
+
+		if (readCookie("langCookie") == "true") {
+			 $(".tabLink").removeClass("activeLink");
+		     $('#cont-1').addClass("activeLink");
+		     $(".tabcontent").addClass("hide");
+		     $("#cont-1-1").removeClass("hide")
+		     eraseCookie("langCookie");
+		}
+        
       $(this).click(function(){
-        tabeId = $(this).attr('id');
+    	tabeId = $(this).attr('id');	
         $(".tabLink").removeClass("activeLink");
         $(this).addClass("activeLink");
         $(".tabcontent").addClass("hide");
-        $("#"+tabeId+"-1").removeClass("hide")   
+        $("#"+tabeId+"-1").removeClass("hide")
         return false;	  
       });
     });  
   });
+  
+
+function createCookie(name,value,sec) {
+	if (sec) {
+		var date = new Date();
+		date.setTime(date.getTime()+(sec*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+
 </script>
 
 
@@ -34,7 +71,7 @@
 	<div class="form" id="userForm">
 		<div id="language">
 		<form action="@{Users.selectLanguage()}" method="POST" >
-			<select name=langId onchange="this.form.submit();">
+			<select name=langId onchange="this.form.submit(); createCookie('langCookie','true',10);">
 				#{if user.language.equalsIgnoreCase("en")}
 					<option value="en" selected>English</option>
 					<option value="de">German</option>
