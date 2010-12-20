@@ -208,7 +208,7 @@ a
 	clear: right;
 }
 
-#question-buttons .button 
+#question-buttons .button, #unfollow-button .button
 {
 	background: #090;
 	font-size: 13px;
@@ -524,9 +524,14 @@ pre
 	clear: both;
 	overflow: hidden;
     -webkit-border-radius: 16px;
-    -moz-border-radius: 16px;
-	
+    -moz-border-radius: 16px;	
 }
+
+#unfollow-button 
+{
+	float: right;
+}
+
 
 /** Formulars **/
 .form 
