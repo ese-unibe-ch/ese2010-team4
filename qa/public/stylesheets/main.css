@@ -581,7 +581,22 @@ textarea
 
 #loginInputs 
 {
-	display: block;
+	 clear: both;
+	 padding: 2px 0px;
+}
+
+#loginInputs .label
+{
+	float: left;
+	width: 120px;
+	text-align: right;
+}
+
+#loginInputs .input
+{
+	float: right;
+	width: 120px;
+	text-align: left;
 }
 
 .error 

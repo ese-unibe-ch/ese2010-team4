@@ -100,12 +100,16 @@
 					<div id="mainLogin" >
 						#{form @Secure.authenticate()}
 							<div id="loginInputs">
-								<label for="username">&{'secure.username'}</label>
-								<input type="text" name="username" id="username" size="10" value="${flash.username}" />
+								<span class="label">&{'secure.username'}</span>
+								<span class="input">
+									<input type="text" name="username" id="username" size="10" value="${flash.username}"/>
+								</span>
 							</div>
 							<div id="loginInputs">
-								<label for="password">&{'secure.password'}</label>
-								<input type="password" name="password" id="password" size="10" value="" />
+								<span class="label">&{'secure.password'}</span>
+								<span class="input">
+									<input type="password" name="password" id="password" size="10" value="" />
+								</span>
 							</div>
 							<div id="loginInputs">
 								<input type="checkbox" name="remember" id="remember" size="10" value="true" ${flash.remember ? 'checked="true"' : ''} />
