@@ -156,8 +156,9 @@ public class Users extends CRUD {
 		}
 
 		if (attachment != null) {
-			question.attachmentPath = uploader.upload(attachment,
-					"question" + question.id).substring(2);
+			String path = uploader.upload(attachment, "question" + question.id);
+			path = path.substring(path.indexOf("/public"));
+			question.attachmentPath = path;
 			question.save();
 		}
 		flash.success(Messages.get("newQuestionPosted", author));
@@ -248,8 +249,9 @@ public class Users extends CRUD {
 		boolean isfollowing = user.isFollowing(question);
 
 		if (attachment != null) {
-			answer.attachmentPath = uploader.upload(attachment,
-					"answer" + answer.id).substring(2);
+			String path = uploader.upload(attachment, "answer" + answer.id);
+			path = path.substring(path.indexOf("/public"));
+			answer.attachmentPath = path;
 			answer.save();
 		}
 		question.addNewAnswer(answer).save();
