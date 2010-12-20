@@ -32,6 +32,16 @@ post.voting=Votation : %s
 post.saveEdits=Mémoriser modification
 post.delete=Effacer cette entrée
 
+#Search
+
+search.message=Tu as cherché %s 
+search.user=
+search.tags=
+search.commentToQuestion= 
+search.commentToAnswerToQuestion= 
+search.answerToQuestion=
+search.question=
+
 voted=Merci pour le voté, %s!
 newQuestionPosted=Merci pour demander une nouvelle question %s!
 newAnswerPosted=Merci pour répondre cette question %s!
@@ -116,6 +126,7 @@ spamQue=Cette question a été marqué comme spam. Vous ne sera pas affichée ta
 
 # Timer
 
+wait=attend
 waittime=Temps d'attente
 waitsearch=jusqu'à ce que la prochaine recherche:
 waitsearchfin=Tu peux effectuer une nouvelle recherche!

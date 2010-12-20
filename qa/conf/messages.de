@@ -33,6 +33,16 @@ post.voting=Bewertung: %s
 post.saveEdits=Editierung speichern
 post.delete=Post löschen
 
+#Search
+
+search.message=Du hast nach %s gesucht
+search.user=Gefunden bei den Benutzern 
+search.tags=Gefunden in den Tags
+search.commentToQuestion=Gefunden in einem Kommentar zur Frage
+search.commentToAnswerToQuestion=Gefunden in einem Kommentar zu einer Antwort zur Frage
+search.answerToQuestion=Gefunden in einer Antwort zur Frage
+search.question=In Frage
+
 voted=Vielen Dank für die Bewertung %s!
 newQuestionPosted=Vielen Dank für das Stellen dieser Frage %s!
 newAnswerPosted=Vielen Dank für das Beantworten dieser Frage %s!
@@ -120,6 +130,7 @@ spamQue=Diese Frage wurde als Spam markiert. Sie wird nicht mehr angezeigt, bis 
 
 # Timer
 
+wait=warte
 waittime=Wartezeit
 waitsearch=bis zur nächsten Suche:
 waitsearchfin=Du kannst wieder suchen!

@@ -4,12 +4,12 @@
 #{secure.check 'user'}
 <div class="question">
 	#{if canSearch}
-		<h4>you are looking for ${toSearch}</h4>
+		<h4>&{'search.message', toSearch} </h4>
 	#{/if}
 	<div class="answers">
         #{if found}
         	#{if !users.isEmpty()}
-        		found in user
+        		&{'search.user'}
         		#{list items:users, as:'user'}
         			<div class="answer">
         			<a href = "@{Users.showProfile(user.id)}">${user.username} (${user.rating})</a>
@@ -20,28 +20,28 @@
         		#{list items:foundedposts, as:'post'}
         				#{if !post.isSpam()}
         					#{if post instanceof models.Question}
-								<div class="answer">In question <a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</div>
+								<div class="answer">&{'search.question'}<a class="button" href = "@{Application.show(post.id)}">${post.getTitle()}</a> (${post.getDate()}).</div>
 							#{/if}
 							#{if post instanceof models.Answer}
 								#{if !post.giveQuestion().isSpam()}
-									<div class="answer">In answer to the question <a class="button" href = "@{Application.show(post.giveQuestion().id)}">${post.giveQuestion().title}</a> (${post.getDate()}).</div>
+									<div class="answer">&{'search.answerToQuestion'}<a class="button" href = "@{Application.show(post.giveQuestion().id)}">${post.giveQuestion().title}</a> (${post.getDate()}).</div>
 								#{/if}
 							#{/if}
 							#{if post instanceof models.Comment && post.post instanceof models.Answer}
 								#{if !post.post.giveQuestion().isSpam()}
-									<div class="answer">In a comment to an answer for the question <a class="button" href = "@{Application.show(post.post.giveQuestion().id)}">${post.post.giveQuestion().title}</a> (${post.getDate()}).</div>
+									<div class="answer">&{'search.CommentToAnswerToQuestion'}<a class="button" href = "@{Application.show(post.post.giveQuestion().id)}">${post.post.giveQuestion().title}</a> (${post.getDate()}).</div>
 								#{/if}
 							#{/if}
 							#{if post instanceof models.Comment && post.post instanceof models.Question}
 								#{if !post.post.isSpam()}
-									<div class="answer">In the comment to the question <a class="button" href = "@{Application.show(post.post.id)}">${post.post.title}</a> (${post.getDate()}).</div>
+									<div class="answer">&{'search.commentToQuestion'}<a class="button" href = "@{Application.show(post.post.id)}">${post.post.title}</a> (${post.getDate()}).</div>
 								#{/if}
 							#{/if}
 						#{/if}
 				#{/list}
         	#{/ifnot}
         	#{if !tags.isEmpty()}
-        		found by tags
+        		&{'search.tags'}
         		#{list items:tags, as:'tag'}
         			<div class="answer">
    					<a href="@{Application.tagged(tag)}">${tag.getName()}</a>${tag_isLast ? '' : ', '}
@@ -54,7 +54,7 @@
         	${message}
         #{/if}
 		#{if !canSearch}
-			<h4>&{'wait'} ${timeToNextSearch} s</h4>
+			<h4>&{'wait'} ${user.timeToNextSearch()} s</h4>
 		#{/if}
     </div>
 </div>
