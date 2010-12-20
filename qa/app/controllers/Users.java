@@ -16,6 +16,7 @@ import models.Question;
 import models.Tag;
 import models.User;
 import models.VotablePost;
+import play.Play;
 import play.data.validation.Required;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -30,7 +31,8 @@ import controllers.Secure.Security;
 @With(Secure.class)
 public class Users extends CRUD {
 
-	private static Uploader uploader = new Uploader("qa/public/uploads/");
+	private static Uploader uploader = new Uploader(Play.applicationPath
+			+ "/public/uploads/");
 	private final static int MINIMUM_TAGS = 1;
 
 	@Before
@@ -583,8 +585,9 @@ public class Users extends CRUD {
 		if (avatar != null && avatar.length() < 50000) {
 			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
-			user.avatarPath = uploader.upload(avatar, "avatar" + user.id)
-					.substring(2);
+			String path = uploader.upload(avatar, "avatar" + user.id);
+			path = path.substring(path.indexOf("/public"));
+			user.avatarPath = path;
 			user.save();
 			Users.myProfile(user.id);
 		} else
