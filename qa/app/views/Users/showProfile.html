@@ -41,6 +41,9 @@
 	#{else}
 		<a href="@{Users.unfollowUser(userToShow.id)}">&{'unfollow'}</a>
 	#{/else}
+	#{if user.isAdmin}
+		<a href="@{Users.deleteUser(userToShow.id)}">&{'delete'}</a>
+	#{/if}
 	</h3>
 	
 	<div>
