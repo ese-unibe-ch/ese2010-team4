@@ -687,7 +687,7 @@ public class Users extends CRUD {
 
 	}
 
-	public static void deleteUser(long id) throws IOException {
+	public static void deleteUser(final long id) throws IOException {
 		User user = User.findById(id);
 		user.delete();
 		Users.showProfile(id);
