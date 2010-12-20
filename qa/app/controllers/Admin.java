@@ -58,13 +58,7 @@ public class Admin extends Controller {
 
 	public static void unspamPost(Long id) {
 		Post post = Post.findById(id);
-		User user = post.author;
-		post.spamreport.clear();
-		post.isSpam = false;
-		post.save();
-		user.spamreport.remove(post);
-		user.isSpam();
-		user.save();
+		post.unspamPost();
 		Admin.showSpams();
 	}
 
@@ -75,9 +69,7 @@ public class Admin extends Controller {
 
 	public static void unspamUser(Long id) {
 		User user = User.findById(id);
-		user.spamreport.clear();
-		user.isSpam = false;
-		user.save();
+		user.unspamUser();
 		Admin.showSpamer();
 	}
 
@@ -88,8 +80,9 @@ public class Admin extends Controller {
 	}
 
 	public static void deleteUser(Long id) {
-		User user = User.findById(id);
+		User.findById(id).delete();
 		Admin.showSpamer();
+
 	}
 
 	public static void index() {

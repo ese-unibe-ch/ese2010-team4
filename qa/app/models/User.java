@@ -595,6 +595,12 @@ public class User extends Model {
 		this.save();
 	}
 
+	public void unspamUser() {
+		this.spamreport.clear();
+		this.isSpam();
+		this.save();
+	}
+
 	/**
 	 * Checks if is spam.
 	 * 

@@ -128,6 +128,15 @@ public abstract class Post extends Model {
 		this.save();
 	}
 
+	public void unspamPost() {
+		this.spamreport.clear();
+		this.isSpam();
+		this.save();
+		this.author.spamreport.remove(this);
+		this.author.isSpam();
+		this.author.save();
+	}
+
 	/**
 	 * Checks if is spam.
 	 * 
