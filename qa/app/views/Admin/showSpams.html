@@ -24,7 +24,8 @@
 			#{else}
 				#{list items:spamQuestion, as:'question'}
 					<div class="question"><br>
-						<a class="spam" href="@{Application.show(question.id)}">${question.getTitle()}</a><br>
+						<a class="spam" href="@{Application.show(question.id)}">${question.getTitle()}</a>
+						<a>(Author ${question.author.toString()}, who is actually a spamer: ${question.author.isSpam()})</a><br>
 						<a class="button" href="@{Admin.unspamPost(question.id)}">[unspam]</a>
 						<a class="button" href="@{Users.showEdit(question.id, question.historys.size()-1)}">[edit]</a>
 		   			</div>
@@ -42,7 +43,8 @@
 			#{else}
 				#{list items:spamAnswer, as:'answer'}
 					<div class="answer"><br>
-						<a class="spam">${answer.getTitle()}</a><br>
+						<a class="spam">${answer.getTitle()}</a>
+						<a>(Author ${answer.author.toString()}, who is actually a spamer: ${answer.author.isSpam()})</a><br>
 						<a class="button" href="@{Admin.unspamPost(answer.id)}">[unspam]</a>
 						<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">[edit]</a>
 						<a class="button" href="@{Application.show(answer.getQuestion().getId())}">[show context]</a>

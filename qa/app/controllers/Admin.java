@@ -70,6 +70,11 @@ public class Admin extends Controller {
 	public static void unspamUser(Long id) {
 		User user = User.findById(id);
 		user.unspamUser();
+		List<Post> spams = Post.find("author.id is ? and isSpam is true", id)
+				.fetch();
+		for (Post p : spams) {
+			p.unspamPost();
+		}
 		Admin.showSpamer();
 	}
 
