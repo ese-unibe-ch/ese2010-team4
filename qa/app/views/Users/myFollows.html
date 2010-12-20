@@ -11,14 +11,12 @@
 		    	#{if !question.isSpam()}
 			    	<div class="answers">
 			            <div class="answer">
-							<a href="@{Application.show(question.id)}">${question.getTitle()}</a>
-								<div id="answer-author" class="author">
-									<div class="buttons" id="question-buttons">
-			        					<a class="button" href="@{Users.unfollowQuestion(question.id)}">
-											<span>&{'unfollow'}</span>
-										</a>
-			        				</div>
-								</div>
+							<a class="button" href="@{Application.show(question.id)}">${question.getTitle()}</a>
+								<div class="buttons" id="unfollow-button">
+			        				<a class="button" href="@{Users.unfollowQuestion(question.id)}">
+										<span>&{'unfollow'}</span>
+									</a>
+		        				</div>
 			           	</div>
 			    	</div>
 		    	#{/if}
@@ -38,14 +36,13 @@
 		#{list items:followU, as:'user'}
     	<div class="answers">
         	<div class="answer">
-        		<a href="@{Users.showProfile(user.id)}">${user.username}</a>
-        			<div class="answer-author" class"author">
-        				<div class="buttons" id="question-buttons">
-        					<a class="button" href="@{Users.unfollowUser(user.id)}">
-								<span>&{'unfollow'}</span>
-							</a>
-        				</div>
+        		<a class="button" href="@{Users.showProfile(user.id)}">${user.username}</a>
+        			<div class="buttons" id="unfollow-button">
+			        	<a class="button" href="@{Users.unfollowUser(user.id)}">
+							<span>&{'unfollow'}</span>
+						</a>
         			</div>
+       			</div>
         	</div>
     	</div>
 		#{/list}
