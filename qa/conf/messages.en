@@ -41,10 +41,10 @@ post.delete=delete post
 
 #Search
 
-search.message=you are looking for %s
-search.user=found by users 
-search.tags=found by tags 
-search.commentToQuestion=In the comment to the question 
+search.message=You are looking for %s
+search.user=Found by users 
+search.tags=Found by tags 
+search.commentToQuestion=In a comment to the question 
 search.commentToAnswerToQuestion=In a comment to an answer for the question  
 search.answerToQuestion=In answer to the question 
 search.question=In question 
