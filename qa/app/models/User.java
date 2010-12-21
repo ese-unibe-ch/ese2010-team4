@@ -531,16 +531,26 @@ public class User extends Model {
 		this.save();
 	}
 
+	/**
+	 * lock a user (he will be a spamer directly, even he has not enough
+	 * spamposts)
+	 */
 	public void lockUser() {
 		this.spamLock = true;
 		this.save();
 	}
 
+	/**
+	 * unlock user but not his posts (so maybe he is still a spamer)
+	 */
 	public void unlockUser() {
 		this.spamLock = false;
 		this.save();
 	}
 
+	/**
+	 * clear the users spamreport
+	 */
 	public void unspamUser() {
 		this.spamreport.clear();
 		this.isSpam();
