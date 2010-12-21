@@ -120,12 +120,15 @@ proposals=Cette questions vous pouvez aussi réponse
 lock=Bloquer
 unlock=Debloquer
 
-
-
+#Spam
 
 spamer=Spamer, tu est une piece de la merde! Allez a ta maison!
 spam=Spam
 spamQue=Cette question a été marqué comme spam. Vous ne sera pas affichée tant que l'administrateur a décidé à ce sujet!
+spamAns=Cette réponse a été marqué comme spam
+spamCom=Ce commentaire a été marqué comme spam
+hideSpam=fermer
+showSpam=quand même afficher
 
 # Timer
 

@@ -332,9 +332,8 @@ pre
     -moz-border-radius: 16px;
 }
 
-.question #answer-spam
+.question .spam-answer
 {
-	font-size: 12px;
 	background: #9CF;
 	padding: 10px 20px;
 	margin: 20px 0px;
@@ -369,9 +368,8 @@ pre
     -moz-border-radius: 16px;
 }
 
-#comment-spam
+.spam-comment
 {
-	font-size: 12px;
 	background: #FFF;
 	padding: 10px 20px;
 	margin: 20px 0px;
@@ -381,18 +379,25 @@ pre
     -moz-border-radius: 16px;
 }
 
-.answer #comment-spam
+.answer .spam-comment
 {
 	width: 380px;
 }
 
+.spam-content
+{
+	font-size: 12px;
+	margin: -6px 0 10px 0;
+	padding: 0;
+}
+	
 .comment-author 
 {
 	float: right;
 	text-align: right;
 }
 
-.comment .button
+.comment .button, .spam-comment .button
 {
 	color: #69F;
 }

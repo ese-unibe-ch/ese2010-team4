@@ -1,5 +1,13 @@
 #{extends 'main.html' /} 
-#{set title:'Show question' /} 
+#{set title:'Show question' /}
+
+<script>
+	function cdMessageViewToggle (messageId, show) {
+		document.getElementById('spam-' + messageId).style.display= ( show ? 'none' : 'block' );
+		document.getElementById('full-' + messageId).style.display= ( show ? 'block' : 'none' );
+		return false;
+	}
+</script>
 
 #{if !question.isSpam()}
 <div>
@@ -49,8 +57,15 @@
 			<div class="question-date">
 				${question.getDate()}
 			</div>
-			<div id="userImg"><img src="${question.author.avatarPath}"/></div>
-			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.username} (${question.author.rating})</a>
+			<div id="userImg">
+				<img src="${question.author.avatarPath}"/>
+			</div>
+			#{secure.check 'user'}
+				<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.username} (${question.author.rating})</a>
+			#{/secure.check}
+			#{ifnot user}
+				${question.author.username} (${question.author.rating})
+			#{/ifnot}
 		</div>
 		<div class="question-main">
 			<div class="question-title">
@@ -78,9 +93,22 @@
 				<div class="comments">
 					#{list items: question.comments, as:'comment'}
 						#{if !comment.isSpam()}
-							<div class="comment">
+							<div class="comment" id="full-comment${comment.id}">
+						#{/if}
+						#{else}
+							<div class="comment" id="full-comment${comment.id}" style="display: none;">
+							<span class="spam-content">
+								[&{'spamCom'}]
+								<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', false)" href="#">(&{'hideSpam'})</a>
+							</span>
+						#{/else}
 								<div class="comment-author">
-									<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+									#{secure.check 'user'}
+										<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+									#{/secure.check}
+									#{ifnot user}
+										${comment.author.username} (${comment.author.rating})
+									#{/ifnot}
 									<div class="comment-date">
 										${comment.getDate()}
 									</div>
@@ -96,9 +124,11 @@
 										#{else}
 											${comment.numberOfLikers()} users like this comment.
 										#{/else}
-										#{if !comment.isOwnPost()}
-											<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
-										#{/if}
+										#{secure.check 'user'}
+											#{if !comment.isOwnPost()}
+												<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+											#{/if}
+										#{/secure.check}
 									</span>
 									#{secure.check 'user'}
 										#{if !comment.isOwnPost()}
@@ -112,12 +142,14 @@
 									#{/secure.check}
 								</div>
 							</div>
-						#{/if}
-						#{else}
-							<div class="comment" id="comment-spam">
-								[Spam comment]
+						#{if comment.isSpam()}
+							<div class="spam-comment" id="spam-comment${comment.id}">
+								<span class="spam-content">
+									[&{'spamCom'}]
+									<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', true)" href="#">(&{'showSpam'})</a>
+								</span>
 							</div>
-						#{/else}
+						#{/if}
 					#{/list}
 				</div>
 			#{/if}
@@ -131,7 +163,15 @@
 					<div class="answers">
 						#{list items:question.answers, as:'answer'}
 							#{if !answer.isSpam()}
-								<div class="answer">
+								<div class="answer" id="full-answer${answer.id}">
+							#{/if}
+							#{else}
+								<div class="answer" id="full-answer${answer.id}" style="display: none;">
+									<div class="spam-content">
+										[&{'spamAns'}]
+										<a class="button" onclick="return cdMessageViewToggle('answer${answer.id}', false)" href="#">(&{'hideSpam'})</a>
+									</div>
+							#{/else}
 									<div class="voting">
 										#{if answer.isBestAnswer}
 											<div class="vote-curr-best">
@@ -182,7 +222,12 @@
 											${answer.getDate()}
 										</div>
 										<div id="userImg"><img src="${answer.author.avatarPath}"/></div>
-										<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.username} (${answer.author.rating})</a>
+										#{secure.check 'user'}
+											<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.username} (${answer.author.rating})</a>
+										#{/secure.check}
+										#{ifnot user}
+											${answer.author.username} (${answer.author.rating})
+										#{/ifnot}
 									</div>
 									<div class="content" id="answer-content">
 							         	${answer.content.raw()}
@@ -200,9 +245,22 @@
 										Comments to this answer:
 										#{list items: answer.comments, as:'comment'}
 											#{if !comment.isSpam()}
-												<div class="comment">
+												<div class="comment" id="full-comment${comment.id}">
+											#{/if}
+											#{else}
+												<div class="comment" id="full-comment${comment.id}" style="display: none;">
+													<span class="spam-content">
+														[&{'spamCom'}]
+														<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', false)" href="#">(&{'hideSpam'})</a>
+													</span>
+												#{/else}
 													<div class="comment-author">
-														<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+														#{secure.check 'user'}
+															<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+														#{/secure.check}
+														#{ifnot user}
+															${comment.author.username} (${comment.author.rating})
+														#{/ifnot}
 														<div class="comment-date">
 															${comment.getDate()}
 														</div>
@@ -218,9 +276,11 @@
 															#{else}
 																${comment.numberOfLikers()} users like this comment.
 															#{/else}
-															#{if !comment.isOwnPost()}
-																<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
-															#{/if}
+															#{secure.check 'user'}
+																#{if !comment.isOwnPost()}
+																	<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+																#{/if}
+															#{/secure.check}
 														</span>
 														#{secure.check 'user'}
 															#{if !comment.isOwnPost()}
@@ -234,22 +294,26 @@
 														#{/secure.check}
 													</div>
 												</div>
-											#{/if}
-											#{else}
-												<div class="comment" id="comment-spam">
-													[Spam comment]
+											#{if comment.isSpam()}
+												<div class="spam-comment" id="spam-comment${comment.id}">
+													<span class="spam-content">
+														[&{'spamCom'}]
+														<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', true)" href="#">(&{'showSpam'})</a>
+													</span>
 												</div>
-											#{/else}
+											#{/if}
 										#{/list}
 									</div>
 								#{/if}
+						</div>
+						#{if answer.isSpam()}
+							<div class="spam-answer" id="spam-answer${answer.id}">
+								<span class="spam-content">
+									[&{'spamAns'}]
+									<a class="button" onclick="return cdMessageViewToggle('answer${answer.id}', true)" href="#">(&{'showSpam'})</a>
+								</span>
 							</div>
 						#{/if}
-						#{else}
-							<div class="answer" id="answer-spam">
-								[Spam answer]
-							</div>
-						#{/else}
 				#{/list}
 			</div>
 		#{/else}

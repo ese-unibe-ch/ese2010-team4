@@ -129,6 +129,10 @@ unlock=Entsperren
 spamer=Du bist ein scheiss Spamer! Geh nach Hause!
 spam=Spam
 spamQue=Diese Frage wurde als Spam markiert. Sie wird nicht mehr angezeigt, bis der Administrator darüber entschieden hat!
+spamAns=Diese Antwort wurde als Spam markiert
+spamCom=Dieser Kommentar wurde als Spam markiert
+hideSpam=ausblenden
+showSpam=trotzdem anzeigen
 
 # Timer
 
