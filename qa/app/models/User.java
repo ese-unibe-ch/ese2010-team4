@@ -537,6 +537,7 @@ public class User extends Model {
 	 */
 	public void lockUser() {
 		this.spamLock = true;
+		this.isSpam();
 		this.save();
 	}
 
@@ -545,6 +546,7 @@ public class User extends Model {
 	 */
 	public void unlockUser() {
 		this.spamLock = false;
+		this.isSpam();
 		this.save();
 	}
 
