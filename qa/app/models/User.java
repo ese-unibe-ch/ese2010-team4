@@ -45,6 +45,7 @@ public class User extends Model {
 
 	public HashSet<Post> spamreport;
 	public boolean isSpam;
+	public boolean spamLock;
 	public TreeSet<Tag> badgetags;
 	public String language = "en";
 
@@ -96,6 +97,7 @@ public class User extends Model {
 	public User(String username, String email, String password) {
 		this.spamreport = new HashSet<Post>();
 		this.isSpam = false;
+		this.spamLock = false;
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
 		this.badgetags = new TreeSet<Tag>();
@@ -529,6 +531,16 @@ public class User extends Model {
 		this.save();
 	}
 
+	public void lockUser() {
+		this.spamLock = true;
+		this.save();
+	}
+
+	public void unlockUser() {
+		this.spamLock = false;
+		this.save();
+	}
+
 	public void unspamUser() {
 		this.spamreport.clear();
 		this.isSpam();
@@ -541,7 +553,7 @@ public class User extends Model {
 	 * @return true, if is spam
 	 */
 	public boolean isSpam() {
-		if (this.spamreport.size() >= SPAM_REPORT) {
+		if (this.spamreport.size() >= SPAM_REPORT || spamLock) {
 			this.isSpam = true;
 		} else {
 			this.isSpam = false;
