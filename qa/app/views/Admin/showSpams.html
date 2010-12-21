@@ -43,7 +43,7 @@
 			#{else}
 				#{list items:spamAnswer, as:'answer'}
 					<div class="answer"><br>
-						<a class="spam">${answer.getTitle()}</a>
+						<a class="spam">${answer.getBegin()}</a>
 						<a>(Author ${answer.author.toString()}, who is actually a spamer: ${answer.author.isSpam()})</a><br>
 						<a class="button" href="@{Admin.unspamPost(answer.id)}">[unspam]</a>
 						<a class="button" href="@{Users.showEdit(answer.id, answer.historys.size()-1)}">[edit]</a>

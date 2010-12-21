@@ -37,7 +37,7 @@ public class Answer extends VotablePost {
 	 * Checks whether an user is allowed to vote an Answer.
 	 * 
 	 * @param user
-	 * @return ture if the user is allowed to vote
+	 * @return true if the user is allowed to vote
 	 */
 	public boolean isAbleToVoteAnswer(User user) {
 		return (!hasVoted(user) && !isOwnPost(user));
@@ -50,5 +50,15 @@ public class Answer extends VotablePost {
 	 */
 	public Question giveQuestion() {
 		return this.question;
+	}
+
+	public String getBegin() {
+		String s = "";
+		if (this.content.length() > 15) {
+			s = s + this.content.substring(0, 14);
+		} else {
+			s = content;
+		}
+		return s;
 	}
 }
