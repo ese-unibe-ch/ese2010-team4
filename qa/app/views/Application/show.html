@@ -91,8 +91,8 @@
 						#{else}
 							<div class="comment" id="full-comment${comment.id}" style="display: none;">
 							<span class="spam-content">
-								[Spam comment]
-								<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', false)" href="#">(wieder ausblenden)</a>
+								[&{'spamCom'}]
+								<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', false)" href="#">(&{'hideSpam'})</a>
 							</span>
 						#{/else}
 								<div class="comment-author">
@@ -131,8 +131,8 @@
 						#{if comment.isSpam()}
 							<div class="spam-comment" id="spam-comment${comment.id}">
 								<span class="spam-content">
-									[Spam comment]
-									<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', true)" href="#">(dennoch anzeigen)</a>
+									[&{'spamCom'}]
+									<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', true)" href="#">(&{'showSpam'})</a>
 								</span>
 							</div>
 						#{/if}
@@ -154,8 +154,8 @@
 							#{else}
 								<div class="answer" id="full-answer${answer.id}" style="display: none;">
 									<div class="spam-content">
-										[Spam answer]
-										<a class="button" onclick="return cdMessageViewToggle('answer${answer.id}', false)" href="#">(wieder ausblenden)</a>
+										[&{'spamAns'}]
+										<a class="button" onclick="return cdMessageViewToggle('answer${answer.id}', false)" href="#">(&{'hideSpam'})</a>
 									</div>
 							#{/else}
 									<div class="voting">
@@ -231,8 +231,8 @@
 											#{else}
 												<div class="comment" id="full-comment${comment.id}" style="display: none;">
 													<span class="spam-content">
-														[Spam comment]
-														<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', false)" href="#">(wieder ausblenden)</a>
+														[&{'spamCom'}]
+														<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', false)" href="#">(&{'hideSpam'})</a>
 													</span>
 												#{/else}
 													<div class="comment-author">
@@ -271,8 +271,8 @@
 											#{if comment.isSpam()}
 												<div class="spam-comment" id="spam-comment${comment.id}">
 													<span class="spam-content">
-														[Spam comment]
-														<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', true)" href="#">(dennoch anzeigen)</a>
+														[&{'spamCom'}]
+														<a class="button" onclick="return cdMessageViewToggle('comment${comment.id}', true)" href="#">(&{'showSpam'})</a>
 													</span>
 												</div>
 											#{/if}
@@ -283,8 +283,8 @@
 						#{if answer.isSpam()}
 							<div class="spam-answer" id="spam-answer${answer.id}">
 								<span class="spam-content">
-									[Spam answer]
-									<a class="button" onclick="return cdMessageViewToggle('answer${answer.id}', true)" href="#">(dennoch anzeigen)</a>
+									[&{'spamAns'}]
+									<a class="button" onclick="return cdMessageViewToggle('answer${answer.id}', true)" href="#">(&{'showSpam'})</a>
 								</span>
 							</div>
 						#{/if}

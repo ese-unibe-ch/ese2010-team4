@@ -128,6 +128,10 @@ unlock=Unlock
 spamer=You are a fucking spamer! Go home!
 spam=Spam
 spamQue=This question has been marked as spam. It will not be displayed until the administrator has decided about it!
+spamAns=This answer has been marked as spam
+spamCom=This comment has been marked as spam
+hideSpam=hide
+showSpam=show anyhow
 
 # Timer
 
