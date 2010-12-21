@@ -1822,3 +1822,31 @@
 2010/12/21 21:00:23 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-53 
 2010/12/21 21:00:23 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-51 
 2010/12/21 21:00:25 INFO  - jmeter.threads.JMeterThread: Thread started: First Scenario 1-56 
+2010/12/21 21:04:17 ERROR - jmeter.threads.JMeterThread: Test failed! java.lang.OutOfMemoryError: Java heap space
+
+2010/12/21 21:04:37 INFO  - jmeter.threads.JMeterThread: Thread finished: First Scenario 1-55 
+2010/12/21 21:04:39 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-55 
+2010/12/21 21:09:50 INFO  - jmeter.threads.JMeterThread: Thread started: First Scenario 1-57 
+2010/12/21 21:10:33 ERROR - jmeter.threads.JMeterThread: Test failed! java.lang.OutOfMemoryError: Java heap space
+
+2010/12/21 21:10:38 INFO  - jmeter.threads.JMeterThread: Thread finished: First Scenario 1-56 
+2010/12/21 21:10:37 INFO  - jmeter.threads.JMeterThread: Thread started: First Scenario 1-58 
+2010/12/21 21:11:55 ERROR - jmeter.threads.JMeterThread: Test failed! java.lang.OutOfMemoryError: Java heap space
+
+2010/12/21 21:11:56 INFO  - jmeter.threads.JMeterThread: Thread finished: First Scenario 1-54 
+2010/12/21 21:11:55 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-56 
+2010/12/21 21:11:58 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-54 
+2010/12/21 21:12:22 ERROR - jmeter.threads.JMeterThread: Test failed! java.lang.OutOfMemoryError: Java heap space
+
+2010/12/21 21:12:28 ERROR - jmeter.engine.StandardJMeterEngine: Uncaught exception:  java.lang.OutOfMemoryError: Java heap space
+
+2010/12/21 21:12:29 ERROR - jmeter.threads.JMeterThread: Test failed! java.lang.OutOfMemoryError: Java heap space
+
+2010/12/21 21:12:31 INFO  - jmeter.threads.JMeterThread: Thread finished: First Scenario 1-57 
+2010/12/21 21:12:29 INFO  - jmeter.threads.JMeterThread: Thread finished: First Scenario 1-59 
+2010/12/21 21:12:31 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-57 
+2010/12/21 21:12:33 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-59 
+2010/12/21 21:12:34 ERROR - jmeter.threads.JMeterThread: Test failed! java.lang.OutOfMemoryError: Java heap space
+
+2010/12/21 21:12:34 INFO  - jmeter.threads.JMeterThread: Thread finished: First Scenario 1-58 
+2010/12/21 21:12:34 INFO  - jmeter.engine.StandardJMeterEngine: Ending thread First Scenario 1-58 
