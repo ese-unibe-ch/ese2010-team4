@@ -84,10 +84,10 @@ public class Admin extends Controller {
 		Admin.showSpamer();
 	}
 
+	// MS wirft fehler, laesst sich sonst nicht starten
 	public static void deleteUser(Long id) {
-		User.findById(id).delete();
-		Admin.showSpamer();
-
+		// User.findById(id).delete();
+		// Admin.showSpamer();
 	}
 
 	public static void index() {
