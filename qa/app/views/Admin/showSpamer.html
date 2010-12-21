@@ -26,9 +26,14 @@
 					<div class="user"><br>			
 						<a class="spam" href="@{Users.showProfile(user.id)}">${user.username}</a> 
 						<a>(${user.spamreport.size()} of his posts are marked as spams)</a><br>
-						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam user and his posts]</a>
+						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam posts]</a>
 						<a class="button" href="@{Admin.clearReputation(user.id)}">[clear reputation]</a>
-						<a class="button" href="@{Admin.deleteUser(user.id)}">[delete]</a>
+						#{if user.spamLock}
+							<a class="button" href="@{Admin.unlockUser(user.id)}">[unlock]</a>
+						#{/if}
+						#{else}
+							<a class="button" href="@{Admin.lockUser(user.id)}">[lock]</a>
+						#{/else}
 		   			</div>
 				#{/list}
 			#{/else}

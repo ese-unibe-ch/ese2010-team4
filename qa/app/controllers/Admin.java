@@ -63,7 +63,8 @@ public class Admin extends Controller {
 	}
 
 	public static void showSpamer() {
-		List<User> userList = User.find("isSpam is true").fetch();
+		List<User> userList = User.find("isSpam is true or spamLock is true")
+				.fetch();
 		render(userList);
 	}
 
@@ -84,10 +85,16 @@ public class Admin extends Controller {
 		Admin.showSpamer();
 	}
 
-	public static void deleteUser(Long id) {
-		User.findById(id).delete();
+	public static void lockUser(long id) throws IOException {
+		User user = User.findById(id);
+		user.lockUser();
 		Admin.showSpamer();
+	}
 
+	public static void unlockUser(long id) throws IOException {
+		User user = User.findById(id);
+		user.unlockUser();
+		Admin.showSpamer();
 	}
 
 	public static void index() {
