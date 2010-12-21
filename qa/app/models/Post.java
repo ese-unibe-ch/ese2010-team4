@@ -25,7 +25,7 @@ import controllers.Secure;
  * The Class Post.
  */
 @Entity
-public abstract class Post extends Model {
+public abstract class Post extends Model implements Comparable<Post> {
 
 	private static final int SPAM_VALUE = 1;
 	protected final int RAND_NUMBER = 3;
@@ -149,6 +149,15 @@ public abstract class Post extends Model {
 		this.author.save();
 	}
 
+	public int compareTo(Post y) {
+		if (this.timestamp.after(y.timestamp)) {
+			return -1;
+		} else if (this.timestamp.before(y.timestamp)) {
+			return 1;
+		}
+		return 0;
+	}
+
 	/**
 	 * Checks if a post is marked as spam.
 	 * 
@@ -163,5 +172,4 @@ public abstract class Post extends Model {
 		this.save();
 		return isSpam;
 	}
-
 }

@@ -2,11 +2,11 @@ package models;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
@@ -16,7 +16,6 @@ import javax.persistence.OneToOne;
 
 import models.annotations.ForTestingOnly;
 import models.helper.DateFormatter;
-import models.helper.PostActivityComperator;
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -45,6 +44,7 @@ public class User extends Model {
 
 	public HashSet<Post> spamreport;
 	public boolean isSpam;
+	public boolean spamLock;
 	public TreeSet<Tag> badgetags;
 	public String language = "en";
 
@@ -96,6 +96,7 @@ public class User extends Model {
 	public User(String username, String email, String password) {
 		this.spamreport = new HashSet<Post>();
 		this.isSpam = false;
+		this.spamLock = false;
 		this.votes = new ArrayList<Vote>();
 		this.posts = new ArrayList<Post>();
 		this.badgetags = new TreeSet<Tag>();
@@ -412,6 +413,28 @@ public class User extends Model {
 	}
 
 	/**
+	 * Finds similar not answered questions over all tags.
+	 * 
+	 * @return list of all similar Questions
+	 */
+	public ArrayList<VotablePost> getSimilairQuestions(int minimumtags) {
+
+		List<Question> questions = Question.find("order by voting desc")
+				.fetch();
+
+		HashSet<VotablePost> sQuests = new HashSet<VotablePost>();
+
+		if (questions.size() > 0) {
+			for (int i = 0; i < questions.size(); i++) {
+				sQuests.addAll(questions.get(i).getNotAnsweredSimilarPosts(
+						minimumtags, this.badgetags, this));
+			}
+			sQuests.size();
+		}
+		return new ArrayList<VotablePost>(sQuests);
+	}
+
+	/**
 	 * Searches the activities form the follows which the user have.
 	 * 
 	 * @param number
@@ -419,7 +442,7 @@ public class User extends Model {
 	 * @return the list
 	 */
 	public List<Post> followAcitvities(int number) {
-		HashSet<Post> activities = new HashSet<Post>();
+		Set<Post> activities = new TreeSet<Post>();
 
 		for (User user : this.followU) {
 			List<VotablePost> postList = VotablePost.find(
@@ -445,11 +468,7 @@ public class User extends Model {
 			activities.addAll(comments);
 		}
 
-		List<Post> postList = new ArrayList<Post>(activities);
-		PostActivityComperator comp = new PostActivityComperator();
-		Collections.sort((List) postList, comp);
-
-		return postList;
+		return new ArrayList<Post>(activities);
 	}
 
 	/**
@@ -529,6 +548,28 @@ public class User extends Model {
 		this.save();
 	}
 
+	/**
+	 * lock a user (he will be a spamer directly, even he has not enough
+	 * spamposts)
+	 */
+	public void lockUser() {
+		this.spamLock = true;
+		this.isSpam();
+		this.save();
+	}
+
+	/**
+	 * unlock user but not his posts (so maybe he is still a spamer)
+	 */
+	public void unlockUser() {
+		this.spamLock = false;
+		this.isSpam();
+		this.save();
+	}
+
+	/**
+	 * clear the users spamreport
+	 */
 	public void unspamUser() {
 		this.spamreport.clear();
 		this.isSpam();
@@ -541,7 +582,7 @@ public class User extends Model {
 	 * @return true, if is spam
 	 */
 	public boolean isSpam() {
-		if (this.spamreport.size() >= SPAM_REPORT) {
+		if (this.spamreport.size() >= SPAM_REPORT || spamLock) {
 			this.isSpam = true;
 		} else {
 			this.isSpam = false;

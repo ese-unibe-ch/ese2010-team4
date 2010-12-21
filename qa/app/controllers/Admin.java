@@ -29,6 +29,9 @@ public class Admin extends Controller {
 		}
 	}
 
+	/**
+	 * import xml-files for A4Q
+	 */
 	public static void importXML(File xml) throws FileNotFoundException,
 			IOException {
 		XMLParser parser = new XMLParser();
@@ -50,23 +53,36 @@ public class Admin extends Controller {
 
 	}
 
+	/**
+	 * search all posts who are marked as spam
+	 */
 	public static void showSpams() {
 		List<Question> spamQuestion = Question.find("isSpam is true").fetch();
 		List<Answer> spamAnswer = Answer.find("isSpam is true").fetch();
 		render(spamQuestion, spamAnswer);
 	}
 
+	/**
+	 * reset the status of a post to not a spam
+	 */
 	public static void unspamPost(Long id) {
 		Post post = Post.findById(id);
 		post.unspamPost();
 		Admin.showSpams();
 	}
 
+	/**
+	 * search all members of A4Q who are marked as spamer
+	 */
 	public static void showSpamer() {
-		List<User> userList = User.find("isSpam is true").fetch();
+		List<User> userList = User.find("isSpam is true or spamLock is true")
+				.fetch();
 		render(userList);
 	}
 
+	/**
+	 * reset the status of a user to not a spamer
+	 */
 	public static void unspamUser(Long id) {
 		User user = User.findById(id);
 		user.unspamUser();
@@ -78,18 +94,37 @@ public class Admin extends Controller {
 		Admin.showSpamer();
 	}
 
+	/**
+	 * reset the reputation of a user to zero, but not his badges
+	 */
 	public static void clearReputation(Long id) {
 		User user = User.findById(id);
 		user.clearWholeReputation();
 		Admin.showSpamer();
 	}
 
-	// MS wirft fehler, laesst sich sonst nicht starten
-	public static void deleteUser(Long id) {
-		// User.findById(id).delete();
-		// Admin.showSpamer();
+	/**
+	 * lock a user (he will be a spamer directly, even he has not enough
+	 * spamposts)
+	 */
+	public static void lockUser(long id) throws IOException {
+		User user = User.findById(id);
+		user.lockUser();
+		Admin.showSpamer();
 	}
 
+	/**
+	 * unlock user but not his posts (so maybe he is still a spamer)
+	 */
+	public static void unlockUser(long id) throws IOException {
+		User user = User.findById(id);
+		user.unlockUser();
+		Admin.showSpamer();
+	}
+
+	/**
+	 * render the main admin-page
+	 */
 	public static void index() {
 		render("CRUD/index.html");
 	}

@@ -121,7 +121,8 @@ search=Suchen
 update=Aktualisieren
 submit=Absenden
 proposals=Diese Fragen kannst Du vielleicht auch noch beantworten
-delete=Löschen
+lock=Sperren
+unlock=Entsperren
 
 # Spam
 

@@ -38,6 +38,7 @@ public class Users extends CRUD {
 	@Before
 	static void setConnectedUser() {
 		Application.setup();
+
 	}
 
 	/**
@@ -288,6 +289,15 @@ public class Users extends CRUD {
 		if (post instanceof Question)
 			Application.show(id);
 
+	}
+
+	public static void voteFromIndex(long id, boolean vote) {
+		VotablePost post = VotablePost.findById(id);
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		post.vote(user, vote);
+		post.save();
+		Application.index();
 	}
 
 	/**
@@ -688,9 +698,15 @@ public class Users extends CRUD {
 
 	}
 
-	public static void deleteUser(final long id) throws IOException {
+	public static void lockUser(long id) throws IOException {
 		User user = User.findById(id);
-		user.delete();
+		user.lockUser();
+		Users.showProfile(id);
+	}
+
+	public static void unlockUser(long id) throws IOException {
+		User user = User.findById(id);
+		user.unlockUser();
 		Users.showProfile(id);
 	}
 }

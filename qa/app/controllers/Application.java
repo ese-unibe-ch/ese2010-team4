@@ -1,9 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 import models.Post;
 import models.Question;
@@ -28,33 +26,21 @@ public class Application extends Controller {
 	private final static int MINIMUM_TAGS = 1;
 
 	@Before
+	/**
+	 * Initial data. These datas are used in every html file.
+	 */
 	static void setup() {
 		if (Secure.Security.isConnected()) {
 
 			User user = User.find("byUsername", Secure.Security.connected())
 					.first();
-			List<Question> questions = Question.find("order by voting desc")
-					.fetch();
-
-			Random rnd = new Random();
 			boolean isSpam = user.isSpam();
-			int value = rnd.nextInt(questions.size());
-			// JW refacor
-			HashSet<VotablePost> sQuests = new HashSet<VotablePost>();
-
-			if (questions.size() > 0) {
-				for (int i = 0; i < questions.size(); i++) {
-					sQuests.addAll(questions.get(i).getNotAnsweredSimilarPosts(
-							MINIMUM_TAGS, user.badgetags, user));
-				}
-			}
-
-			ArrayList<VotablePost> sameQuestions = new ArrayList<VotablePost>(
-					sQuests);
 			renderArgs.put("user", user);
-			renderArgs.put("sameQuestions", sameQuestions);
+			renderArgs.put("sameQuestions", user
+					.getSimilairQuestions(MINIMUM_TAGS));
 			renderArgs.put("isSpam", isSpam);
 			renderArgs.put("canPost", user.canPost());
+			renderArgs.put("logduser", user);
 		}
 	}
 

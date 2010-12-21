@@ -26,15 +26,23 @@
 					<div class="user"><br>			
 						<a class="spam" href="@{Users.showProfile(user.id)}">${user.username}</a> 
 						<a>(${user.spamreport.size()} of his posts are marked as spams)</a><br>
-						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam user and his posts]</a>
+						<a class="button" href="@{Admin.unspamUser(user.id)}">[unspam posts]</a>
 						<a class="button" href="@{Admin.clearReputation(user.id)}">[clear reputation]</a>
-						<a class="button" href="@{Admin.deleteUser(user.id)}">[delete]</a>
+						#{if user.spamLock}
+							<a class="button" href="@{Admin.unlockUser(user.id)}">[unlock]</a>
+						#{/if}
+						#{else}
+							<a class="button" href="@{Admin.lockUser(user.id)}">[lock]</a>
+						#{/else}
 		   			</div>
 				#{/list}
 			#{/else}
 		</div>
 		
+		<br><div>Note: The [lock]-button will set the status of the specific user to "spamer", regardless the number of his spam-posts (analog for [unlock])</div>
+		
 		<br><a class="button" href="@{Admin.index()}">Back to adminpage</a>
 
 	</body>
+	
 </html>
