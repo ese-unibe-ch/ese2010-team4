@@ -25,9 +25,9 @@
 	    	<div id="main-right">
 	    		#{if user}
 					<div id="user">
-						<div id="userImg"> <img src="${user.avatarPath}"/></div>
-						<div>&{'register.username'}: ${user.username}</div>
-						<div>&{'register.reputation'}: ${user.rating}</div>
+						<div id="userImg"> <img src="${logduser.avatarPath}"/></div>
+						<div>&{'register.username'}: ${logduser.username}</div>
+						<div>&{'register.reputation'}: ${logduser.rating}</div>
 						<a class="button" href="@{Users.myProfile(user.id)}">&{'profile'}</a>
 						<a class="button" id="log" href="@{Secure.logout()}">&{'logout'}</a>
 					</div>

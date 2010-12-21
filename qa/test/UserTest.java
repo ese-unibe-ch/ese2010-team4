@@ -193,4 +193,19 @@ public class UserTest extends UnitTest {
 		hans.clearWholeReputation();
 		assertEquals(0, hans.rating.reputation);
 	}
+
+	@Test
+	public void findAllSimilairQuestionsForHans() {
+		Question secondQuestion = new Question(sepp, "bla", "blablabla").save();
+		Question thirdQuestion = new Question(sepp, "bla2", "blablabla2")
+				.save();
+		firstQuestion.tagItWith("Linux").tagItWith("Hallo").save();
+		secondQuestion.tagItWith("Linux").tagItWith("Hallo").save();
+		thirdQuestion.tagItWith("Linux").tagItWith("Hallo").save();
+		hans.badgetags.addAll(firstQuestion.tags);
+
+		assertEquals(2, hans.getSimilairQuestions(2).size());
+		secondQuestion.addAnswer(hans, "bliblablo").save();
+		assertEquals(1, hans.getSimilairQuestions(2).size());
+	}
 }

@@ -38,6 +38,7 @@ public class Users extends CRUD {
 	@Before
 	static void setConnectedUser() {
 		Application.setup();
+
 	}
 
 	/**
@@ -288,6 +289,15 @@ public class Users extends CRUD {
 		if (post instanceof Question)
 			Application.show(id);
 
+	}
+
+	public static void voteFromIndex(long id, boolean vote) {
+		VotablePost post = VotablePost.findById(id);
+		User user = User.find("byUsername", Secure.Security.connected())
+				.first();
+		post.vote(user, vote);
+		post.save();
+		Application.index();
 	}
 
 	/**
