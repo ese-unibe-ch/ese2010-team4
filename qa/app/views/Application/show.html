@@ -57,8 +57,15 @@
 			<div class="question-date">
 				${question.getDate()}
 			</div>
-			<div id="userImg"><img src="${question.author.avatarPath}"/></div>
-			<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.username} (${question.author.rating})</a>
+			<div id="userImg">
+				<img src="${question.author.avatarPath}"/>
+			</div>
+			#{secure.check 'user'}
+				<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.username} (${question.author.rating})</a>
+			#{/secure.check}
+			#{ifnot user}
+				${question.author.username} (${question.author.rating})
+			#{/ifnot}
 		</div>
 		<div class="question-main">
 			<div class="question-title">
@@ -96,7 +103,12 @@
 							</span>
 						#{/else}
 								<div class="comment-author">
-									<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+									#{secure.check 'user'}
+										<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+									#{/secure.check}
+									#{ifnot user}
+										${comment.author.username} (${comment.author.rating})
+									#{/ifnot}
 									<div class="comment-date">
 										${comment.getDate()}
 									</div>
@@ -112,9 +124,11 @@
 										#{else}
 											${comment.numberOfLikers()} users like this comment.
 										#{/else}
-										#{if !comment.isOwnPost()}
-											<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
-										#{/if}
+										#{secure.check 'user'}
+											#{if !comment.isOwnPost()}
+												<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+											#{/if}
+										#{/secure.check}
 									</span>
 									#{secure.check 'user'}
 										#{if !comment.isOwnPost()}
@@ -208,7 +222,12 @@
 											${answer.getDate()}
 										</div>
 										<div id="userImg"><img src="${answer.author.avatarPath}"/></div>
-										<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.username} (${answer.author.rating})</a>
+										#{secure.check 'user'}
+											<a class="button" href="@{Users.showProfile(answer.author.id)}">${answer.author.username} (${answer.author.rating})</a>
+										#{/secure.check}
+										#{ifnot user}
+											${answer.author.username} (${answer.author.rating})
+										#{/ifnot}
 									</div>
 									<div class="content" id="answer-content">
 							         	${answer.content.raw()}
@@ -236,7 +255,12 @@
 													</span>
 												#{/else}
 													<div class="comment-author">
-														<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+														#{secure.check 'user'}
+															<a class="button" href="@{Users.showProfile(comment.author.id)}">${comment.author.username} (${comment.author.rating})</a>
+														#{/secure.check}
+														#{ifnot user}
+															${comment.author.username} (${comment.author.rating})
+														#{/ifnot}
 														<div class="comment-date">
 															${comment.getDate()}
 														</div>
@@ -252,9 +276,11 @@
 															#{else}
 																${comment.numberOfLikers()} users like this comment.
 															#{/else}
-															#{if !comment.isOwnPost()}
-																<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
-															#{/if}
+															#{secure.check 'user'}
+																#{if !comment.isOwnPost()}
+																	<a class="button" href="@{Users.isSpam(comment.id)}">(&{'spam'})</a>
+																#{/if}
+															#{/secure.check}
 														</span>
 														#{secure.check 'user'}
 															#{if !comment.isOwnPost()}

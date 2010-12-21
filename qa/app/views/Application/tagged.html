@@ -43,7 +43,12 @@
 					${question.getDate()}
 				</div>
 				<div id="userImg"> <img src="${question.author.avatarPath}"/></div>
-				<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.fullname} (${question.author.rating})</a>
+				#{secure.check 'user'}
+					<a class="button" href="@{Users.showProfile(question.author.id)}">${question.author.username} (${question.author.rating})</a>
+				#{/secure.check}
+				#{ifnot user}
+					${question.author.username} (${question.author.rating})
+				#{/ifnot}
 			</div>
 			<div class="question-main">
 				<div class="question-title">
