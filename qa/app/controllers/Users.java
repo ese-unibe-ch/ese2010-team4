@@ -36,13 +36,16 @@ public class Users extends CRUD {
 	private final static int MINIMUM_TAGS = 1;
 
 	@Before
+	/**
+	 * The data which are used in the whole A4Q.
+	 */
 	static void setConnectedUser() {
 		Application.setup();
 
 	}
 
 	/**
-	 * Index.
+	 * Shows the indexpage
 	 */
 	public static void index() {
 		Post lastActivity = VotablePost.find("order by timestamp desc").first();
@@ -50,7 +53,7 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * My questions.
+	 * Shows all question from a specific user.
 	 */
 	public static void myQuestions() {
 		User user = User.find("byUsername", Secure.Security.connected())
@@ -60,12 +63,12 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Show edit.
+	 * Edits a specific post from a user.
 	 * 
 	 * @param questionId
-	 *            the question id
+	 *            the id form the editing question
 	 * @param editionIndex
-	 *            the edition index
+	 *            the edition index of the history
 	 */
 	public static void showEdit(Long questionId, int editionIndex) {
 
@@ -107,7 +110,7 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * My answers.
+	 * Shows all answers of a specific user.
 	 */
 	public static void myAnswers() {
 		User user = User.find("byUsername", Secure.Security.connected())
@@ -118,16 +121,14 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Creates the question.
+	 * Creates a new question
 	 * 
 	 * @param author
-	 *            the author
+	 *            the author form the question
 	 * @param title
 	 *            the title
 	 * @param content
 	 *            the content
-	 * @throws IOException
-	 * @throws FileNotFoundException
 	 */
 	public static void createQuestion(@Required String author,
 			@Required String title, String content, String tags, File attachment) {
@@ -167,10 +168,10 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Write comment.
+	 * Loads page for adding a comment to a VotablePost.
 	 * 
 	 * @param id
-	 *            the id
+	 *            the id form the post
 	 * @param questionid
 	 *            the questionid
 	 */
@@ -183,14 +184,14 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Creates the comment.
+	 * Creates a new comment to a specific VotablePost.
 	 * 
 	 * @param postid
-	 *            the postid
+	 *            from the post which receive an comment.
 	 * @param questionid
 	 *            the questionid
 	 * @param author
-	 *            the author
+	 *            the author of the comment
 	 * @param content
 	 *            the content
 	 */
@@ -214,14 +215,14 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Answer question.
+	 * Answers question.
 	 * 
 	 * @param questionId
 	 *            the question id
 	 * @param author
-	 *            the author
+	 *            the author of the answer
 	 * @param content
-	 *            the content
+	 *            the content of the anser
 	 */
 	public static void answerQuestion(Long questionId, @Required String author,
 			@Required String content, File attachment) {
@@ -261,7 +262,7 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * quotes a post.
+	 * Quotes a post.
 	 * 
 	 * @param postId
 	 *            the post id
@@ -278,6 +279,14 @@ public class Users extends CRUD {
 			Application.show(postId);
 	}
 
+	/**
+	 * Votes a post up or down
+	 * 
+	 * @param id
+	 *            of the voted post
+	 * @param vote
+	 *            true if vote up.
+	 */
 	public static void vote(long id, boolean vote) {
 		VotablePost post = VotablePost.findById(id);
 		User user = User.find("byUsername", Secure.Security.connected())
@@ -291,6 +300,14 @@ public class Users extends CRUD {
 
 	}
 
+	/**
+	 * A vote from the index.html page.
+	 * 
+	 * @param id
+	 *            of the voted question
+	 * @param vote
+	 *            true for vote up.
+	 */
 	public static void voteFromIndex(long id, boolean vote) {
 		VotablePost post = VotablePost.findById(id);
 		User user = User.find("byUsername", Secure.Security.connected())
@@ -328,7 +345,7 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * My profile.
+	 * Shows the profile of the logged in user.
 	 * 
 	 * @throws IOException
 	 */
@@ -342,6 +359,13 @@ public class Users extends CRUD {
 				badges);
 	}
 
+	/**
+	 * Shows the profile form a random user.
+	 * 
+	 * @param authorid
+	 *            id from the user
+	 * @throws IOException
+	 */
 	public static void showProfile(Long authorid) throws IOException {
 		User userToShow = User.findById(authorid);
 		if (userToShow.equals(User.find("byUsername",
@@ -358,10 +382,10 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Edits the post.
+	 * Edits an specific post.
 	 * 
 	 * @param id
-	 *            the id
+	 *            the id of the post
 	 * @param content
 	 *            the content
 	 */
@@ -391,10 +415,10 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Delete post.
+	 * Deletes a specific post.
 	 * 
 	 * @param id
-	 *            the id
+	 *            the id of the post
 	 */
 	public static void deletePost(Long id) {
 		Post post = VotablePost.findById(id);
@@ -406,7 +430,7 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Next edition.
+	 * Changes to next history edition of a post.
 	 * 
 	 * @param id
 	 *            the id
@@ -423,7 +447,7 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Previous edition.
+	 * Changes to the previous history edition of a post.
 	 * 
 	 * @param id
 	 *            the id
@@ -439,10 +463,10 @@ public class Users extends CRUD {
 	}
 
 	/**
-	 * Choose best answer.
+	 * Chooses the best answer of a post.
 	 * 
 	 * @param answerid
-	 *            the answerid
+	 *            the answerid of the best answer
 	 */
 	public static void chooseBestAnswer(Long answerid) {
 
@@ -455,14 +479,14 @@ public class Users extends CRUD {
 
 	// DR
 	/**
-	 * Change profile.
+	 * Change profile
 	 * 
 	 * @param website
-	 *            the website
+	 *            the website form the user
 	 * @param work
-	 *            the work
+	 *            the work form the user
 	 * @param languages
-	 *            the languages
+	 *            the languages which a user speaks
 	 * @param aboutMe
 	 *            the about me
 	 * @throws IOException
@@ -495,7 +519,11 @@ public class Users extends CRUD {
 		render(post);
 	}
 
-	// JW: refactor
+	/**
+	 * Renders the result for a given search string.
+	 * 
+	 * @param toSearch
+	 */
 	public static void searchResults(String toSearch) {
 		String searched = toSearch;
 		toSearch = toSearch.toLowerCase();
@@ -536,6 +564,9 @@ public class Users extends CRUD {
 
 	}
 
+	/**
+	 * Shows all follows of a specific question.
+	 */
 	public static void myFollows() {
 
 		User user = User.find("byUsername", Secure.Security.connected())
@@ -552,6 +583,12 @@ public class Users extends CRUD {
 		render(followQ, followU, userId, activities, lastActivity);
 	}
 
+	/**
+	 * Adds a question to the followed question of a user.
+	 * 
+	 * @param id
+	 *            of the question
+	 */
 	public static void followQuestion(Long id) {
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
@@ -563,6 +600,12 @@ public class Users extends CRUD {
 		Users.myFollows();
 	}
 
+	/**
+	 * Adds a user to the follows of a user
+	 * 
+	 * @param id
+	 *            of the user
+	 */
 	public static void followUser(Long id) {
 		User userClient = User.find("byUsername", Secure.Security.connected())
 				.first();
@@ -574,6 +617,12 @@ public class Users extends CRUD {
 		Users.myFollows();
 	}
 
+	/**
+	 * Deletes a question from the followlist.
+	 * 
+	 * @param id
+	 *            of the question
+	 */
 	public static void unfollowQuestion(Long id) {
 		Question question = Question.findById(id);
 		User user = User.find("byUsername", Secure.Security.connected())
@@ -582,6 +631,12 @@ public class Users extends CRUD {
 		Users.myFollows();
 	}
 
+	/**
+	 * Deletes a user from the followlist.
+	 * 
+	 * @param id
+	 *            of the user
+	 */
 	public static void unfollowUser(Long id) {
 		User userMaster = User.find("byUsername", Secure.Security.connected())
 				.first();
@@ -590,6 +645,14 @@ public class Users extends CRUD {
 		Users.myFollows();
 	}
 
+	/**
+	 * Uploads an avatar picture.
+	 * 
+	 * @param avatar
+	 *            picture from the user
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public static void uploadAvatar(File avatar) throws FileNotFoundException,
 			IOException {
 		// File should not be null and not bigger than 10KB
@@ -607,6 +670,12 @@ public class Users extends CRUD {
 
 	}
 
+	/**
+	 * Changes the avatarpicture of a user.
+	 * 
+	 * @param URL
+	 * @throws IOException
+	 */
 	public static void updateAvatarPath(String URL) throws IOException {
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
@@ -615,6 +684,14 @@ public class Users extends CRUD {
 		Users.myProfile(user.id);
 	}
 
+	/**
+	 * Adds tags to a specific Question.
+	 * 
+	 * @param id
+	 *            of the question
+	 * @param name
+	 *            of the tag
+	 */
 	public static void tagQuestion(Long id, String name) {
 		Question question = Question.findById(id);
 		String[] tags = name.split(",");
@@ -628,15 +705,12 @@ public class Users extends CRUD {
 		Users.showEdit(id, 0);
 	}
 
-	public static void proposeTag() {
-		List<Tag> taglist = Tag.findAll();
-		List<String> tags = new ArrayList<String>();
-		for (Tag tag : taglist) {
-			tags.add(tag.name);
-		}
-		renderJSON(tags);
-	}
-
+	/**
+	 * Graph data from the reputationgraph of a user.
+	 * 
+	 * @param uid
+	 *            the userid
+	 */
 	public static void getGraphData(long uid) {
 
 		User user = User.findById(uid);
@@ -645,6 +719,12 @@ public class Users extends CRUD {
 
 	}
 
+	/**
+	 * Selects the specific language.
+	 * 
+	 * @param langId
+	 *            of the language
+	 */
 	public static void selectLanguage(@Required String langId) {
 		if (langId != null) {
 			User user = User.find("byUsername", Secure.Security.connected())
@@ -665,6 +745,11 @@ public class Users extends CRUD {
 		}
 	}
 
+	/**
+	 * Checks if somebody is spam.
+	 * 
+	 * @param id
+	 */
 	public static void isSpam(long id) {
 		VotablePost post = VotablePost.findById(id);
 		User user = User.find("byUsername", Security.connected()).first();
@@ -696,12 +781,26 @@ public class Users extends CRUD {
 
 	}
 
+	/**
+	 * Declares a user as spam.
+	 * 
+	 * @param id
+	 *            of the user
+	 * @throws IOException
+	 */
 	public static void lockUser(long id) throws IOException {
 		User user = User.findById(id);
 		user.lockUser();
 		Users.showProfile(id);
 	}
 
+	/**
+	 * Changes a user from spamstatus to the normal status.
+	 * 
+	 * @param id
+	 *            of the user
+	 * @throws IOException
+	 */
 	public static void unlockUser(long id) throws IOException {
 		User user = User.findById(id);
 		user.unlockUser();

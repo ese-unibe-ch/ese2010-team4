@@ -126,6 +126,14 @@ public abstract class VotablePost extends Post {
 				.find(
 						"select distinct p from Question p join p.tags as t where t.name in (:tags)")
 				.bind("tags", tags).fetch();
+		int i = 0;
+		while (i < hits.size()) {
+			if (hits.get(i).isSpam) {
+				hits.remove(i);
+				i--;
+			}
+			i++;
+		}
 		return hits;
 	}
 

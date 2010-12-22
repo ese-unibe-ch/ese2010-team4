@@ -45,7 +45,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Index.
+	 * Index. Load orders for the index.html
 	 */
 	public static void index() {
 		String randomID = Codec.UUID();
@@ -62,7 +62,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Show.
+	 * Shows a specific question in A4Q.
 	 * 
 	 * @param id
 	 *            the id
@@ -95,7 +95,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Adds the user.
+	 * Adds an new user to A4Q.
 	 * 
 	 * @param fullname
 	 *            the fullname
@@ -138,27 +138,35 @@ public class Application extends Controller {
 		}
 	}
 
+	/**
+	 * Shows all post with a specific tag
+	 * 
+	 * @param tag
+	 */
 	public static void tagged(Tag tag) {
 		boolean isconnected = !Secure.Security.isConnected();
 		User user = User.find("byUsername", Secure.Security.connected())
 				.first();
 		List<VotablePost> taggedPosts = VotablePost.findTaggedWith(tag.name);
-		int i = 0;
-		while (i < taggedPosts.size()) {
-			if (taggedPosts.get(0).isSpam) {
-				taggedPosts.remove(i);
-				i--;
-			}
-			i++;
-		}
 		render(taggedPosts, isconnected, user);
 	}
 
+	/**
+	 * Render user for JSON. This is necessary for the reputationgraph.
+	 * 
+	 * @param username
+	 */
 	public static void userExists(String username) {
 		User user = User.find("byUsername", username).first();
 		renderJSON(user != null);
 	}
 
+	/**
+	 * Adds a captcha to the userlogin.
+	 * 
+	 * @param id
+	 *            random
+	 */
 	public static void captcha(String id) {
 		Images.Captcha captcha = Images.captcha();
 		String code = captcha.getText("#E4EAFD");
