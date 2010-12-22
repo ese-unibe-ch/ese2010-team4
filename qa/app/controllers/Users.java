@@ -759,9 +759,11 @@ public class Users extends CRUD {
 			Application.show(id);
 		} else if (post instanceof Answer) {
 			Application.show(((Answer) post).question.id);
-		} else if (post instanceof Comment && post instanceof Question) {
+		} else if (post instanceof Comment
+				&& ((Comment) post).post instanceof Question) {
 			Application.show(((Comment) post).post.id);
-		} else if (post instanceof Comment && post instanceof Answer) {
+		} else if (post instanceof Comment
+				&& ((Comment) post).post instanceof Answer) {
 			Application.show(((Answer) ((Comment) post).post).question.id);
 		}
 	}

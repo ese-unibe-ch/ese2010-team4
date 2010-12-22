@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Question extends VotablePost {
 	public static final int DELAY = 10000;
+	public static long waitforlist = 0;
 	public long validity;
 	public String title;
 	public boolean hasBestAnswer;

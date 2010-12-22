@@ -35,19 +35,20 @@
 	</div>
 	
 	<h3>You are on ${userToShow.username}'s profile
-	#{if !user.isFollowing(userToShow)}
-		<a href="@{Users.followUser(userToShow.id)}">&{'follow'}</a>
-	#{/if}
-	#{else}
-		<a href="@{Users.unfollowUser(userToShow.id)}">&{'unfollow'}</a>
-	#{/else}
-	#{if user.isAdmin && !userToShow.spamLock}
-		<a href="@{Users.lockUser(userToShow.id)}">&{'lock'}</a>
-	#{/if}
-	#{if user.isAdmin && userToShow.spamLock}
-		<a href="@{Users.unlockUser(userToShow.id)}">&{'unlock'}</a>
-	#{/if}
-	
+		<div class="buttons" id="question-buttons">
+			#{if !user.isFollowing(userToShow)}
+				<a class="button" href="@{Users.followUser(userToShow.id)}">&{'follow'}</a>
+			#{/if}
+			#{else}
+				<a class="button" href="@{Users.unfollowUser(userToShow.id)}">&{'unfollow'}</a>
+			#{/else}
+			#{if user.isAdmin && !userToShow.spamLock}
+				<a class="button" href="@{Users.lockUser(userToShow.id)}">&{'lock'}</a>
+			#{/if}
+			#{if user.isAdmin && userToShow.spamLock}
+				<a class="button" href="@{Users.unlockUser(userToShow.id)}">&{'unlock'}</a>
+			#{/if}
+		</div>
 	</h3>
 	
 	<div>

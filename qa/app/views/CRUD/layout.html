@@ -23,6 +23,7 @@
 				${flash.success}
 			</div>
 		#{/if}
+		
 		#{if flash.error || error}
 			<div class="crudFlash flashError">
 				${error ?: flash.error}
@@ -30,7 +31,6 @@
 		#{/if}
 		
 		<div id="crudContent">
-			#{doLayout /}
 		</div>
 		
 		<div id="import">
