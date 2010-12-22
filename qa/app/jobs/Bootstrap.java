@@ -13,9 +13,10 @@ import play.jobs.OnApplicationStart;
 @OnApplicationStart
 public class Bootstrap extends Job {
 
+	/**
+	 * intitial data for A4Q
+	 */
 	public void doJob() {
-
-		// Check if the database is empty and imports startxml
 		if (User.count() == 0) {
 			XMLParser parser = new XMLParser();
 

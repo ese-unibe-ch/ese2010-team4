@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}" lang="${lang}">
+    <head>
+        <title>#{get 'title' /}</title>		
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/crud.css'}" />
+    </head>
+    <body id="crud">
+		
+		<div id="crudHeader">
+			<h1><a href="@{CRUD.index()}">Spamer</a></h1>
+		</div>
+		
+		<style type="text/css">
+			.spam { background: gold;}
+		</style> 
+		
+		<div id="allUsers">
+			<h2>All spamer in A4Q:</h2>
+			#{if allusers.isEmpty()}
+				<label>no other user</label><br>
+			#{/if}
+			#{else}
+				#{list items:allusers, as:'user'}
+					<div class="user"><br>			
+						<a class="spam" href="@{Users.showProfile(user.id)}">${user.username}</a> 
+						#{if !user.isAdmin}
+							<a class="button" href="@{Admin.changeToAdmin(user.id, true)}">[made admin]</a>
+						#{/if}
+						#{if user.isAdmin}
+							<a class="button" href="@{Admin.changeToAdmin(user.id, false)}">[not admin]</a>
+						#{/if}
+		   			</div>
+				#{/list}
+			#{/else}
+		</div>
+		
+		<br><a class="button" href="@{Admin.index()}">Back to adminpage</a>
+
+	</body>
+	
+</html>

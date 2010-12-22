@@ -129,4 +129,29 @@ public class Admin extends Controller {
 		render("CRUD/index.html");
 	}
 
+	/**
+	 * Shows all users
+	 */
+	public static void showUsers() {
+		List<User> allusers = User.findAll();
+		User user = User.find("byUsername", Security.connected()).first();
+		allusers.remove(user);
+		render(allusers);
+	}
+
+	/**
+	 * Changes a user to admin or or to an normal user.
+	 * 
+	 * @param userid
+	 *            form user
+	 * @param change
+	 *            true if changes to admin
+	 */
+	public static void changeToAdmin(long userid, boolean change) {
+		User user = User.findById(userid);
+		user.isAdmin = change;
+		user.save();
+		Admin.showUsers();
+	}
+
 }

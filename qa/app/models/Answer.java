@@ -52,6 +52,11 @@ public class Answer extends VotablePost {
 		return this.question;
 	}
 
+	/**
+	 * Formats the content of a Answer.
+	 * 
+	 * @return the formatted and shorted content
+	 */
 	public String getBegin() {
 		String s = "";
 		if (this.content.length() > 15) {

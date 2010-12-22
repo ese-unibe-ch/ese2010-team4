@@ -48,7 +48,7 @@ public class XMLParser extends DefaultHandler {
 		buf.setLength(0);
 		if (qname.equals("user")) {
 			// I should check for multiple IDs...
-			user = new User("","","");
+			user = new User("", "", "");
 			user.avatarPath = "/public/uploads/standardAvatar.png";
 			user.save();
 			// I should probably check if the id is already in use or not..
