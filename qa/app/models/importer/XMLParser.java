@@ -80,6 +80,11 @@ public class XMLParser extends DefaultHandler {
 			user.email = buf.toString();
 			user.save();
 		}
+
+		if (qname.equals("avatar")) {
+			user.avatarPath = buf.toString();
+			user.save();
+		}
 		if (qname.equals("password")) {
 			user.password = buf.toString();
 			user.save();

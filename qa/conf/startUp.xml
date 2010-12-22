@@ -19,6 +19,7 @@
 <ismoderator>false</ismoderator>
 <email>bob@bob.ch</email>
 <password>hallo</password>
+<avatar>/public/uploads/avatar2.png</avatar>
 <aboutme/>
 <location/>
 <website/>
