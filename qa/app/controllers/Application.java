@@ -24,6 +24,7 @@ public class Application extends Controller {
 
 	private static ValidationHelper helper = new ValidationHelper();
 	private final static int MINIMUM_TAGS = 1;
+	private final static int MAXIMUM_SHOWS = 10;
 
 	@Before
 	/**
@@ -50,8 +51,8 @@ public class Application extends Controller {
 	public static void index() {
 		String randomID = Codec.UUID();
 		Post lastActivity = VotablePost.find("order by timestamp desc").first();
-		List<Question> questions = Question.find("order by voting desc")
-				.fetch();
+		List<Question> questions = Question.find("order by voting desc").fetch(
+				MAXIMUM_SHOWS);
 
 		String lastAnswer = "";
 		boolean isconnected = Secure.Security.isConnected();
